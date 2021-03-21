@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>如何高效对接第三方支付 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[作者简介] 逄志强，海外小米网研发工程师，目前主要负责小米网服务构建和研发工作 海外小米网是小米集团自建的电商网站，是小米集团重要的销售渠道之一。电商购物流程中核心的一环是用户支付。目前我们已经服务30个国家和地区，不同国家往往需要对接不同的第三方支付公司，所以最近两年，海外研发组对接了大量的第三方支付公司，积累了一定的经验。 本文主要分享如何对接第三方支付，以及在生产上实际遇到的一些问题，避免">
+  <meta name="description" content="海外小米网是小米集团自建的电商网站，是小米集团重要的销售渠道之一。电商购物流程中核心的一环是用户支付。目前我们已经服务30个国家和地区，不同国家往往需要对接不同的第三方支付公司，所以最近两年，海外研发组对接了大量的第三方支付公司，积累了一定的经验。 本文主要分享如何对接第三方支付，以及在生产上实际遇到的一些问题，避免大家重复踩坑。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何高效对接第三方支付">
 <meta property="og:url" content="http://yoursite.com/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/index.html">
 <meta property="og:site_name" content="Jason Pang">
-<meta property="og:description" content="[作者简介] 逄志强，海外小米网研发工程师，目前主要负责小米网服务构建和研发工作 海外小米网是小米集团自建的电商网站，是小米集团重要的销售渠道之一。电商购物流程中核心的一环是用户支付。目前我们已经服务30个国家和地区，不同国家往往需要对接不同的第三方支付公司，所以最近两年，海外研发组对接了大量的第三方支付公司，积累了一定的经验。 本文主要分享如何对接第三方支付，以及在生产上实际遇到的一些问题，避免">
+<meta property="og:description" content="海外小米网是小米集团自建的电商网站，是小米集团重要的销售渠道之一。电商购物流程中核心的一环是用户支付。目前我们已经服务30个国家和地区，不同国家往往需要对接不同的第三方支付公司，所以最近两年，海外研发组对接了大量的第三方支付公司，积累了一定的经验。 本文主要分享如何对接第三方支付，以及在生产上实际遇到的一些问题，避免大家重复踩坑。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/image-20191103164155709.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/image-20191103220819084.png">
@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/image-20191104202629804.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/image-20191104204616206.png">
 <meta property="article:published_time" content="2020-01-23T13:43:43.000Z">
-<meta property="article:modified_time" content="2021-03-13T07:29:08.653Z">
+<meta property="article:modified_time" content="2021-03-21T14:16:04.740Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/image-20191103164155709.png">
@@ -199,8 +199,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>[作者简介]</strong> 逄志强，海外小米网研发工程师，目前主要负责小米网服务构建和研发工作</p>
-<p>海外小米网是小米集团自建的电商网站，是小米集团重要的销售渠道之一。电商购物流程中核心的一环是用户支付。目前我们已经服务30个国家和地区，不同国家往往需要对接不同的第三方支付公司，所以最近两年，海外研发组对接了大量的第三方支付公司，积累了一定的经验。</p>
+        <p>海外小米网是小米集团自建的电商网站，是小米集团重要的销售渠道之一。电商购物流程中核心的一环是用户支付。目前我们已经服务30个国家和地区，不同国家往往需要对接不同的第三方支付公司，所以最近两年，海外研发组对接了大量的第三方支付公司，积累了一定的经验。</p>
 <p>本文主要分享如何对接第三方支付，以及在生产上实际遇到的一些问题，避免大家重复踩坑。</p>
 <span id="more"></span>
 
