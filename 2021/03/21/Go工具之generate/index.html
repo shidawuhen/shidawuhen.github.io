@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>Go工具之generate | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/7/index.html">
+  <meta name="description" content="本文给大家介绍Go的一个实用技巧，该技巧主要通过go工具实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go工具之generate">
+<meta property="og:url" content="http://yoursite.com/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="本文给大家介绍Go的一个实用技巧，该技巧主要通过go工具实现。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/image-20210321123427848.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/image-20210321144721406.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/image-20210321144937463.png">
+<meta property="article:published_time" content="2021-03-21T07:48:20.000Z">
+<meta property="article:modified_time" content="2021-03-21T07:50:11.637Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/image-20210321123427848.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,32 +172,74 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Redis实现分布式锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-Go工具之generate" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Redis实现分布式锁</a>
+    <h1 class="article-title" itemprop="name">
+      Go工具之generate
     </h1>
   
 
         
-        <a href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="archive-article-date">
-  	<time datetime="2020-07-04T15:03:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-04</time>
+        <a href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/" class="archive-article-date">
+  	<time datetime="2021-03-21T07:48:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>分布式锁的实现方式有很多，本篇文章讲述一下使用Redis实现分布式锁。网上有很多使用Redis实现分布式锁的代码，但是这些代码或多或少都有问题。这篇文章会写一个实现，同时标明一些注意点。</p>
-        
-          <a class="article-more-a" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/#more">more >></a>
-        
+        <p>本文给大家介绍Go的一个实用技巧，该技巧主要通过go工具实现。</p>
+<span id="more"></span>
+<h2 id="传统写法"><a href="#传统写法" class="headerlink" title="传统写法"></a>传统写法</h2><p>大家经常碰到命名错误码、状态码的同时，又要同步写码对应的翻译，有没有感觉很无聊。这里举一个例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义错误码</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">   ERR_CODE_OK             = <span class="number">0</span> <span class="comment">// OK</span></span><br><span class="line">   ERR_CODE_INVALID_PARAMS = <span class="number">1</span> <span class="comment">// 无效参数</span></span><br><span class="line">   ERR_CODE_TIMEOUT        = <span class="number">2</span> <span class="comment">// 超时</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义错误码与描述信息的映射</span></span><br><span class="line"><span class="keyword">var</span> mapErrDesc = <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">   ERR_CODE_OK:             <span class="string">&quot;OK&quot;</span>,</span><br><span class="line">   ERR_CODE_INVALID_PARAMS: <span class="string">&quot;无效参数&quot;</span>,</span><br><span class="line">   ERR_CODE_TIMEOUT:        <span class="string">&quot;超时&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据错误码返回描述信息</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetDescription</span><span class="params">(errCode <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> desc, exist := mapErrDesc[errCode]; exist &#123;</span><br><span class="line">      <span class="keyword">return</span> desc</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;error code: %d&quot;</span>, errCode)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(GetDescription(ERR_CODE_OK))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一种重复性操作，没有什么技术含量，另外很可能忘记写映射。我只想写错误码，对应的描述信息直接用注释里的就行，所以这里介绍一下对应的工具。</p>
+<h2 id="go-generate"><a href="#go-generate" class="headerlink" title="go generate"></a>go generate</h2><p>go有很多工具，大家可以通过go命令查看。</p>
+<p><img src="./image-20210321123427848.png" alt="image-20210321123427848"></p>
+<p><code>go generate</code>是 Go 自带的工具。使用命令<code>go generate</code>执行。<code>go generate</code>是利用源代码中的注释工作的。格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//go:generate <span class="built_in">command</span> arg1 arg2</span><br></pre></td></tr></table></figure>
+
+<p>这样在同一个目录下执行命令<code>go generate</code>就会自动运行命令<code>command arg1 arg2</code>。<code>command</code>可以是在<code>PATH</code>中的任何命令，应用非常广泛。配合<code>stringer</code>命令可以为给定类型生成<code>String</code>方法，就可以实现我们的想法。</p>
+<h3 id="安装stringer"><a href="#安装stringer" class="headerlink" title="安装stringer"></a>安装stringer</h3><p>stringer不是Go自带工具，需要手动安装。执行如下命令即可</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get golang.org/x/tools/cmd/stringer</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ol>
+<li>需要配置gomod</li>
+<li>需要设置好目录，当前目录结构如下<br><img src="./image-20210321144721406.png" alt="image-20210321144721406"></li>
+</ol>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>有两种执行方案，</p>
+<p>一种是在errcode中，增加注释//go:generate stringer -type ErrCode -linecomment</p>
+<p>另一种是直接命令行执行stringer -type ErrCode -linecomment</p>
+<p>执行完毕会发现自动生成新文件</p>
+<p><img src="./image-20210321144937463.png" alt="image-20210321144937463"></p>
+<p>关于stringer的命令，大家可以通过stringer -h查看</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>下面是整个源码：</p>
+<p>main.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">   <span class="string">&quot;myproject/enum&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(enum.ERR_CODE_OK)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>errcode.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> enum</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ErrCode <span class="keyword">int64</span> <span class="comment">//错误码</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">   ERR_CODE_OK             ErrCode = <span class="number">0</span> <span class="comment">// OK</span></span><br><span class="line">   ERR_CODE_INVALID_PARAMS ErrCode = <span class="number">1</span> <span class="comment">// 无效参数</span></span><br><span class="line">   ERR_CODE_TIMEOUT        ErrCode = <span class="number">2</span> <span class="comment">// 超时</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>stringer生成的文件</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Code generated by &quot;stringer -type ErrCode -linecomment&quot;; DO NOT EDIT.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> enum</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;strconv&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> _<span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">// An &quot;invalid array index&quot; compiler error signifies that the constant values have changed.</span></span><br><span class="line">   <span class="comment">// Re-run the stringer command to generate them again.</span></span><br><span class="line">   <span class="keyword">var</span> x [<span class="number">1</span>]<span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">   _ = x[ERR_CODE_OK<span class="number">-0</span>]</span><br><span class="line">   _ = x[ERR_CODE_INVALID_PARAMS<span class="number">-1</span>]</span><br><span class="line">   _ = x[ERR_CODE_TIMEOUT<span class="number">-2</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _ErrCode_name = <span class="string">&quot;OK无效参数超时&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _ErrCode_index = [...]<span class="keyword">uint8</span>&#123;<span class="number">0</span>, <span class="number">2</span>, <span class="number">14</span>, <span class="number">20</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(i ErrCode)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> i &lt; <span class="number">0</span> || i &gt;= ErrCode(<span class="built_in">len</span>(_ErrCode_index)<span class="number">-1</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;ErrCode(&quot;</span> + strconv.FormatInt(<span class="keyword">int64</span>(i), <span class="number">10</span>) + <span class="string">&quot;)&quot;</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> _ErrCode_name[_ErrCode_index[i]:_ErrCode_index[i+<span class="number">1</span>]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行结果显示如下：</p>
+<p>➜  myproject  go run main.go<br>OK</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用stringer可以帮我们节省很多时间，除了stringer外，还有gostringer，大家感兴趣可以试一下。</p>
+<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://pkg.go.dev/golang.org/x/tools#readme-go-tools">https://pkg.go.dev/golang.org/x/tools#readme-go-tools</a></li>
+<li><a target="_blank" rel="noopener" href="https://studygolang.com/articles/22984?fr=sidebar">https://studygolang.com/articles/22984?fr=sidebar</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39345003/article/details/109307880">https://blog.csdn.net/weixin_39345003/article/details/109307880</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.golang.org/generate">https://blog.golang.org/generate</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1V03LUfjSADDooDMhe-_K59EgpTEm3V8uvQRuNMAEnjg/edit#heading=h.j6dsjy94dn2q">https://docs.google.com/document/d/1V03LUfjSADDooDMhe-_K59EgpTEm3V8uvQRuNMAEnjg/edit#heading=h.j6dsjy94dn2q</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31362439/article/details/105163641">https://blog.csdn.net/qq_31362439/article/details/105163641</a></li>
+<li><a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/sourcegraph/gostringer">https://pkg.go.dev/github.com/sourcegraph/gostringer</a></li>
+</ol>
+
       
 
       
@@ -200,16 +250,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          为动员一切力量争取抗战胜利而斗争
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go单例实现方案</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -229,599 +347,14 @@
 
 
 
-
-  
-    <article id="post-事务原子性、一致性、持久性的实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">事务原子性、一致性、持久性的实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-06-26T07:10:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大家都知道事务有四个特性：</p>
-        
-          <a class="article-more-a" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-InnoDB锁与事务简析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/">InnoDB锁与事务简析</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-06-21T11:54:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>重新梳理了一下锁、锁与事务的关系，希望能够帮大家厘清一些知识点。本文如果不做特殊说明，默认是可重复读隔离级别。</p>
-        
-          <a class="article-more-a" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Markdown编辑器推荐-Typora" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/">Markdown编辑器推荐</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/" class="archive-article-date">
-  	<time datetime="2020-06-21T07:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工欲善其事必先利其器，一款好的编辑器不但能够提高工作效率，更能让自己养成爱编写的习惯。Typora使用了快一年，虽然偶尔会有一些小bug，但是完全不影响使用，在此强烈推荐Typora，我觉得Typora有以下优点</p>
-        
-          <a class="article-more-a" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CDN请求过程详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">CDN请求过程详解</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-06-14T12:18:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="CDN简介"><a href="#CDN简介" class="headerlink" title="CDN简介"></a>CDN简介</h2><p>CDN大家比较熟悉，这里做个简单介绍。</p>
-<p>CDN主要是让用户访问资源的时候，能从离用户距离很近的CDN节点进行获取，不必到真正提供服务的机器上获取。所以CDN可以</p>
-        
-          <a class="article-more-a" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于程序员职业发展的思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/">关于程序员职业发展的思考</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-06-09T15:35:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="三个阶段"><a href="#三个阶段" class="headerlink" title="三个阶段"></a>三个阶段</h2><p>对于程序员的职业发展，我觉得有三个成长阶段：小白阶段、业务骨干、技术领导</p>
-        
-          <a class="article-more-a" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于代码review的思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/">关于代码review的思考</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-05-30T06:04:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>作为程序员，保证线上质量的重要一环是代码review，或者说代码review的质量。最近看到多起其他组因为代码review没有做好，导致很多能避免的线上事故没有避免。我思考了一下目前小组的review方式，决定做一些改变。</p>
-        
-          <a class="article-more-a" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-缓存方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/">缓存方案</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2020-05-23T13:00:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>​    在项目中，大家经常会遇到处理高并发的情况，缓存是应对高并发的有效手段之一。这篇文章简单介绍一下常用的缓存手段。当然，使用缓存有一个前提：数据不是实时变更的。</p>
-        
-          <a class="article-more-a" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-领域驱动设计：软件核心复杂性应对之道" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/">领域驱动设计：软件核心复杂性对应之道</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/" class="archive-article-date">
-  	<time datetime="2020-05-17T15:42:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者：[美]埃里克 埃文斯</p>
-<h2 id="读后感"><a href="#读后感" class="headerlink" title="读后感"></a>读后感</h2><p>​    上次读完InfoQ的简洁版后，觉得很多知识还不了解，就找了这本书。这本书是DDD的创始人写的，篇幅比较长。读完之后，我个人的建议是可以不读。原因如下：</p>
-        
-          <a class="article-more-a" href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-记博客服务被压垮的历程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">记博客服务被压垮的历程</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-16T11:08:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们有个博客服务，用WordPress做的，最初的目的就是给内部使用，所以当时设计的时候支持的qps很低，而且线上只用了一台机器部署。</p>
-        
-          <a class="article-more-a" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -844,8 +377,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
