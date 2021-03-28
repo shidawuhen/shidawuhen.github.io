@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go设计模式(5)-类图符号表示法 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/8/index.html">
+  <meta name="description" content="前四章讲解了Go设计模式的一些原理性知识，后面会开始讲23种设计模式。初步计划是对每种模式至少要说明含义、画类图、找实际用例、写代码实现、描述重点信息（使用场景、原因、好处等）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(5)-类图符号表示法">
+<meta property="og:url" content="http://yoursite.com/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="前四章讲解了Go设计模式的一些原理性知识，后面会开始讲23种设计模式。初步计划是对每种模式至少要说明含义、画类图、找实际用例、写代码实现、描述重点信息（使用场景、原因、好处等）。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/11.png">
+<meta property="article:published_time" content="2021-03-28T13:23:49.000Z">
+<meta property="article:modified_time" content="2021-03-28T13:25:53.836Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/11.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +170,181 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-5-类图符号表示法" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(5)-类图符号表示法
+    </h1>
+  
+
+        
+        <a href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2021-03-28T13:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-28</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前四章讲解了Go设计模式的一些原理性知识，后面会开始讲23种设计模式。初步计划是对每种模式至少要说明含义、画类图、找实际用例、写代码实现、描述重点信息（使用场景、原因、好处等）。</p>
+<span id="more"></span>
+<p>可能大家也看过很多设计模式相关的资料，但看完后或许有似懂非懂的感觉，我想一是因为资料中讲的例子不是特别贴合实际，另一点是因为没有真正的去实现一次代码。</p>
+<p>所以希望经过写设计模式系列，我自己的设计模式的理解能够更加深入一些。</p>
+<p>因为要画类图，这部分知识还是本科时候学的，大家可能也记不清了，这次就通过一个例子，把UML类图中的基本元素展示给大家，并讲一些名词定义，最后用代码实现，这样可以方便后面的讲解。</p>
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p>此处用一个简单的例子，将类图中的各个元素表示出来。</p>
+<p><a target="_blank" rel="noopener" href="https://www.processon.com/view/link/605be4175653bb2225e7c43f">https://www.processon.com/view/link/605be4175653bb2225e7c43f</a></p>
+<p><img src="./11.png" alt="Go设计模式(5)-类图 (1)"></p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><h3 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>Dependency(依赖关系)表现为函数中的参数。是类与类之间的连接，表示一个类依赖于另一个类的定义，其中一个类的变化将影响另外一个类。例如如果A依赖于B，则B体现为局部变量，方法的参数、或静态方法的调用。</p>
+<h4 id="表示法"><a href="#表示法" class="headerlink" title="表示法"></a>表示法</h4><p>虚线+箭头</p>
+<h4 id="实例说明"><a href="#实例说明" class="headerlink" title="实例说明"></a>实例说明</h4><p>动物依赖于氧气和水，我们可以看到动物有新陈代谢函数，其入参为氧气和水，所以动物与氧气和水是依赖关系。</p>
+<h3 id="泛化关系"><a href="#泛化关系" class="headerlink" title="泛化关系"></a>泛化关系</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p>Generalization(泛化)表现为继承或实现关系(is a)。具体形式为类与类之间的继承关系，接口与接口之间的继承关系，类对接口的实现关系。</p>
+<p>即泛化关系包含继承关系和实现关系。</p>
+<h4 id="表示法-1"><a href="#表示法-1" class="headerlink" title="表示法"></a>表示法</h4><p>继承：实线+空心三角形</p>
+<p>实现：虚线+空心三角形</p>
+<h4 id="实例说明-1"><a href="#实例说明-1" class="headerlink" title="实例说明"></a>实例说明</h4><p>鸟是动物，所以继承自动物，大雁、鸭、企鹅也是鸟，所以继承自鸟。继承的一个重要作用是复用，动物-&gt;鸟-&gt;(大雁、鸭、企鹅)都是is a的关系。不过Go没有继承关系，继承用组合来实现。</p>
+<p>大雁实现了飞翔接口、唐老鸭实现了讲人话接口。接口的一个主要作用是确定标准，实现了相同接口的类可以相互替换。所以并不是特别重于is a的关系。</p>
+<h3 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p>Association关联关系表现为变量(has a )。类与类之间的联接，它使一个类知道另一个类的属性和方法。例如如果A依赖于B，则B体现为A的全局变量。关联关系有双向关联和单向关联。双向关联：两个类都知道另一个类的公共属性和操作。单向关联：只有一个类知道另外一个类的公共属性和操作。大多数关联应该是单向的，单向关系更容易建立和维护，有助于寻找可服用的类。</p>
+<h4 id="表示法-2"><a href="#表示法-2" class="headerlink" title="表示法"></a>表示法</h4><p>实线+箭头</p>
+<h4 id="实例说明-2"><a href="#实例说明-2" class="headerlink" title="实例说明"></a>实例说明</h4><p>企鹅需要知道天气，一般是企鹅类中会有一个气候对象，两个类也是同一层次上的。</p>
+<h3 id="聚合关系"><a href="#聚合关系" class="headerlink" title="聚合关系"></a>聚合关系</h3><h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><p>Aggregation(聚合关系) 是关联关系的一种，是强的关联关系。聚合关系是整体和个体的关系。普通关联关系的两个类处于同一层次上，而聚合关系的两个类处于不同的层次，一个是整体，一个是部分。同时，是一种弱的“拥有”关系。体现的是A对象可以包含B对象，但B对象不是A对象的组成部分。具体表现为，如果A由B聚合成，表现为A包含有B的全局对象，但是B对象可以不在A创建的时刻创建。</p>
+<h4 id="表示法-3"><a href="#表示法-3" class="headerlink" title="表示法"></a>表示法</h4><p>空心菱形+实线+箭头</p>
+<h4 id="实例说明-3"><a href="#实例说明-3" class="headerlink" title="实例说明"></a>实例说明</h4><p>雁群是由一堆大雁组成的，两者是不同的层次，大雁是雁群的组成部分。</p>
+<h3 id="合成-组合关系"><a href="#合成-组合关系" class="headerlink" title="合成(组合关系)"></a>合成(组合关系)</h3><h4 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h4><p>Composition(组合关系)是关联关系的一种，是比聚合关系强的关系。它要求普通的聚合关系中代表整体的对象负责代表部分的对象的生命周期。Composition(组合关系)是一种强的“拥有”关系，体现了严格的部分和整体的关系，部分和整体的生命周期一致。如果A由B组成，表现为A包含有B的全局对象，并且B对象在A创建的时刻创建。</p>
+<h4 id="表示法-4"><a href="#表示法-4" class="headerlink" title="表示法"></a>表示法</h4><p>实芯菱形+实线+箭头</p>
+<h4 id="实例说明-4"><a href="#实例说明-4" class="headerlink" title="实例说明"></a>实例说明</h4><p>翅膀是鸟的一部分，在生成鸟的时候翅膀需要一起生成，两者生命周期一样。</p>
+<p>PS：对于依赖、泛化、关联、聚合、组合关系，其中组合、聚合、关联较为相似，关系强度上组合&gt;聚合&gt;关联，如果大家判断关系不属于依赖和泛化，那可以先看看两者是否是整体和部分、有相同生命周期，按照组合、聚合、关联的顺序过一遍，就能找到合适的关系了。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>上面说了一堆理论，我们还是用代码实现以下这个类图，这样对自己、对大家的帮助更大。Go没有继承，继承用组合实现。不过倒是有类对接口的实现。相关代码<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZiobMMJ8HjdEnd5CVbo_bw">Go设计模式(1)-语法</a>在这篇文章里也写过。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">   <span class="string">&quot;strconv&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Water <span class="keyword">struct</span> &#123;</span><br><span class="line">   weight <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Animal <span class="keyword">struct</span> &#123;</span><br><span class="line">   name <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 动物成长</span></span><br><span class="line"><span class="comment"> * @receiver animal</span></span><br><span class="line"><span class="comment"> * @param water</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(animal *Animal)</span> <span class="title">Grow</span><span class="params">(water *Water)</span></span> &#123;</span><br><span class="line">   weight := strconv.FormatInt(water.weight, <span class="number">10</span>)</span><br><span class="line">   fmt.Printf(<span class="string">&quot;长大需要喝%s吨水\n&quot;</span>, weight)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Wing <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 鸟类，伪继承Animal，组合Wing，有颜色成员变量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Bird <span class="keyword">struct</span> &#123;</span><br><span class="line">   Animal</span><br><span class="line">   featherCol <span class="keyword">string</span></span><br><span class="line">   wing       *Wing</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:鸟下蛋</span></span><br><span class="line"><span class="comment"> * @receiver bird</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(bird *Bird)</span> <span class="title">LayEggs</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(bird.featherCol + <span class="string">&quot;鸟下蛋了哈&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:飞接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Fly <span class="keyword">interface</span> &#123;</span><br><span class="line">   fly()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:大雁接口，伪继承鸟，并实现Fly接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Goose <span class="keyword">struct</span> &#123;</span><br><span class="line">   Bird</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(goose *Goose)</span> <span class="title">fly</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;大雁可以飞&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:雁群聚合大雁</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Geese <span class="keyword">struct</span> &#123;</span><br><span class="line">   geese []*Goose</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 雁群的飞行方式</span></span><br><span class="line"><span class="comment"> * @receiver g</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *Geese)</span> <span class="title">flyV</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Printf(<span class="string">&quot;雁群V形飞行，共有%d只大雁\n&quot;</span>, <span class="built_in">len</span>(g.geese))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:鸭伪继承鸟</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Duck <span class="keyword">struct</span> &#123;</span><br><span class="line">   Bird</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:说话接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Speak <span class="keyword">interface</span> &#123;</span><br><span class="line">   Speak()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:唐老鸭伪继承鸭子</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> DonaldDuck <span class="keyword">struct</span> &#123;</span><br><span class="line">   Duck</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:唐老鸭实现说话接口</span></span><br><span class="line"><span class="comment"> * @receiver donaldDuck</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(donaldDuck *DonaldDuck)</span> <span class="title">Speak</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;唐老鸭说人话了&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:企鹅伪继承鸟，并关联天气</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Penguin <span class="keyword">struct</span> &#123;</span><br><span class="line">   Bird</span><br><span class="line">   climate *Climate</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:企鹅重载了下蛋接口</span></span><br><span class="line"><span class="comment"> * @receiver p</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Penguin)</span> <span class="title">LayEggs</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Printf(<span class="string">&quot;企鹅在%s的天气下下蛋了\n&quot;</span>, p.climate.content)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:天气类，有天气内容成员变量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Climate <span class="keyword">struct</span> &#123;</span><br><span class="line">   content <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   water := &amp;Water&#123;weight: <span class="number">10</span>&#125;</span><br><span class="line">   <span class="comment">//动物</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;-----------动物篇-依赖关系&quot;</span>)</span><br><span class="line">   animal := &amp;Animal&#123;&#125;</span><br><span class="line">   animal.Grow(water) </span><br><span class="line">   <span class="comment">//鸟</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;-----------鸟篇-伪继承/组合关系&quot;</span>)</span><br><span class="line">   bird := &amp;Bird&#123;</span><br><span class="line">      featherCol: <span class="string">&quot;五彩斑斓的&quot;</span>,</span><br><span class="line">      wing:       &amp;Wing&#123;&#125;,</span><br><span class="line">   &#125;</span><br><span class="line">   bird.Grow(water) </span><br><span class="line">   bird.LayEggs()</span><br><span class="line">   <span class="comment">//大雁</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;-----------大雁篇-实现关系&quot;</span>)</span><br><span class="line">   goose := &amp;Goose&#123;&#125;</span><br><span class="line">   goose.featherCol = <span class="string">&quot;黑黑的&quot;</span></span><br><span class="line">   goose.Grow(water)</span><br><span class="line">   goose.LayEggs()</span><br><span class="line">   goose.fly()</span><br><span class="line">   <span class="comment">//鸭</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;-----------鸭篇-伪继承关系&quot;</span>)</span><br><span class="line">   duck := &amp;Duck&#123;&#125;</span><br><span class="line">   duck.featherCol = <span class="string">&quot;黄色的&quot;</span></span><br><span class="line">   duck.Grow(water)</span><br><span class="line">   duck.LayEggs()</span><br><span class="line">   <span class="comment">//企鹅</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;-----------企鹅篇-伪继承/关联关系&quot;</span>)</span><br><span class="line">   penguin := &amp;Penguin&#123;&#125;</span><br><span class="line">   penguin.featherCol = <span class="string">&quot;白色的&quot;</span></span><br><span class="line">   penguin.Grow(water)</span><br><span class="line">   climate := &amp;Climate&#123;content: <span class="string">&quot;寒冷的&quot;</span>&#125;</span><br><span class="line">   penguin.climate = climate</span><br><span class="line">   penguin.LayEggs()</span><br><span class="line">   <span class="comment">//雁群</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;-----------雁群篇-聚合关系&quot;</span>)</span><br><span class="line">   g := &amp;Geese&#123;&#125;</span><br><span class="line">   g.geese = <span class="built_in">append</span>(g.geese, goose)</span><br><span class="line">   g.flyV()</span><br><span class="line">   <span class="comment">//唐老鸭</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;-----------唐老鸭篇-实现关系&quot;</span>)</span><br><span class="line">   donaldDuck := &amp;DonaldDuck&#123;&#125;</span><br><span class="line">   donaldDuck.featherCol = <span class="string">&quot;红色的&quot;</span></span><br><span class="line">   donaldDuck.Grow(water)</span><br><span class="line">   donaldDuck.LayEggs()</span><br><span class="line">   donaldDuck.Speak()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go<br>———–动物篇-依赖关系<br>长大需要喝10吨水<br>———–鸟篇-伪继承/组合关系<br>长大需要喝10吨水<br>五彩斑斓的鸟下蛋了哈<br>———–大雁篇-实现关系<br>长大需要喝10吨水<br>黑黑的鸟下蛋了哈<br>大雁可以飞<br>———–鸭篇-伪继承关系<br>长大需要喝10吨水<br>黄色的鸟下蛋了哈<br>———–企鹅篇-伪继承/关联关系<br>长大需要喝10吨水<br>企鹅在寒冷的的天气下下蛋了<br>———–雁群篇-聚合关系<br>雁群V形飞行，共有1只大雁<br>———–唐老鸭篇-实现关系<br>长大需要喝10吨水<br>红色的鸟下蛋了哈<br>唐老鸭说人话了</p>
+<p>虽然这只是一个简单的示例，但是也能阐明很多知识点</p>
+<ol>
+<li>可以看到Go使用匿名组合实现了伪继承的效果，对于Grow函数可以复用</li>
+<li>匿名组合使用的不是指针类型，基类采用指针方式的组合，依然具有派生的效果，只是派生类创建实例的时候需要外部提供一个基类实例的指针</li>
+<li>大雁和唐老鸭分别实现了飞翔和说话接口，如果有其它类也实现了接口，大雁和唐老鸭可以对其进行替换</li>
+<li>关于泛化（伪继承/实现）、依赖、组合、聚合、关联，代码中对这些细节都有讲述</li>
+</ol>
+<p>代码位置：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/5uml.go">https://github.com/shidawuhen/asap/blob/master/controller/design/5uml.go</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然工作任务重、实际工作中用到的时候比较少，但是对这些知识有一个了解，会在未来的某刻帮助解决很多问题。如果大家喜欢这篇文章，请点赞转发。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hitwhylz/article/details/24483061">https://blog.csdn.net/hitwhylz/article/details/24483061</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34709138/article/details/114534674">https://blog.csdn.net/weixin_34709138/article/details/114534674</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/maybehelios/article/details/2038685">https://blog.csdn.net/maybehelios/article/details/2038685</a></li>
+<li>大话设计模式</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/53846600">https://zhuanlan.zhihu.com/p/53846600</a> </li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-16T11:08:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">记博客服务被压垮的历程</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-08T12:25:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为动员一切力量争取抗战胜利而斗争</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">Go1.12使用gomod总结</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-07T16:25:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">记追查go1.13无法获取到cookie的过程</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-04T13:18:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">发票项目总结</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/" class="archive-article-date">
-  	<time datetime="2020-04-25T15:44:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">GoLang长连接-基于WebSocket</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T10:14:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">飞书使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:38:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:08:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/" class="archive-article-date">
-  	<time datetime="2020-04-04T07:55:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">52周记忆魔法实战手册</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-03-29T13:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">GoLand破解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/7/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/archives/page/9/">9</a><a class="page-number" href="/archives/page/10/">10</a><a class="extend next" rel="next" href="/archives/page/9/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +368,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
