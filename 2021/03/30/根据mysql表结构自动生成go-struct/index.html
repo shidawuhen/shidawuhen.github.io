@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>根据mysql表结构自动生成go struct | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/7/index.html">
+  <meta name="description" content="当我们用Go做数据库相关操作时，编写出和表对应的结构体是必做的事情，例如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="根据mysql表结构自动生成go struct">
+<meta property="og:url" content="http://yoursite.com/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="当我们用Go做数据库相关操作时，编写出和表对应的结构体是必做的事情，例如">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-30T15:21:15.000Z">
+<meta property="article:modified_time" content="2021-03-30T15:21:47.223Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
   
@@ -164,32 +168,47 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-对产品经理的一些思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-根据mysql表结构自动生成go-struct" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对产品经理的一些思考</a>
+    <h1 class="article-title" itemprop="name">
+      根据mysql表结构自动生成go struct
     </h1>
   
 
         
-        <a href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-07-19T08:09:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
+        <a href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/" class="archive-article-date">
+  	<time datetime="2021-03-30T15:21:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>​    踏入职场已经好多年了，这几年作为软件工程师，做的还是挺开心了。最近产品那边有一些人事变动，让我思考产品经理对于业务而言究竟扮演了什么角色。</p>
-        
-          <a class="article-more-a" href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/#more">more >></a>
-        
+        <p>当我们用Go做数据库相关操作时，编写出和表对应的结构体是必做的事情，例如</p>
+<span id="more"></span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ServiceRecommend <span class="keyword">struct</span> &#123;</span><br><span class="line">   Id              <span class="keyword">int64</span>  <span class="string">`gorm:&quot;id&quot; json:&quot;id&quot;`</span>                               <span class="comment">// id</span></span><br><span class="line">   ShopId          <span class="keyword">int64</span>  <span class="string">`gorm:&quot;shop_id&quot; json:&quot;shop_id&quot;`</span>                     <span class="comment">// shopID</span></span><br><span class="line">   MarketServiceId <span class="keyword">int64</span>  <span class="string">`gorm:&quot;market_service_id&quot; json:&quot;market_service_id&quot;`</span> <span class="comment">// 服务市场服务id</span></span><br><span class="line">   Status          <span class="keyword">int64</span>  <span class="string">`gorm:&quot;status&quot; json:&quot;status&quot;`</span>                       <span class="comment">// 推荐状态 1推荐 2取消推荐</span></span><br><span class="line">   CreateBy        <span class="keyword">string</span> <span class="string">`gorm:&quot;create_by&quot; json:&quot;create_by&quot;`</span>                 <span class="comment">// 创建人</span></span><br><span class="line">   CreateTime      <span class="keyword">string</span> <span class="string">`gorm:&quot;create_time&quot; json:&quot;create_time&quot;`</span>             <span class="comment">// 创建时间</span></span><br><span class="line">   UpdateBy        <span class="keyword">string</span> <span class="string">`gorm:&quot;update_by&quot; json:&quot;update_by&quot;`</span>                 <span class="comment">// 更新人</span></span><br><span class="line">   UpdateTime      <span class="keyword">string</span> <span class="string">`gorm:&quot;update_time&quot; json:&quot;update_time&quot;`</span>             <span class="comment">// 更新时间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里简单介绍一下gorm和json字段。其中用gorm设置key的特性，如主键、长度等。json用来设置在struct作为json输出的时候，key的名称，如果不设置，默认与导出字段一致。</p>
+<p>编写struct没什么技术含量，完全是重复工作。基于重复事情做三次，就要自动化的原则，从github上找到了解决方案。</p>
+<p>其实对于解决这个问题的代码挺多，这里提供相对方便且功能强大的，代码库github.com/gohouse/converter，使用方法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">   <span class="string">&quot;github.com/gohouse/converter&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   err := converter.NewTable2Struct().</span><br><span class="line">      SavePath(<span class="string">&quot;./model.go&quot;</span>).</span><br><span class="line">      Dsn(<span class="string">&quot;用户名:密码@tcp(IP:端口号)/数据库名?charset=utf8&quot;</span>).</span><br><span class="line">      TagKey(<span class="string">&quot;gorm&quot;</span>).</span><br><span class="line">      EnableJsonTag(<span class="literal">true</span>).</span><br><span class="line">      Table(<span class="string">&quot;表名&quot;</span>).</span><br><span class="line">      Run()</span><br><span class="line">   fmt.Println(err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SavePath为输出结果存放文件</p>
+<p>DSN用于配置数据库的信息</p>
+<p>TagKey用于配置Tag，此处写为gorm</p>
+<p>EnableJsonTag用于确认是否输出时有json标签</p>
+<p>Table用于指定表，如果不写则输出库中的所有表</p>
+<p>文章开始处的struct就是用该代码生成的，是不是方便了很多。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>程序员理应是懒人，需要用技术来提高效率，做到虽然懒但是也能开心生活。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/QrrrQ/article/details/73196378">https://blog.csdn.net/QrrrQ/article/details/73196378</a></li>
+<li><a target="_blank" rel="noopener" href="https://studygolang.com/articles/16393?fr=sidebar">https://studygolang.com/articles/16393?fr=sidebar</a></li>
+</ol>
+
       
 
       
@@ -200,16 +219,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go设计模式(5)-类图符号表示法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -229,598 +307,14 @@
 
 
 
-
-  
-    <article id="post-限流实现-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/">限流实现1</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/" class="archive-article-date">
-  	<time datetime="2020-07-19T08:08:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在实际业务中，经常会碰到突发流量的情况。如果公司基础架构做的不好，服务无法自动扩容缩容，在突发高流量情况下，服务会因为压力过大而崩溃。更恐怖的是，服务崩溃如同多米诺骨牌，一个服务出问题，可能影响到整个公司所有组的业务。</p>
-        
-          <a class="article-more-a" href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Redis实现分布式锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Redis实现分布式锁</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="archive-article-date">
-  	<time datetime="2020-07-04T15:03:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分布式锁的实现方式有很多，本篇文章讲述一下使用Redis实现分布式锁。网上有很多使用Redis实现分布式锁的代码，但是这些代码或多或少都有问题。这篇文章会写一个实现，同时标明一些注意点。</p>
-        
-          <a class="article-more-a" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-事务原子性、一致性、持久性的实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">事务原子性、一致性、持久性的实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-06-26T07:10:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大家都知道事务有四个特性：</p>
-        
-          <a class="article-more-a" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-InnoDB锁与事务简析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/">InnoDB锁与事务简析</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-06-21T11:54:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>重新梳理了一下锁、锁与事务的关系，希望能够帮大家厘清一些知识点。本文如果不做特殊说明，默认是可重复读隔离级别。</p>
-        
-          <a class="article-more-a" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Markdown编辑器推荐-Typora" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/">Markdown编辑器推荐</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/" class="archive-article-date">
-  	<time datetime="2020-06-21T07:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工欲善其事必先利其器，一款好的编辑器不但能够提高工作效率，更能让自己养成爱编写的习惯。Typora使用了快一年，虽然偶尔会有一些小bug，但是完全不影响使用，在此强烈推荐Typora，我觉得Typora有以下优点</p>
-        
-          <a class="article-more-a" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CDN请求过程详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">CDN请求过程详解</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-06-14T12:18:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="CDN简介"><a href="#CDN简介" class="headerlink" title="CDN简介"></a>CDN简介</h2><p>CDN大家比较熟悉，这里做个简单介绍。</p>
-<p>CDN主要是让用户访问资源的时候，能从离用户距离很近的CDN节点进行获取，不必到真正提供服务的机器上获取。所以CDN可以</p>
-        
-          <a class="article-more-a" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于程序员职业发展的思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/">关于程序员职业发展的思考</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-06-09T15:35:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="三个阶段"><a href="#三个阶段" class="headerlink" title="三个阶段"></a>三个阶段</h2><p>对于程序员的职业发展，我觉得有三个成长阶段：小白阶段、业务骨干、技术领导</p>
-        
-          <a class="article-more-a" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于代码review的思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/">关于代码review的思考</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-05-30T06:04:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>作为程序员，保证线上质量的重要一环是代码review，或者说代码review的质量。最近看到多起其他组因为代码review没有做好，导致很多能避免的线上事故没有避免。我思考了一下目前小组的review方式，决定做一些改变。</p>
-        
-          <a class="article-more-a" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-缓存方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/">缓存方案</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2020-05-23T13:00:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>​    在项目中，大家经常会遇到处理高并发的情况，缓存是应对高并发的有效手段之一。这篇文章简单介绍一下常用的缓存手段。当然，使用缓存有一个前提：数据不是实时变更的。</p>
-        
-          <a class="article-more-a" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -843,8 +337,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
