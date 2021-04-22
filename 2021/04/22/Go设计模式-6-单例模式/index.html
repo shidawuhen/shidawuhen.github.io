@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>技术文章 | Jason Pang</title>
+  <title>Go设计模式(6)-单例模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="语言 如何在新项目中使用Go-mod Gin框架集成swagger过程 go-callvis gin源码剖析 Gin框架简洁版 如何在旧项目中使用Go-mod golang长连接-基于WebSocket 记追查go1-13无法获取到cookie的过程 go1-12使用gomod总结 Beego框架使用 GoLang定时器实现原理 Go通道实现原理 Go单例实现方案 Go工具之generate  架">
-<meta property="og:type" content="website">
-<meta property="og:title" content="技术文章">
-<meta property="og:url" content="http://yoursite.com/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/index.html">
+  <meta name="description" content="1.说明前面5篇文章讲解了设计模式的语法、面向对象分析、原则、代码编写、类图表示法，从本文开始讲述23种设计模式。 后面会按照创建型、结构型、行为型的顺序来写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(6)-单例模式">
+<meta property="og:url" content="http://yoursite.com/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
-<meta property="og:description" content="语言 如何在新项目中使用Go-mod Gin框架集成swagger过程 go-callvis gin源码剖析 Gin框架简洁版 如何在旧项目中使用Go-mod golang长连接-基于WebSocket 记追查go1-13无法获取到cookie的过程 go1-12使用gomod总结 Beego框架使用 GoLang定时器实现原理 Go通道实现原理 Go单例实现方案 Go工具之generate  架">
+<meta property="og:description" content="1.说明前面5篇文章讲解了设计模式的语法、面向对象分析、原则、代码编写、类图表示法，从本文开始讲述23种设计模式。 后面会按照创建型、结构型、行为型的顺序来写">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-24T08:26:03.000Z">
-<meta property="article:modified_time" content="2021-04-22T05:22:19.289Z">
+<meta property="og:image" content="http://yoursite.com/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/image-20210420131156614.png">
+<meta property="og:image" content="http://yoursite.com/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/image-20210422094017975.png">
+<meta property="article:published_time" content="2021-04-22T05:18:37.000Z">
+<meta property="article:modified_time" content="2021-04-22T05:21:22.192Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/image-20210420131156614.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -168,74 +171,55 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="pages-Go设计模式-6-单例模式" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      技术文章
+      Go设计模式(6)-单例模式
     </h1>
   
 
         
-        <a href="/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/index.html" class="archive-article-date">
-  	<time datetime="2020-01-24T08:26:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-24</time>
+        <a href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-04-22T05:18:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h2><ol>
-<li><a href="../2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod">如何在新项目中使用Go-mod</a></li>
-<li><a href="../2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B">Gin框架集成swagger过程</a></li>
-<li><a href="../2020/02/08/go-callvis">go-callvis</a></li>
-<li><a href="../2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90">gin源码剖析</a></li>
-<li><a href="../2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88">Gin框架简洁版</a></li>
-<li><a href="../2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod">如何在旧项目中使用Go-mod</a></li>
-<li><a href="../2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket">golang长连接-基于WebSocket</a></li>
-<li><a href="../2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B">记追查go1-13无法获取到cookie的过程</a></li>
-<li><a href="../2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93">go1-12使用gomod总结</a></li>
-<li><a href="../2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8">Beego框架使用</a></li>
-<li><a href="../2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">GoLang定时器实现原理</a></li>
-<li><a href="../2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">Go通道实现原理</a></li>
-<li><a href="../2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88">Go单例实现方案</a></li>
-<li><a href="../2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate">Go工具之generate</a></li>
-</ol>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><ol>
-<li><a href="../2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98">如何高效对接第三方支付</a></li>
-<li><a href="../2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88">缓存方案</a></li>
-<li><a href="../2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1">限流实现-1</a></li>
-<li><a href="../2020/08/17/%E6%B5%85%E8%B0%88%E5%BE%AE%E6%9C%8D%E5%8A%A1">浅谈微服务</a></li>
-<li><a href="../2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83">微服务之服务框架和注册中心</a></li>
-<li><a href="../2020/11/08/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE">分布式系统与一致性协议</a></li>
-<li><a href="../2020/11/15/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F">秒杀系统</a></li>
-<li><a href="../2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02">限流实现2</a></li>
-<li><a href="../2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98">支付对接常规问题</a></li>
-</ol>
-<h2 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h2><ol>
-<li><a href="../2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90">InnoDB锁与事务简析</a></li>
-<li><a href="../2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">事务原子性、一致性、持久性的实现原理</a></li>
-<li><a href="../2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">Redis实现分布式锁</a></li>
-<li><a href="../2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83">MySQL开发规范</a></li>
-</ol>
-<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><ol>
-<li><a href="../2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3">CDN请求过程详解</a></li>
-<li><a href="../2020/08/06/TCP%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">TCP性能优化</a></li>
-<li><a href="../2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B">HTTPS连接过程</a></li>
-<li><a href="../2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98">HTTPS配置实战</a></li>
-<li><a href="../2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B">HTTP2基础教程</a></li>
-</ol>
-<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><ol>
-<li><a href="../2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1">Go设计模式-1-语法规范</a></li>
-<li><a href="../2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1">Go设计模式-2-面向对象分析与设计</a></li>
-<li><a href="../2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99">Go设计模式-3-设计原则</a></li>
-<li><a href="../2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">Go设计模式-4-代码编写</a></li>
-<li><a href="../2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95">Go设计模式-5-类图符号表示法</a></li>
-<li><a href="../2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F">Go设计模式-6-单例模式</a></li>
-</ol>
+        <h2 id="1-说明"><a href="#1-说明" class="headerlink" title="1.说明"></a>1.说明</h2><p>前面5篇文章讲解了设计模式的语法、面向对象分析、原则、代码编写、类图表示法，从本文开始讲述23种设计模式。</p>
+<p>后面会按照创建型、结构型、行为型的顺序来写</p>
+<span id="more"></span>
+<p>1.创建型5个：单例模式、简单工厂、工厂模式、建造者模式、原型模式 ，主要解决“对象的创建”问题</p>
+<p>2.结构型7：代理模式、桥接模式、装饰器模式、适配器模式、门面模式  、组合模式、享元模式，主要解决“类或对象的组合或组装”问题</p>
+<p>3.行为型11：观察者模式、模板模式、策略模式、职责链模式、状态模式、迭代器模式、访问者模式、备忘录模式、命令模式、解释器模式、中介模式，主要解决“类或对象之间的交互”问题</p>
+<p>有7个模式并不太常用，他们分别是：组合模式、享元模式、状态模式、访问者模式、命令模式、解释器模式、中介模式，所以常用的设计模式16个。</p>
+<p>每篇文章尽量都会有类图、定义、分析、使用场景、实现、代码、扩展等信息。之所以包含这些信息，因为对于很多人来说，你问他个具体的设计原则、思想、模式的原理和实现，他都能回答得头头是道，但是，在实际的项目开发中，写出来的代码质量还是很差。这种情况出现的原因还是，相关的知识点都过于抽象，通俗点讲就是有点“假大空”，不够具体、不太能落地，所以导致理论和实践容易脱节。</p>
+<h2 id="2-定义"><a href="#2-定义" class="headerlink" title="2.定义"></a>2.定义</h2><h3 id="2-1单例模式"><a href="#2-1单例模式" class="headerlink" title="2.1单例模式"></a>2.1单例模式</h3><p><strong>单例模式</strong>：保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p>
+<p><strong>UML类图</strong>：链接为<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/6080def6079129456d4beecf">https://www.processon.com/view/link/6080def6079129456d4beecf</a></p>
+<p><img src="./image-20210420131156614.png" alt="image-20210420131156614"></p>
+<h3 id="2-2分析"><a href="#2-2分析" class="headerlink" title="2.2分析"></a>2.2分析</h3><p>通过分析能够看出以下几点：</p>
+<p>1.单例模式能够保证类只有一个实例，就是类图里的instance<br>2.有方法能够让外部访问到该实例，就是类图里的GetInstance<br>3.外部无法创建实例，是因为构造函数为私有函数，外部无法访问，自然也就无法生成实例</p>
+<h2 id="3-使用场景"><a href="#3-使用场景" class="headerlink" title="3.使用场景"></a>3.使用场景</h2><p>单例模式理解相对简单，一般在哪些场景下我们会用到单例模式呢？</p>
+<p>1.多线程情况下会导致资源访问冲突<br>    - 如项目需要写Log，而且Log一般会写入同一个文件。如果存在多个Log对象，即使Log有对象级别的锁，但在多线程下完全无用，日志仍然会乱序。解决这个问题我们可以使用类级别锁、分布式锁，但是都相对麻烦一些。如果使用单例模式，则Log只需保持对象级别锁就可以解决资源访问冲突<br>2.需要保证全局唯一的类<br>    - 比如配置类，这种只应该存在一份</p>
+<h2 id="4-代码"><a href="#4-代码" class="headerlink" title="4.代码"></a>4.代码</h2><p>单例模式的实现的时候需要考虑如下问题：</p>
+<p>1.对象创建时线程安全问题<br>2.是否支持延迟加载<br>3.getInstance()性能是否高</p>
+<p>根据语言不同，实现方式也不一样，一般有饿汉式、懒汉式、双重检测、静态内部类、枚举等。无论使用哪种方式，<strong>核心目的都是为了只会生成一个实例</strong>。</p>
+<p>这里多少解释一下<strong>饿汉式和懒汉式</strong>。饿汉式可以简单的理解为实例提前创建好了，getInstance只是获取实例返回。懒汉式是调用getInstance的时候，getInstance负责生成唯一实例。两者各有优缺点，饿汉式不必考虑线程安全问题，实例生成的成本放在项目启动时，但不支持延迟加载；懒汉式需要考虑线程安全问题，支持延迟加载。</p>
+<p>具体实现以前在文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/iDYUJ6nM9bZmcdijR5f9gg">Go单例实现方案</a>中写过，实现方式比较简单</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">@date: 2021/4/22</span></span><br><span class="line"><span class="comment">单例模式</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">package</span> design</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> singleTon <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *singleTon)</span> <span class="title">Show</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	once   sync.Once</span><br><span class="line">	single *singleTon</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetSingleInstance</span><span class="params">()</span> *<span class="title">singleTon</span></span> &#123;</span><br><span class="line">	once.Do(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		single = &amp;singleTon&#123;&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="keyword">return</span> single</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	single := design.GetSingleInstance()</span><br><span class="line">	single.Show()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于代码，此处说明几点：</p>
+<p>1.使用sync.Once.Do，轻松解决线程安全问题，确保只会有一个实例<br>2.singleTon类首字母需要小写，这样能够保证非design的包无法创建单例类。如下图所示，main包无法获取到singleTon类</p>
+<p><img src="./image-20210422094017975.png" alt="image-20210422094017975"></p>
+<p>3.此处的实现方式是懒汉式，如果想使用饿汉式，可以使用init或者项目启动初始化时直接调用，具体实现大家可自己完成<br>4.具体代码可以查看：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/6single.go">https://github.com/shidawuhen/asap/blob/master/controller/design/6single.go</a></p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h2><p>单例模式作为简单、常用的模式是一定需要掌握的。但单例模式也有一些缺点，如在继承、多态方面能力会弱一些，是否使用单例模式需要依据具体情况而定。另外单例模式也可以扩展到集群环境下、可以扩展为多例模式，这些内容大家有兴趣可以研究一下。</p>
 
       
 
@@ -294,7 +278,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -306,6 +290,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设计模式之美</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -356,7 +350,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
