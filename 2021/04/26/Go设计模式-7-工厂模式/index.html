@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>Go设计模式(7)-工厂模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/6/index.html">
+  <meta name="description" content="工厂模式简单来说就是用来创建对象。工厂模式分为三种更加细分的类型：简单工厂、工厂方法和抽象工厂，一般认为简单工厂是工厂方法的特例，我会通过这篇文章对简单工厂和工厂方法进行讲述。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(7)-工厂模式">
+<meta property="og:url" content="http://yoursite.com/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="工厂模式简单来说就是用来创建对象。工厂模式分为三种更加细分的类型：简单工厂、工厂方法和抽象工厂，一般认为简单工厂是工厂方法的特例，我会通过这篇文章对简单工厂和工厂方法进行讲述。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/image-20210424152500854.png">
+<meta property="og:image" content="http://yoursite.com/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/image-20210424183843751.png">
+<meta property="article:published_time" content="2021-04-26T05:09:32.000Z">
+<meta property="article:modified_time" content="2021-04-26T05:11:32.468Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/image-20210424152500854.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,32 +171,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-计篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-Go设计模式-7-工厂模式" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">计篇</a>
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(7)-工厂模式
     </h1>
   
 
         
-        <a href="/2020/10/15/%E8%AE%A1%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-10-15T12:16:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-15</time>
+        <a href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-04-26T05:09:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：兵者①，国之大事，死生之地，存亡之道②，不可不察也③。</p>
-        
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/#more">more >></a>
-        
+        <p><strong>工厂模式简单来说就是用来创建对象。</strong>工厂模式分为三种更加细分的类型：<strong>简单工厂、工厂方法和抽象工厂</strong>，一般认为简单工厂是工厂方法的特例，我会通过这篇文章对简单工厂和工厂方法进行讲述。</p>
+<span id="more"></span>
+<p>本文UML类图链接为：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/6080def6079129456d4beecf">https://www.processon.com/view/link/6080def6079129456d4beecf</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/7factory.go">https://github.com/shidawuhen/asap/blob/master/controller/design/7factory.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1-工厂方法"><a href="#1-1-工厂方法" class="headerlink" title="1.1 工厂方法"></a>1.1 工厂方法</h3><p><strong>工厂方法</strong>：定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使一个类的实例化延迟到其子类。</p>
+<p><strong>工厂方法UML类图</strong>：</p>
+<p><img src="./image-20210424152500854.png" alt="image-20210424152500854"></p>
+<p><strong>简单工厂UML类图：</strong></p>
+<p><img src="./image-20210424183843751.png" alt="image-20210424183843751"></p>
+<h3 id="1-2工厂方法分析"><a href="#1-2工厂方法分析" class="headerlink" title="1.2工厂方法分析"></a>1.2工厂方法分析</h3><p>通过定义和类图，我们可以做出以下分析：</p>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使一个类的实例化延迟到其子类。</p>
+<p>1.标准的工厂方法需要有一个工厂类接口，就是UML中的Creator。这个接口的作用是为了实现里氏替换原则：子类对象能够替换程序中父类对象出现的任何地方。这个接口的存在能够保证代码的优雅。<br>2.UML中还有一个Product接口，这个接口的存在有三重含义<br>    - 表明工厂方法创建的工厂，其功能应该是类似的，可以抽象出一个父类<br>    - 符合里氏替换原则，使代码优雅<br>    - 符合依赖倒转原则：高层模块不要依赖低层模块。高层模块和低层模块应该通过抽象来互相依赖。而Creator和Product正是依赖关系<br>3.简单工厂和工厂方法相比，缺一个Creator接口，只有一个真实的工厂类。这导致两者在实现和场景上都有区别。<br>    - 实现上：简单工厂直接返回ConcreteProduct；工厂方法先返回指定工厂，然后通过指定工厂创建ConcreteProduct<br>    - 场景上：使用简单工厂还是工厂方法标准只有一条，创建Product是否复杂，复杂就用工厂方法，如果只需new，建议使用简单工厂</p>
+<p>对于设计原则，大家可以看我的这篇文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/DCho5dPu-BSjpW-eI7GK9g">Go设计模式(3)-设计原则</a></p>
+<h2 id="2-使用场景"><a href="#2-使用场景" class="headerlink" title="2.使用场景"></a>2.使用场景</h2><p>工厂模式一般用于对于不同的场景，需要创建不同的对象，但是这些对象实现的功能是很相似的，可以抽象出一个父类，对于这种情形就可以使用工厂模式。</p>
+<p>在实际中，很多框架都支持多种配置文件，项目启动时解析配置文件，将文件内容写入到内存中。配置文件格式很多，有xml、json、yaml等，这个时候就需要根据后缀来解析文件，使用工厂模式就很合理。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><p>假设你设计的框架支持xml、yaml格式，对于解析部分的代码我们分别使用简单工厂和工厂方法来进行实现。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 解析接口，有解析函数用来解析文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> ConfigParse <span class="keyword">interface</span> &#123;</span><br><span class="line">   Parse(path <span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: Json解析类，实现解析接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> JsonConfigParse <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 用于解析Json文件</span></span><br><span class="line"><span class="comment"> * @receiver json</span></span><br><span class="line"><span class="comment"> * @param path</span></span><br><span class="line"><span class="comment"> * @return string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(json *JsonConfigParse)</span> <span class="title">Parse</span><span class="params">(path <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;解析json配置文件，路径为:&quot;</span> + path</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: Yaml解析类，实现解析接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> YamlConfigParse <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 用于解析Yaml文件</span></span><br><span class="line"><span class="comment"> * @receiver yaml</span></span><br><span class="line"><span class="comment"> * @param path</span></span><br><span class="line"><span class="comment"> * @return string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(yaml *YamlConfigParse)</span> <span class="title">Parse</span><span class="params">(path <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;解析yaml配置文件，路径为:&quot;</span> + path</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 简单工厂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> SimpleParseFactory <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(simple *SimpleParseFactory)</span> <span class="title">create</span><span class="params">(ext <span class="keyword">string</span>)</span> <span class="title">ConfigParse</span></span> &#123;</span><br><span class="line">   <span class="keyword">switch</span> ext &#123;</span><br><span class="line">   <span class="keyword">case</span> <span class="string">&quot;json&quot;</span>:</span><br><span class="line">      <span class="keyword">return</span> &amp;JsonConfigParse&#123;&#125;</span><br><span class="line">   <span class="keyword">case</span> <span class="string">&quot;yaml&quot;</span>:</span><br><span class="line">      <span class="keyword">return</span> &amp;YamlConfigParse&#123;&#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 工厂方法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> NormalParseFactory <span class="keyword">interface</span> &#123;</span><br><span class="line">   createParse() ConfigParse</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: Json工厂方法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> JsonNormalParseFactory <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 该方法用于创建Json解析器</span></span><br><span class="line"><span class="comment"> * @receiver jsonFactory</span></span><br><span class="line"><span class="comment"> * @param ext</span></span><br><span class="line"><span class="comment"> * @return ConfigParse</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(jsonFactory *JsonNormalParseFactory)</span> <span class="title">createParse</span><span class="params">()</span> <span class="title">ConfigParse</span></span> &#123;</span><br><span class="line">   <span class="comment">//此处假装有各种组装</span></span><br><span class="line">   <span class="keyword">return</span> &amp;JsonConfigParse&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: Yaml解析工厂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> YamlNormalParseFactory <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 该方法用于创建Yaml解析器</span></span><br><span class="line"><span class="comment"> * @receiver yamlFactory</span></span><br><span class="line"><span class="comment"> * @return ConfigParse</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(yamlFactory *YamlNormalParseFactory)</span> <span class="title">createParse</span><span class="params">()</span> <span class="title">ConfigParse</span></span> &#123;</span><br><span class="line">   <span class="comment">//此处假装有各种组装</span></span><br><span class="line">   <span class="keyword">return</span> &amp;YamlConfigParse&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 根据后缀创建工厂</span></span><br><span class="line"><span class="comment"> * @param ext</span></span><br><span class="line"><span class="comment"> * @return NormalParseFactory</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createFactory</span><span class="params">(ext <span class="keyword">string</span>)</span> <span class="title">NormalParseFactory</span></span> &#123;</span><br><span class="line">   <span class="keyword">switch</span> ext &#123;</span><br><span class="line">   <span class="keyword">case</span> <span class="string">&quot;json&quot;</span>:</span><br><span class="line">      <span class="keyword">return</span> &amp;JsonNormalParseFactory&#123;&#125;</span><br><span class="line">   <span class="keyword">case</span> <span class="string">&quot;yaml&quot;</span>:</span><br><span class="line">      <span class="keyword">return</span> &amp;YamlNormalParseFactory&#123;&#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">//简单工厂使用代码</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;------------简单工厂&quot;</span>)</span><br><span class="line">   simpleParseFactory := &amp;SimpleParseFactory&#123;&#125;</span><br><span class="line">   parse := simpleParseFactory.create(<span class="string">&quot;json&quot;</span>)</span><br><span class="line">   <span class="keyword">if</span> parse != <span class="literal">nil</span> &#123;</span><br><span class="line">      data := parse.Parse(<span class="string">&quot;conf/config.json&quot;</span>)</span><br><span class="line">      fmt.Println(data)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//工厂使用代码</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;------------工厂方法&quot;</span>)</span><br><span class="line">   factory := createFactory(<span class="string">&quot;yaml&quot;</span>)</span><br><span class="line">   parse = factory.createParse()</span><br><span class="line">   <span class="keyword">if</span> parse != <span class="literal">nil</span> &#123;</span><br><span class="line">      data := parse.Parse(<span class="string">&quot;conf/config.yaml&quot;</span>)</span><br><span class="line">      fmt.Println(data)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回为：</p>
+<p>➜  myproject go run main.go</p>
+<p>————简单工厂</p>
+<p>解析json配置文件，路径为:conf/config.json</p>
+<p>————工厂方法</p>
+<p>解析yaml配置文件，路径为:conf/config.yaml</p>
+<p>大家看这个代码，会感觉简单工厂和工厂模式似像非像。有这种感觉是对的，因为这两者真的是有部分相似、有部分不相似。</p>
+<p><strong>相似部分</strong>：SimpleParseFactory的create函数和createFactory函数，都有类型的判断，这部分两种方式都有，谁也没省掉。</p>
+<p><strong>不同部分</strong>：SimpleParseFactory的create直接创建ConfigParse，createFactory只创建出工厂，由调用方调用工厂的创建方法获得ConfigParse</p>
+<p>简单工厂和工厂方法在开放-封闭原则上是一致的，按照我的这种写法，增加新的解析器，对于扩展是开放的，不会影响以前的代码，但是分别需要在SimpleParseFactory的create或createFactory增加后缀判断，所以一定程度上都违背了封闭原则。当然，如果想不违背封闭原则也可以，都改为从走配置的即可，这种方案能够提升两者的封闭性。</p>
+<p>这个例子也很好的说明了使用两者的区别，创建简单就用简单工厂，创建复杂就用工厂方法，代价就是类的数量会增加。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工厂方法是经常使用的设计模式，需要好好掌握。工厂方法是里氏替换原则、依赖倒转原则、开放-封闭原则的体现，在具体实现上，主要使用了接口与实现的语法。本文也介绍了简单工厂和工厂方法的相似点和区别点。</p>
+<p>在扩展方面，除了可以增加通过读取配置的方案增加封闭性，还可以通过在工厂内部提前建好解析类，这样能够去掉解析类，还能实现单例的功能。工厂方法还有很多其它玩法，大家可以自行研究。</p>
+<p>其实工厂方法真的提高了灵活性，假设你开发了一个框架，只能解析yaml，代码开源到github上，这时会有很多小伙伴来增强你的代码，如果解析方面你使用了工厂方法，那么其他人能够很方便的添加新的解析功能，同时对原有逻辑影响降到最低，这就是优雅。</p>
+
       
 
       
@@ -200,16 +234,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GoLand实用技巧</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -229,598 +322,14 @@
 
 
 
-
-  
-    <article id="post-回溯法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/">回溯法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-15T12:13:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>回溯法就是一种有组织的系统化搜索技术，可以看作是蛮力法穷举搜索的改进。</p>
-        
-          <a class="article-more-a" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-贪心法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/">贪心法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-08T14:08:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>贪心法是把一个复杂问题分解为一系列较为简单的局部最优选择，每一步选择都是对当前解的一个扩展，直到获得问题的完整解。贪心法的典型应用是求解最优化问题，而且对许多问题都能得到整体最优解，即使不能得到整体最优解，通常也是最优解的很好近似。</p>
-        
-          <a class="article-more-a" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-动态规划法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/">动态规划法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-05T06:48:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>动态规划是在20世纪50年代由美国数学家贝尔曼为研究最优控制问题而提出的，当该方法在应用数学中的价值被大家认同以后，在计算机学姐，动态规划法成为一种通用的算法设计技术用来求解多阶段决策最优化问题。</p>
-        
-          <a class="article-more-a" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-微服务之服务框架和注册中心" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">微服务之服务框架和注册中心</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" class="archive-article-date">
-  	<time datetime="2020-09-26T06:27:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="微服务体系"><a href="#微服务体系" class="headerlink" title="微服务体系"></a>微服务体系</h3><p>微服务的水挺深的，准确的说，不仅深还特别广。微服务涉及的内容特别多，而且每一块都可以深入研究，成为这方面的专家。</p>
-        
-          <a class="article-more-a" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Beego框架使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">Beego框架使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-09-22T11:14:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们组服务端使用了Beego框架，使用的相对合理，本篇文章简单聊一下我们是如何使用框架的。</p>
-        
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Effective-Go" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/20/Effective-Go/">Effective-Go</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/20/Effective-Go/" class="archive-article-date">
-  	<time datetime="2020-09-20T13:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近有人推荐Effective Go，这本书算是给初学者看的，因为已经看多很多Go方面的书了，所以再看这本书，总体收货较小，文章地址：<a target="_blank" rel="noopener" href="https://learnku.com/docs/effective-go/2020">https://learnku.com/docs/effective-go/2020</a></p>
-        
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-减治法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/">减治法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-09-19T05:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分治法和减治法的区别。</p>
-<p>分治法是把一个大问题划分为若干个子问题，分别求解各个子问题，然后再把子问题的解进行合并得到原问题的解。</p>
-        
-          <a class="article-more-a" href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分治法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/">分治法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-09-06T14:12:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分治法将一个难以直接解决的大问题划分成一些规模较小的子问题，分别求解各个子问题，再合并子问题的解得到原问题的解。</p>
-        
-          <a class="article-more-a" href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-蛮力法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/">蛮力法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-08-30T06:10:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>蛮力法的主要思想就是用最简单的思路解决问题，一般性能不好，但仍然很重要。</p>
-        
-          <a class="article-more-a" href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -843,8 +352,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
