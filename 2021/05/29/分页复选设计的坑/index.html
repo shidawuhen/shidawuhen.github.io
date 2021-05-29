@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>分页复选设计的坑 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/6/index.html">
+  <meta name="description" content="定义什么是分页复选设计呢？如下图所示，这是掘金专栏的一个功能，可以选择将同类的文件批量添加到专栏里，随着下拉，会一页一页的返回。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分页复选设计的坑">
+<meta property="og:url" content="http://yoursite.com/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="定义什么是分页复选设计呢？如下图所示，这是掘金专栏的一个功能，可以选择将同类的文件批量添加到专栏里，随着下拉，会一页一页的返回。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/image-20210521133846770.png">
+<meta property="og:image" content="http://yoursite.com/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/image-20210521134140752.png">
+<meta property="og:image" content="http://yoursite.com/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/image-20210522231501780.png">
+<meta property="og:image" content="http://yoursite.com/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/image-20210523101644704.png">
+<meta property="article:published_time" content="2021-05-29T04:09:21.000Z">
+<meta property="article:modified_time" content="2021-05-29T04:18:14.894Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/image-20210521133846770.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,32 +173,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-九变篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-分页复选设计的坑" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/">九变篇</a>
+    <h1 class="article-title" itemprop="name">
+      分页复选设计的坑
     </h1>
   
 
         
-        <a href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:40:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
+        <a href="/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/" class="archive-article-date">
+  	<time datetime="2021-05-29T04:09:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡用兵之法，将受命于君，合军聚众，圮地无舍①，衢地交合②，绝地无留③，围地则谋④，死地则战⑤。涂有所不由⑥，军有所不击⑦，城有所不攻⑧，地有所不争，君命有所不受⑨。故将通于九变之地利者⑩，知用兵矣；将不通于九变之利者，虽知地形，不能得地之利矣。治兵不知九变之术，虽知五利，不能得人之用矣。（8·1）</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/#more">more >></a>
-        
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>什么是分页复选设计呢？如下图所示，这是掘金专栏的一个功能，可以选择将同类的文件批量添加到专栏里，随着下拉，会一页一页的返回。</p>
+<span id="more"></span>
+<p><img src="./image-20210521133846770.png" alt="image-20210521133846770"></p>
+<p>除了这种设计，还有一种是下面有页数，根据页数跳转的设计，如：<img src="./image-20210521134140752.png" alt="image-20210521134140752"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>复选功能有两个，选中和取消。</p>
+<p>这种分页复选，我见过两种设计。</p>
+<p>第一种，也就是掘金专题上面的用法，已经选好的不会再在分页中显示出来，所以分页复选只实现了增加的功能。已经选中的有单独的列表，在这个列表中可以选中删除。<img src="./image-20210522231501780.png" alt="image-20210522231501780"></p>
+<p>成功的将增加和删除分割开来，用户使用起来很通畅。</p>
+<p>第二种，选中和取消功能都在分页复选中。有一种场景是用户发起申请，运营推荐一些服务，后面用户再次发起申请，运营需要根据以前推荐的内容进行增减。</p>
+<h2 id="坑在哪里"><a href="#坑在哪里" class="headerlink" title="坑在哪里"></a>坑在哪里</h2><p>分页复选的坑比较隐秘，大家可以先自己思考一下哪里有问题，如果能够想到，那说明同学还是很细心、敏捷的。</p>
+<p>之所以写这篇文章，也是因为做一个项目的时候遇到了这个坑，以前觉得自己经手过太多项目，很多坑都能避免，没想到现实还是会啪啪打脸，需要学到老活到老。</p>
+<p>第一种设计将选中和取消分隔开，这种是没有什么坑的。而且产品还很贴心的增加了搜索功能，方便查找。</p>
+<p>坑在第二种。</p>
+<p>最开始我觉得挺容易的，记录已经推荐的内容，分页的时候，如果分页里有已经被推荐的，则选中状态为true，否则为false，前端根据接口返回的状态来显示选中与否。当用户提交的时候，前端将选中的内容提交，将提交的内容与原本记录的推荐内容做集合操作，找出哪些是新增的，哪些是需要删除的，哪些是不变的，然后更新这些记录。</p>
+<p>很多同学可能觉得这个思路比较合理，可能是因为我们都静止的看问题，如果在思考这个设计的时候，能考虑到多页的情况，就能发现其中的坑了。</p>
+<p>举个例子，假设能够推荐的内容共100个，每页10个，共10页，第一次推荐的时候推荐每页的第一个和最后一个。类似这个样子：<img src="./image-20210523101644704.png" alt="image-20210523101644704"></p>
+<p>运营第二次推荐的时候会导致两个问题：</p>
+<ol>
+<li>使用困难：如果要查看以前推荐了哪些，只能看完所有页面，这是很不好的。可以通过将已经推荐的放在首部，一定程度上缓解这个问题，但运营仍然需要查看多页。</li>
+<li>产生歧义：第二次推荐的时候，运营只是想把首页的取消掉，将第一页的取消后直接提交，前端提交的内容是啥都不推荐，系统会将所有推荐内容去掉。</li>
+</ol>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>解决方案我想到两种：</p>
+<ol>
+<li>如果推荐内容少，可以只有一页，把已经推荐的内容置顶，这种操作对运营最友好</li>
+<li>如果内容过多，只能采用多页方式，提交的时候需要传递增加了哪些、删除了哪些，这需要前端自己进行记录，服务端根据这些数据就能计算出新增哪些、删除哪些、哪些不变。<ul>
+<li>这种操作会导致<strong>前端工作量增大</strong>，因为复选框可以不断做勾选、不勾选操作，再加上分页，出问题概率会比较大。</li>
+<li>即使把已推荐的置顶，这种方式仍然会产生一定歧义。举个例子，如果第一次推荐的总数量有三页，第二次推荐时，运营想全部不推荐，运营不熟悉系统，只将第一页完全去掉就提交了，运营认为自己完成了任务，但是系统还留有2页推荐，歧义发生。</li>
+<li>如果推荐的数据并不存储在自己系统中，是从其它系统通过接口分页获取的，除非接口支持，否则无法实现置顶功能，运营使用时仍然需要遍历所有页面。</li>
+</ul>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>个人不是特别建议使用分页复选功能，真要用的话，最好将分页复选功能单一化，只有增加功能，已有的推荐有单独列表展示。</p>
+
       
 
       
@@ -200,16 +236,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2021/05/29/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-12-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Go设计模式(12)-桥接模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/05/15/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-11-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go设计模式(11)-代理模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -229,597 +333,14 @@
 
 
 
-
-  
-    <article id="post-军争篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/">军争篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:40:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡用兵之法，将受命于君，合军聚众①，交和而舍②，莫难于军争。军争之难者，以迂为直③，以患为利④。故迂其途，而诱之以利，后人发，先人至⑤，此知迂直之计者也。（7·1）</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-虚实篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/">虚实篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:39:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡先处战地而待敌者佚①，后处战地而趋战者劳②。故善战者，致人而不致于人③。能使敌人自至者，利之也④；能使敌人不得至者，害之也⑤。故敌佚能劳之，饱能饥之，安能动之。（6·1）</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-势篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E5%8A%BF%E7%AF%87/">势篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/01/%E5%8A%BF%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:39:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡治众如治寡①，分数是也②；斗众如斗寡③，形名是也④；三军之众，可使必受敌而无败者⑤，奇正是也⑥；兵之所加，如以碫投卵者⑦，虚实是也⑧。</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E5%8A%BF%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E5%8A%BF%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-形篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E5%BD%A2%E7%AF%87/">形篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/01/%E5%BD%A2%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:38:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：昔之善战者①，先为不可胜②，以待敌之可胜③。不可胜在己，可胜在敌。故善战者④，能为不可胜，不能使敌之可胜⑤。故曰：胜可知而不可为⑥。</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E5%BD%A2%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E5%BD%A2%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-谋攻篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E8%B0%8B%E6%94%BB%E7%AF%87/">谋攻篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/01/%E8%B0%8B%E6%94%BB%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:37:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡用兵之法，全国为上，破国次之①；全军为上，破军次之②；全旅为上，破旅次之③；全卒为上，破卒次之④；全伍为上，破伍次之。是故百战百胜，非善之善者也⑤；不战而屈人之兵⑥，善之善者也。</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E8%B0%8B%E6%94%BB%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E8%B0%8B%E6%94%BB%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-作战篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/">作战篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:36:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡用兵之法，驰车千驷①，革车千乘②，带甲十万③，千里馈粮④，则内外之费⑤，宾客之用⑥，胶漆之材⑦，车甲之奉⑧，日费千金⑨，然后十万之师举矣⑩。</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-算法总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">算法总结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-10-24T07:39:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>历经两个月的时间，将算法知识重新梳理完成，整个过程挺累的，每天只能晚上或者周六周日梳理一部分，虽然占用了大量的休息时间，不过整个过程很充实，而且也重新学到了不少东西。</p>
-        
-          <a class="article-more-a" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分支限界法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/">分支限界法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-24T07:38:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>回溯法是深度优先策略遍历问题的解空间树。分支限界法按<strong>广度优先策略</strong>遍历问题的解空间树，在遍历过程中对已经处理的每一个节点根据衔接函数估算目标函数的可能取值，从中选取使目标函数取得极值(极大或极小)的节点优先进行广度优先搜索，从而不断调整搜索方向，尽快找到问题的解。</p>
-        
-          <a class="article-more-a" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">计篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/15/%E8%AE%A1%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-10-15T12:16:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：兵者①，国之大事，死生之地，存亡之道②，不可不察也③。</p>
-        
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -842,8 +363,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
