@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go设计模式(13)-装饰器模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/10/index.html">
+  <meta name="description" content="装饰器模式主要解决继承关系过于复杂的问题，通过组合来替代继承。它主要的作用是给原始类添加增强功能。 装饰器类和原始类继承同一个父类，这么看感觉和代理模式一样。但其实两者作用不同，装饰器模式主要用于增加功能，代理模式主要用于附加跟原始类无关的功能。 本文UML类图链接为：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;609b39d6f346fb5a37705da6 本文代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(13)-装饰器模式">
+<meta property="og:url" content="http://yoursite.com/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="装饰器模式主要解决继承关系过于复杂的问题，通过组合来替代继承。它主要的作用是给原始类添加增强功能。 装饰器类和原始类继承同一个父类，这么看感觉和代理模式一样。但其实两者作用不同，装饰器模式主要用于增加功能，代理模式主要用于附加跟原始类无关的功能。 本文UML类图链接为：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;609b39d6f346fb5a37705da6 本文代码">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/image-20210527094745331.png">
+<meta property="og:image" content="http://yoursite.com/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/image-20210512101318837.png">
+<meta property="article:published_time" content="2021-06-05T03:29:06.000Z">
+<meta property="article:modified_time" content="2021-06-05T03:36:58.435Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/image-20210527094745331.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +171,175 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-13-装饰器模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(13)-装饰器模式
+    </h1>
+  
+
+        
+        <a href="/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-06-05T03:29:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-05</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>装饰器模式主要解决继承关系过于复杂的问题，通过组合来替代继承。它主要的作用是给原始类添加增强功能。</strong> 装饰器类和原始类继承同一个父类，这么看感觉和代理模式一样。但其实两者作用不同，装饰器模式主要用于增加功能，代理模式主要用于附加跟原始类无关的功能。</p>
+<p>本文UML类图链接为：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/609b39d6f346fb5a37705da6">https://www.processon.com/view/link/609b39d6f346fb5a37705da6</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/13decorator.go">https://github.com/shidawuhen/asap/blob/master/controller/design/13decorator.go</a></p>
+<span id="more"></span>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1装饰器模式"><a href="#1-1装饰器模式" class="headerlink" title="1.1装饰器模式"></a>1.1装饰器模式</h3><p><strong>装饰器模式：</strong> 动态地给一个对象添加一些额外的职责，就增加功能来说，装饰模式比生成子类更为灵活。</p>
+<p><strong>UML类图：</strong><img src="./image-20210527094745331.png" alt="image-20210527094745331"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>首先我们需要理解，为什么组合优于继承？</p>
+<ul>
+<li>继承有诸多作用，但继承层次过深、过复杂，会影响到代码的可维护性。</li>
+<li>继承主要有三个作用：表示is-a关系，支持多态特性，代码复用。而这三个作用都可以通过组合、接口、委托三个技术手段来达成。除此之外，利用组合还能解决层次过深、过复杂的继承关系影响代码可维护性的问题。</li>
+</ul>
+<p>再来看一下装饰器模式和代理模式的区别。</p>
+<p><img src="./image-20210512101318837.png" alt="image-20210512101318837"></p>
+<ul>
+<li>从UML层面上，Proxy下没有子类，Decorator下却有子类。Proxy和Decorator有一部分作用是相同的，都需要包一下原始类的各个函数，只不过Proxy在包的过程中，会附加一些和原始类无关的功能。Proxy包原始类各个函数，主要是为了让ConcreteDecorator减少重复操作，只关注要增加功能的函数即可。</li>
+<li>从使用层面上说，Proxy很直接，客户端调用Proxy，Proxy调用原始类。装饰器模式则可以嵌套使用，A装饰B，B装饰C，C装饰D。</li>
+</ul>
+<p>可能大家会问组合作用到底在哪？我们想一个场景，假设一个类Base有个功能封装的很好，但是有些地方想用的话，需要再加强一下，这个类是D1，如果使用继承的话，就需要进行重载、调用基类。如果别的地方想用D1，也还需要加强部分功能，这个类是D2，使用继承，则又需要重载、调用基类。这使得继承层次过深、过复杂了，然后继承是有必要的吗？仔细想一下不用继承、直接用组合，不但能实现目标，工作量减小，而且能去掉继承的束缚。</p>
+<h2 id="2-使用场景"><a href="#2-使用场景" class="headerlink" title="2.使用场景"></a>2.使用场景</h2><p><strong>装饰器模式一般用在基类功能封装不错，但使用的时候需要对功能进行一些加强，而这些加强版的功能也会被其它加强版需要，这种就比较适合。</strong></p>
+<p>尼古拉斯凯奇主演的《战争之王》不知道大家看过没有。记得里面有个场景，凯奇买了一架武装直升机，这时FBI带人抓捕，凯奇将直升机和导弹分开就合法了。直升机就是那个封装特别好的类，能够长距离飞行。想用武装直升机，就在上面加导弹。想用救援直升机就在上面加医生。想用武装救援直升机，就在上面即加导弹又加医生。</p>
+<p>我们就按照这个例子写代码吧。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 飞行器接口，有fly函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Aircraft <span class="keyword">interface</span> &#123;</span><br><span class="line">   fly()</span><br><span class="line">   landing()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 直升机类，拥有正常飞行、降落功能</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Helicopter <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *Helicopter)</span> <span class="title">fly</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;我是普通直升机&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *Helicopter)</span> <span class="title">landing</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;我有降落功能&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 武装直升机</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> WeaponAircraft <span class="keyword">struct</span> &#123;</span><br><span class="line">   Aircraft</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 给直升机增加武装功能</span></span><br><span class="line"><span class="comment"> * @receiver a</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *WeaponAircraft)</span> <span class="title">fly</span><span class="params">()</span></span> &#123;</span><br><span class="line">   a.Aircraft.fly()</span><br><span class="line">   fmt.Println(<span class="string">&quot;增加武装功能&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 救援直升机</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> RescueAircraft <span class="keyword">struct</span> &#123;</span><br><span class="line">   Aircraft</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 给直升机增加救援功能</span></span><br><span class="line"><span class="comment"> * @receiver r</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *RescueAircraft)</span> <span class="title">fly</span><span class="params">()</span></span> &#123;</span><br><span class="line">   r.Aircraft.fly()</span><br><span class="line">   fmt.Println(<span class="string">&quot;增加救援功能&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">//普通直升机</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;------------普通直升机&quot;</span>)</span><br><span class="line">   helicopter := &amp;Helicopter&#123;&#125;</span><br><span class="line">   helicopter.fly()</span><br><span class="line">   helicopter.landing()</span><br><span class="line"></span><br><span class="line">   <span class="comment">//武装直升机</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;------------武装直升机&quot;</span>)</span><br><span class="line">   weaponAircraft := &amp;WeaponAircraft&#123;</span><br><span class="line">      Aircraft: helicopter,</span><br><span class="line">   &#125;</span><br><span class="line">   weaponAircraft.fly()</span><br><span class="line"></span><br><span class="line">   <span class="comment">//救援直升机</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;------------救援直升机&quot;</span>)</span><br><span class="line">   rescueAircraft := &amp;RescueAircraft&#123;</span><br><span class="line">      Aircraft: helicopter,</span><br><span class="line">   &#125;</span><br><span class="line">   rescueAircraft.fly()</span><br><span class="line"></span><br><span class="line">   <span class="comment">//武装救援直升机</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;------------武装救援直升机&quot;</span>)</span><br><span class="line">   weaponRescueAircraft := &amp;RescueAircraft&#123;</span><br><span class="line">      Aircraft: weaponAircraft,</span><br><span class="line">   &#125;</span><br><span class="line">   weaponRescueAircraft.fly()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>————普通直升机</p>
+<p>我是普通直升机</p>
+<p>我有降落功能</p>
+<p>————武装直升机</p>
+<p>我是普通直升机</p>
+<p>增加武装功能</p>
+<p>————救援直升机</p>
+<p>我是普通直升机</p>
+<p>增加救援功能</p>
+<p>————武装救援直升机</p>
+<p>我是普通直升机</p>
+<p>增加武装功能</p>
+<p>增加救援功能</p>
+<p>代码实现中没有Decorator类，主要是因为Go组合的特性。之所以有Decorator，是因为Decorator中有component成员变量，Decorator中函数实现是调用component的函数，所以对于component中的每一个函数，Decorator都需要封装一下，否则无法使用。但是Go组合方式会自动完成这项任务，无需封装，自然也就不需要Decorator了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>装饰器模式理解和使用都比较简单，<strong>主要通过组合方式实现复用能力，如果组合的变量为接口或者基类，便可实现串联功能。</strong></p>
+<p>在使用上，首先需要确定复用的功能抽象的比较好，以免使用的时候，发现很多增强功能可以收敛其中。其次判断是否有增强的功能需要串联的情况，如果有的话，使用装饰器模式是十分合适的。</p>
+<p>装饰器模式体现了开闭原则、里氏替换原则、依赖倒转原则。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-04T13:18:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">发票项目总结</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/" class="archive-article-date">
-  	<time datetime="2020-04-25T15:44:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/06/05/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%81%AD%E9%81%87%E8%85%BE%E8%AE%AF%E5%B1%8F%E8%94%BD%E5%92%8C%E5%B0%81%E7%A6%81%E5%A4%A7%E4%BA%8B%E8%AE%B0%EF%BC%882018-2021%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">转载-字节跳动遭遇腾讯屏蔽和封禁大事记（2018-2021）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">GoLang长连接-基于WebSocket</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T10:14:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">飞书使用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:38:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:08:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/" class="archive-article-date">
-  	<time datetime="2020-04-04T07:55:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">52周记忆魔法实战手册</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-03-29T13:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">GoLand破解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/" class="archive-article-date">
-  	<time datetime="2020-03-15T15:57:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/">敏捷革命</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/" class="archive-article-date">
-  	<time datetime="2020-03-08T14:52:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/">论语</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-03-01T08:50:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在旧项目中使用gomod</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/9/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/11/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +363,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
