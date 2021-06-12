@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>Go设计模式(14)-适配器模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/8/index.html">
+  <meta name="description" content="前面三篇文章讲了代理模式、桥接模式、装饰器模式，这次讲一下适配器模式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(14)-适配器模式">
+<meta property="og:url" content="http://yoursite.com/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-14-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="前面三篇文章讲了代理模式、桥接模式、装饰器模式，这次讲一下适配器模式。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-14-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/image-20210602103045494.png">
+<meta property="article:published_time" content="2021-06-12T03:52:36.000Z">
+<meta property="article:modified_time" content="2021-06-12T03:58:15.496Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-14-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/image-20210602103045494.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,32 +170,84 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Beego框架使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-Go设计模式-14-适配器模式" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">Beego框架使用</a>
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(14)-适配器模式
     </h1>
   
 
         
-        <a href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-09-22T11:14:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-22</time>
+        <a href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-14-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-06-12T03:52:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们组服务端使用了Beego框架，使用的相对合理，本篇文章简单聊一下我们是如何使用框架的。</p>
-        
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
+        <p>前面三篇文章讲了代理模式、桥接模式、装饰器模式，这次讲一下适配器模式。</p>
+<span id="more"></span>
+<p>适配器模式比较简单，也比较容易理解。<strong>适配器模式可以看作一种“补偿模式”，用来补救设计上的缺陷</strong>。应用这种模式算是“无奈之举”。</p>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/diagraming/609b375407912943913a4c13">https://www.processon.com/diagraming/609b375407912943913a4c13</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/14adapter.go">https://github.com/shidawuhen/asap/blob/master/controller/design/14adapter.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1适配器模式"><a href="#1-1适配器模式" class="headerlink" title="1.1适配器模式"></a>1.1适配器模式</h3><p><strong>适配器模式</strong>：将一个类的接口转换成客户希望的另外一个接口。Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
+<p><strong>UML</strong>：</p>
+<p><img src="./image-20210602103045494.png" alt="image-20210602103045494"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>通过UML图看到Adapter和Adaptee是关联关系，但Adapter和Adaptee也可以是继承关系，这种情况一般用于Adaptee大部分成员函数已经和Target一致，只有少部分需要修改，使用继承能够减少代码改动。如果Adaptee大部分成员函数和Target不一致，最好还是用组合，毕竟组合优于继承。当然对Go而言就无所谓了，反正只有组合没有继承，而且匿名组合能够直接复用组合对象的功能。</p>
+<p>适配器模式的使用也比较简单，<strong>核心就是用Adapter重新封装一下Adaptee，使其符合Target的要求。</strong></p>
+<h2 id="2-使用场景"><a href="#2-使用场景" class="headerlink" title="2.使用场景"></a>2.使用场景</h2><p>遇到如下几种场景的时候可以考虑使用适配器模式：</p>
+<ol>
+<li><strong>封装有缺陷的接口设计</strong>：例如如果引入的外部系统接口设计方面有缺陷，会影响我们自身代码的可测性等，就可以考虑使用适配器模式，<strong>将引入的系统向我们自身系统设计上靠拢</strong></li>
+<li><strong>统一多个类的接口设计</strong>：如果一个功能依赖多个外部系统，且这些外部系统的能力是相似的但接口不统一，可以使用适配器模式，依赖于继承、多态的特性，<strong>使调用方可以以聚合方式使用外部系统，提升代码扩展性</strong></li>
+<li><strong>替换依赖的外部系统</strong>：如果一个功能有多个外部系统可供选择，我们可以定义一个Target接口，将外部系统适配为Target，这样就能利用多态性，<strong>实现外部系统的替换</strong></li>
+<li><strong>兼容老版本接口</strong>：老版本中功能A在新版本中被废弃，A将由B替代，为了不影响使用者，新版本中仍然会有A，但是其内部实现<strong>委托B执行</strong></li>
+<li><strong>适配不同格式的数据</strong>：有时数据来源不同，数据格式也不同，需要<strong>对数据做适配</strong>，改为统一格式后再处理，也可使用适配器模式</li>
+</ol>
+<p>我在项目中用适配器模式，主要处理数据适配。以前做支付网关的时候，每个第三方返回的数据都不一致，为了符合支付系统定义的格式，必须进行适配。这种地方特别多，就选对账功能这块讲一下，其它关于支付的内容可以参考这篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NM34aevx3DBT1czcoFMJWw">如何高效对接第三方支付</a>。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><p>所谓对账，是指从第三方支付公司拉取指定时间内的支付单信息，与系统内部支付单信息做对比，主要用来发现支付异常</p>
+<p>1.<strong>支付网关有数据，第三方没有数据</strong></p>
+<ul>
+<li>可能被黑客攻击了，用户没有真正支付，但是我们发货了</li>
+<li>代码有问题，用户没有完成支付，但是系统认为支付成功了</li>
+<li>第三方提供数据不全</li>
+</ul>
+<p>2.<strong>支付网关没有数据，第三方有数据</strong></p>
+<ul>
+<li>用户支付成功，但是同步或者异步通知都失败了</li>
+</ul>
+<p>3.<strong>金额不一致</strong></p>
+<ul>
+<li>代码有问题，电商发起支付金额和真正调用第三方金额不一致</li>
+<li>第三方提供数据有问题</li>
+</ul>
+<p>做对比的逻辑是一致的，但是第三方支付账单数据格式不一致，所以需要先将这些数据转化为标准格式。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 对账单数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> StatementItem <span class="keyword">struct</span> &#123;</span><br><span class="line">	OrderId       <span class="keyword">string</span> <span class="comment">//系统单号</span></span><br><span class="line">	TransactionId <span class="keyword">string</span> <span class="comment">//第三方交易号</span></span><br><span class="line">	Amount        <span class="keyword">int64</span>  <span class="comment">//支付金额，单位：分</span></span><br><span class="line">	PaymentTime   <span class="keyword">int64</span>  <span class="comment">//订单支付时间</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 从第三方获取对账数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> StatementData <span class="keyword">interface</span> &#123;</span><br><span class="line">	GetStatementData(startTime <span class="keyword">int64</span>, endTime <span class="keyword">int64</span>) []*StatementItem</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: WX支付</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> WXStatementData <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(w *WXStatementData)</span> <span class="title">GetStatementData</span><span class="params">(startTime <span class="keyword">int64</span>, endTime <span class="keyword">int64</span>)</span> []*<span class="title">StatementItem</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;从WX获取到的对账数据，支付时间需要格式化为时间戳&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> []*StatementItem&#123;</span><br><span class="line">		&#123;</span><br><span class="line">			OrderId:       <span class="string">&quot;WX订单222&quot;</span>,</span><br><span class="line">			TransactionId: <span class="string">&quot;WX支付单号&quot;</span>,</span><br><span class="line">			Amount:        <span class="number">999</span>,</span><br><span class="line">			PaymentTime:   time.Date(<span class="number">2014</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">5</span>, <span class="number">50</span>, <span class="number">4</span>, <span class="number">0</span>, time.Local).Unix(),</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: ZFB支付</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> ZFBStatementData <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(z *ZFBStatementData)</span> <span class="title">GetStatementData</span><span class="params">(startTime <span class="keyword">int64</span>, endTime <span class="keyword">int64</span>)</span> []*<span class="title">StatementItem</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;从ZFB获取到的对账数据，金额需要从元转化为分&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> []*StatementItem&#123;</span><br><span class="line">		&#123;</span><br><span class="line">			OrderId:       <span class="string">&quot;ZFB订单111&quot;</span>,</span><br><span class="line">			TransactionId: <span class="string">&quot;ZFB支付单号&quot;</span>,</span><br><span class="line">			Amount:        <span class="number">99.9</span> * <span class="number">100</span>,</span><br><span class="line">			PaymentTime:   <span class="number">1389058332</span>,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 对账函数</span></span><br><span class="line"><span class="comment"> * @param list  从第三方获取的对账单</span></span><br><span class="line"><span class="comment"> * @return bool</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DoStatement</span><span class="params">(list []*StatementItem)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;开始对账&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;从自身系统中获取指定时间内的支付单&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> _, item := <span class="keyword">range</span> list &#123;</span><br><span class="line">		fmt.Println(item.OrderId + <span class="string">&quot; 与系统支付单进行对账&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;对账完成&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	wx := &amp;WXStatementData&#123;&#125;</span><br><span class="line">	zfb := &amp;ZFBStatementData&#123;&#125;</span><br><span class="line">	stattementData := []StatementData&#123;</span><br><span class="line">		wx,</span><br><span class="line">		zfb,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, s := <span class="keyword">range</span> stattementData &#123;</span><br><span class="line">		DoStatement(s.GetStatementData(<span class="number">1389058332</span>, <span class="number">1389098332</span>))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>从WX获取到的对账数据，支付时间需要格式化为时间戳</p>
+<p>开始对账</p>
+<p>从自身系统中获取指定时间内的支付单</p>
+<p>WX订单222 与系统支付单进行对账</p>
+<p>对账完成</p>
+<p>从ZFB获取到的对账数据，金额需要从元转化为分</p>
+<p>开始对账</p>
+<p>从自身系统中获取指定时间内的支付单</p>
+<p>ZFB订单111 与系统支付单进行对账</p>
+<p>对账完成</p>
+<p>PS：代码中定义了对账单的结构，今后对接新的支付方式，只要实现了StatementData接口，就能参与对账，扩展性极好。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>适配器模式简单好用，用对了场景能够极大提高扩展性和优雅性。</p>
+<p>适配器模式和代理、装饰器、桥接模式有一定相似性，我们在此处也总结一下：</p>
+<p><strong>代理模式：</strong> 代理模式在不改变原始类接口的条件下，为原始类定义一个代理类，主要目的是控制访问，而非加强功能，这是它跟装饰器模式最大的不同。</p>
+<p><strong>装饰器模式：</strong> 装饰者模式在不改变原始类接口的情况下，对原始类功能进行增强，并且支持多个装饰器的嵌套使用。</p>
+<p><strong>适配器模式：</strong> 适配器模式是一种事后的补救策略。适配器提供跟原始类不同的接口，而代理模式、装饰器模式提供的都是跟原始类相同的接口。</p>
+<p><strong>桥接模式：</strong> 桥接模式的目的是将接口部分和实现部分分离，从而让它们可以较为容易、也相对独立地加以改变。</p>
+
       
 
       
@@ -200,16 +258,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-14-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-15-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Go设计模式(15)-门面模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/12/%E6%99%9A%E4%B8%8A%E6%89%93119%E7%9A%84%E7%BB%8F%E5%8E%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">晚上打119的经历</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -229,599 +355,14 @@
 
 
 
-
-  
-    <article id="post-Effective-Go" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/20/Effective-Go/">Effective-Go</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/20/Effective-Go/" class="archive-article-date">
-  	<time datetime="2020-09-20T13:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近有人推荐Effective Go，这本书算是给初学者看的，因为已经看多很多Go方面的书了，所以再看这本书，总体收货较小，文章地址：<a target="_blank" rel="noopener" href="https://learnku.com/docs/effective-go/2020">https://learnku.com/docs/effective-go/2020</a></p>
-        
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-减治法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/">减治法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-09-19T05:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分治法和减治法的区别。</p>
-<p>分治法是把一个大问题划分为若干个子问题，分别求解各个子问题，然后再把子问题的解进行合并得到原问题的解。</p>
-        
-          <a class="article-more-a" href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/19/%E5%87%8F%E6%B2%BB%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分治法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/">分治法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-09-06T14:12:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分治法将一个难以直接解决的大问题划分成一些规模较小的子问题，分别求解各个子问题，再合并子问题的解得到原问题的解。</p>
-        
-          <a class="article-more-a" href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/06/%E5%88%86%E6%B2%BB%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-蛮力法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/">蛮力法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-08-30T06:10:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>蛮力法的主要思想就是用最简单的思路解决问题，一般性能不好，但仍然很重要。</p>
-        
-          <a class="article-more-a" href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/30/%E8%9B%AE%E5%8A%9B%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-浅谈微服务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/17/%E6%B5%85%E8%B0%88%E5%BE%AE%E6%9C%8D%E5%8A%A1/">浅谈微服务</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/17/%E6%B5%85%E8%B0%88%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="archive-article-date">
-  	<time datetime="2020-08-17T07:23:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>微服务兴起已经多年了，这几年已到大发展阶段。公司内部做了很多和微服务相关的事情，自己也看了一些微服务相关的内容。现在再来认识”微服务“三个字，终于有点懂了的感觉。</p>
-        
-          <a class="article-more-a" href="/2020/08/17/%E6%B5%85%E8%B0%88%E5%BE%AE%E6%9C%8D%E5%8A%A1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/17/%E6%B5%85%E8%B0%88%E5%BE%AE%E6%9C%8D%E5%8A%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-两数之和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/09/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">两数之和</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/09/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" class="archive-article-date">
-  	<time datetime="2020-08-09T06:37:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>原题:<br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/two-sum/">https://leetcode-cn.com/problems/two-sum/</a><br>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。<br>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
-        
-          <a class="article-more-a" href="/2020/08/09/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/09/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-TCP性能优化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/06/TCP%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">TCP性能优化</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/06/TCP%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2020-08-06T11:56:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本次和大家聊一下TCP性能优化。</p>
-<p>TCP全称为Transmission Control Protocol，每一个IT人士对TCP都有一定了解。TCP协议属于底层协议，对于大部分研发人员来说，这是透明的，无需关心TCP的实现与细节。</p>
-        
-          <a class="article-more-a" href="/2020/08/06/TCP%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/06/TCP%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-对项目管理的一些看法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/26/%E5%AF%B9%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/">对项目管理的一些看法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/26/%E5%AF%B9%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-07-26T10:44:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​    工作五年了，亲眼见证了我们从一个五六人的小团队成长为四十多人的大团队。回忆这几年的工作，我很开心，偶尔翻到以前工作的照片，内心是愉悦的。我觉得我还是比较幸运的人，找到了一份自己喜欢的工作，找到了一群我喜欢一起工作的人，我们也不断成长、不断取得新的成绩。</p>
-        
-          <a class="article-more-a" href="/2020/07/26/%E5%AF%B9%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/26/%E5%AF%B9%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-对产品经理的一些思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对产品经理的一些思考</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-07-19T08:09:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​    踏入职场已经好多年了，这几年作为软件工程师，做的还是挺开心了。最近产品那边有一些人事变动，让我思考产品经理对于业务而言究竟扮演了什么角色。</p>
-        
-          <a class="article-more-a" href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -844,8 +385,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
