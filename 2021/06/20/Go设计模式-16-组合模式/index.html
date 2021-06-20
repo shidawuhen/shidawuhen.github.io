@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go设计模式(16)-组合模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/11/index.html">
+  <meta name="description" content="组合模式针对于特定场景，如文件管理、组织管理等，使用该模式能简化管理，使代码变得非常简洁。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(16)-组合模式">
+<meta property="og:url" content="http://yoursite.com/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="组合模式针对于特定场景，如文件管理、组织管理等，使用该模式能简化管理，使代码变得非常简洁。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20210610101011712.png">
+<meta property="og:image" content="http://yoursite.com/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20210613163004018.png">
+<meta property="article:published_time" content="2021-06-20T05:11:39.000Z">
+<meta property="article:modified_time" content="2021-06-20T05:12:17.551Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20210610101011712.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +171,165 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-16-组合模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(16)-组合模式
+    </h1>
+  
+
+        
+        <a href="/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-06-20T05:11:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>组合模式针对于特定场景，如文件管理、组织管理等，使用该模式能简化管理，使代码变得非常简洁。</p>
+<span id="more"></span>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/diagraming/609b375407912943913a4c13">https://www.processon.com/diagraming/609b375407912943913a4c13</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/16composite.go">https://github.com/shidawuhen/asap/blob/master/controller/design/16composite.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1组合模式"><a href="#1-1组合模式" class="headerlink" title="1.1组合模式"></a>1.1组合模式</h3><p><strong>组合模式</strong>：将对象组合成树形结构以表示‘部分-整体’的层次结构。<strong>组合模式使得用户对单个对象和组合对象的使用具有一致性。</strong></p>
+<p><strong>UML</strong>：</p>
+<p><img src="./image-20210610101011712.png" alt="image-20210610101011712"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>单看UML图可能不清晰，举个栗子会容易一些。Composite是目录，Leaf是目录下的文件，目录和文件都继承自Component。目录能够增加、删除文件，可以展示目录所在位置，文件只能展示文件所在位置。</p>
+<p>对于目录这种需求，有两种实现方式。</p>
+<p>第一种不使用组合模式，只用一个类，有2个核心变量</p>
+<ul>
+<li>一个成员变量表明对象是文件还是目录</li>
+<li>一个成员变量存放目录下文件列表，如果对象为文件，则该变量为空</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> FileSystemNode <span class="keyword">struct</span> &#123;</span><br><span class="line">   isFile   <span class="keyword">bool</span>             <span class="comment">//表明是文件还是目录</span></span><br><span class="line">   subNodes []FileSystemNode <span class="comment">//目录下包含的内容</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二种方案使用组合模式。虽然第一种方案能够实现文件管理的功能，但并不优雅。因为文件和目录是不同的，各自有各自的特性，将特有的内容放到一个类里，<strong>不满足单一职责原则</strong>。</p>
+<p>所以我们可以将其拆分为两个类：文件类和目录类。两个类必须继承自同一个父类，除了重复的功能可以复用外，更重要的一点是消除了两个类调用上的区别，subNodes不需要做任何区分。而且这两个类可以独立进化，相互不影响，何乐而不为呢。</p>
+<h2 id="2-使用场景"><a href="#2-使用场景" class="headerlink" title="2.使用场景"></a>2.使用场景</h2><p>组合模式在使用上，特别像深度优先遍历或者广度优先遍历，一般用于组织结构、文件管理上，这些功能都有共通点：个体和集体无论在功能上还是认知上都极为相似。</p>
+<p>字节跳动的协同办公软件-飞书，在文档管理部分，就极其适合使用组合模式，大家有时间可以尝试一下，链接如下：<a target="_blank" rel="noopener" href="https://www.feishu.cn/">https://www.feishu.cn/</a> ，其展现样式如下所示：</p>
+<p><img src="./image-20210613163004018.png" alt="image-20210613163004018"></p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><p>这次代码简单实现一下目录和文件的添加、显示功能吧。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Separator = <span class="string">&quot;--&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 文件系统接口，文件和目录都要实现该接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> FileSystemNode <span class="keyword">interface</span> &#123;</span><br><span class="line">   Display(separator <span class="keyword">string</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 文件通用功能</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> FileCommonFunc <span class="keyword">struct</span> &#123;</span><br><span class="line">   fileName <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 设置文件名称</span></span><br><span class="line"><span class="comment"> * @receiver f</span></span><br><span class="line"><span class="comment"> * @param fileName</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *FileCommonFunc)</span> <span class="title">SetFileName</span><span class="params">(fileName <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   f.fileName = fileName</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 文件类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> FileNode <span class="keyword">struct</span> &#123;</span><br><span class="line">   FileCommonFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 文件类显示文件内容</span></span><br><span class="line"><span class="comment"> * @receiver f</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *FileNode)</span> <span class="title">Display</span><span class="params">(separator <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   fmt.Println(separator + f.fileName + <span class="string">&quot;   文件内容为：Hello，world&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 目录类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> DirectoryNode <span class="keyword">struct</span> &#123;</span><br><span class="line">   FileCommonFunc</span><br><span class="line">   nodes []FileSystemNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 目录类展示文件名</span></span><br><span class="line"><span class="comment"> * @receiver d</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d *DirectoryNode)</span> <span class="title">Display</span><span class="params">(separator <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   fmt.Println(separator + d.fileName)</span><br><span class="line">   <span class="keyword">for</span> _, node := <span class="keyword">range</span> d.nodes &#123;</span><br><span class="line">      node.Display(separator + Separator)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 添加目录或者文件</span></span><br><span class="line"><span class="comment"> * @receiver d</span></span><br><span class="line"><span class="comment"> * @param f</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d *DirectoryNode)</span> <span class="title">Add</span><span class="params">(f FileSystemNode)</span></span> &#123;</span><br><span class="line">   d.nodes = <span class="built_in">append</span>(d.nodes, f)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">//初始化</span></span><br><span class="line">   biji := DirectoryNode&#123;&#125;</span><br><span class="line">   biji.SetFileName(<span class="string">&quot;笔记&quot;</span>)</span><br><span class="line"></span><br><span class="line">   huiyi := DirectoryNode&#123;&#125;</span><br><span class="line">   huiyi.SetFileName(<span class="string">&quot;会议&quot;</span>)</span><br><span class="line"></span><br><span class="line">   chenhui := FileNode&#123;&#125;</span><br><span class="line">   chenhui.SetFileName(<span class="string">&quot;晨会.md&quot;</span>)</span><br><span class="line"></span><br><span class="line">   zhouhui := FileNode&#123;&#125;</span><br><span class="line">   zhouhui.SetFileName(<span class="string">&quot;周会.md&quot;</span>)</span><br><span class="line">   <span class="comment">//组装</span></span><br><span class="line">   biji.Add(&amp;huiyi)</span><br><span class="line">   huiyi.Add(&amp;chenhui)</span><br><span class="line">   huiyi.Add(&amp;zhouhui)</span><br><span class="line">   <span class="comment">//显示</span></span><br><span class="line">   biji.Display(Separator)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示：</p>
+<p>➜  myproject go run main.go</p>
+<p>–笔记</p>
+<p>—-会议</p>
+<p>——晨会.md   文件内容为：Hello，world</p>
+<p>——周会.md   文件内容为：Hello，world</p>
+<p>文件类和目录类都实现了FileSystemNode接口，所以目录类管理文件类如同管理自己一样。两者都组合了FileCommonFunc类，可以复用相同功能。最后就是两者可以独立变化，如目录类有Add功能，但文件类没有。</p>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h2><p>组合模式是对指定场景有用，所以大家能不能用到，完全看运气。这个设计模式满足单一职责原则、开闭原则、里氏替换原则。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:38:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:08:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/06/20/%E5%AF%B9%E8%BF%87%E5%8E%BB%E7%9A%84%E4%B8%80%E7%82%B9%E5%9B%9E%E9%A1%BE/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">对过去的一点回顾</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/" class="archive-article-date">
-  	<time datetime="2020-04-04T07:55:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">52周记忆魔法实战手册</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-03-29T13:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">GoLand破解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/" class="archive-article-date">
-  	<time datetime="2020-03-15T15:57:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/">敏捷革命</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/" class="archive-article-date">
-  	<time datetime="2020-03-08T14:52:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/">论语</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-03-01T08:50:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在旧项目中使用gomod</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/23/%E7%83%AD%E9%A3%8E/" class="archive-article-date">
-  	<time datetime="2020-02-22T16:22:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/23/%E7%83%AD%E9%A3%8E/">热风</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/" class="archive-article-date">
-  	<time datetime="2020-02-16T14:02:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/">简单的逻辑学</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-02-16T03:59:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/">Gin框架简洁版</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/10/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="page-number" href="/archives/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/archives/page/12/">12</a><a class="extend next" rel="next" href="/archives/page/12/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +353,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
