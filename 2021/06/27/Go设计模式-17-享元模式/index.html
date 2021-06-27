@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2021 | Jason Pang</title>
+  <title>Go设计模式(17)-享元模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/2021/page/3/index.html">
+  <meta name="description" content="享元模式主要是为了复用对象，节省内存。使用享元模式需要有两个前提：  享元对象不可变：当享元模式创建出来后，它的变量和属性不会被修改 系统中存在大量重复对象：这些重复对象可以使用同一个享元，内存中只存在一份，这样会节省大量空间。当然这也是为什么享元对象不可变的原因，因为有很多引用，变更的话会引起很多问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(17)-享元模式">
+<meta property="og:url" content="http://yoursite.com/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="享元模式主要是为了复用对象，节省内存。使用享元模式需要有两个前提：  享元对象不可变：当享元模式创建出来后，它的变量和属性不会被修改 系统中存在大量重复对象：这些重复对象可以使用同一个享元，内存中只存在一份，这样会节省大量空间。当然这也是为什么享元对象不可变的原因，因为有很多引用，变更的话会引起很多问题。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/image-20210617133111141.png">
+<meta property="og:image" content="http://yoursite.com/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/cheese.jpeg">
+<meta property="article:published_time" content="2021-06-27T06:51:05.000Z">
+<meta property="article:modified_time" content="2021-06-27T06:52:22.992Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/image-20210617133111141.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +171,170 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-17-享元模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(17)-享元模式
+    </h1>
+  
+
+        
+        <a href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-06-27T06:51:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-27</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>享元模式主要是为了复用对象，节省内存。使用享元模式需要有两个前提：</p>
+<ol>
+<li>享元对象不可变：当享元模式创建出来后，它的变量和属性不会被修改</li>
+<li>系统中存在大量重复对象：这些重复对象可以使用同一个享元，内存中只存在一份，这样会节省大量空间。当然这也是为什么享元对象不可变的原因，因为有很多引用，变更的话会引起很多问题。<span id="more"></span>
+UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/diagraming/609b375407912943913a4c13">https://www.processon.com/diagraming/609b375407912943913a4c13</a></li>
+</ol>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/17flyweight.go">https://github.com/shidawuhen/asap/blob/master/controller/design/17flyweight.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1享元模式"><a href="#1-1享元模式" class="headerlink" title="1.1享元模式"></a>1.1享元模式</h3><p><strong>享元模式</strong>：运用共享技术有效的支持大量细粒度的对象。</p>
+<p><strong>UML</strong>：</p>
+<p><img src="./image-20210617133111141.png" alt="image-20210617133111141"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p><strong>享元模式主要是把系统中共同的、不变的对象抽象出来，达到共用一份的效果</strong>。</p>
+<p>抽象出的对象接口为Flyweight，ConcreteFlyweight为实际被共享的对象。UnsharedConcreteFlyweight是否存在，主要看是否有对象是无需共享的。</p>
+<p>享元模式里有工厂FlyweightFactory，主要是因为系统中需要的享元结构虽然确定了，但是享元的属性不同，所以需要管理多个对象，此处使用了工厂模式。关于工厂模式可以参看这篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8-_OoSJ9sZu_zmQhp6t2fQ">Go设计模式(7)-工厂模式</a>。</p>
+<h2 id="2-使用场景"><a href="#2-使用场景" class="headerlink" title="2.使用场景"></a>2.使用场景</h2><p>享元模式还是有很多具体使用场景的，如很多联网类棋牌游戏。假设有100w场象棋游戏在同时进行，不使用享元模式的话，系统需要维护32*100w个象棋对象。但象棋的文案、颜色、规则是不变的，变的只是持有人和位置。所以将32个象棋对象抽象出来，当做享元，可以极大的节省空间，而且不会带来成本提升。</p>
+<p><img src="./cheese.jpeg" alt="cheese"></p>
+<p><strong>享元模式与其说是一种设计模式，不如说是一种设计理念，主要讲的是抽象的能力，将相同模块提取出来，供不同模块使用</strong>。从这个维度来说，代码重构中提取相同功能、单例模式等，何尝不是另一种享元。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><p>写一下象棋游戏中对于象棋的管理吧。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 棋子类，有文案、颜色、规则，这三种不变属性</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Piece <span class="keyword">struct</span> &#123;</span><br><span class="line">   text  <span class="keyword">string</span></span><br><span class="line">   color <span class="keyword">string</span></span><br><span class="line">   rule  <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 棋子信息说明</span></span><br><span class="line"><span class="comment"> * @receiver p</span></span><br><span class="line"><span class="comment"> * @return string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Piece)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%s,颜色为%s,规则为%s&quot;</span>, p.text, p.color, p.rule)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 棋子在棋盘位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Pos <span class="keyword">struct</span> &#123;</span><br><span class="line">   x <span class="keyword">int64</span></span><br><span class="line">   y <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 游戏中的棋子</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> GamePiece <span class="keyword">struct</span> &#123;</span><br><span class="line">   piece   *Piece <span class="comment">//棋子指针</span></span><br><span class="line">   pos     Pos    <span class="comment">//棋子位置</span></span><br><span class="line">   ownerId <span class="keyword">int64</span>  <span class="comment">//玩家ID</span></span><br><span class="line">   roomId  <span class="keyword">int64</span>  <span class="comment">//房间ID</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 游戏中的棋子说明</span></span><br><span class="line"><span class="comment"> * @receiver g</span></span><br><span class="line"><span class="comment"> * @return string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *GamePiece)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%s位置为(%d,%d)&quot;</span>, g.piece, g.pos.x, g.pos.y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 棋子工厂，包含32颗棋子信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> PieceFactory <span class="keyword">struct</span> &#123;</span><br><span class="line">   pieces []*Piece</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 创建棋子。棋子的信息都是不变的</span></span><br><span class="line"><span class="comment"> * @receiver f</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *PieceFactory)</span> <span class="title">CreatePieces</span><span class="params">()</span></span> &#123;</span><br><span class="line">   f.pieces = <span class="built_in">make</span>([]*Piece, <span class="number">32</span>)</span><br><span class="line">   f.pieces[<span class="number">0</span>] = &amp;Piece&#123;</span><br><span class="line">      text:  <span class="string">&quot;兵&quot;</span>,</span><br><span class="line">      color: <span class="string">&quot;红&quot;</span>,</span><br><span class="line">      rule:  <span class="string">&quot;过河前只能一步一步前进，过河后只能一步一步前进或者左右移&quot;</span>,</span><br><span class="line">   &#125;</span><br><span class="line">   f.pieces[<span class="number">1</span>] = &amp;Piece&#123;</span><br><span class="line">      text:  <span class="string">&quot;兵&quot;</span>,</span><br><span class="line">      color: <span class="string">&quot;黑&quot;</span>,</span><br><span class="line">      rule:  <span class="string">&quot;过河前只能一步一步前进，过河后只能一步一步前进或者左右移&quot;</span>,</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//todo 创建其它棋子。此处可以使用配置文件创建，能方便一些。系统中可以设置一个规则引擎，控制棋子运动。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获取棋子信息</span></span><br><span class="line"><span class="comment"> * @receiver f</span></span><br><span class="line"><span class="comment"> * @param id</span></span><br><span class="line"><span class="comment"> * @return *Piece</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *PieceFactory)</span> <span class="title">GetPiece</span><span class="params">(id <span class="keyword">int64</span>)</span> *<span class="title">Piece</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> f.pieces[id]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 初始化棋盘</span></span><br><span class="line"><span class="comment"> * @param roomId</span></span><br><span class="line"><span class="comment"> * @param u1</span></span><br><span class="line"><span class="comment"> * @param u2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitBoard</span><span class="params">(roomId <span class="keyword">int64</span>, u1 <span class="keyword">int64</span>, u2 <span class="keyword">int64</span>, factory *PieceFactory)</span></span> &#123;</span><br><span class="line">   fmt.Printf(<span class="string">&quot;创建房间%d,玩家为%d和%d \n&quot;</span>, roomId, u1, u2)</span><br><span class="line">   fmt.Println(<span class="string">&quot;初始化棋盘&quot;</span>)</span><br><span class="line"></span><br><span class="line">   fmt.Printf(<span class="string">&quot;玩家%d的棋子为 \n&quot;</span>, u1)</span><br><span class="line">   piece := &amp;GamePiece&#123;</span><br><span class="line">      piece:   factory.GetPiece(<span class="number">0</span>),</span><br><span class="line">      pos:     Pos&#123;<span class="number">1</span>, <span class="number">1</span>&#125;,</span><br><span class="line">      roomId:  roomId,</span><br><span class="line">      ownerId: u1,</span><br><span class="line">   &#125;</span><br><span class="line">   fmt.Println(piece)</span><br><span class="line"></span><br><span class="line">   fmt.Printf(<span class="string">&quot;玩家%d的棋子为 \n&quot;</span>, u2)</span><br><span class="line">   piece2 := &amp;GamePiece&#123;</span><br><span class="line">      piece:   factory.GetPiece(<span class="number">1</span>),</span><br><span class="line">      pos:     Pos&#123;<span class="number">16</span>, <span class="number">1</span>&#125;,</span><br><span class="line">      roomId:  roomId,</span><br><span class="line">      ownerId: u2,</span><br><span class="line">   &#125;</span><br><span class="line">   fmt.Println(piece2)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   factory := &amp;PieceFactory&#123;&#125;</span><br><span class="line">   factory.CreatePieces()</span><br><span class="line">   InitBoard(<span class="number">1</span>, <span class="number">66</span>, <span class="number">88</span>, factory)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>创建房间1,玩家为66和88</p>
+<p>初始化棋盘</p>
+<p>玩家66的棋子为</p>
+<p>兵,颜色为红,规则为过河前只能一步一步前进，过河后只能一步一步前进或者左右移位置为(1,1)</p>
+<p>玩家88的棋子为</p>
+<p>兵,颜色为黑,规则为过河前只能一步一步前进，过河后只能一步一步前进或者左右移位置为(16,1)</p>
+<h2 id="3总结"><a href="#3总结" class="headerlink" title="3总结"></a>3总结</h2><p>享元模式充分说明了抽象的重要性，希望大家能够善用这种模式，优化系统。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/" class="archive-article-date">
-  	<time datetime="2021-04-27T14:43:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/">Go设计模式(8)-抽象工厂</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-04-26T05:09:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-18-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Go设计模式(18)-观察者模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go设计模式(16)-组合模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Go设计模式(7)-工厂模式</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" class="archive-article-date">
-  	<time datetime="2021-04-23T02:05:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">GoLand实用技巧</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-04-22T05:18:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Go设计模式(6)-单例模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/" class="archive-article-date">
-  	<time datetime="2021-04-16T01:15:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/">设计模式之美</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/" class="archive-article-date">
-  	<time datetime="2021-03-30T15:21:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/">根据mysql表结构自动生成go struct</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-03-28T13:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/">Go设计模式(5)-类图符号表示法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:49:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/">为动员一切力量争取抗战胜利而斗争</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:48:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/">Go工具之generate</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-03-15T01:19:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">Go单例实现方案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2021/page/2/">« Prev</a><a class="page-number" href="/archives/2021/">1</a><a class="page-number" href="/archives/2021/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/2021/page/4/">4</a><a class="page-number" href="/archives/2021/page/5/">5</a><a class="extend next" rel="next" href="/archives/2021/page/4/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +358,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
