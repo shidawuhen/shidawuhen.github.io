@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2021 | Jason Pang</title>
+  <title>关于队列的小知识 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/2021/page/5/index.html">
+  <meta name="description" content="简介队列是常用的数据结构之一，是一种先入先出（First Input First Output）的结构。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于队列的小知识">
+<meta property="og:url" content="http://yoursite.com/2021/07/05/%E5%85%B3%E4%BA%8E%E9%98%9F%E5%88%97%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="简介队列是常用的数据结构之一，是一种先入先出（First Input First Output）的结构。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-05T02:12:56.000Z">
+<meta property="article:modified_time" content="2021-07-05T02:14:51.605Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
   
@@ -164,214 +168,169 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-关于队列的小知识" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于队列的小知识
+    </h1>
+  
+
+        
+        <a href="/2021/07/05/%E5%85%B3%E4%BA%8E%E9%98%9F%E5%88%97%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86/" class="archive-article-date">
+  	<time datetime="2021-07-05T02:12:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-05</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>队列是常用的数据结构之一，是一种先入先出（First Input First Output）的结构。</p>
+<span id="more"></span>
+<p>队列是一种特殊的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BA%BF%E6%80%A7%E8%A1%A8">线性表</a>，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。队列中没有元素时，称为空队列。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>队列一般用于生产者-消费者模式。队列有阻塞队列和非阻塞队列，两者区别为当队列是空的时，从队列中获取元素的操作将会被阻塞，或者当队列是满时，往队列里添加元素的操作会被阻塞。这两者都能用于生产者-消费者模式，但是在选择上有细微区别。</p>
+<p>1.阻塞队列</p>
+<ul>
+<li>供小于求的情况使用阻塞队列更加合适。如果不使用阻塞队列，则会不断轮询，耗费资源。为防止消费进程长时间等待，可以设置超时时间来解决这个问题。</li>
+<li>阻塞队列为有界队列，能够设置队列长度</li>
+</ul>
+<p>2.非阻塞队列</p>
+<ul>
+<li>非阻塞队列性能更高</li>
+<li>对于实时性不那么高的场景，生产者不断生产，消费者定时消费</li>
+<li>非阻塞队列为无界队列</li>
+</ul>
+<p>项目中自己写阻塞队列的情况比较少，一般消费MQ的时候会自动阻塞，超过一定时间没有消息会自动断开链接。</p>
+<p>非阻塞队列在商品收藏功能上用过。因为商品收藏功能QPS相对高，而且会直接操作DB，导致服务不稳定。收藏业务不需要特别实时，点击收藏按钮后按钮变红，用户查看收藏列表能查看到收藏的商品，很少有人点击收藏后立即查看收藏列表。所以使用Redis的队列存储收藏请求，起定时脚本每分钟定时进行消费。</p>
+<h2 id="线程安全的并发队列"><a href="#线程安全的并发队列" class="headerlink" title="线程安全的并发队列"></a>线程安全的并发队列</h2><p>队列使用起来方便，但在实际生产中，需要考虑并发情况下，线程安全问题。</p>
+<p>对于Java来说，本身提供了线程安全的并发队列：</p>
+<ul>
+<li>非阻塞队列：ConcurrentLinkedQueue(无界线程安全)，采用CAS机制（compareAndSwapObject原子操作）。对于CAS机制，建议看<a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxiao723846/article/details/88382520">线程安全的并发队列</a>，讲解的十分详细，而且能够感受到算法的精妙。</li>
+<li>阻塞队列：ArrayBlockingQueue(有界)、LinkedBlockingQueue（无界）、DelayQueue、PriorityBlockingQueue，采用锁机制；使用 ReentrantLock 锁。对于ReentrantLock，建议看<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhengzhaoyang122/article/details/110847701">ReentrantLock 锁详解</a>，里面包含大量细节。</li>
+</ul>
+<p>对于Go来说，有双向链表list，可以实现队列的功能，但该结构并不是线程安全的，如果想并发使用，需要使用sync保证线程安全。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>重新看一下基础知识挺有意思的，总能发现很多新的知识点，也能将以前用过的知识归纳总结，还能提供一些新的写作思路。写这篇博客的时候，发现锁可是太有意思了，所以下一篇博客我打算写一下Go语言里的锁，欢迎大家到时候观看。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://www.voidcn.com/article/p-owauxhnf-bkg.html">阻塞队列与非阻塞队列区别应用场景</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/ask/65831?spm=a2c6h.13159736">阻塞队列的使用场景？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/54690219">简单，高效，实用的非阻塞(无锁)和阻塞并行队列算法</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/LuvFeral/article/details/110123812">阻塞队列与非阻塞队列的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fe027772e156">[怀旧并发06]分析ReentrantLock的实现原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/YuZhiHui_No1/article/details/38567399">什么是可重入</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxiao723846/article/details/88382520">线程安全的并发队列</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dongguacai/p/6003078.html">CAS无锁算法与ConcurrentLinkedQueue</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhengzhaoyang122/article/details/110847701">ReentrantLock 锁详解</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T12:13:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">HTTP2基础教程</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/07/05/%E5%85%B3%E4%BA%8E%E9%98%9F%E5%88%97%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/" class="archive-article-date">
-  	<time datetime="2021-02-01T12:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-01</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-19-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go设计模式(19)-模板模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/">Go设计模式(1)-语法</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-01-27T16:54:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/">服务端团队假期值班方案</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/23/%E5%8E%9F%E5%88%99/" class="archive-article-date">
-  	<time datetime="2021-01-23T14:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/23/%E5%8E%9F%E5%88%99/">原则</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" class="archive-article-date">
-  	<time datetime="2021-01-17T15:36:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">MySQL开发规范</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/" class="archive-article-date">
-  	<time datetime="2021-01-17T08:33:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/">HTTPS配置实战</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2021-01-13T09:57:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">2020博客总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2021/page/4/">« Prev</a><a class="page-number" href="/archives/2021/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2021/page/3/">3</a><a class="page-number" href="/archives/2021/page/4/">4</a><span class="page-number current">5</span>
-    </nav>
   
 
 
@@ -395,8 +354,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
