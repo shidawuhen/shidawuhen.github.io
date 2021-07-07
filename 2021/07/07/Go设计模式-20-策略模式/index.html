@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go设计模式(20)-策略模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="策略模式可能是很多同学学习到的第一种模式。这个模式确实适合作为开篇模式来讲，主要原因在于该模式简单、纯粹、没有太多技巧，但是很好的表达出了设计模式的理念，让读者能够直观的感受到设计模式带来的好处。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(20)-策略模式">
+<meta property="og:url" content="http://yoursite.com/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="策略模式可能是很多同学学习到的第一种模式。这个模式确实适合作为开篇模式来讲，主要原因在于该模式简单、纯粹、没有太多技巧，但是很好的表达出了设计模式的理念，让读者能够直观的感受到设计模式带来的好处。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/image-20210705133010596.png">
+<meta property="article:published_time" content="2021-07-07T05:32:03.000Z">
+<meta property="article:modified_time" content="2021-07-07T05:32:30.625Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/image-20210705133010596.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +170,156 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="pages-Go设计模式-20-策略模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(20)-策略模式
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+
+        
+        <a href="/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
   	<time datetime="2021-07-07T05:32:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-07</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">Go设计模式(20)-策略模式</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>策略模式可能是很多同学学习到的第一种模式。这个模式确实适合作为开篇模式来讲，主要原因在于该模式简单、纯粹、没有太多技巧，但是很好的表达出了设计模式的理念，让读者能够直观的感受到设计模式带来的好处。</p>
+<span id="more"></span>
+<p>策略模式核心在于利用多态性，这是目前主流的面向对象语言都支持的功能。</p>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/20strategy.go">https://github.com/shidawuhen/asap/blob/master/controller/design/20strategy.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1策略模式"><a href="#1-1策略模式" class="headerlink" title="1.1策略模式"></a>1.1策略模式</h3><p><strong>策略模式</strong>：它定义了算法家族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化，不会影响到使用算法的客户。</p>
+<p><strong>UML</strong>：<img src="./image-20210705133010596.png" alt="image-20210705133010596"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>单看策略模式，主要利用多态性。但策略模式往往不单独使用，它会和<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8-_OoSJ9sZu_zmQhp6t2fQ">Go设计模式(7)-工厂模式</a>配合使用。此时策略模式便可解耦策略的定义、创建、使用。</p>
+<p>策略模式加工厂模式，能够达到去除if-else和switch的效果，主要靠工厂模式加持，借助于“查表法”找到指定策略进行使用。</p>
+<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2.应用场景"></a>2.应用场景</h2><p>策略模式的应用场景还是蛮广泛的，处理同一类问题如果有多种算法，就可以使用策略模式。如根据不同活动计算优惠价格、根据商品不同类型计算税率等。</p>
+<p>最近有一个实际业务场景可以使用策略模式，计算跨境商品税费。</p>
+<p>跨境商品的税费和两方面有关，一是商品是否含税，二是商品类型，不同类型对应税率不一样，如常规商品和酒类商品税率不一样、税的计算方式也不一样。</p>
+<p>所以只要知道商品是否含税、商品类型就能找到对应的计算方案。如果我们使用if-else来写，会不优雅，因为商品类型比较多，而且计算逻辑也相对复杂，所以我们可以利用查表法进行优化。</p>
+<p>税费计算接口被交易侧调用，交易调用的时候会传商品是否含税，商品类型由项目组自行维护。那我们来看一下具体实现。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">   Common = <span class="string">&quot;COMMON&quot;</span></span><br><span class="line">   Win    = <span class="string">&quot;WIN&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 根据hscode获取商品类型</span></span><br><span class="line"><span class="comment"> * @param hscode</span></span><br><span class="line"><span class="comment"> * @return string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getProductType</span><span class="params">(hscode <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> hscode == <span class="string">&quot;11&quot;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> Common</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> Win</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 税费计算函数，金额都为分</span></span><br><span class="line"><span class="comment"> * @param price</span></span><br><span class="line"><span class="comment"> * @param qty</span></span><br><span class="line"><span class="comment"> * @return taxPrice</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> TaxComputeFunc <span class="function"><span class="keyword">func</span><span class="params">(price <span class="keyword">int64</span>, qty <span class="keyword">int64</span>)</span> <span class="params">(taxPrice <span class="keyword">int64</span>)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 税费计算策略存储处</span></span><br><span class="line"><span class="comment">   0为不含税 1为含税</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">var</span> TaxComputeFuncMap = <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">map</span>[<span class="keyword">string</span>]TaxComputeFunc&#123;</span><br><span class="line">   <span class="number">0</span>: <span class="keyword">map</span>[<span class="keyword">string</span>]TaxComputeFunc&#123;</span><br><span class="line">      Common: common,</span><br><span class="line">      Win:    win,</span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="number">1</span>: <span class="keyword">map</span>[<span class="keyword">string</span>]TaxComputeFunc&#123;</span><br><span class="line">      Common: common,</span><br><span class="line">      Win:    win,</span><br><span class="line">   &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 计算普通商品税费</span></span><br><span class="line"><span class="comment"> * @param price</span></span><br><span class="line"><span class="comment"> * @param qty</span></span><br><span class="line"><span class="comment"> * @return taxPrice</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">common</span><span class="params">(price <span class="keyword">int64</span>, qty <span class="keyword">int64</span>)</span> <span class="params">(taxPrice <span class="keyword">int64</span>)</span></span> &#123;</span><br><span class="line">   radio := <span class="number">0.1</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;计算普通商品税费&quot;</span>)</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">int64</span>(<span class="keyword">float64</span>(price*qty) * radio)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 计算酒类税费</span></span><br><span class="line"><span class="comment"> * @param price</span></span><br><span class="line"><span class="comment"> * @param qty</span></span><br><span class="line"><span class="comment"> * @return taxPrice</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">win</span><span class="params">(price <span class="keyword">int64</span>, qty <span class="keyword">int64</span>)</span> <span class="params">(taxPrice <span class="keyword">int64</span>)</span></span> &#123;</span><br><span class="line">   radio := <span class="number">0.2</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;计算普酒类税费&quot;</span>)</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">int64</span>(<span class="keyword">float64</span>(price*qty) * radio)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 计算税费</span></span><br><span class="line"><span class="comment"> * @param withTax</span></span><br><span class="line"><span class="comment"> * @param productType</span></span><br><span class="line"><span class="comment"> * @param price</span></span><br><span class="line"><span class="comment"> * @param qty</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ComputeTaxPrice</span><span class="params">(withTax <span class="keyword">int</span>, productType <span class="keyword">string</span>, price <span class="keyword">int64</span>, qty <span class="keyword">int64</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> taxFunc, ok := TaxComputeFuncMap[withTax][productType]; ok &#123;</span><br><span class="line">      taxPrice := taxFunc(price, qty)</span><br><span class="line">      fmt.Println(<span class="string">&quot;税费为&quot;</span>, taxPrice)</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      fmt.Println(<span class="string">&quot;输入有误，无法计算&quot;</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">//获取商品是否含税、商品价格、商品数量、商品类型</span></span><br><span class="line">   withTax := <span class="number">0</span></span><br><span class="line">   <span class="keyword">var</span> price, qty <span class="keyword">int64</span> = <span class="number">10000</span>, <span class="number">3</span></span><br><span class="line">   productType := getProductType(<span class="string">&quot;11&quot;</span>)</span><br><span class="line">   <span class="comment">//计算税费</span></span><br><span class="line">   ComputeTaxPrice(withTax, productType, price, qty)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>计算普通商品税费</p>
+<p>税费为 3000</p>
+<p>这么写有哪些好处呢？首先代码很精简，没有一堆判断；其次无论是增加策略还是修改策略，都不会影响主框架，即main\ComputeTaxPrice，只需在TaxComputeFuncMap添加新的策略即可，很好的做到了对扩展开放，虽然对TaxComputeFuncMap有一定更改，但变动不大，能够接受。</p>
+<p>如果大家看过我以前写的<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8i_sPAJ9rqXttmsQRONNDQ">Go设计模式(18)-观察者模式</a>，会感觉两个实现比较像。两者确实比较像，但是有一个核心地方不同，观察者模式是调用所有策略，策略模式准确找到合适的策略进行调用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>策略模式很好的体现了开闭原则，也说明即使是很小的优化设计，也能给项目开发带来巨大的便利。当然，这种便利会在维护的时候得到充分体现，毕竟谁维护谁知道。</p>
 
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/05/%E5%85%B3%E4%BA%8E%E9%98%9F%E5%88%97%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86/" class="archive-article-date">
-  	<time datetime="2021-07-05T02:12:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/05/%E5%85%B3%E4%BA%8E%E9%98%9F%E5%88%97%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于队列的小知识</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/05/%E5%85%B3%E4%BA%8E%E9%98%9F%E5%88%97%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86/">关于队列的小知识</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-19-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-07-01T02:31:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-19-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/">Go设计模式(19)-模板模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-18-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-27T06:51:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-18-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(18)-观察者模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-27T06:51:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">Go设计模式(17)-享元模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-20T05:11:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/">Go设计模式(16)-组合模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/20/%E5%AF%B9%E8%BF%87%E5%8E%BB%E7%9A%84%E4%B8%80%E7%82%B9%E5%9B%9E%E9%A1%BE/" class="archive-article-date">
-  	<time datetime="2021-06-20T05:11:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/20/%E5%AF%B9%E8%BF%87%E5%8E%BB%E7%9A%84%E4%B8%80%E7%82%B9%E5%9B%9E%E9%A1%BE/">对过去的一点回顾</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/20/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2021-06-20T05:11:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/20/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">一文搞懂MySQL数据库分库分表</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/20/%E5%AF%B9%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2021-06-20T05:10:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/20/%E5%AF%B9%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对写博客的一些思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-15-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-12T03:52:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-15-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/">Go设计模式(15)-门面模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/13/">13</a><a class="extend next" rel="next" href="/archives/page/2/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
