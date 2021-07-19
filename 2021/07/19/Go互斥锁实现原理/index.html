@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>Go互斥锁实现原理 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/10/index.html">
+  <meta name="description" content="Go语言中的锁简单易用，本文整理一下锁的实现原理。 Golang中锁有两种，互斥锁Mutex和读写互斥锁RWMutex，互斥锁也叫读锁，读写锁也叫读锁，相互之间的关系为：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go互斥锁实现原理">
+<meta property="og:url" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="Go语言中的锁简单易用，本文整理一下锁的实现原理。 Golang中锁有两种，互斥锁Mutex和读写互斥锁RWMutex，互斥锁也叫读锁，读写锁也叫读锁，相互之间的关系为：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210714001205542.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210716095841564.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210716103121532.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210716134035720.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210716204827210.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/Go%E9%94%81.png">
+<meta property="article:published_time" content="2021-07-19T03:36:03.000Z">
+<meta property="article:modified_time" content="2021-07-19T03:39:05.390Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210714001205542.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,32 +175,165 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-限流实现-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-Go互斥锁实现原理" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/">限流实现1</a>
+    <h1 class="article-title" itemprop="name">
+      Go互斥锁实现原理
     </h1>
   
 
         
-        <a href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/" class="archive-article-date">
-  	<time datetime="2020-07-19T08:08:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
+        <a href="/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2021-07-19T03:36:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在实际业务中，经常会碰到突发流量的情况。如果公司基础架构做的不好，服务无法自动扩容缩容，在突发高流量情况下，服务会因为压力过大而崩溃。更恐怖的是，服务崩溃如同多米诺骨牌，一个服务出问题，可能影响到整个公司所有组的业务。</p>
-        
-          <a class="article-more-a" href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/#more">more >></a>
-        
+        <p>Go语言中的锁简单易用，本文整理一下锁的实现原理。</p>
+<p>Golang中锁有两种，互斥锁Mutex和读写互斥锁RWMutex，互斥锁也叫读锁，读写锁也叫读锁，相互之间的关系为：</p>
+<span id="more"></span>
+<p>1.写锁需要阻塞写锁：一个协程拥有写锁时，其他协程写锁定需要阻塞</p>
+<p>2.写锁需要阻塞读锁：一个协程拥有写锁时，其他协程读锁定需要阻塞</p>
+<p>3.读锁需要阻塞写锁：一个协程拥有读锁时，其他协程写锁定需要阻塞</p>
+<p>4.读锁不能阻塞读锁：一个协程拥有读锁时，其他协程也可以拥有读锁</p>
+<h2 id="1-使用"><a href="#1-使用" class="headerlink" title="1.使用"></a>1.使用</h2><p>互斥锁和读写锁在使用上没有很大区别</p>
+<ul>
+<li>互斥锁使用Lock()进行加锁，使用Unlock()进行解锁</li>
+<li>读写锁使用RLock()加读锁，使用RUnlock()进行解读锁；使用Lock()加写锁，使用Unlock解写锁，和互斥锁功能一致；</li>
+</ul>
+<p><strong>但两者使用场景不同</strong>：</p>
+<ul>
+<li>互斥锁会将操作串行化，可以保证操作完全有序，适合资源只能由一个协程进行操作的情况，并发能力弱；</li>
+<li>读写锁适合读多写少的情况，并发能有比较强。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">   <span class="string">&quot;sync&quot;</span></span><br><span class="line">   <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 测试互斥锁</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testMutex</span><span class="params">()</span></span> &#123;</span><br><span class="line">   count := <span class="number">0</span></span><br><span class="line">   <span class="keyword">var</span> l sync.Mutex</span><br><span class="line">   <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">      <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">         l.Lock()</span><br><span class="line">         <span class="keyword">defer</span> l.Unlock()</span><br><span class="line">         fmt.Println(<span class="string">&quot;---------互斥锁&quot;</span>, count)</span><br><span class="line">         count++</span><br><span class="line">      &#125;()</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 测试读写锁</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testRWMutex</span><span class="params">()</span></span> &#123;</span><br><span class="line">   count := <span class="number">0</span></span><br><span class="line">   <span class="keyword">var</span> l sync.RWMutex</span><br><span class="line">   <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">      <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">         l.RLock()</span><br><span class="line">         <span class="keyword">defer</span> l.RUnlock()</span><br><span class="line">         fmt.Println(<span class="string">&quot;---------读写互斥锁&quot;</span>, count)</span><br><span class="line">         count++</span><br><span class="line">      &#125;()</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   testMutex()</span><br><span class="line">   testRWMutex()</span><br><span class="line">   time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<img src="./image-20210714001205542.png" alt="image-20210714001205542" style="zoom:50%;" />
+
+<p>可以看出使用互斥锁后，count值是顺序增加的，而使用读写互斥锁，数据则是无序的。</p>
+<h2 id="2-基础知识"><a href="#2-基础知识" class="headerlink" title="2.基础知识"></a>2.基础知识</h2><p>讲锁的具体实现原理之前，需要先复习几个基础知识：进程同步、信号量和自旋。</p>
+<h3 id="2-1进程同步"><a href="#2-1进程同步" class="headerlink" title="2.1进程同步"></a>2.1进程同步</h3><p><strong>进程同步本质上是靠控制对临界区的访问权限实现的。</strong></p>
+<p>1.临界资源：<strong>把在一段时间内只允许一个进程访问的资源称为临界资源或独占资源</strong>。计算机系统中的大多数物理设备，以及某些软件中所用的栈、变量和表格，都属于临界资源， 它们要求被互斥地共享</p>
+<p>2.临界区：在每个进程中访问临界资源的那段<strong>代码</strong>称为临界区(critical section)。若能保证诸进程互斥地进入自己的临界区，便可实现诸进程对临界资源的互斥访问。</p>
+   <img src="./image-20210716095841564.png" alt="image-20210716095841564" style="zoom:50%;" />
+
+<ul>
+<li><p>进入区(entry section)：如果此刻该临界资源未被访问，进程便可进入临界区对该资源进行访问，并设置它正被访问的标志；如果此刻该临界资源正被某进程访问，则本进程不能进入临界区。</p>
+</li>
+<li><p>退出区(exit section)：用于将临界区正被访问的标志恢复为未被访问的标志。</p>
+</li>
+</ul>
+<p>3.同步机制规则</p>
+<p>   (1) 空闲让进。当无进程处于临界区时，表明临界资源处于空闲状态，应允许一个请求进入临界区的进程立即进入自己的临界区，以有效地利用临界资源。</p>
+<p>   (2) 忙则等待。当已有进程进入临界区时，表明临界资源正在被访问，因而其它试图进 入临界区的进程必须等待，以保证对临界资源的互斥访问。</p>
+<p>   (3) 有限等待。对要求访问临界资源的进程，应保证在有限时间内能进入自己的临界区， 以免陷入“死等”状态。</p>
+<p>   (4) 让权等待。当进程不能进入自己的临界区时，应立即释放处理机，以免进程陷入“忙等”状态。</p>
+<p>这个规则和现实一致：如果有空闲我就可以用吧（空闲让进）；如果不空闲，为了有序我可以等待（忙则等待）；我等待的时候没别的事情可以做，那可以去一边休息吧（让权等待）；你们不能让我老等着吧（有限等待）；</p>
+<h3 id="2-2信号量"><a href="#2-2信号量" class="headerlink" title="2.2信号量"></a>2.2信号量</h3><p>1965 年，荷兰学者 Dijkstra 提出的信号量(Semaphores)机制是一种卓有成效的<strong>进程同步</strong>工具。Dijkstra，YYDS。</p>
+<h4 id="2-2-1类型"><a href="#2-2-1类型" class="headerlink" title="2.2.1类型"></a>2.2.1类型</h4><p>信号量现在已发展为如下四种类型：</p>
+<ol>
+<li>整型信号量</li>
+<li>记录型信号量</li>
+<li>AND型信号量</li>
+<li>信号量集</li>
+</ol>
+<p>虽然信号量有不同类型，但核心是对：一个用于表示资源数目的整型量 S，仅能通过两个标准的<strong>原子操作</strong>(Atomic Operation) wait(S)和 signal(S)来访问。wait用于将S值变小，signal用于将S值增加，伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wait(S)： while S&lt;&#x3D;0 do no-op；</span><br><span class="line">				  S:&#x3D;S-1； </span><br><span class="line"></span><br><span class="line">signal(S)： S:&#x3D;S+1；</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-2应用"><a href="#2-2-2应用" class="headerlink" title="2.2.2应用"></a>2.2.2应用</h4><p>1.利用信号量实现进程互斥</p>
+<p>   为使多个进程能互斥地访问某临界资源，只须为该资源设置一互斥信号量 mutex，并设其初始值为 1，然后将各进程<strong>访问该资源的临界区(critical section)置于 wait(mutex)和 signal(mutex)操作之间</strong>即可。</p>
+<p>2.利用信号量实现前驱关系</p>
+<p>   设有两个并发执行的进程 P1 和 P2。 P1 中有语句 S1；P2 中有语句 S2。我们希望在 S1 执行后再执行 S2。为实现这种前趋关系，我们只须使进程 P1 和 P2 共享一个公用信号量 S，并赋予其初值为 0，将 signal(S)操作放在语句 S1 后面；而在 S2 语句前面插入 wait(S)操作，即</p>
+<p>   在进程 P1 中，用 S1；signal(S)；</p>
+<p>   在进程 P2 中，用 wait(S)；S2；</p>
+<img src="./image-20210716103121532.png" alt="image-20210716103121532" style="zoom:50%;" />
+
+
+
+<h3 id="2-3自旋"><a href="#2-3自旋" class="headerlink" title="2.3自旋"></a>2.3自旋</h3><p>同步机制规则里有让权等待，自旋其实就是说在进程不能进入自己的临界区时是如何处理的。</p>
+<h4 id="2-3-1定义"><a href="#2-3-1定义" class="headerlink" title="2.3.1定义"></a>2.3.1定义</h4><p>加锁时，如果发现该锁当前由其他协程持有，尝试加锁的协程并不是马上转入阻塞，而是会持续的探测锁是否被释放，这个过程即为<strong>自旋过程</strong>。 自旋时间很短，但如果在自旋过程中发现锁已被释放，那么协程可以立即获取锁。</p>
+<h4 id="2-3-2过程"><a href="#2-3-2过程" class="headerlink" title="2.3.2过程"></a>2.3.2过程</h4><p>自旋过程为先检查是否可以加锁，如果不可以，执行CPU PAUSE指令，CPU对该指令什么都不做，一般为30个时钟周期。PAUSE执行后，再检查是否可以加锁，循环往复。</p>
+<p>在这个过程中，进程仍然是执行状态，不是睡眠状态。</p>
+<p><img src="./image-20210716134035720.png" alt="image-20210716134035720"></p>
+<h4 id="2-3-3优势"><a href="#2-3-3优势" class="headerlink" title="2.3.3优势"></a>2.3.3优势</h4><p><strong>自旋主要为了更加高效，减少损耗。</strong>自旋的优势是更充分的利用CPU，尽量避免协程切换。因为当前申请加锁的协程拥有CPU，如果经过短时间的自旋可以获得锁，当前协程可以继续运行，不必进入阻塞状态。</p>
+<h4 id="2-3-4条件"><a href="#2-3-4条件" class="headerlink" title="2.3.4条件"></a>2.3.4条件</h4><p>自旋不能随便使用，否则不但发挥不了优势，还会带来更多损耗，举个简单的例子：如果自旋次数不限制，而获得锁的进程很长时间后才释放锁，则自旋的进程这段时间CPU完全浪费了。</p>
+<p>所以使用自旋，一定要满足一下条件：</p>
+<ul>
+<li><p>自旋次数要足够小，通常为4，即自旋最多4次</p>
+</li>
+<li><p>CPU核数要大于1，否则自旋没有意义，因为此时不可能有其他协程释放锁</p>
+</li>
+<li><p>调度机制中的Process数量要大于1，否则自旋没有意义</p>
+</li>
+<li><p>调度机制中的可运行队列必须为空，否则会延迟协程调度，需要把CPU让给更需要的进程</p>
+</li>
+</ul>
+<h4 id="2-3-5问题"><a href="#2-3-5问题" class="headerlink" title="2.3.5问题"></a>2.3.5问题</h4><p>自旋有个特性，无视正在排队等待加锁的进程，在自旋过程中，获取到锁便可加锁，类似于<strong>插队</strong>。</p>
+<p>所以使用自旋会引发问题：极端情况下，很多进程正排队等待加锁，此时有进程刚到，开始自旋加锁，如果成功，该进程便插队成功加锁。如果此时不断有进程自旋加锁，则在排队的进程将长时间无法获取到锁。</p>
+<p>一般解决方案为：锁添加饥饿状态，该状态下不允许自旋。</p>
+<h2 id="3-实现原理"><a href="#3-实现原理" class="headerlink" title="3.实现原理"></a>3.实现原理</h2><h3 id="3-1互斥锁Mutex"><a href="#3-1互斥锁Mutex" class="headerlink" title="3.1互斥锁Mutex"></a>3.1互斥锁Mutex</h3><h4 id="3-1-1-结构体"><a href="#3-1-1-结构体" class="headerlink" title="3.1.1 结构体"></a>3.1.1 结构体</h4><p>Mutex结构体如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A Mutex must not be copied after first use.</span></span><br><span class="line"><span class="comment">// Mutex被使用后，不可以将其复制。(意思是不能复制值，可以做成引用复制)</span></span><br><span class="line"><span class="comment">// 复制容易导致非预期的死锁，https://mozillazg.com/2019/04/notes-about-go-lock-mutex.html#hidcopy</span></span><br><span class="line"><span class="keyword">type</span> Mutex <span class="keyword">struct</span> &#123;</span><br><span class="line">   state <span class="keyword">int32</span></span><br><span class="line">   sema  <span class="keyword">uint32</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>state表示互斥锁的状态，比如是否被锁定等。</p>
+</li>
+<li><p>sema表示信号量，协程阻塞等待该信号量，解锁的协程释放信号量从而唤醒等待信号量的协程。</p>
+</li>
+</ul>
+<p>state是32位的整型变量，内部实现时把该变量分成四份，用于记录Mutex的四种状态。<img src="./image-20210716204827210.png" alt="image-20210716204827210"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">   mutexLocked = <span class="number">1</span> &lt;&lt; <span class="literal">iota</span> <span class="comment">//值1</span></span><br><span class="line">   mutexWoken <span class="comment">//值2 </span></span><br><span class="line">   mutexStarving <span class="comment">//值4</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>Locked: 表示该Mutex是否已被锁定，0：没有锁定 1：已被锁定。</p>
+<p>Woken: 表示是否有协程已被唤醒，0：没有协程唤醒 1：已有协程唤醒，正在加锁过程中。 释放锁时，如果正常模式下，不会再唤醒其它协程。</p>
+<p>Starving：表示该Mutex是否处理饥饿状态， 0：没有饥饿 1：饥饿状态，说明有协程阻塞了超过1ms。</p>
+<p>Waiter: 表示阻塞等待锁的协程个数，协程解锁时根据此值来判断是否需要释放信号量</p>
+<p><strong>协程之间抢锁实际上是抢给Locked赋值的权利，能给Locked域置1，就说明抢锁成功</strong>。抢不到的话就阻塞等待</p>
+<p>Mutex.sema信号量，一旦持有锁的协程解锁，等待的协程会依次被唤醒。</p>
+<h4 id="3-1-2-互斥公平"><a href="#3-1-2-互斥公平" class="headerlink" title="3.1.2 互斥公平"></a>3.1.2 互斥公平</h4><p>go1.13中，讲述starving、woken、locked是如何使用的，对原文进行翻译</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Mutex fairness.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Mutex can be in 2 modes of operations: normal and starvation.</span></span><br><span class="line"><span class="comment">// In normal mode waiters are queued in FIFO order, but a woken up waiter</span></span><br><span class="line"><span class="comment">// does not own the mutex and competes with new arriving goroutines over</span></span><br><span class="line"><span class="comment">// the ownership. New arriving goroutines have an advantage -- they are</span></span><br><span class="line"><span class="comment">// already running on CPU and there can be lots of them, so a woken up</span></span><br><span class="line"><span class="comment">// waiter has good chances of losing. In such case it is queued at front</span></span><br><span class="line"><span class="comment">// of the wait queue. If a waiter fails to acquire the mutex for more than 1ms,</span></span><br><span class="line"><span class="comment">// it switches mutex to the starvation mode.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// In starvation mode ownership of the mutex is directly handed off from</span></span><br><span class="line"><span class="comment">// the unlocking goroutine to the waiter at the front of the queue.</span></span><br><span class="line"><span class="comment">// New arriving goroutines don&#x27;t try to acquire the mutex even if it appears</span></span><br><span class="line"><span class="comment">// to be unlocked, and don&#x27;t try to spin. Instead they queue themselves at</span></span><br><span class="line"><span class="comment">// the tail of the wait queue.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// If a waiter receives ownership of the mutex and sees that either</span></span><br><span class="line"><span class="comment">// (1) it is the last waiter in the queue, or (2) it waited for less than 1 ms,</span></span><br><span class="line"><span class="comment">// it switches mutex back to normal operation mode.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Normal mode has considerably better performance as a goroutine can acquire</span></span><br><span class="line"><span class="comment">// a mutex several times in a row even if there are blocked waiters.</span></span><br><span class="line"><span class="comment">// Starvation mode is important to prevent pathological cases of tail latency.</span></span><br></pre></td></tr></table></figure>
+
+<p>互斥量有两种模式：正常模式和饥饿模式。</p>
+<p><strong>正常模式</strong>：正常模式下等待的协程按照先入先出排列，当一个协程被唤醒后并不是直接拥有锁，该协程需要和刚刚到达的协程一起竞争锁的所有权。新到的协程有个优势，那就是它已经在CPU上运行了，而且新到的协程可能有很多，所以被唤醒的协程极有可能抢占不到锁。在这种情况下，被唤醒的协程会被放置于等待队列的队头。如果等待的协程超过1ms内没有获取到锁，将会把锁置为饥饿模式。</p>
+<p><strong>饥饿模式</strong>：在饥饿模式下，解锁的协程会将锁的所有权直接交给等待队列中位于队头的协程。正好解锁的那一刻有新的协程到达，新到达的协程也不会尝试自旋获取锁。相反，他们会将自己置于等待队列的队尾。</p>
+<p>如果等待队列中的协程获取到锁，它会查看</p>
+<p>(1)自己是否是等待队列中最后一个协程</p>
+<p>(2)自己等待的时间是否小于1ms</p>
+<p>如果有任意一个条件满足，将会将锁改为普通模式。</p>
+<p>一般认为普通模式会有更好的性能，因为即使有等待的协程，新的协程可以连续获取到锁。饥饿模式能够防止等待协程长时间获取不到锁。</p>
+<h4 id="3-1-3-Lock"><a href="#3-1-3-Lock" class="headerlink" title="3.1.3 Lock"></a>3.1.3 Lock</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Lock locks m.</span></span><br><span class="line"><span class="comment">// If the lock is already in use, the calling goroutine</span></span><br><span class="line"><span class="comment">// blocks until the mutex is available.</span></span><br><span class="line"><span class="comment">// 如果锁已经被占用了，则将调用Lock的协程阻塞，知道锁被释放</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mutex)</span> <span class="title">Lock</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">// Fast path: grab unlocked mutex.</span></span><br><span class="line">   <span class="comment">// 如果锁即没被占用、也不是饥饿状态、也没有唤醒协程、也没有等待的协程，直接加锁成功</span></span><br><span class="line">   <span class="comment">// 这是比较完美的一种状态</span></span><br><span class="line">   <span class="keyword">if</span> atomic.CompareAndSwapInt32(&amp;m.state, <span class="number">0</span>, mutexLocked) &#123;</span><br><span class="line">      <span class="keyword">if</span> race.Enabled &#123; <span class="comment">//默认是false，所以可以不用管</span></span><br><span class="line">         race.Acquire(unsafe.Pointer(m))</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">// Slow path (outlined so that the fast path can be inlined)</span></span><br><span class="line">   m.lockSlow()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mutex)</span> <span class="title">lockSlow</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> waitStartTime <span class="keyword">int64</span></span><br><span class="line">   starving := <span class="literal">false</span></span><br><span class="line">   awoke := <span class="literal">false</span></span><br><span class="line">   iter := <span class="number">0</span></span><br><span class="line">   old := m.state</span><br><span class="line">   <span class="keyword">for</span> &#123;</span><br><span class="line">      <span class="comment">// Don&#x27;t spin in starvation mode, ownership is handed off to waiters</span></span><br><span class="line">      <span class="comment">// so we won&#x27;t be able to acquire the mutex anyway.</span></span><br><span class="line">      <span class="comment">// 如果是正常模式且锁被抢占了，自己符合自旋条件，就自旋</span></span><br><span class="line">     	<span class="comment">// 因为按照规定，饥饿模式下需要保证等待队列中的协程能够获得锁的所有权，防止等待队列饿死</span></span><br><span class="line">      <span class="comment">// 如果锁变为饥饿状态或者已经解锁了，或者不符合自旋条件了就结束自旋</span></span><br><span class="line">      <span class="keyword">if</span> old&amp;(mutexLocked|mutexStarving) == mutexLocked &amp;&amp; runtime_canSpin(iter) &#123;</span><br><span class="line">         <span class="comment">// Active spinning makes sense.</span></span><br><span class="line">         <span class="comment">// Try to set mutexWoken flag to inform Unlock</span></span><br><span class="line">         <span class="comment">// to not wake other blocked goroutines.</span></span><br><span class="line">         <span class="comment">// 如果等待队列有协程、锁没有设置唤醒状态，就努力设置唤醒状态</span></span><br><span class="line">         <span class="comment">// 这么做的好处是，当锁解锁的时候，不会去唤醒已经阻塞的协程，保证自己更大概率获取到锁</span></span><br><span class="line">         <span class="keyword">if</span> !awoke &amp;&amp; old&amp;mutexWoken == <span class="number">0</span> &amp;&amp; old&gt;&gt;mutexWaiterShift != <span class="number">0</span> &amp;&amp;</span><br><span class="line">            atomic.CompareAndSwapInt32(&amp;m.state, old, old|mutexWoken) &#123;</span><br><span class="line">            awoke = <span class="literal">true</span></span><br><span class="line">         &#125;</span><br><span class="line">         runtime_doSpin()</span><br><span class="line">         iter++</span><br><span class="line">         old = m.state</span><br><span class="line">         <span class="keyword">continue</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 此处说明锁变为饥饿状态或者已经解锁了，或者不符合自旋条件了（仍为锁定状态）</span></span><br><span class="line">      <span class="comment">// 锁状态包含-饥饿锁定、饥饿未锁定、正常锁定、正常未锁定</span></span><br><span class="line">      <span class="comment">// 获取锁最新的状态</span></span><br><span class="line">      <span class="built_in">new</span> := old</span><br><span class="line">      <span class="comment">// Don&#x27;t try to acquire starving mutex, new arriving goroutines must queue.</span></span><br><span class="line">      <span class="comment">// 如果是正常状态，尝试加锁。饥饿状态下要出让竞争权利，肯定不能加锁的</span></span><br><span class="line">      <span class="keyword">if</span> old&amp;mutexStarving == <span class="number">0</span> &#123;</span><br><span class="line">         <span class="built_in">new</span> |= mutexLocked</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 如果锁还是被占用的或者锁是饥饿状态，只能将自己放到等待队列上</span></span><br><span class="line">      <span class="comment">// 到了这个阶段，遇到这些状态，协程只能躺平。饥饿状态要出让竞争权利</span></span><br><span class="line">      <span class="keyword">if</span> old&amp;(mutexLocked|mutexStarving) != <span class="number">0</span> &#123;</span><br><span class="line">         <span class="built_in">new</span> += <span class="number">1</span> &lt;&lt; mutexWaiterShift</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// The current goroutine switches mutex to starvation mode.</span></span><br><span class="line">      <span class="comment">// But if the mutex is currently unlocked, don&#x27;t do the switch.</span></span><br><span class="line">      <span class="comment">// Unlock expects that starving mutex has waiters, which will not</span></span><br><span class="line">      <span class="comment">// be true in this case.</span></span><br><span class="line">      <span class="comment">// 如果自身已经到饥饿状态了，而且锁是被占用情况下，将锁改为饥饿状态</span></span><br><span class="line">      <span class="comment">// 锁未被占用不能改为饥饿模式，是因为如果锁没有被占用，但是锁是饥饿状态，那应该有等待队列。</span></span><br><span class="line">      <span class="comment">// 如果锁未被占用却改为饥饿状态，违背了这个条件。(不是很明白这句话)</span></span><br><span class="line">        <span class="keyword">if</span> starving &amp;&amp; old&amp;mutexLocked != <span class="number">0</span> &#123;</span><br><span class="line">         <span class="built_in">new</span> |= mutexStarving</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 如果该协程设置锁的唤醒状态，需要将唤醒状态进行重置。</span></span><br><span class="line">      <span class="comment">// 因为改协程要么获得了锁、要么进入休眠，都和唤醒状态无关了</span></span><br><span class="line">      <span class="keyword">if</span> awoke &#123;</span><br><span class="line">         <span class="comment">// The goroutine has been woken from sleep,</span></span><br><span class="line">         <span class="comment">// so we need to reset the flag in either case.</span></span><br><span class="line">         <span class="keyword">if</span> <span class="built_in">new</span>&amp;mutexWoken == <span class="number">0</span> &#123;</span><br><span class="line">            throw(<span class="string">&quot;sync: inconsistent mutex state&quot;</span>)</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="built_in">new</span> &amp;^= mutexWoken</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// old  -&gt; new</span></span><br><span class="line">      <span class="comment">// (0,1)正常且已锁定 -&gt; (+1,1?,1) 等待加一，状态待定，加锁   -&gt;  加到等待队列</span></span><br><span class="line">      <span class="comment">// (0,0)正常且未锁定 -&gt; (+0,0 ,1) 等待不变，正常状态，加锁   -&gt;  加锁成功</span></span><br><span class="line">      <span class="comment">// (1,1)饥饿且已锁定 -&gt; (+1,1?,1) 等待加一，饥饿待定，加锁   -&gt;  加到等待队列</span></span><br><span class="line">      <span class="comment">// (1,0)饥饿且未锁定 -&gt; (+1,1 ,0) 等待加一，饥饿状态，不加锁  -&gt;  加到等待队列</span></span><br><span class="line">      <span class="keyword">if</span> atomic.CompareAndSwapInt32(&amp;m.state, old, <span class="built_in">new</span>) &#123;<span class="comment">//如果CAS成功</span></span><br><span class="line">         <span class="comment">//如果锁为未锁定且正常状态，表明占有锁成功，加锁操作完毕</span></span><br><span class="line">         <span class="keyword">if</span> old&amp;(mutexLocked|mutexStarving) == <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">break</span> <span class="comment">// locked the mutex with CAS</span></span><br><span class="line">         &#125;</span><br><span class="line">         <span class="comment">// If we were already waiting before, queue at the front of the queue.</span></span><br><span class="line">         queueLifo := waitStartTime != <span class="number">0</span></span><br><span class="line">         <span class="keyword">if</span> waitStartTime == <span class="number">0</span> &#123;</span><br><span class="line">            waitStartTime = runtime_nanotime()</span><br><span class="line">         &#125;</span><br><span class="line">        </span><br><span class="line">         <span class="comment">// 走到此处，说明协程没有获取到锁，调用runtime_SemacquireMutex，将该协程挂起</span></span><br><span class="line">         <span class="comment">// waitStartTime能够判断该协程是新来的还是被唤醒的</span></span><br><span class="line">         <span class="comment">// 如果是新来的，则加入队列尾部，等待唤醒，queueLifo=false</span></span><br><span class="line">         <span class="comment">// 如果是从等待队列中唤醒的，则加入队列头部，queueLifo=true</span></span><br><span class="line">         <span class="comment">// 如果后面该协程被唤醒，就从该位置继续往下执行</span></span><br><span class="line">         runtime_SemacquireMutex(&amp;m.sema, queueLifo, <span class="number">1</span>)</span><br><span class="line">         <span class="comment">// 此刻说明该协程被唤醒了</span></span><br><span class="line">         <span class="comment">// 判断该协程是否长时间没有获取到锁，如果是的话，就是饥饿的协程</span></span><br><span class="line">         starving = starving || runtime_nanotime()-waitStartTime &gt; starvationThresholdNs</span><br><span class="line">         <span class="comment">// 协程被挂起的时间有点长，需要重新获取一下当前锁的状态</span></span><br><span class="line">         old = m.state</span><br><span class="line">         <span class="comment">// 表示当前是饥饿状态的情况。按照设定，饥饿状态下，被唤醒的协程直接获得锁。</span></span><br><span class="line">         <span class="keyword">if</span> old&amp;mutexStarving != <span class="number">0</span> &#123;</span><br><span class="line">            <span class="comment">// If this goroutine was woken and mutex is in starvation mode,</span></span><br><span class="line">            <span class="comment">// ownership was handed off to us but mutex is in somewhat</span></span><br><span class="line">            <span class="comment">// inconsistent state: mutexLocked is not set and we are still</span></span><br><span class="line">            <span class="comment">// accounted as waiter. Fix that.</span></span><br><span class="line">            <span class="comment">// 饥饿状态下，我被唤醒，结果发现锁没释放、唤醒值是1、等待列表没有协程了（不把我算作协程了）</span></span><br><span class="line">            <span class="comment">// 不符合设定，果断有问题啊</span></span><br><span class="line">            <span class="keyword">if</span> old&amp;(mutexLocked|mutexWoken) != <span class="number">0</span> || old&gt;&gt;mutexWaiterShift == <span class="number">0</span> &#123;</span><br><span class="line">               throw(<span class="string">&quot;sync: inconsistent mutex state&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 值是7，因为此时锁状态为未锁定，使用7可以达到等待数量减一，同时将锁设置为锁定的效果</span></span><br><span class="line">            delta := <span class="keyword">int32</span>(mutexLocked - <span class="number">1</span>&lt;&lt;mutexWaiterShift)</span><br><span class="line">            <span class="comment">// 如果唤醒等待队列的协程不饥饿、或者这个协程是等待队列中最后一个协程，就改为正常状态</span></span><br><span class="line">            <span class="keyword">if</span> !starving || old&gt;&gt;mutexWaiterShift == <span class="number">1</span> &#123;</span><br><span class="line">               <span class="comment">// Exit starvation mode.</span></span><br><span class="line">               <span class="comment">// Critical to do it here and consider wait time.</span></span><br><span class="line">               <span class="comment">// Starvation mode is so inefficient, that two goroutines</span></span><br><span class="line">               <span class="comment">// can go lock-step infinitely once they switch mutex</span></span><br><span class="line">               <span class="comment">// to starvation mode.</span></span><br><span class="line">               delta -= mutexStarving</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 将锁状态设置为等待数量减一，同时设置为锁定。加锁成功</span></span><br><span class="line">            <span class="comment">// 这个计算方法太秀了</span></span><br><span class="line">            atomic.AddInt32(&amp;m.state, delta)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">         &#125;</span><br><span class="line">         <span class="comment">// 本协程千真万确就是被系统唤醒的协程</span></span><br><span class="line">         awoke = <span class="literal">true</span></span><br><span class="line">         <span class="comment">// 自旋次数重置为0</span></span><br><span class="line">         iter = <span class="number">0</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; <span class="comment">//如果CAS失败，则重新开始</span></span><br><span class="line">         old = m.state</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> race.Enabled &#123;</span><br><span class="line">      race.Acquire(unsafe.Pointer(m))</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-3-UnLock"><a href="#3-1-3-UnLock" class="headerlink" title="3.1.3 UnLock"></a>3.1.3 UnLock</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Unlock unlocks m.</span></span><br><span class="line"><span class="comment">// It is a run-time error if m is not locked on entry to Unlock.</span></span><br><span class="line"><span class="comment">// 如果在解锁的时候，锁是没有被锁定的，则报运行时错误。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// A locked Mutex is not associated with a particular goroutine.</span></span><br><span class="line"><span class="comment">// It is allowed for one goroutine to lock a Mutex and then</span></span><br><span class="line"><span class="comment">// arrange for another goroutine to unlock it.</span></span><br><span class="line"><span class="comment">// 加锁和解锁可以不是同一个协程</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mutex)</span> <span class="title">Unlock</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> race.Enabled &#123; <span class="comment">//默认是false</span></span><br><span class="line">      _ = m.state</span><br><span class="line">      race.Release(unsafe.Pointer(m))</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Fast path: drop lock bit.</span></span><br><span class="line">   <span class="comment">// 不是饥饿状态，没有等待的协程、没有唤醒，直接解锁完毕</span></span><br><span class="line">   <span class="built_in">new</span> := atomic.AddInt32(&amp;m.state, -mutexLocked)</span><br><span class="line">   <span class="comment">// 说明可能为饥饿状态、有等待协程、有唤醒的协程，事情没处理完，还得继续处理</span></span><br><span class="line">   <span class="keyword">if</span> <span class="built_in">new</span> != <span class="number">0</span> &#123;</span><br><span class="line">      <span class="comment">// Outlined slow path to allow inlining the fast path.</span></span><br><span class="line">      <span class="comment">// To hide unlockSlow during tracing we skip one extra frame when tracing GoUnblock.</span></span><br><span class="line">      m.unlockSlow(<span class="built_in">new</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mutex)</span> <span class="title">unlockSlow</span><span class="params">(<span class="built_in">new</span> <span class="keyword">int32</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> (<span class="built_in">new</span>+mutexLocked)&amp;mutexLocked == <span class="number">0</span> &#123;</span><br><span class="line">      throw(<span class="string">&quot;sync: unlock of unlocked mutex&quot;</span>)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//如果是正常模式</span></span><br><span class="line">   <span class="keyword">if</span> <span class="built_in">new</span>&amp;mutexStarving == <span class="number">0</span> &#123;</span><br><span class="line">      old := <span class="built_in">new</span></span><br><span class="line">      <span class="keyword">for</span> &#123;</span><br><span class="line">         <span class="comment">// If there are no waiters or a goroutine has already</span></span><br><span class="line">         <span class="comment">// been woken or grabbed the lock, no need to wake anyone.</span></span><br><span class="line">         <span class="comment">// In starvation mode ownership is directly handed off from unlocking</span></span><br><span class="line">         <span class="comment">// goroutine to the next waiter. We are not part of this chain,</span></span><br><span class="line">         <span class="comment">// since we did not observe mutexStarving when we unlocked the mutex above.</span></span><br><span class="line">         <span class="comment">// So get off the way.</span></span><br><span class="line">         <span class="comment">// 如果等待列表里没有协程了，或者已经有唤醒的协程了，就无需浪费精力唤醒其它协程了</span></span><br><span class="line">         <span class="keyword">if</span> old&gt;&gt;mutexWaiterShift == <span class="number">0</span> || old&amp;(mutexLocked|mutexWoken|mutexStarving) != <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">         &#125;</span><br><span class="line">         <span class="comment">// Grab the right to wake someone.</span></span><br><span class="line">         <span class="comment">// 等待协程数量减1，并将锁的唤醒位置为1</span></span><br><span class="line">         <span class="built_in">new</span> = (old - <span class="number">1</span>&lt;&lt;mutexWaiterShift) | mutexWoken</span><br><span class="line">         <span class="keyword">if</span> atomic.CompareAndSwapInt32(&amp;m.state, old, <span class="built_in">new</span>) &#123;</span><br><span class="line">            runtime_Semrelease(&amp;m.sema, <span class="literal">false</span>, <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">         &#125;</span><br><span class="line">         old = m.state</span><br><span class="line">      &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;<span class="comment">//如果是饥饿模式</span></span><br><span class="line">      <span class="comment">// Starving mode: handoff mutex ownership to the next waiter.</span></span><br><span class="line">      <span class="comment">// Note: mutexLocked is not set, the waiter will set it after wakeup.</span></span><br><span class="line">      <span class="comment">// But mutex is still considered locked if mutexStarving is set,</span></span><br><span class="line">      <span class="comment">// so new coming goroutines won&#x27;t acquire it.</span></span><br><span class="line">      <span class="comment">// 饥饿模式下，直接将锁的所有权交给等待队列中的第一个</span></span><br><span class="line">      <span class="comment">// 注意：锁的locked位没有被设置，唤醒的协程后面会进行设置</span></span><br><span class="line">      <span class="comment">// 尽管没有设置locked位，但是在饥饿模式下，新来的协程也是无法获取到锁的。</span></span><br><span class="line">      runtime_Semrelease(&amp;m.sema, <span class="literal">true</span>, <span class="number">1</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-4-函数说明"><a href="#3-1-4-函数说明" class="headerlink" title="3.1.4 函数说明"></a>3.1.4 函数说明</h4><p>【runtime_canSpin】： 在 src/runtime/proc.go 中被实现 sync_runtime_canSpin； 表示是否可以保守的自旋，golang中自旋锁并不会一直自旋下去，在runtime包中runtime_canSpin方法做了一些限制, 传递过来的iter大等于4或者cpu核数小等于1，最大逻辑处理器大于1，至少有个本地的P队列，并且本地的P队列可运行G队列为空。</p>
+<p>【runtime_doSpin】： 在 src/runtime/proc.go 中被实现 sync_runtime_doSpin；表示 会调用procyield函数， 该函数也是汇编语言实现。函数内部循环调用PAUSE指令。PAUSE指令什么都不做， 但是会消耗CPU时间，在执行PAUSE指令时，CPU不会对它做不必要的优化。</p>
+<p>【runtime_SemacquireMutex】：在 src/runtime/sema.go 中被实现 sync_runtime_SemacquireMutex；表示通过信号量阻塞当前协程 。</p>
+<p>【runtime_Semrelease】: 在src/runtime/sema.go 中被实现 sync_runtime_Semrelease。表示通过信号量解除当前协程阻塞。</p>
+<h4 id="3-1-5-流程图"><a href="#3-1-5-流程图" class="headerlink" title="3.1.5 流程图"></a>3.1.5 流程图</h4><p><a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60f4e1021e085376da5c05f8">https://www.processon.com/view/link/60f4e1021e085376da5c05f8</a></p>
+<p><img src="./Go%E9%94%81.png" alt="Go锁"></p>
+<p>Go互斥锁实现逻辑很复杂，能够看到大量的性能优化方面的代码，所以导致整个逻辑很难理解。大家即使看了注释和流程图，理解起来应该还是会有些困难。我的建议是，一是搞懂lock、woken、starving所代表的功能，二是不是要1.13版本的锁实现，可以看早期实现，会更加简单一些。</p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2><p>本来以为写锁的实现会很快能完成，结果看这一两百行代码用了差不多一个星期。个人也不太建议看1.13锁的具体实现，太过于繁杂了。可以看一下<a target="_blank" rel="noopener" href="https://www.cnblogs.com/niniwzw/p/3153955.html%EF%BC%8C%E8%AE%B2%E4%BA%86%E9%94%81%E7%9A%84%E6%BC%94%E5%8F%98%E3%80%82">https://www.cnblogs.com/niniwzw/p/3153955.html，讲了锁的演变。</a></p>
+<p>更容易让大家理解的方式是使用状态机，将加锁和写锁操作都放入状态机中，但锁状态分四部分，加上各种操作，绘制起来比较耗时，如果大家有兴趣可以绘制一下。</p>
+<p>写这篇文章的时候，有些资料查的大学教程《计算机操作系统》，发觉这些书真是好书，不但准确而且易懂，以前都是死记硬背，现在感觉简直是宝书。</p>
+<p>读写锁另起一篇文章写吧，这篇已经太长了，写不动了。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alinh/p/6905221.html">线程同步（互斥锁与信号量的作用与区别）</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/1232.html">信号量及其使用和实现(超详细)</a></li>
+<li>Go专家编程</li>
+<li><a target="_blank" rel="noopener" href="https://studygolang.com/articles/10099">Golang同步机制的实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_25870633/article/details/83448234">【我的架构师之路】- 说一说go中的sync包</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27608263">Golang 互斥锁内部实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/niniwzw/p/3153955.html">go sync.Mutex 设计思想与演化过程 （一）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jb51.net/article/208843.htm">一文读懂go中semaphore(信号量)源码</a></li>
+<li><a target="_blank" rel="noopener" href="https://mozillazg.com/2019/04/notes-about-go-lock-mutex.html">Go: 关于锁（mutex）的一些使用注意事项</a></li>
+</ol>
+
       
 
       
@@ -200,16 +344,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/07/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-20-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go设计模式(20)-策略模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -229,599 +432,14 @@
 
 
 
-
-  
-    <article id="post-Redis实现分布式锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Redis实现分布式锁</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="archive-article-date">
-  	<time datetime="2020-07-04T15:03:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分布式锁的实现方式有很多，本篇文章讲述一下使用Redis实现分布式锁。网上有很多使用Redis实现分布式锁的代码，但是这些代码或多或少都有问题。这篇文章会写一个实现，同时标明一些注意点。</p>
-        
-          <a class="article-more-a" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-事务原子性、一致性、持久性的实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">事务原子性、一致性、持久性的实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-06-26T07:10:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大家都知道事务有四个特性：</p>
-        
-          <a class="article-more-a" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-InnoDB锁与事务简析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/">InnoDB锁与事务简析</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-06-21T11:54:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>重新梳理了一下锁、锁与事务的关系，希望能够帮大家厘清一些知识点。本文如果不做特殊说明，默认是可重复读隔离级别。</p>
-        
-          <a class="article-more-a" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Markdown编辑器推荐-Typora" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/">Markdown编辑器推荐</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/" class="archive-article-date">
-  	<time datetime="2020-06-21T07:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工欲善其事必先利其器，一款好的编辑器不但能够提高工作效率，更能让自己养成爱编写的习惯。Typora使用了快一年，虽然偶尔会有一些小bug，但是完全不影响使用，在此强烈推荐Typora，我觉得Typora有以下优点</p>
-        
-          <a class="article-more-a" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CDN请求过程详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">CDN请求过程详解</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-06-14T12:18:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="CDN简介"><a href="#CDN简介" class="headerlink" title="CDN简介"></a>CDN简介</h2><p>CDN大家比较熟悉，这里做个简单介绍。</p>
-<p>CDN主要是让用户访问资源的时候，能从离用户距离很近的CDN节点进行获取，不必到真正提供服务的机器上获取。所以CDN可以</p>
-        
-          <a class="article-more-a" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于程序员职业发展的思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/">关于程序员职业发展的思考</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-06-09T15:35:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="三个阶段"><a href="#三个阶段" class="headerlink" title="三个阶段"></a>三个阶段</h2><p>对于程序员的职业发展，我觉得有三个成长阶段：小白阶段、业务骨干、技术领导</p>
-        
-          <a class="article-more-a" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于代码review的思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/">关于代码review的思考</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-05-30T06:04:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>作为程序员，保证线上质量的重要一环是代码review，或者说代码review的质量。最近看到多起其他组因为代码review没有做好，导致很多能避免的线上事故没有避免。我思考了一下目前小组的review方式，决定做一些改变。</p>
-        
-          <a class="article-more-a" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-缓存方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/">缓存方案</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2020-05-23T13:00:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>​    在项目中，大家经常会遇到处理高并发的情况，缓存是应对高并发的有效手段之一。这篇文章简单介绍一下常用的缓存手段。当然，使用缓存有一个前提：数据不是实时变更的。</p>
-        
-          <a class="article-more-a" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-领域驱动设计：软件核心复杂性应对之道" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/">领域驱动设计：软件核心复杂性对应之道</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/" class="archive-article-date">
-  	<time datetime="2020-05-17T15:42:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者：[美]埃里克 埃文斯</p>
-<h2 id="读后感"><a href="#读后感" class="headerlink" title="读后感"></a>读后感</h2><p>​    上次读完InfoQ的简洁版后，觉得很多知识还不了解，就找了这本书。这本书是DDD的创始人写的，篇幅比较长。读完之后，我个人的建议是可以不读。原因如下：</p>
-        
-          <a class="article-more-a" href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/9/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -844,8 +462,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
