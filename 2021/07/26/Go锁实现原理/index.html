@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go锁实现原理 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/13/index.html">
+  <meta name="description" content="自从前两天写了Go互斥锁实现原理后，我感觉我错了，我不应该看源码，看了也没啥用，会了也不敢用。按照源码中的写法，没人想做代码review，也不好做单元测试。 我就是想知道锁是怎么实现的，结果整一堆优化逻辑，感觉懂了又感觉啥都不懂。所以我痛定思痛，我看早期版本行吧。来让我们看2014年的版本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go锁实现原理">
+<meta property="og:url" content="http://yoursite.com/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="自从前两天写了Go互斥锁实现原理后，我感觉我错了，我不应该看源码，看了也没啥用，会了也不敢用。按照源码中的写法，没人想做代码review，也不好做单元测试。 我就是想知道锁是怎么实现的，结果整一堆优化逻辑，感觉懂了又感觉啥都不懂。所以我痛定思痛，我看早期版本行吧。来让我们看2014年的版本">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210726095856224.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210726143501281.png">
+<meta property="article:published_time" content="2021-07-26T07:13:40.000Z">
+<meta property="article:modified_time" content="2021-07-26T07:15:38.548Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/image-20210726095856224.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,187 +171,189 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go锁实现原理" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go锁实现原理
+    </h1>
+  
+
+        
+        <a href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2021-07-26T07:13:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-26</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>自从前两天写了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FBe8AChy_v0vPGO3trdyWg">Go互斥锁实现原理</a>后，我感觉我错了，我不应该看源码，看了也没啥用，会了也不敢用。按照源码中的写法，没人想做代码review，也不好做单元测试。</p>
+<p>我就是想知道锁是怎么实现的，结果整一堆优化逻辑，感觉懂了又感觉啥都不懂。所以我痛定思痛，我看早期版本行吧。来让我们看2014年的版本</p>
+<span id="more"></span>
+<p>互斥锁：<a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/c007ce824d9a4fccb148f9204e04c23ed2984b71/src/sync/mutex.go">https://github.com/golang/go/blob/c007ce824d9a4fccb148f9204e04c23ed2984b71/src/sync/mutex.go</a></p>
+<p>读写互斥锁：<a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/c007ce824d9a4fccb148f9204e04c23ed2984b71/src/sync/rwmutex.go">https://github.com/golang/go/blob/c007ce824d9a4fccb148f9204e04c23ed2984b71/src/sync/rwmutex.go</a></p>
+<h2 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h2><p>这个版本的互斥锁没有饥饿模式、没有自旋、没有各种小的性能优化点。但这段代码把最核心的逻辑展示的十分清楚。</p>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Mutex <span class="keyword">struct</span> &#123;</span><br><span class="line">	state <span class="keyword">int32</span></span><br><span class="line">	sema  <span class="keyword">uint32</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>state表示互斥锁的状态，比如是否被锁定等。</p>
+</li>
+<li><p>sema表示信号量，协程阻塞等待该信号量，解锁的协程释放信号量从而唤醒等待信号量的协程。</p>
+</li>
+</ul>
+<p>state的组成如下图所示：</p>
+<p><img src="./image-20210726095856224.png" alt="image-20210726095856224"></p>
+<p>Locked: 表示该Mutex是否已被锁定，0：没有锁定 1：已被锁定。</p>
+<p>Woken: 表示是否有协程已被唤醒，0：没有协程唤醒 1：已有协程唤醒，正在加锁过程中。 释放锁时，如果正常模式下，不会再唤醒其它协程。</p>
+<p>Waiter: 表示阻塞等待锁的协程个数，协程解锁时根据此值来判断是否需要释放信号量</p>
+<p>因为在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FBe8AChy_v0vPGO3trdyWg">Go互斥锁实现原理</a>已经写过很多基础知识了，这次只把核心逻辑、核心点写一下，如果对其中部分知识不太理解，可以看一下上一篇文章。</p>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2009 The Go Authors. All rights reserved.</span></span><br><span class="line"><span class="comment">// Use of this source code is governed by a BSD-style</span></span><br><span class="line"><span class="comment">// license that can be found in the LICENSE file.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Package sync provides basic synchronization primitives such as mutual</span></span><br><span class="line"><span class="comment">// exclusion locks.  Other than the Once and WaitGroup types, most are intended</span></span><br><span class="line"><span class="comment">// for use by low-level library routines.  Higher-level synchronization is</span></span><br><span class="line"><span class="comment">// better done via channels and communication.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Values containing the types defined in this package should not be copied.</span></span><br><span class="line"><span class="keyword">package</span> sync</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;sync/atomic&quot;</span></span><br><span class="line">	<span class="string">&quot;unsafe&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// A Mutex is a mutual exclusion lock.</span></span><br><span class="line"><span class="comment">// Mutexes can be created as part of other structures;</span></span><br><span class="line"><span class="comment">// the zero value for a Mutex is an unlocked mutex.</span></span><br><span class="line"><span class="keyword">type</span> Mutex <span class="keyword">struct</span> &#123;</span><br><span class="line">	state <span class="keyword">int32</span></span><br><span class="line">	sema  <span class="keyword">uint32</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A Locker represents an object that can be locked and unlocked.</span></span><br><span class="line"><span class="keyword">type</span> Locker <span class="keyword">interface</span> &#123;</span><br><span class="line">	Lock()</span><br><span class="line">	Unlock()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">  <span class="comment">//status只分为三部分，mutexLocked表示锁是否已经被其它协程占用</span></span><br><span class="line">  <span class="comment">//mutexWoken表示是否唤起协程，让协程开始抢占锁</span></span><br><span class="line">  <span class="comment">//mutexWaiterShift表示阻塞等待锁的协程个数，占int32的高30位</span></span><br><span class="line">	mutexLocked = <span class="number">1</span> &lt;&lt; <span class="literal">iota</span> <span class="comment">// mutex is locked</span></span><br><span class="line">	mutexWoken</span><br><span class="line">	mutexWaiterShift = <span class="literal">iota</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Lock locks m.</span></span><br><span class="line"><span class="comment">// If the lock is already in use, the calling goroutine</span></span><br><span class="line"><span class="comment">// blocks until the mutex is available.</span></span><br><span class="line"><span class="comment">//加锁过程仍然以将status的Locked位置为1位加锁成功</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mutex)</span> <span class="title">Lock</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Fast path: grab unlocked mutex.</span></span><br><span class="line">  <span class="comment">//如果锁没有被占用、没有唤醒的协程、没有等待加锁的协程，直接加锁，成功便返回</span></span><br><span class="line">	<span class="keyword">if</span> atomic.CompareAndSwapInt32(&amp;m.state, <span class="number">0</span>, mutexLocked) &#123;</span><br><span class="line">		<span class="keyword">if</span> raceenabled &#123;<span class="comment">//为false，不用管</span></span><br><span class="line">			raceAcquire(unsafe.Pointer(m))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//协程主动发起的加锁请求，肯定不是被唤醒的，所以awoke为false</span></span><br><span class="line">	awoke := <span class="literal">false</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		old := m.state</span><br><span class="line">    <span class="comment">//无论如何先尝试加锁。因为如果没被占用，肯定是要加锁的。如果被占用，因为使用CAS，所以Locked位也需要为1</span></span><br><span class="line">		<span class="built_in">new</span> := old | mutexLocked</span><br><span class="line">    <span class="comment">//如果锁是被占用的，则将等待协程值加1</span></span><br><span class="line">		<span class="keyword">if</span> old&amp;mutexLocked != <span class="number">0</span> &#123;</span><br><span class="line">			<span class="built_in">new</span> = old + <span class="number">1</span>&lt;&lt;mutexWaiterShift</span><br><span class="line">		&#125;</span><br><span class="line">    <span class="comment">//如果是被唤醒的，CAS操作之后自己就到终止状态（获得锁或者阻塞），所以需要将Woken位置0</span></span><br><span class="line">		<span class="keyword">if</span> awoke &#123;</span><br><span class="line">			<span class="comment">// The goroutine has been woken from sleep,</span></span><br><span class="line">			<span class="comment">// so we need to reset the flag in either case.</span></span><br><span class="line">			<span class="built_in">new</span> &amp;^= mutexWoken</span><br><span class="line">		&#125;</span><br><span class="line">    <span class="comment">//CAS操作</span></span><br><span class="line">    <span class="comment">// old                            new</span></span><br><span class="line">    <span class="comment">//(0,1)不是唤醒的，被占用了					(+1,0,1)</span></span><br><span class="line">    <span class="comment">//(1,1)是唤醒的，被占用了           (+1,0,1)</span></span><br><span class="line">    <span class="comment">//(0,0)不是唤醒的，未被占用         (+0,0,1)</span></span><br><span class="line">    <span class="comment">//(1,0)  是唤醒的，未被占用         (+0,0,1)</span></span><br><span class="line">		<span class="keyword">if</span> atomic.CompareAndSwapInt32(&amp;m.state, old, <span class="built_in">new</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> old&amp;mutexLocked == <span class="number">0</span> &#123; <span class="comment">//如果CAS操作时，锁是未被占用，则加锁成功</span></span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">			runtime_Semacquire(&amp;m.sema) <span class="comment">//否则，将当前协程阻塞</span></span><br><span class="line">			awoke = <span class="literal">true</span> <span class="comment">//当该协程被唤醒是，用awoke进行标记</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		raceAcquire(unsafe.Pointer(m))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Unlock unlocks m.</span></span><br><span class="line"><span class="comment">// It is a run-time error if m is not locked on entry to Unlock.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// A locked Mutex is not associated with a particular goroutine.</span></span><br><span class="line"><span class="comment">// It is allowed for one goroutine to lock a Mutex and then</span></span><br><span class="line"><span class="comment">// arrange for another goroutine to unlock it.</span></span><br><span class="line"><span class="comment">// 解锁逻辑也比go1.13版本简单很多</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mutex)</span> <span class="title">Unlock</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;<span class="comment">//默认为false，不用管</span></span><br><span class="line">		_ = m.state</span><br><span class="line">		raceRelease(unsafe.Pointer(m))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Fast path: drop lock bit.</span></span><br><span class="line">  <span class="comment">//将值减一，其实就是将locked位置为0</span></span><br><span class="line">	<span class="built_in">new</span> := atomic.AddInt32(&amp;m.state, -mutexLocked)</span><br><span class="line">  <span class="comment">//小技巧，检查解锁的锁是否未被加锁，如果是这种情况，就panic</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">new</span>+mutexLocked)&amp;mutexLocked == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">&quot;sync: unlock of unlocked mutex&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//因为atomic.AddInt32操作m.state使用的是指针，如果没有其它协程操作m.state的话，new=old=m.state</span></span><br><span class="line">	old := <span class="built_in">new</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="comment">// If there are no waiters or a goroutine has already</span></span><br><span class="line">		<span class="comment">// been woken or grabbed the lock, no need to wake anyone.</span></span><br><span class="line">    <span class="comment">//如果没有等待加锁的协程或者当前锁已经唤醒了其它协程，直接返回</span></span><br><span class="line">		<span class="keyword">if</span> old&gt;&gt;mutexWaiterShift == <span class="number">0</span> || old&amp;(mutexLocked|mutexWoken) != <span class="number">0</span> &#123;</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Grab the right to wake someone.</span></span><br><span class="line">    <span class="comment">//要唤醒等待协程了，所以需要将woken位置为1，同时将等待数量减一</span></span><br><span class="line">		<span class="built_in">new</span> = (old - <span class="number">1</span>&lt;&lt;mutexWaiterShift) | mutexWoken</span><br><span class="line">		<span class="keyword">if</span> atomic.CompareAndSwapInt32(&amp;m.state, old, <span class="built_in">new</span>) &#123;</span><br><span class="line">			runtime_Semrelease(&amp;m.sema)<span class="comment">//如果解锁成功，则唤醒一个等待的协程</span></span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		old = m.state<span class="comment">//否则继续尝试解锁</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关注点"><a href="#关注点" class="headerlink" title="关注点"></a>关注点</h3><p>1.Unlock中atomic.AddInt32(&amp;m.state, -mutexLocked)是对m.state的指针真行操作，所以其实对m.state进行了真正的减一，这也是CAS操作时atomic.CompareAndSwapInt32(&amp;m.state, old, new)，m.state和old值可能一样的原因<br>2.大家课本上学到的信号量伪代码一般是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wait(S)： while S&lt;&#x3D;0 do no-op；</span><br><span class="line">				  S:&#x3D;S-1； </span><br><span class="line"></span><br><span class="line">signal(S)： S:&#x3D;S+1；</span><br></pre></td></tr></table></figure>
+
+<p>感觉和Mutex中的sema不一样。有这种疑问很正常，因为准确的说，Mutex才是真正意义上的信号量，Mutex中的sema虽然翻译为信号量，但其实只是为了将协程阻塞到以sema为地址的队列上，细节可查看semacquire1、semrelease1。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Mutex <span class="keyword">struct</span> &#123;</span><br><span class="line">	state <span class="keyword">int32</span></span><br><span class="line">	sema  <span class="keyword">uint32</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>课本上的伪代码：可以加锁，值减一；不可以加锁，死循环。</p>
+<p>Mutex具体实现：可以加锁，Locked位置为1，不可以加锁，协程阻塞。</p>
+<p>3.存在等待协程饿死的情况</p>
+<h2 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h2><p>上一篇文章没有写读写锁，主要还是因为go1.13的代码阅读起来太过困难。这次看老版本的代码，简单的多，所以顺便写一下读写锁。</p>
+<h3 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h3><p>读写锁结构体为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> RWMutex <span class="keyword">struct</span> &#123;</span><br><span class="line">	w           Mutex  <span class="comment">// held if there are pending writers</span></span><br><span class="line">	writerSem   <span class="keyword">uint32</span> <span class="comment">// semaphore for writers to wait for completing readers</span></span><br><span class="line">	readerSem   <span class="keyword">uint32</span> <span class="comment">// semaphore for readers to wait for completing writers</span></span><br><span class="line">	readerCount <span class="keyword">int32</span>  <span class="comment">// number of pending readers</span></span><br><span class="line">	readerWait  <span class="keyword">int32</span>  <span class="comment">// number of departing readers</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Mutex：复用写锁，应对读写锁变为写锁的情况。获得写锁首先要获取该锁，如果有一个写锁在进行，那么再到来的写锁将会阻塞于此</li>
+<li>writerSem：写阻塞等待的信号量，最后一个读者释放锁时会释放信号量</li>
+<li>readerSem：读阻塞的协程等待的信号量，持有写锁的协程释放锁后会释放信号量</li>
+<li>readerCount：记录读者个数</li>
+<li>readerWait：记录写阻塞时读者个数。表示加写锁的时候有几个读锁，当对应数量的读锁解锁完毕后，写锁开始被唤起。主要目的为防止写锁饿死。</li>
+</ul>
+<h3 id="源码-1"><a href="#源码-1" class="headerlink" title="源码"></a>源码</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2009 The Go Authors. All rights reserved.</span></span><br><span class="line"><span class="comment">// Use of this source code is governed by a BSD-style</span></span><br><span class="line"><span class="comment">// license that can be found in the LICENSE file.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> sync</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;sync/atomic&quot;</span></span><br><span class="line">	<span class="string">&quot;unsafe&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// An RWMutex is a reader/writer mutual exclusion lock.</span></span><br><span class="line"><span class="comment">// The lock can be held by an arbitrary number of readers</span></span><br><span class="line"><span class="comment">// or a single writer.</span></span><br><span class="line"><span class="comment">// RWMutexes can be created as part of other</span></span><br><span class="line"><span class="comment">// structures; the zero value for a RWMutex is</span></span><br><span class="line"><span class="comment">// an unlocked mutex.</span></span><br><span class="line"><span class="keyword">type</span> RWMutex <span class="keyword">struct</span> &#123;</span><br><span class="line">	w           Mutex  <span class="comment">// held if there are pending writers</span></span><br><span class="line">	writerSem   <span class="keyword">uint32</span> <span class="comment">// semaphore for writers to wait for completing readers</span></span><br><span class="line">	readerSem   <span class="keyword">uint32</span> <span class="comment">// semaphore for readers to wait for completing writers</span></span><br><span class="line">	readerCount <span class="keyword">int32</span>  <span class="comment">// number of pending readers</span></span><br><span class="line">	readerWait  <span class="keyword">int32</span>  <span class="comment">// number of departing readers</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//读协程最大个数。</span></span><br><span class="line"><span class="comment">//这个值主要和readerCount相比较。如果加写锁，则将readerCount减去rwmutexMaxReaders</span></span><br><span class="line"><span class="comment">//这是一个小技巧，既能看出是否加了写锁，也能使用这个值方便的还原出读协程的数量</span></span><br><span class="line"><span class="keyword">const</span> rwmutexMaxReaders = <span class="number">1</span> &lt;&lt; <span class="number">30</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// RLock locks rw for reading.</span></span><br><span class="line"><span class="comment">// 加读锁</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rw *RWMutex)</span> <span class="title">RLock</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		_ = rw.w.state</span><br><span class="line">		raceDisable()</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="comment">//加读锁，直接将readerCount值加1</span></span><br><span class="line">  <span class="comment">//什么情况下readerCount会小于0呢，有协程请求写锁了。这种情况下，加读锁的协程需要阻塞</span></span><br><span class="line">  <span class="comment">//因为加读锁的协程到达时间比加写锁的晚，所以得等写锁用完了才能执行，否则加写锁的协程会饿死，不讲武德</span></span><br><span class="line">	<span class="keyword">if</span> atomic.AddInt32(&amp;rw.readerCount, <span class="number">1</span>) &lt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="comment">// A writer is pending, wait for it.</span></span><br><span class="line">		runtime_Semacquire(&amp;rw.readerSem)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;<span class="comment">//为false，不用管</span></span><br><span class="line">		raceEnable()</span><br><span class="line">		raceAcquire(unsafe.Pointer(&amp;rw.readerSem))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RUnlock undoes a single RLock call;</span></span><br><span class="line"><span class="comment">// it does not affect other simultaneous readers.</span></span><br><span class="line"><span class="comment">// It is a run-time error if rw is not locked for reading</span></span><br><span class="line"><span class="comment">// on entry to RUnlock.</span></span><br><span class="line"><span class="comment">//解读锁</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rw *RWMutex)</span> <span class="title">RUnlock</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;<span class="comment">//为false，不用管</span></span><br><span class="line">		_ = rw.w.state</span><br><span class="line">		raceReleaseMerge(unsafe.Pointer(&amp;rw.writerSem))</span><br><span class="line">		raceDisable()</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="comment">//将加读锁的协程数量值减一</span></span><br><span class="line">  <span class="comment">//如果没有尝试加写锁的协程，值r肯定大于0，则解锁结束</span></span><br><span class="line">  <span class="comment">//如果有协程加写锁，就需要看一下自己是否是请求写锁前的最后一个读锁协程了，是的话就要唤醒加写锁协程</span></span><br><span class="line">	<span class="keyword">if</span> r := atomic.AddInt32(&amp;rw.readerCount, <span class="number">-1</span>); r &lt; <span class="number">0</span> &#123;</span><br><span class="line">    <span class="comment">//说明解锁了未加锁mutex，会panic</span></span><br><span class="line">		<span class="keyword">if</span> r+<span class="number">1</span> == <span class="number">0</span> || r+<span class="number">1</span> == -rwmutexMaxReaders &#123;</span><br><span class="line">			raceEnable()</span><br><span class="line">			<span class="built_in">panic</span>(<span class="string">&quot;sync: RUnlock of unlocked RWMutex&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// A writer is pending.</span></span><br><span class="line">    <span class="comment">//自己是否是请求写锁前的最后一个读锁协程了，是的话就要唤醒加写锁协程</span></span><br><span class="line">		<span class="keyword">if</span> atomic.AddInt32(&amp;rw.readerWait, <span class="number">-1</span>) == <span class="number">0</span> &#123;</span><br><span class="line">			<span class="comment">// The last reader unblocks the writer.</span></span><br><span class="line">			runtime_Semrelease(&amp;rw.writerSem)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		raceEnable()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Lock locks rw for writing.</span></span><br><span class="line"><span class="comment">// If the lock is already locked for reading or writing,</span></span><br><span class="line"><span class="comment">// Lock blocks until the lock is available.</span></span><br><span class="line"><span class="comment">// To ensure that the lock eventually becomes available,</span></span><br><span class="line"><span class="comment">// a blocked Lock call excludes new readers from acquiring</span></span><br><span class="line"><span class="comment">// the lock.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rw *RWMutex)</span> <span class="title">Lock</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		_ = rw.w.state</span><br><span class="line">		raceDisable()</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// First, resolve competition with other writers.</span></span><br><span class="line">  <span class="comment">//调用mutex加写锁。如果是第一个加写锁的协程，肯定能成功。如果不是第一个，就阻塞了</span></span><br><span class="line">	rw.w.Lock()</span><br><span class="line">	<span class="comment">// Announce to readers there is a pending writer.</span></span><br><span class="line">  <span class="comment">//这个操作实现两个功能，一是将readerCount变为负值，另一个是计算出加写锁时读锁个数</span></span><br><span class="line">	r := atomic.AddInt32(&amp;rw.readerCount, -rwmutexMaxReaders) + rwmutexMaxReaders</span><br><span class="line">	<span class="comment">// Wait for active readers.</span></span><br><span class="line">  <span class="comment">//说明加写锁的时候还有读协程在，则加写锁的协程阻塞</span></span><br><span class="line">	<span class="keyword">if</span> r != <span class="number">0</span> &amp;&amp; atomic.AddInt32(&amp;rw.readerWait, r) != <span class="number">0</span> &#123;</span><br><span class="line">		runtime_Semacquire(&amp;rw.writerSem)</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="comment">//当加写锁前的所有读锁协程都释放了，加写锁协程会被唤起</span></span><br><span class="line">  </span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		raceEnable()</span><br><span class="line">		raceAcquire(unsafe.Pointer(&amp;rw.readerSem))</span><br><span class="line">		raceAcquire(unsafe.Pointer(&amp;rw.writerSem))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Unlock unlocks rw for writing.  It is a run-time error if rw is</span></span><br><span class="line"><span class="comment">// not locked for writing on entry to Unlock.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// As with Mutexes, a locked RWMutex is not associated with a particular</span></span><br><span class="line"><span class="comment">// goroutine.  One goroutine may RLock (Lock) an RWMutex and then</span></span><br><span class="line"><span class="comment">// arrange for another goroutine to RUnlock (Unlock) it.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rw *RWMutex)</span> <span class="title">Unlock</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		_ = rw.w.state</span><br><span class="line">		raceRelease(unsafe.Pointer(&amp;rw.readerSem))</span><br><span class="line">		raceRelease(unsafe.Pointer(&amp;rw.writerSem))</span><br><span class="line">		raceDisable()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Announce to readers there is no active writer.</span></span><br><span class="line">  <span class="comment">//写锁释放的时候，将readerCount变为正值</span></span><br><span class="line">	r := atomic.AddInt32(&amp;rw.readerCount, rwmutexMaxReaders)</span><br><span class="line">  <span class="comment">//如果释放未加锁的mutex，panic</span></span><br><span class="line">	<span class="keyword">if</span> r &gt;= rwmutexMaxReaders &#123;</span><br><span class="line">		raceEnable()</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">&quot;sync: Unlock of unlocked RWMutex&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Unblock blocked readers, if any.</span></span><br><span class="line">  <span class="comment">//顺序唤起所有等待的读协程</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="keyword">int</span>(r); i++ &#123;</span><br><span class="line">		runtime_Semrelease(&amp;rw.readerSem)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Allow other writers to proceed.</span></span><br><span class="line">	rw.w.Unlock()</span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		raceEnable()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RLocker returns a Locker interface that implements</span></span><br><span class="line"><span class="comment">// the Lock and Unlock methods by calling rw.RLock and rw.RUnlock.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rw *RWMutex)</span> <span class="title">RLocker</span><span class="params">()</span> <span class="title">Locker</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> (*rlocker)(rw)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> rlocker RWMutex</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *rlocker)</span> <span class="title">Lock</span><span class="params">()</span></span>   &#123; (*RWMutex)(r).RLock() &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *rlocker)</span> <span class="title">Unlock</span><span class="params">()</span></span> &#123; (*RWMutex)(r).RUnlock() &#125;</span><br></pre></td></tr></table></figure>
+
+<p>整个流程如下图<img src="./image-20210726143501281.png" alt="image-20210726143501281"></p>
+<h3 id="关注点-1"><a href="#关注点-1" class="headerlink" title="关注点"></a>关注点</h3><ol>
+<li>对于写锁，有两个阻塞。一是Mutex自身阻塞，另一个是RWMutex的writerSem阻塞。两者的作用不一样。Mutex用于处理写锁与写锁之间的关系，writerSem用于处理写锁与读锁之间的关系</li>
+<li>源码使用readerWait记录请求写锁时读锁协程个数，当这些协程都释放锁，写锁加锁成功，防止写锁饿死</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过阅读Go锁源码，明白真正的信号量实现逻辑。虽然整体思路上，和操作系统课本讲述是一致的，但是仍然有很多细节不一样。像Go没有选择空等，进行阻塞优化性能；像读写锁的实现要比整型信号量复杂的多。</p>
+<p>对于源码的复杂性，我觉得分两个方面看。对于Go这种源码，一点点的性能优化，对于全球那么多使用者来说，收益是巨大的，所以可读性的重要性没那么高。如果是想学习的话，还是看一下早期的、可读性高一些的源码，在理解的基础上再看最新版本的源码，不但入门难度降低，而且能够思考别人是怎么进行思考、进行优化的。</p>
+<p>对于具体业务而言，代码一定要有较高的可读性，不然code review的同学或者今后维护的同学，太痛苦！！！</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ricklz/p/14610213.html">go中semaphore(信号量)源码解读</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/c007ce824d9a4fccb148f9204e04c23ed2984b71/src/sync/mutex.go">https://github.com/golang/go/blob/c007ce824d9a4fccb148f9204e04c23ed2984b71/src/sync/mutex.go</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/08/go-callvis/" class="archive-article-date">
-  	<time datetime="2020-02-08T09:12:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/08/go-callvis/">Go-callvis</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-01-30T09:02:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-30</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">对新人培养的一些想法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/">Gin框架集成swagger过程</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-01-27T15:06:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在新项目中使用gomod</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/" class="archive-article-date">
-  	<time datetime="2020-01-27T02:38:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/">领导梯队</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2020-01-24T08:18:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/">麦肯锡给我的写作武器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/" class="archive-article-date">
-  	<time datetime="2020-01-23T13:43:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/">如何高效对接第三方支付</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/12/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/">11</a><a class="page-number" href="/archives/page/12/">12</a><span class="page-number current">13</span>
-    </nav>
   
 
 
@@ -368,8 +377,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
