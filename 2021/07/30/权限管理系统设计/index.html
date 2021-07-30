@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>权限管理系统设计 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/5/index.html">
+  <meta name="description" content="权限管理，一般指根据系统设置的安全规则或者安全策略，用户可以访问而且只能访问自己被授权的资源，不多不少。对权限做管理的系统，就是权限管理系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="权限管理系统设计">
+<meta property="og:url" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="权限管理，一般指根据系统设置的安全规则或者安全策略，用户可以访问而且只能访问自己被授权的资源，不多不少。对权限做管理的系统，就是权限管理系统。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20210728133312925.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20210728100152574.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20210728100401639.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20210728102049412.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20210728102506799.png">
+<meta property="og:image" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20210728133952705.png">
+<meta property="article:published_time" content="2021-07-30T05:14:33.000Z">
+<meta property="article:modified_time" content="2021-07-30T05:15:43.754Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20210728133312925.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,32 +175,72 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-MySQL导出表结构" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-权限管理系统设计" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/">MySQL导出表结构</a>
+    <h1 class="article-title" itemprop="name">
+      权限管理系统设计
     </h1>
   
 
         
-        <a href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:05:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
+        <a href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
+  	<time datetime="2021-07-30T05:14:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一般导出MySQL表结构有几种方式</p>
-        
-          <a class="article-more-a" href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/#more">more >></a>
-        
+        <p>权限管理，一般指根据系统设置的安全规则或者安全策略，用户可以访问而且只能访问自己被授权的资源，不多不少。对权限做管理的系统，就是权限管理系统。</p>
+<span id="more"></span>
+<p>我自己没有开发过公用的权限管理系统，不过给后台写过简单的权限管理功能，用过两套相对专业的权限管理系统。这两天开发一个新后台，需要用到权限管理，发现公司已有一个权限管理系统，可直接对接。</p>
+<p>这套权限管理系统，对接顺畅、授权操作成本低、能满足大部分需求。所以主要以这个系统例进行讲解。</p>
+<p>因为没有看过系统代码，所以代码相关的内容会比较少，主要聊一些基本操作。</p>
+<h2 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h2><p>权限管理系统是很必要的。主要有以下几个原因</p>
+<h3 id="复用"><a href="#复用" class="headerlink" title="复用"></a>复用</h3><p>公司往往有大量后台，后台都需要进行权限管理。而权限管理的核心流程是相似的，如果每个后台单独开发一套权限管理系统，就是重复造轮子，是人力的极大浪费。</p>
+<p>有一套公用的权限管理系统，只需做好对接工作，能节省大量人力。</p>
+<h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><p>每个人开发能力不一样，很难保证各自开发的权限管理系统是足够严谨的。</p>
+<h3 id="统一"><a href="#统一" class="headerlink" title="统一"></a>统一</h3><p>首先是宏观上的统一，所有后台系统对接同一套权限管理系统，统一了技术栈。</p>
+<p>其次便于统一管理，无论是维护、管理、查看，都只需关注一个系统，达到收敛效果。</p>
+<h2 id="组成分析"><a href="#组成分析" class="headerlink" title="组成分析"></a>组成分析</h2><p>权限管理系统有几大组成部分，分别为系统、业务、菜单、权限、角色。</p>
+<h3 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h3><p>权限管理系统需与众多平台对接，必须能够标记不同平台。</p>
+<p>系统部分一般包含如下信息：系统ID、系统名称、系统描述、系统负责人、创建时间、修改时间</p>
+<h3 id="业务"><a href="#业务" class="headerlink" title="业务"></a>业务</h3><p>系统内可能有不同业务，也可能只有一个业务。</p>
+<p>如商家后台，不同的商家可以认为是不同的业务。因为同一个使用者可能操作多个商家，但所处角色不同。</p>
+<p>如一些海外系统，需要管理多个国家，不同的国家可以认为是不同的业务。因为同一个用户可能以不同角色管理多个国家配置；或者只能管理一个国家的配置。</p>
+<p>当系统只有一个业务的情况下，业务可只有一个。</p>
+<h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><p>操作者的身份，不同身份权限不同，看到的菜单内容也不同。常见的角色有：运营、开发者、admin等。<img src="./image-20210728133312925.png" alt="image-20210728133312925"></p>
+<h3 id="菜单"><a href="#菜单" class="headerlink" title="菜单"></a>菜单</h3><p>菜单为树形结构，包含多个一级菜单，一个一级菜单包含多个二级菜单或页面，二级菜单包含多个页面。</p>
+<p><img src="./image-20210728100152574.png" alt="image-20210728100152574"></p>
+<p>菜单信息一般包含<img src="./image-20210728100401639.png" alt="image-20210728100401639"></p>
+<h3 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h3><p>前端菜单/页面都需要调用后端接口，所以可以将菜单和调用的接口进行绑定，这就形成了一种关联，拥有某个菜单，便拥有了请求相关接口的权限。</p>
+<p><img src="./image-20210728102049412.png" alt="image-20210728102049412"></p>
+<p><img src="./image-20210728102506799.png" alt="image-20210728102506799"></p>
+<p>权限管理里只显示一二级目录，没有显示页面，主要原因是不想重复配置。</p>
+<p>有一种特殊情况，不同角色可以操作同一个页面的同一个接口，但是操作内容不同，如对更新商品而言，商家只能编辑，运营则负责审核。如果两个操作同一个接口的话，就需要在服务端自行做权限校验。另一种方案是将接口进行拆分，但服务端仍然需要做一部分检查。</p>
+<h2 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h2><p>权限管理系统的核心是管理角色的权限。即角色、菜单、权限之间的关系。上面讲了各个组成后，这之间的关系就比较简单了<img src="./image-20210728133952705.png" alt="image-20210728133952705"></p>
+<p>角色配置的时候和菜单进行绑定，菜单又是和接口绑定的，所以实现了角色-菜单-接口权限之间的对应关系。</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>使用权限管理系统需要有两个前提</p>
+<p>1.需要有账号体系。</p>
+<p>   拥有账号体系意味着能够获取用户id，此时权限管理系统才能被使用。</p>
+<p>2.需要有申请流程</p>
+<pre><code>- 很多公司做权限管理系统的时候，并没有申请流程。添加新用户需管理员在后台人工添加，不但需要录入大量信息，而且容易出错，大大增加了管理员的成本。
+- 合理的方式为，用户申请权限，系统自动录入数据，管理员审核![image-20210729134606404](./image-20210729134606404.png)
+</code></pre>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>权限管理系统需要提供接口供平台调用，其中需要有：</p>
+<ol>
+<li>角色列表：用于用户申请时，能够看到有哪些角色可供选择</li>
+<li>分配角色：用户登录后能够获取到用户id，可以给该用户分配指定系统、指定业务、指定角色</li>
+<li>菜单：获取该角色对应的菜单内容</li>
+<li>接口权限验证：判断该角色是否能够访问指定接口</li>
+</ol>
+<p>权限管理系统往往用于后台，虽流量不高，但也需要关注性能问题，尤其像接口权限验证，几乎每次都需要请求，此时就需要使用缓存来提高性能。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>按照该设计搭建的权限管理系统可以满足大部分业务需求。权限和菜单进行绑定，角色和菜单进行绑定，这种设计更直观、易理解，但也需要后台在设计时，思考好权限与角色的关系，这对后台开发者提出了一定的要求。</p>
+
       
 
       
@@ -200,16 +251,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go锁实现原理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -229,604 +339,14 @@
 
 
 
-
-  
-    <article id="pages-反对自由主义" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/">反对自由主义</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:01:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近读到《毛选》中的一章《反对自由主义》，感慨颇深。</p>
-<p>一个团队战斗力下降或者一个公司有大公司病，都和自由主义有关。我们先来看看自由主义的表现：</p>
-        
-          <a class="article-more-a" href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go设计模式-3-设计原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">Go设计模式(3)-设计原则</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" class="archive-article-date">
-  	<time datetime="2021-02-17T12:07:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hZOeDStnj8DRs7xRxZ5XsQ">Go设计模式(2)-面向对象分析与设计</a>里讲过，做设计最重要的是保留合适的扩展点。如何才能设计出合适的扩展点呢？</p>
-        
-          <a class="article-more-a" href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go设计模式-2-面向对象分析与设计" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">Go设计模式(2)-面向对象分析与设计</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-02-14T09:06:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前些日子写完了第一篇设计模式<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZiobMMJ8HjdEnd5CVbo_bw">Go设计模式(1)-语法</a>。本篇文章主要讲解遇到项目之后如何做面向对象分析与设计。这篇文章的很多思路都来自于王争的<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/intro/100039001">设计模式之美</a>，不过我会按照自己的经验和构思来进行讲解。</p>
-        
-          <a class="article-more-a" href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-评价自己的标准" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/">评价自己的标准</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/" class="archive-article-date">
-  	<time datetime="2021-02-06T13:33:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一个人往往有很多面，有很多特征，很多细节，所以很难用简单的几句话表达出一个人的全貌。</p>
-<p>中国是一个文明古国，特别讲究修身齐家治国平天下，其中对人品质的要求很多，像《论语》或者《道德经》，里面涉及大量对人品质的要求。但这些要求太多太杂了，所以我在想有没有简单、直观、相对全面的标准可以用来衡量自己。</p>
-        
-          <a class="article-more-a" href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-支付对接常规问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/">支付对接常规问题</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2021-02-04T12:28:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前写过一篇如何对接第三方支付的文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NM34aevx3DBT1czcoFMJWw">如何高效对接第三方支付</a>，因为对接的大多数是海外支付公司，这些公司有很多神奇的问题，往往会埋坑，所以开发之前，整理出问题列表，以便尽早发现和解除问题，保证按时上线。</p>
-<p>问题如下</p>
-        
-          <a class="article-more-a" href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP2基础教程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">HTTP2基础教程</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T12:13:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前些日子将自己的网站升级为HTTPS，这次再设置支持HTTP2.0。本篇文章不讲述HTTP2的具体原理，但关于HTTP的相关知识会简单讲述一下，关于HTTP2的详细内容可以参看<a target="_blank" rel="noopener" href="http://www.duokan.com/book/172822">HTTP2基础教程</a>。</p>
-        
-          <a class="article-more-a" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go设计模式-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/">Go设计模式(1)-语法</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/" class="archive-article-date">
-  	<time datetime="2021-02-01T12:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>最近思考了一下这几年写的业务，都是用面向过程思路来实现。之所以用面向过程</p>
-<p>一是因为大家都这么写，很少去思考是否有更好的实现</p>
-<p>二是业务简单，使用面向过程编程可以很方便的实现</p>
-<p>三是业务需要快速上线，面向过程的方法更快更直接</p>
-        
-          <a class="article-more-a" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-服务端团队假期值班方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/">服务端团队假期值班方案</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-01-27T16:54:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在想研发团队在假期期间需要做什么事情，以保证业务和质量。所以将经常做的事情进行了整理，今后遇到假期直接按照这个方案执行。</p>
-        
-          <a class="article-more-a" href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/23/%E5%8E%9F%E5%88%99/">原则</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/23/%E5%8E%9F%E5%88%99/" class="archive-article-date">
-  	<time datetime="2021-01-23T14:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这本书的作者是瑞·达利欧，对于这个名字大家可能不熟悉，但是他创建的公司大家一定听过-桥水基金。</p>
-<p>很早之前就有人向我推荐《原则》这本书，但因为有其它的读书计划，就一直没看，终于有时间拜读了一遍，感触颇多。</p>
-        
-          <a class="article-more-a" href="/2021/01/23/%E5%8E%9F%E5%88%99/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/23/%E5%8E%9F%E5%88%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -849,8 +369,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
