@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>Go设计模式(22)-状态模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/6/index.html">
+  <meta name="description" content="状态模式使用的相对较少，主要是因为会引入大量的状态类，导致代码比较难维护。但是合适的场景使用状态模式，可以把复杂的判断逻辑简化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(22)-状态模式">
+<meta property="og:url" content="http://yoursite.com/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="状态模式使用的相对较少，主要是因为会引入大量的状态类，导致代码比较难维护。但是合适的场景使用状态模式，可以把复杂的判断逻辑简化。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/image-20210731181140711.png">
+<meta property="og:image" content="http://yoursite.com/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/image-20210802220311777.png">
+<meta property="article:published_time" content="2021-08-03T05:25:57.000Z">
+<meta property="article:modified_time" content="2021-08-03T05:26:55.398Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/image-20210731181140711.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,33 +171,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-Go设计模式-22-状态模式" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/23/%E5%8E%9F%E5%88%99/">原则</a>
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(22)-状态模式
     </h1>
   
 
         
-        <a href="/2021/01/23/%E5%8E%9F%E5%88%99/" class="archive-article-date">
-  	<time datetime="2021-01-23T14:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-23</time>
+        <a href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-08-03T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这本书的作者是瑞·达利欧，对于这个名字大家可能不熟悉，但是他创建的公司大家一定听过-桥水基金。</p>
-<p>很早之前就有人向我推荐《原则》这本书，但因为有其它的读书计划，就一直没看，终于有时间拜读了一遍，感触颇多。</p>
-        
-          <a class="article-more-a" href="/2021/01/23/%E5%8E%9F%E5%88%99/#more">more >></a>
-        
+        <p>状态模式使用的相对较少，主要是因为会引入大量的状态类，导致代码比较难维护。但是合适的场景使用状态模式，可以把复杂的判断逻辑简化。</p>
+<span id="more"></span>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/22status.go">https://github.com/shidawuhen/asap/blob/master/controller/design/22status.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1状态模式"><a href="#1-1状态模式" class="headerlink" title="1.1状态模式"></a>1.1状态模式</h3><p><strong>状态模式</strong>：当一个对象的内在状态改变时允许改变其行为，这个对象看起来像是改变了其类。</p>
+<p><strong>UML</strong>：</p>
+<p><img src="./image-20210731181140711.png" alt="image-20210731181140711"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>状态机有3个组成部分：状态（State）、事件（Event）、动作（Action）。事件触发状态的转移及动作的执行。</p>
+<p>只看定义和UML，可能比较难理解使用状态模式有什么好处，举个例子就清晰了。</p>
+<p>假设有四种状态A、B、C、D，同时有四种触发事件E1、E2、E3、E4，如果不使用状态模式，写出来的样子是这样的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">E1</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> status == <span class="string">&quot;A&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> status == <span class="string">&quot;B&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> status == <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> status == <span class="string">&quot;D&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">E2</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> status == <span class="string">&quot;A&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> status == <span class="string">&quot;B&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> status == <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> status == <span class="string">&quot;D&quot;</span> &#123;</span><br><span class="line">      <span class="comment">//状态迁移+动作执行</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>单看伪代码可能觉得还好，但是细想一想，如果动作执行比较复杂，代码是不是就很丑了。后期如果状态或者事件变更，如何确保每一处都进行了更改？这时候状态模式便起作用了。</p>
+<p>我们创建四个类，如UML中的ConcreteStateA、ConcreteStateB、ConcreteStateC、ConcreteStateD，分别代表四种状态。每个状态类中有4个Handle函数，分别对应4个事件。通过这种方式，将糅杂在一起的逻辑进行了拆分，代码看起来优雅了很多。</p>
+<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2.应用场景"></a>2.应用场景</h2><p>这么多年都没有用过状态模式，使用场景确实有点少。</p>
+<p>实际业务场景中做过跨境履约单的状态机，履约单需要经历接单、清关中、清关成功、发货等状态。这种场景相对简单，状态只能单方向流转、单独的接口触发指定状态流转到下一个状态，复杂的部分在于下一个状态可能有多个，有的可以跳过。这种情况下，使用数组维护状态机，比状态模式要好。</p>
+<p>如果状态多、动作执行逻辑复杂，那使用状态模式还是挺合理的，一般游戏中使用状态模式相对多一些。本次借用《设计模式之美》里超级马里奥的例子，使用超级马里奥介绍实在是太合适了，一是因为马里奥有多种状态、多种触发事件，特别适合使用状态模式；二是超级马里奥大家都玩过，业务情况大家都熟悉。为了帮助大家回忆，我找了马里奥全系列变身形态<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/250931383%E3%80%82">https://zhuanlan.zhihu.com/p/250931383。</a></p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><p><img src="./image-20210802220311777.png" alt="image-20210802220311777"></p>
+<p>马里奥状态有小马里奥（Small Mario）、超级马里奥（Super Mario）、斗篷马里奥（Cape Mario），小马里奥吃了蘑菇变为超级马里奥，小马里奥和超级马里奥获得斗篷变成斗篷马里奥，超级马里奥和斗篷马里奥碰到怪物变成小马里奥。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Mario <span class="keyword">struct</span> &#123;</span><br><span class="line">	score  <span class="keyword">int64</span></span><br><span class="line">	status MarioStatus</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MarioStatus <span class="keyword">interface</span> &#123;</span><br><span class="line">	Name()</span><br><span class="line">	ObtainMushroom()</span><br><span class="line">	ObtainCape()</span><br><span class="line">	MeetMonster()</span><br><span class="line">	SetMario(mario *Mario)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 小马里奥</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> SmallMarioStatus <span class="keyword">struct</span> &#123;</span><br><span class="line">	mario *Mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 设置马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> * @param mario</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">SetMario</span><span class="params">(mario *Mario)</span></span> &#123;</span><br><span class="line">	s.mario = mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">Name</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;小马里奥&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得蘑菇变为超级马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">ObtainMushroom</span><span class="params">()</span></span> &#123;</span><br><span class="line">	s.mario.status = &amp;SuperMarioStatus&#123;</span><br><span class="line">		mario: s.mario,</span><br><span class="line">	&#125;</span><br><span class="line">	s.mario.score += <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得斗篷变为斗篷马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">ObtainCape</span><span class="params">()</span></span> &#123;</span><br><span class="line">	s.mario.status = &amp;CapeMarioStatus&#123;</span><br><span class="line">		mario: s.mario,</span><br><span class="line">	&#125;</span><br><span class="line">	s.mario.score += <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 遇到怪兽减100</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">MeetMonster</span><span class="params">()</span></span> &#123;</span><br><span class="line">	s.mario.score -= <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 超级马里奥</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> SuperMarioStatus <span class="keyword">struct</span> &#123;</span><br><span class="line">	mario *Mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 设置马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> * @param mario</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">SetMario</span><span class="params">(mario *Mario)</span></span> &#123;</span><br><span class="line">	s.mario = mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">Name</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;超级马里奥&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得蘑菇无变化</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">ObtainMushroom</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description:获得斗篷变为斗篷马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">ObtainCape</span><span class="params">()</span></span> &#123;</span><br><span class="line">	s.mario.status = &amp;CapeMarioStatus&#123;</span><br><span class="line">		mario: s.mario,</span><br><span class="line">	&#125;</span><br><span class="line">	s.mario.score += <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 遇到怪兽变为小马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">MeetMonster</span><span class="params">()</span></span> &#123;</span><br><span class="line">	s.mario.status = &amp;SmallMarioStatus&#123;</span><br><span class="line">		mario: s.mario,</span><br><span class="line">	&#125;</span><br><span class="line">	s.mario.score -= <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 斗篷马里奥</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> CapeMarioStatus <span class="keyword">struct</span> &#123;</span><br><span class="line">	mario *Mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 设置马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> * @param mario</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">SetMario</span><span class="params">(mario *Mario)</span></span> &#123;</span><br><span class="line">	c.mario = mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">Name</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;斗篷马里奥&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description:获得蘑菇无变化</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">ObtainMushroom</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得斗篷无变化</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">ObtainCape</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 遇到怪兽变为小马里奥</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">MeetMonster</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c.mario.status = &amp;SmallMarioStatus&#123;</span><br><span class="line">		mario: c.mario,</span><br><span class="line">	&#125;</span><br><span class="line">	c.mario.score -= <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	mario := Mario&#123;</span><br><span class="line">		status: &amp;SmallMarioStatus&#123;&#125;,</span><br><span class="line">		score:  <span class="number">0</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	mario.status.SetMario(&amp;mario)</span><br><span class="line"></span><br><span class="line">	mario.status.Name()</span><br><span class="line">	fmt.Println(<span class="string">&quot;-------------------获得蘑菇\n&quot;</span>)</span><br><span class="line">	mario.status.ObtainMushroom()</span><br><span class="line"></span><br><span class="line">	mario.status.Name()</span><br><span class="line">	fmt.Println(<span class="string">&quot;-------------------获得斗篷\n&quot;</span>)</span><br><span class="line">	mario.status.ObtainCape()</span><br><span class="line"></span><br><span class="line">	mario.status.Name()</span><br><span class="line">	fmt.Println(<span class="string">&quot;-------------------遇到怪兽\n&quot;</span>)</span><br><span class="line">	mario.status.MeetMonster()</span><br><span class="line"></span><br><span class="line">	mario.status.Name()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>小马里奥</p>
+<p>——————-获得蘑菇</p>
+<p>超级马里奥</p>
+<p>——————-获得斗篷</p>
+<p>斗篷马里奥</p>
+<p>——————-遇到怪兽</p>
+<p>小马里奥</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>仔细看上面的代码</p>
+<ul>
+<li>对事件触发状态的转移及动作的执行的改动会很简单</li>
+<li>可快速增加新的事件</li>
+<li>增加新的状态也方便，只需添加新的状态类，少量修改已有代码</li>
+</ul>
+<p>坏处就是类特别多，类里的函数也会特别多，即使这些函数根本无用。不过能获得更好的扩展性，还是值得的。</p>
+
       
 
       
@@ -201,16 +239,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/23/%E5%8E%9F%E5%88%99/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">权限管理系统设计</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -230,606 +327,14 @@
 
 
 
-
-  
-    <article id="post-MySQL开发规范" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">MySQL开发规范</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" class="archive-article-date">
-  	<time datetime="2021-01-17T15:36:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近看到一份MySQL开发规范，受益颇多，规范里隐藏了很多MySQL的原理，大家有兴趣可以分析一下这些规范被如此设定的原因。</p>
-<h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><p>1.库名、表名、字段名、索引名必须使用小写字母，并采用下划线分割。</p>
-        
-          <a class="article-more-a" href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTPS配置实战" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/">HTTPS配置实战</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/" class="archive-article-date">
-  	<time datetime="2021-01-17T08:33:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>现在网站使用HTTPS是规范操作之一，前些日子买了腾讯云服务，同时申请了域名<a target="_blank" rel="noopener" href="http://www.asap2me.top/">http://www.asap2me.top/</a> ，目前该域名只支持HTTP，想升级为HTTPS。关于HTTPS的链接过程大家可以看我的这篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/B0gJ-yksfJXFjudiPZNRRA">HTTPS连接过程</a>。</p>
-        
-          <a class="article-more-a" href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2020博客总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">2020博客总结</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2021-01-13T09:57:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2020年已经结束啦，需要对今年写的博客做个总结。</p>
-<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>其实写博客是从2020年初开始的，之所以写博客有几个原因</p>
-        
-          <a class="article-more-a" href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-资治通鉴读后感" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/20/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%E8%AF%BB%E5%90%8E%E6%84%9F/">资治通鉴读后感</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/20/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%E8%AF%BB%E5%90%8E%E6%84%9F/" class="archive-article-date">
-  	<time datetime="2020-12-20T15:07:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我觉得一生中有几本书是必须要读、而且需要读多遍的，这些书有《论语》《道德经》《毛泽东选集》，现在我还要加上《资治通鉴》。这几本书的深度可能需要用一生不断的去参透，这就是经典的魅力吧。</p>
-        
-          <a class="article-more-a" href="/2020/12/20/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%E8%AF%BB%E5%90%8E%E6%84%9F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/20/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%E8%AF%BB%E5%90%8E%E6%84%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go通道实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go通道实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-12-19T07:54:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>channel是Go语言的一大特性，基于channel有很多值得探讨的问题，如</p>
-<ol>
-<li>channel为什么是并发安全的？</li>
-<li>同步通道和异步通道有啥区别？</li>
-<li>通道为何会阻塞协程？</li>
-<li>使用通道导致阻塞的协程是如何解除阻塞的？
-        
-          <a class="article-more-a" href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go语言标准库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/">Go语言标准库</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/" class="archive-article-date">
-  	<time datetime="2020-12-17T14:21:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是github上翻译的文章，没有翻译全，不过内容还是很不错的，值得一看。</p>
-<h2 id="第一章-输入输出"><a href="#第一章-输入输出" class="headerlink" title="第一章 输入输出"></a>第一章 输入输出</h2>
-        
-          <a class="article-more-a" href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GoLang定时器实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">GoLang定时器实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-12-15T12:10:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>工作中经常有定时执行某些代码块的需求，如果是PHP代码，一般写个脚本，然后用Cron实现。</p>
-<p>Go里提供了两种定时器：<code>Timer</code>（到达指定时间触发且只触发一次）和 <code>Ticker</code>（间隔特定时间触发）。</p>
-        
-          <a class="article-more-a" href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTPS连接过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/">HTTPS连接过程</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-12-14T14:38:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>HTTP协议通信过程中使用未经加密的明文，安全性无法得到保证。比如在Web页面中输入信用卡号，如果这条通信线路遭到窃听，那么信用卡号就暴露了。</p>
-        
-          <a class="article-more-a" href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-限流实现2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/">限流实现2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/" class="archive-article-date">
-  	<time datetime="2020-12-05T16:26:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>上一篇文章 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hG6QrPPTHjqEaUVQhjDdBg">限流实现1</a> 已经介绍三种限流方案</p>
-        
-          <a class="article-more-a" href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -852,8 +357,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
