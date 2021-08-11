@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go设计模式(24)-访问者模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/8/index.html">
+  <meta name="description" content="访问者模式理解比较困难。可以认为对象开了一扇门，用来接收访问者，然后访问者便可在对象内部操作对象。简单来说，对象对访问者进行了授权。这样做能够实现对象和操作的解耦，职责更加单一。对象只管理自身，操作功能安置在访问者中。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(24)-访问者模式">
+<meta property="og:url" content="http://yoursite.com/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="访问者模式理解比较困难。可以认为对象开了一扇门，用来接收访问者，然后访问者便可在对象内部操作对象。简单来说，对象对访问者进行了授权。这样做能够实现对象和操作的解耦，职责更加单一。对象只管理自身，操作功能安置在访问者中。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/image-20210809133044912.png">
+<meta property="article:published_time" content="2021-08-11T14:16:30.000Z">
+<meta property="article:modified_time" content="2021-08-11T14:17:03.724Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/image-20210809133044912.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +170,180 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-24-访问者模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(24)-访问者模式
+    </h1>
+  
+
+        
+        <a href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-08-11T14:16:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-11</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>访问者模式理解比较困难。可以认为对象开了一扇门，用来接收访问者，然后访问者便可在对象内部操作对象。简单来说，对象对访问者进行了授权。这样做能够实现对象和操作的解耦，职责更加单一。对象只管理自身，操作功能安置在访问者中。</p>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<span id="more"></span>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/24vistor.go">https://github.com/shidawuhen/asap/blob/master/controller/design/24vistor.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1-访问者模式"><a href="#1-1-访问者模式" class="headerlink" title="1.1 访问者模式"></a>1.1 访问者模式</h3><p><strong>访问者模式</strong>：表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用于这些元素的新操作。</p>
+<p><strong>UML</strong>：<img src="./image-20210809133044912.png" alt="image-20210809133044912"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>看完访问者模式定义和UML，可能大家会想，这说的是人话吗？一开始我也是这么想的。但是把定义和UML拆分后，就容易理解了。</p>
+<h4 id="定义分析"><a href="#定义分析" class="headerlink" title="定义分析"></a>定义分析</h4><p>先看定义：<strong>表示一个作用于某对象结构中的各元素的操作。</strong></p>
+<p>对象结构中的各元素：就是指一个类和类里的各种成员变量，对应UML中的Element。</p>
+<p>操作：就是指访问者，访问者有操作元素的能力。</p>
+<p>所以这句话可以解释为：访问者模式，就是访问者可以操作类里的元素。</p>
+<p>再看定义：它使你可以在不改变各元素的类的前提下定义作用于这些元素的新操作。</p>
+<p>这句话主要讲访问者模式的优点：类在不做任何改动的情况下，能够增加新的操作/解析方式。如元素类是pdf资源文件类，以前只支持抽取文本内容操作，现在增加压缩、提取文件元信息操作，元素类无需感知。</p>
+<h4 id="UML分析"><a href="#UML分析" class="headerlink" title="UML分析"></a>UML分析</h4><p>定义没有解释访问者模式是如何实现的，这时候我们可以看UML。</p>
+<p>首先我们看Element，这个是元素类，属于被操作的对象。元素类有成员函数Accept，用于接收访问者。关于Element想提两点：</p>
+<ol>
+<li>成员函数Accept中的入参vistor是接口或者是父类，不是子类</li>
+<li>Element可以有一个operator函数，ConcreteElementA和ConcreteElementB可实现该函数。</li>
+</ol>
+<p>再来看Vistor，有两个成员函数，入参分别对应ConcreteElementA、ConcreteElementB，即Vistor提供了同一种功能，能够操作不同的Element。</p>
+<p>通过UML分析，我们可以看出，Element和Vistor是你中有我，我中有你的关系。</p>
+<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2.应用场景"></a>2.应用场景</h2><p>虽然分析完了，可能有很多同学会比较懵，这么麻烦的设计模式我用了干嘛！实际情况是，我也没用过访问者模式。但有些场景，访问者模式还是有用的。</p>
+<p>设计模式还是为了解耦，实现高内聚、低耦合。</p>
+<p>假设有三种文件类型，pdf、word、txt，需要对这三种文件做内容提取、压缩、获取文件元信息操作，我们应该如何设计。</p>
+<p>我们肯定需要创建pdf、word、txt三个类，实现文件的读取。</p>
+<p>然后我们实现内容提取、压缩、获取文件元信息三个类，每个类有三个函数，用来处理不同类型的文件。</p>
+<p>现在已经将所有文件读取完毕，需要对文件分别进行内容提取、压缩、获取文件元信息。</p>
+<p>我们可以这么实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fileList := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">10</span>)</span><br><span class="line">  </span><br><span class="line">   fmt.Println(<span class="string">&quot;------提取文件&quot;</span>)</span><br><span class="line">   <span class="keyword">for</span> _, f := <span class="keyword">range</span> fileList &#123;</span><br><span class="line">      <span class="keyword">if</span> <span class="string">&quot;f是pdf&quot;</span> == <span class="string">&quot;true&quot;</span> &#123;</span><br><span class="line">         fmt.Println(<span class="string">&quot;调用pdf提取接口&quot;</span>)</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="string">&quot;f是txt&quot;</span> == <span class="string">&quot;true&quot;</span> &#123;</span><br><span class="line">         fmt.Println(<span class="string">&quot;调用txt提取接口&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   fmt.Println(<span class="string">&quot;------压缩文件&quot;</span>)</span><br><span class="line">   <span class="keyword">for</span> _, f := <span class="keyword">range</span> fileList &#123;</span><br><span class="line">      <span class="keyword">if</span> <span class="string">&quot;f是pdf&quot;</span> == <span class="string">&quot;true&quot;</span> &#123;</span><br><span class="line">         fmt.Println(<span class="string">&quot;调用pdf压缩接口&quot;</span>)</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="string">&quot;f是txt&quot;</span> == <span class="string">&quot;true&quot;</span> &#123;</span><br><span class="line">         fmt.Println(<span class="string">&quot;调用txt压缩接口&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果这样实现，当增加新文件类型或者新功能时，都要修改一堆if-else，不但不优雅，而且极易出问题。这时候就可以使用访问者模式。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 读文件接口，用于获取到文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> ReadFile <span class="keyword">interface</span> &#123;</span><br><span class="line">   Read(fileName <span class="keyword">string</span>)</span><br><span class="line">   Accept(v VistorReadFile)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 读pdf文件类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> ReadPdfFile <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 读取文件</span></span><br><span class="line"><span class="comment"> * @receiver p</span></span><br><span class="line"><span class="comment"> * @param fileName</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *ReadPdfFile)</span> <span class="title">Read</span><span class="params">(fileName <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;读取pdf文件&quot;</span> + fileName)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 接受访问者类</span></span><br><span class="line"><span class="comment"> * @receiver p</span></span><br><span class="line"><span class="comment"> * @param v</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *ReadPdfFile)</span> <span class="title">Accept</span><span class="params">(v VistorReadFile)</span></span> &#123;</span><br><span class="line">   v.VistorPdfFile(p)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 读取txt文件类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> ReadTxtFile <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 读取文件</span></span><br><span class="line"><span class="comment"> * @receiver t</span></span><br><span class="line"><span class="comment"> * @param fileName</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *ReadTxtFile)</span> <span class="title">Read</span><span class="params">(fileName <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;读取txt文件&quot;</span> + fileName)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 接受访问者类</span></span><br><span class="line"><span class="comment"> * @receiver p</span></span><br><span class="line"><span class="comment"> * @param v</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *ReadTxtFile)</span> <span class="title">Accept</span><span class="params">(v VistorReadFile)</span></span> &#123;</span><br><span class="line">   v.VistorTxtFile(t)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 访问者，包含对pdf和txt的操作</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> VistorReadFile <span class="keyword">interface</span> &#123;</span><br><span class="line">   VistorPdfFile(p *ReadPdfFile)</span><br><span class="line">   VistorTxtFile(t *ReadTxtFile)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 提取文件类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> ExactFile <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 提取pdf文件</span></span><br><span class="line"><span class="comment"> * @receiver e</span></span><br><span class="line"><span class="comment"> * @param p</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *ExactFile)</span> <span class="title">VistorPdfFile</span><span class="params">(p *ReadPdfFile)</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;提取pdf文件内容&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 提取txt文件</span></span><br><span class="line"><span class="comment"> * @receiver e</span></span><br><span class="line"><span class="comment"> * @param p</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *ExactFile)</span> <span class="title">VistorTxtFile</span><span class="params">(p *ReadTxtFile)</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;提取txt文件内容&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 压缩文件类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> CompressionFile <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 压缩pdf文件</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @param p</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CompressionFile)</span> <span class="title">VistorPdfFile</span><span class="params">(p *ReadPdfFile)</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;压缩pdf文件内容&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 压缩txt文件</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @param p</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CompressionFile)</span> <span class="title">VistorTxtFile</span><span class="params">(p *ReadTxtFile)</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;压缩txt文件内容&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   filesList := []ReadFile&#123;</span><br><span class="line">      &amp;ReadPdfFile&#123;&#125;,</span><br><span class="line">      &amp;ReadTxtFile&#123;&#125;,</span><br><span class="line">      &amp;ReadPdfFile&#123;&#125;,</span><br><span class="line">      &amp;ReadTxtFile&#123;&#125;,</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//提取文件</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;--------------------------提取文件&quot;</span>)</span><br><span class="line">   extract := ExactFile&#123;&#125;</span><br><span class="line">   <span class="keyword">for</span> _, f := <span class="keyword">range</span> filesList &#123;</span><br><span class="line">      f.Accept(&amp;extract)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//压缩文件</span></span><br><span class="line">   fmt.Println(<span class="string">&quot;--------------------------压缩文件&quot;</span>)</span><br><span class="line">   compress := CompressionFile&#123;&#125;</span><br><span class="line">   <span class="keyword">for</span> _, f := <span class="keyword">range</span> filesList &#123;</span><br><span class="line">      f.Accept(&amp;compress)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>————————–提取文件</p>
+<p>提取pdf文件内容</p>
+<p>提取txt文件内容</p>
+<p>提取pdf文件内容</p>
+<p>提取txt文件内容</p>
+<p>————————–压缩文件</p>
+<p>压缩pdf文件内容</p>
+<p>压缩txt文件内容</p>
+<p>压缩pdf文件内容</p>
+<p>压缩txt文件内容</p>
+<p>这种写法，如果增加新的文件类型，main中代码无需改动，只需要vistor添加新的实现即可。如果增加新的功能，文件类也无需感知。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>访问者模式实现了对象和操作的解耦。可以认为访问者模式有两个维度，一是对象和操作解耦，这个比较容易理解，也符合单一职责原则。二是对象给操作开个大门，这个是否需要主要看业务的复杂度。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E7%94%A8%E9%97%B4%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:43:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E7%94%A8%E9%97%B4%E7%AF%87/">用间篇</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E7%81%AB%E6%94%BB%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:43:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">InnoDB redo、undo、binlog，是如何合作的</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E7%81%AB%E6%94%BB%E7%AF%87/">火攻篇</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E4%B9%9D%E5%9C%B0%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E4%B9%9D%E5%9C%B0%E7%AF%87/">九地篇</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%9C%B0%E5%BD%A2%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:42:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%9C%B0%E5%BD%A2%E7%AF%87/">地形篇</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E8%A1%8C%E5%86%9B%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:41:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E8%A1%8C%E5%86%9B%E7%AF%87/">行军篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:40:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/">九变篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:40:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/">军争篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:39:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/">虚实篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%8A%BF%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:39:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%8A%BF%E7%AF%87/">势篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%BD%A2%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:38:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%BD%A2%E7%AF%87/">形篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/7/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/archives/page/9/">9</a><a class="page-number" href="/archives/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/14/">14</a><a class="extend next" rel="next" href="/archives/page/9/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +367,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
