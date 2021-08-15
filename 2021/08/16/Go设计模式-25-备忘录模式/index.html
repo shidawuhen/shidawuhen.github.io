@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2021 | Jason Pang</title>
+  <title>Go设计模式(25)-备忘录模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/2021/page/3/index.html">
+  <meta name="description" content="当初学备忘录模式的时候，特别开心。这不就是游戏里的备份嘛！游戏关闭之后，重新开启，从上次结束的位置继续开始。但终归没有进入游戏行业，也没有机会用过备忘录模式。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(25)-备忘录模式">
+<meta property="og:url" content="http://yoursite.com/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="当初学备忘录模式的时候，特别开心。这不就是游戏里的备份嘛！游戏关闭之后，重新开启，从上次结束的位置继续开始。但终归没有进入游戏行业，也没有机会用过备忘录模式。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/image-20210815194653917.png">
+<meta property="article:published_time" content="2021-08-15T16:13:37.000Z">
+<meta property="article:modified_time" content="2021-08-15T16:14:17.435Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/image-20210815194653917.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +170,172 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-25-备忘录模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(25)-备忘录模式
+    </h1>
+  
+
+        
+        <a href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-08-15T16:13:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当初学备忘录模式的时候，特别开心。这不就是游戏里的备份嘛！游戏关闭之后，重新开启，从上次结束的位置继续开始。但终归没有进入游戏行业，也没有机会用过备忘录模式。</p>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<span id="more"></span>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/25Memento.go">https://github.com/shidawuhen/asap/blob/master/controller/design/25Memento.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1-备忘录模式"><a href="#1-1-备忘录模式" class="headerlink" title="1.1 备忘录模式"></a>1.1 备忘录模式</h3><p><strong>备忘录模式</strong>：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。</p>
+<p><strong>UML</strong>：<img src="./image-20210815194653917.png" alt="image-20210815194653917"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>从定义上看，除了不破坏封装性外，其它都比较容易理解。对于不破坏封装性，我觉得有两点：</p>
+<ol>
+<li>备忘录是Originator自己创建的</li>
+<li>备忘录应该只有获取相关的接口，不应该有修改相关的接口</li>
+</ol>
+<p>Caretaker是做什么用的呢？备忘录不是只备忘一份，可能备忘多份，Caretaker就是管理众多备忘录的。</p>
+<p>Originator通过CreateMemento创建备忘录，通过SetMemento恢复到指定状态。</p>
+<p>为什么备份的时候使用的是Memento而不是直接使用Originator呢？这是因为Memento只保存数据，如果将Originator保存，则表示将功能也进行保存，属于不该保存的而保存了。</p>
+<p>另外只保存数据还有一个好处，即使解析出数据，也不知道如何使用，只有Originator知道真正的口诀。</p>
+<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2.应用场景"></a>2.应用场景</h2><p>游戏或者文档，经常使用到备份相关的功能。玩游戏打Boss的时候，一般会做存档，失败了重新来。文档也有回滚功能，否则毕业论文写着写着断电了，所有内容化为乌有，多惨。</p>
+<p>以前写过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/PfRRFSOFBxSCg98zpg3k_Q">Go设计模式(22)-状态模式</a>，这也算一个简单的小游戏，正好用它为基础实现一个备忘录模式。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;container/list&quot;</span></span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 备忘录</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Memento <span class="keyword">struct</span> &#123;</span><br><span class="line">   mario *Mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Memento)</span> <span class="title">GetMario</span><span class="params">()</span> *<span class="title">Mario</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> m.mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 管理备忘录</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Caretaker <span class="keyword">struct</span> &#123;</span><br><span class="line">   stack *list.List</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 保存备忘录</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @param m</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Caretaker)</span> <span class="title">Save</span><span class="params">(m *Memento)</span></span> &#123;</span><br><span class="line">   c.stack.PushBack(m)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获取上一个备忘录</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return *Memento</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Caretaker)</span> <span class="title">Pop</span><span class="params">()</span> *<span class="title">Memento</span></span> &#123;</span><br><span class="line">   e := c.stack.Back()</span><br><span class="line">   c.stack.Remove(e)</span><br><span class="line">   <span class="keyword">return</span> e.Value.(*Memento)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Mario <span class="keyword">struct</span> &#123;</span><br><span class="line">   score  <span class="keyword">int64</span></span><br><span class="line">   status MarioStatus</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 展示信息和分数</span></span><br><span class="line"><span class="comment"> * @receiver m</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mario)</span> <span class="title">ShowInfo</span><span class="params">()</span></span> &#123;</span><br><span class="line">   m.status.Name()</span><br><span class="line">   fmt.Println(<span class="string">&quot;当前分数为:&quot;</span>, m.score)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 创建备忘录</span></span><br><span class="line"><span class="comment"> * @receiver m</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mario)</span> <span class="title">CreateMemento</span><span class="params">()</span> *<span class="title">Memento</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> &amp;Memento&#123;</span><br><span class="line">      mario: &amp;Mario&#123;</span><br><span class="line">         score:  m.score,</span><br><span class="line">         status: m.status,</span><br><span class="line">      &#125;,</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 恢复数据</span></span><br><span class="line"><span class="comment"> * @receiver m</span></span><br><span class="line"><span class="comment"> * @param mem</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mario)</span> <span class="title">SetMemento</span><span class="params">(mem *Memento)</span></span> &#123;</span><br><span class="line">   m.score = mem.mario.score</span><br><span class="line">   m.status = mem.mario.status</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MarioStatus <span class="keyword">interface</span> &#123;</span><br><span class="line">   Name()</span><br><span class="line">   ObtainMushroom()</span><br><span class="line">   ObtainCape()</span><br><span class="line">   MeetMonster()</span><br><span class="line">   SetMario(mario *Mario)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 小马里奥</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> SmallMarioStatus <span class="keyword">struct</span> &#123;</span><br><span class="line">   mario *Mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 设置马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> * @param mario</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">SetMario</span><span class="params">(mario *Mario)</span></span> &#123;</span><br><span class="line">   s.mario = mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">Name</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;小马里奥&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得蘑菇变为超级马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">ObtainMushroom</span><span class="params">()</span></span> &#123;</span><br><span class="line">   s.mario.status = &amp;SuperMarioStatus&#123;</span><br><span class="line">      mario: s.mario,</span><br><span class="line">   &#125;</span><br><span class="line">   s.mario.score += <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得斗篷变为斗篷马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">ObtainCape</span><span class="params">()</span></span> &#123;</span><br><span class="line">   s.mario.status = &amp;CapeMarioStatus&#123;</span><br><span class="line">      mario: s.mario,</span><br><span class="line">   &#125;</span><br><span class="line">   s.mario.score += <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 遇到怪兽减100</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SmallMarioStatus)</span> <span class="title">MeetMonster</span><span class="params">()</span></span> &#123;</span><br><span class="line">   s.mario.score -= <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 超级马里奥</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> SuperMarioStatus <span class="keyword">struct</span> &#123;</span><br><span class="line">   mario *Mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 设置马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> * @param mario</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">SetMario</span><span class="params">(mario *Mario)</span></span> &#123;</span><br><span class="line">   s.mario = mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">Name</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;超级马里奥&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得蘑菇无变化</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">ObtainMushroom</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description:获得斗篷变为斗篷马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">ObtainCape</span><span class="params">()</span></span> &#123;</span><br><span class="line">   s.mario.status = &amp;CapeMarioStatus&#123;</span><br><span class="line">      mario: s.mario,</span><br><span class="line">   &#125;</span><br><span class="line">   s.mario.score += <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 遇到怪兽变为小马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SuperMarioStatus)</span> <span class="title">MeetMonster</span><span class="params">()</span></span> &#123;</span><br><span class="line">   s.mario.status = &amp;SmallMarioStatus&#123;</span><br><span class="line">      mario: s.mario,</span><br><span class="line">   &#125;</span><br><span class="line">   s.mario.score -= <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 斗篷马里奥</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> CapeMarioStatus <span class="keyword">struct</span> &#123;</span><br><span class="line">   mario *Mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 设置马里奥</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> * @param mario</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">SetMario</span><span class="params">(mario *Mario)</span></span> &#123;</span><br><span class="line">   c.mario = mario</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">Name</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">&quot;斗篷马里奥&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description:获得蘑菇无变化</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">ObtainMushroom</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 获得斗篷无变化</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">ObtainCape</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 遇到怪兽变为小马里奥</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CapeMarioStatus)</span> <span class="title">MeetMonster</span><span class="params">()</span></span> &#123;</span><br><span class="line">   c.mario.status = &amp;SmallMarioStatus&#123;</span><br><span class="line">      mario: c.mario,</span><br><span class="line">   &#125;</span><br><span class="line">   c.mario.score -= <span class="number">200</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   caretaker := &amp;Caretaker&#123;</span><br><span class="line">      stack: list.New(),</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   mario := Mario&#123;</span><br><span class="line">      status: &amp;SmallMarioStatus&#123;&#125;,</span><br><span class="line">      score:  <span class="number">0</span>,</span><br><span class="line">   &#125;</span><br><span class="line">   mario.status.SetMario(&amp;mario)</span><br><span class="line"></span><br><span class="line">   mario.status.Name()</span><br><span class="line">   fmt.Println(<span class="string">&quot;-------------------获得蘑菇\n&quot;</span>)</span><br><span class="line">   mario.status.ObtainMushroom()</span><br><span class="line"></span><br><span class="line">   mario.status.Name()</span><br><span class="line">   fmt.Println(<span class="string">&quot;-------------------获得斗篷\n&quot;</span>)</span><br><span class="line">   mario.status.ObtainCape()</span><br><span class="line"></span><br><span class="line">   fmt.Println(<span class="string">&quot;-------------------备份一下，要打怪了，当前状态为\n&quot;</span>)</span><br><span class="line">   mario.ShowInfo()</span><br><span class="line">   caretaker.Save(mario.CreateMemento())</span><br><span class="line">   fmt.Println(<span class="string">&quot;-------------------开始打怪\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">   mario.status.Name()</span><br><span class="line">   fmt.Println(<span class="string">&quot;-------------------遇到怪兽\n&quot;</span>)</span><br><span class="line">   mario.status.MeetMonster()</span><br><span class="line"></span><br><span class="line">   fmt.Println(<span class="string">&quot;-------------------打怪失败，目前状态为\n&quot;</span>)</span><br><span class="line">   mario.ShowInfo()</span><br><span class="line"></span><br><span class="line">   fmt.Println(<span class="string">&quot;-------------------恢复状态，重新打怪\n&quot;</span>)</span><br><span class="line">   mario.SetMemento(caretaker.Pop())</span><br><span class="line">   mario.ShowInfo()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>小马里奥</p>
+<p>——————-获得蘑菇</p>
+<p>超级马里奥</p>
+<p>——————-获得斗篷</p>
+<p>——————-备份一下，要打怪了，当前状态为</p>
+<p>斗篷马里奥</p>
+<p>当前分数为: 300</p>
+<p>——————-开始打怪</p>
+<p>斗篷马里奥</p>
+<p>——————-遇到怪兽</p>
+<p>——————-打怪失败，目前状态为</p>
+<p>小马里奥</p>
+<p>当前分数为: 100</p>
+<p>——————-恢复状态，重新打怪</p>
+<p>斗篷马里奥</p>
+<p>当前分数为: 300</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单写了一个小功能，还是挺麻烦的，我想这也是大家不太想用设计模式的一个原因。但是当使用的时候，却发现这个设计模式能够方便的实现很多功能，这也是有人想用设计模式的原因。</p>
+<p>备忘录模式虽然不常用，但是对合适的场景还是很有帮助的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/20/%E5%AF%B9%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2021-06-20T05:10:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/20/%E5%AF%B9%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对写博客的一些思考</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-15-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-12T03:52:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-12</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/15/Innodb%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Innodb事务隔离性实现原理，你知道吗？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-15-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/">Go设计模式(15)-门面模式</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-14-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-12T03:52:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/12/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-14-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(14)-适配器模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/12/%E6%99%9A%E4%B8%8A%E6%89%93119%E7%9A%84%E7%BB%8F%E5%8E%86/" class="archive-article-date">
-  	<time datetime="2021-06-12T03:52:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/12/%E6%99%9A%E4%B8%8A%E6%89%93119%E7%9A%84%E7%BB%8F%E5%8E%86/">晚上打119的经历</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-05T03:29:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/05/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-13-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(13)-装饰器模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/05/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%81%AD%E9%81%87%E8%85%BE%E8%AE%AF%E5%B1%8F%E8%94%BD%E5%92%8C%E5%B0%81%E7%A6%81%E5%A4%A7%E4%BA%8B%E8%AE%B0%EF%BC%882018-2021%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-06-05T03:28:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/05/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%81%AD%E9%81%87%E8%85%BE%E8%AE%AF%E5%B1%8F%E8%94%BD%E5%92%8C%E5%B0%81%E7%A6%81%E5%A4%A7%E4%BA%8B%E8%AE%B0%EF%BC%882018-2021%EF%BC%89/">转载-字节跳动遭遇腾讯屏蔽和封禁大事记（2018-2021）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/06/05/Gin%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-06-05T03:28:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/06/05/Gin%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">Gin请求参数获取方法整理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/29/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-12-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-05-29T04:09:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/29/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-12-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">Go设计模式(12)-桥接模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/" class="archive-article-date">
-  	<time datetime="2021-05-29T04:09:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/">分页复选设计的坑</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/15/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-11-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-05-15T05:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/15/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-11-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">Go设计模式(11)-代理模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2021/page/2/">« Prev</a><a class="page-number" href="/archives/2021/">1</a><a class="page-number" href="/archives/2021/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/2021/page/4/">4</a><a class="page-number" href="/archives/2021/page/5/">5</a><a class="page-number" href="/archives/2021/page/6/">6</a><a class="extend next" rel="next" href="/archives/2021/page/4/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +359,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
