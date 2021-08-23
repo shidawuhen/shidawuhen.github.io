@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>对如何分析项目的思考 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/12/index.html">
+  <meta name="description" content="做了好多项目，这次想聊一下怎么分析项目，算是自己的拙见，也是自己的一点总结吧。 研发工程师的工作就是不断的处理业务需求，但PM提的需求应该如何来评判、分析呢？我觉得可以从三个方面来考虑，分别是What、Why、How。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对如何分析项目的思考">
+<meta property="og:url" content="http://yoursite.com/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="做了好多项目，这次想聊一下怎么分析项目，算是自己的拙见，也是自己的一点总结吧。 研发工程师的工作就是不断的处理业务需求，但PM提的需求应该如何来评判、分析呢？我觉得可以从三个方面来考虑，分别是What、Why、How。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/%E7%A0%94%E5%8F%91.jpg">
+<meta property="article:published_time" content="2021-08-23T06:24:17.000Z">
+<meta property="article:modified_time" content="2021-08-23T06:28:03.725Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/%E7%A0%94%E5%8F%91.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +170,210 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-对如何分析项目的思考" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      对如何分析项目的思考
+    </h1>
+  
+
+        
+        <a href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
+  	<time datetime="2021-08-23T06:24:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-23</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>做了好多项目，这次想聊一下怎么分析项目，算是自己的拙见，也是自己的一点总结吧。</p>
+<p>研发工程师的工作就是不断的处理业务需求，但PM提的需求应该如何来评判、分析呢？我觉得可以从三个方面来考虑，分别是What、Why、How。</p>
+<span id="more"></span>
+<h2 id="What"><a href="#What" class="headerlink" title="What"></a>What</h2><p>主要分析做的是什么？理解项目，是<strong>一切的前提和基础</strong>。只有深刻的理解项目，项目才有可能做好。</p>
+<h3 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h3><p>不知道大家曾经有没有过这个想法：这些PM从哪里搞了这么多项目？</p>
+<p>想明白这一点，有可能辨别出PM的能力、公司的管理能力。</p>
+<h4 id="产品"><a href="#产品" class="headerlink" title="产品"></a>产品</h4><p>很多需求来自<strong>PM自己的观察和规划</strong>。这和PM能力强相关。</p>
+<p>合作过一些PM，他们对业务了如指掌，对业务如何发展成竹在胸。年初便规划好全年或未来三年的计划，制定好发展骨架。每个项目都是对骨架进行填充。这会让研发同学有目标、有成就感，觉得未来可期。</p>
+<p>还有一些PM会仔细分析数据、经常体验自己的产品，通过这种方式发现很多问题，然后对产品进行优化。</p>
+<h4 id="业务"><a href="#业务" class="headerlink" title="业务"></a>业务</h4><p>运营、客服等部门往往处于一线，直接对接用户。他们能收集大量用户反馈，这些反馈会输送给PM。</p>
+<p>还有一部分来自于产品上自带的反馈入口。</p>
+<p>收到这些信息后，PM需要想应对之法。这些反馈往往是用户的痛点，解决后能大幅提升用户体验。</p>
+<p>反馈的内容很考验PM的抽象能力，需要判断是否真的是痛点，选择合适的解决方案。万万不能听到啥就做啥，否则很可能导致团队努力做了一年，都不明白自己到底完成了什么目标。</p>
+<h4 id="老板"><a href="#老板" class="headerlink" title="老板"></a>老板</h4><p>还有一部分需求直接来自于老板。</p>
+<p>虽然我觉得老板应该把控大方向，不应该直接推动项目，但总有一些老板选择主动下场，让产品推进某个项目。</p>
+<p>对于这种操作我不是很认同，倒不是说推进的这个项目有问题，只不过这种操作弊大于利。</p>
+<p>一是老板推某个项目，有时候真的可能是脑子一热，根本没有调查，<strong>自己觉得不错</strong>就让执行了。</p>
+<p>二是很多公司向上管理，即使项目收益低，但因为是老板的需求，便耗费大量人力去做，没有把人力放到真正重要的地方。记得以前PM让做一个项目，内容极其复杂，需多部门配合，所有人都怀疑产出，但因为是老板推动的，大家只能做。最终效果呢？这个项目需要经多长时间才能覆盖人力成本，我都不好意思说！</p>
+<p>公司的前进方向，老板和PM是对齐的。如果对齐制度不好，就修改对齐制度，如果PM理解得了、执行的好就留，如果PM理解不了、执行不好就换。</p>
+<h3 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h3><p>产品提出的需求，应该包含以下元素：BRD、PRD、UE、UI</p>
+<p><strong>BRD</strong>：即商业需求文档，是基于商业目标或价值所描述的产品需求内容文档，其核心的用途就是用于产品在投入研发之前，由企业高层作为决策评估的重要依据</p>
+<p><strong>PRD</strong>：产品需求文档，是将商业需求文档（BRD）和市场需求文档（MRD）用更加专业的语言进行描述</p>
+<p><strong>UE or UX</strong>： User Experience 用户体验，PM用UE讲解需求，使研发、测试等同学有直观感受</p>
+<p><strong>UI</strong>：User Interface 用户界面，主要给前端同学开发使用</p>
+<p>一般通过这四个元素，研发人员能够理解这个项目需要做成什么样子。防止出现下方展示的情况：<img src="./%E7%A0%94%E5%8F%91.jpg" alt="研发"></p>
+<h3 id="最好"><a href="#最好" class="headerlink" title="最好"></a>最好</h3><p>最好提前规划好的项目与一些优化、迭代项目并行，而且前者应该占的比例更大一些。这样才能建造出稳固的城堡。这也是为什么我在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gDGcnQw_0oRFbDnfE6uoOQ">对产品经理的一些思考</a>里认为产品经理重要的原因。</p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>了解要做什么之后，需要思考一些问题。这些问题能够让我们发现<strong>项目的核心点，能够脱离于项目看项目</strong>。</p>
+<h3 id="为什么要做这个项目？"><a href="#为什么要做这个项目？" class="headerlink" title="为什么要做这个项目？"></a>为什么要做这个项目？</h3><p>这个项目是为了业务发展、为了解决用户痛点、为了向上管理？很多研发同学觉得这与自己无关，其实是有关的。</p>
+<p>对于一线研发同学来说，想明白为什么要做这个项目，就能明白项目解决的核心问题是什么。只有分析出主要矛盾和次要矛盾，真正执行时才能有的放矢。</p>
+<p>对于技术经理，需要判断项目在当前阶段做是否合适，是否有更重要的事情要做。</p>
+<p>其实产品有一个重要的职责就是宣贯项目的重要性，如同打仗之前需要先申明行为的正义性。</p>
+<h3 id="项目属于哪个模块？"><a href="#项目属于哪个模块？" class="headerlink" title="项目属于哪个模块？"></a>项目属于哪个模块？</h3><p>系统一般都会有架构图，需要判断项目属于架构里的哪一部分。</p>
+<p>例如电商一般有交易、订单、用户等模块，做的项目属于哪一部分？还是说这个项目为系统扩展出新的模块。</p>
+<p>通过这个问题，我们能够更好的把握系统架构的现状。</p>
+<h3 id="是否有其它方案？"><a href="#是否有其它方案？" class="headerlink" title="是否有其它方案？"></a>是否有其它方案？</h3><p>明白项目核心点后，就要想想，PM的方案是否流畅，是否存在更加合理的方案。这也是为什么一直在说要了解<strong>项目核心点</strong>，因为这是目标，目标只有一个，方案却能有很多。条条大路通罗马。</p>
+<p>PM提供的方案，在解决核心问题上是否是最优的吗？是否有更简单的方案能够满足要求？</p>
+<p>这里提一点，尽量不要总是用小技巧完成需求，一定要把握好度。否则可能产生缝缝补补又三年的效果，衣服虽然能穿，但是会一片一片的。系统终究是一个统一的整体。</p>
+<h3 id="项目有什么收益？"><a href="#项目有什么收益？" class="headerlink" title="项目有什么收益？"></a>项目有什么收益？</h3><p>项目能带来多大收益？可以通过哪些数据进行判断？</p>
+<p>这些问题一定要在PM提出需求的时候进行询问，可以检验PM是否真的考虑过这个问题。对于IT类工作而言，数据是检验真理的唯一标准。达成数据也是相关参与同学的最终的目标。</p>
+<p>当然，有很多项目，在前期无法给出具体的收益，我们也不能因为缺收益数据就不开发项目。</p>
+<p><strong>研发和产品需要有数据驱动的共识。</strong>虽然PM无法给出具体收益，但需要用哪些数据来查看收益是一定要提供的。</p>
+<h3 id="需要做的大而全吗？"><a href="#需要做的大而全吗？" class="headerlink" title="需要做的大而全吗？"></a>需要做的大而全吗？</h3><p>根据项目大小、收益，思考功能是否要做大而全，能否将部分内容砍掉，先上线核心点，其它慢慢迭代。</p>
+<p>项目快速发展时期，应该采取小步快跑的方式，先满足最核心需求，即用20%时间完成80%的核心功能。这样也能快速调整方向，数据不符合预期迅速改变打法。</p>
+<p>项目到达稳定期后，可以用80%的时间提升20%的体验。</p>
+<p>这一切都是在理解了项目、知道项目要解决的核心问题、估计好项目产出之后，才能做出的决定。</p>
+<h3 id="项目最终会发展成什么样？"><a href="#项目最终会发展成什么样？" class="headerlink" title="项目最终会发展成什么样？"></a>项目最终会发展成什么样？</h3><p>这是对未来的思考。当前项目并不是最终版本，那最终形态会是怎样的？</p>
+<p>了解这一点，对设计当前系统、今后设计相关系统，能做出更高质量的判断。</p>
+<h2 id="How"><a href="#How" class="headerlink" title="How"></a>How</h2><p>经过What和Why的思考后，How对研发同学而言更容易一些。</p>
+<p>怎么做可以分两部分来讨论：</p>
+<p>一部分是宏观上的项目管理，可以看<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/w63H4krVumpVi2jCM8u1rQ">项目流程管理</a></p>
+<p>一个是当前项目需要怎么设计。磨刀不误砍柴工，项目做得好，一定要有好的技术方案。</p>
+<h3 id="技术方案"><a href="#技术方案" class="headerlink" title="技术方案"></a>技术方案</h3><p>完成技术方案，邀请相关同学对技术方案进行详评，能够确保大家达成一致，实现了从需求层面到技术层面的统一。一份好的技术方案模板，能够帮我们缕清很多细节点。</p>
+<p>对于技术方案中的内容，每一点都需要确认搞明白，不能想当然。</p>
+<p>在设计文档的时候，个人喜欢使用数据驱动的方法，先将db设计好，然后在此基础上思考每一个接口、每一个状态如何变更。同时思考并发、异常等情况。</p>
+<p>这里提供一份模板供大家参考：</p>
+<h4 id="一、项目背景"><a href="#一、项目背景" class="headerlink" title="一、项目背景"></a>一、项目背景</h4><h4 id="二、核心需求点描述"><a href="#二、核心需求点描述" class="headerlink" title="二、核心需求点描述"></a>二、核心需求点描述</h4><p>​    (简要的两三句话，描述几个最核心的需求点；  描述清楚满足了哪些用户、在哪些场景下的哪些需求)</p>
+<h4 id="三、技术方案"><a href="#三、技术方案" class="headerlink" title="三、技术方案"></a>三、技术方案</h4><p>1.架构图&amp;流程图</p>
+<p>2.异常流程考虑(选填)</p>
+<p>   例如：对关键环节，超时、下游调用返回错误等如何处理。用户提示文案会怎样、是否有重试和补偿等</p>
+<p>3.存储设计(cache,db,es等) 【必填】</p>
+<p>   （如果有数据库等重要存储新增、变更，需把相关设计进行说明）</p>
+<p>4.兼容性评估【必填】</p>
+<p>5.接口安全性评估</p>
+<p>6.性能&amp;容量评估</p>
+<p>7.API定义【必填】</p>
+<p>8.建议QA要测试的点(选填)</p>
+<h4 id="四、异常情况下业务影响的评估"><a href="#四、异常情况下业务影响的评估" class="headerlink" title="四、异常情况下业务影响的评估"></a>四、异常情况下业务影响的评估</h4><blockquote>
+<p>评估当此系统稳定性、逻辑、对外返回的数据出现异常时，对B/C端核心功能的影响，并评估在其他系统的监控是否完备</p>
+</blockquote>
+<h4 id="五、对账-amp-资损点-amp-监控评估"><a href="#五、对账-amp-资损点-amp-监控评估" class="headerlink" title="五、对账&amp;资损点&amp;监控评估"></a>五、对账&amp;资损点&amp;监控评估</h4><h4 id="六、上线方案"><a href="#六、上线方案" class="headerlink" title="六、上线方案"></a>六、上线方案</h4><h4 id="七、小流量方案-amp-计划"><a href="#七、小流量方案-amp-计划" class="headerlink" title="七、小流量方案&amp;计划"></a>七、小流量方案&amp;计划</h4><h4 id="八、线上观察-amp-监控内容"><a href="#八、线上观察-amp-监控内容" class="headerlink" title="八、线上观察&amp;监控内容"></a>八、线上观察&amp;监控内容</h4><h4 id="九、回滚方案"><a href="#九、回滚方案" class="headerlink" title="九、回滚方案"></a>九、回滚方案</h4><h4 id="十、评审结果"><a href="#十、评审结果" class="headerlink" title="十、评审结果"></a>十、评审结果</h4><p>1.技术方案 Review</p>
+<p>2.Code Review</p>
+<p>3.上线方案 Review</p>
+<h4 id="十一、项目总结"><a href="#十一、项目总结" class="headerlink" title="十一、项目总结"></a>十一、项目总结</h4><p>​    总结在整个项目过程中值得分享的问题，可以是这么几个方面：1. 方案设计和需求方面思考；2. 开发和上线过程中遇到棘手问题；3.思考项目流程存在问题；4.其他任何可以分享的经验</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>项目分析不但是技术问题，也是管理问题。希望大家不要只沉浸在做项目中，要跳出项目，从更高处理解项目，会有更多的收获。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/27928975">UI、UE和UX三者之间的区别？</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2020-05-23T13:00:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/23/%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88/">缓存方案</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/" class="archive-article-date">
-  	<time datetime="2020-05-17T15:42:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go设计模式(25)-备忘录模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/">领域驱动设计：软件核心复杂性对应之道</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-16T11:08:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">记博客服务被压垮的历程</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-08T12:25:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">Go1.12使用gomod总结</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-07T16:25:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">记追查go1.13无法获取到cookie的过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-04T13:18:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">发票项目总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/" class="archive-article-date">
-  	<time datetime="2020-04-25T15:44:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">GoLang长连接-基于WebSocket</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T10:14:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">飞书使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:38:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:08:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/11/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/10/">10</a><a class="page-number" href="/archives/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/archives/page/13/">13</a><a class="page-number" href="/archives/page/14/">14</a><a class="extend next" rel="next" href="/archives/page/13/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +397,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
