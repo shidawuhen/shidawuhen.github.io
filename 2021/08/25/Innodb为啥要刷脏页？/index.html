@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Innodb为啥要刷脏页？ | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="1.名词解释脏页：当内存数据页跟磁盘数据页内容不一致的时候，我们称这个内存页为“脏页”。 干净页：内存数据写入到磁盘后，内存和磁盘上的数据页的内容就一致了，称为“干净页”。 LSN：称为日志的逻辑序列号(log sequence number)，在innodb存储引擎中，lsn占用8个字节。LSN的值会随着日志的写入而逐渐增大。事务中更新操作会产生一个新的LSN。LSN不仅存在于redo log中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Innodb为啥要刷脏页？">
+<meta property="og:url" content="http://yoursite.com/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="1.名词解释脏页：当内存数据页跟磁盘数据页内容不一致的时候，我们称这个内存页为“脏页”。 干净页：内存数据写入到磁盘后，内存和磁盘上的数据页的内容就一致了，称为“干净页”。 LSN：称为日志的逻辑序列号(log sequence number)，在innodb存储引擎中，lsn占用8个字节。LSN的值会随着日志的写入而逐渐增大。事务中更新操作会产生一个新的LSN。LSN不仅存在于redo log中">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/image-20210824232723352.png">
+<meta property="article:published_time" content="2021-08-25T05:04:44.000Z">
+<meta property="article:modified_time" content="2021-08-25T05:07:10.244Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/image-20210824232723352.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +170,189 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Innodb为啥要刷脏页？" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Innodb为啥要刷脏页？
+    </h1>
+  
+
+        
+        <a href="/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/" class="archive-article-date">
+  	<time datetime="2021-08-25T05:04:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-25</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-名词解释"><a href="#1-名词解释" class="headerlink" title="1.名词解释"></a>1.名词解释</h2><p><strong>脏页</strong>：当内存数据页跟磁盘数据页内容不一致的时候，我们称这个内存页为“脏页”。</p>
+<p><strong>干净页</strong>：内存数据写入到磁盘后，内存和磁盘上的数据页的内容就一致了，称为“干净页”。</p>
+<p><strong>LSN</strong>：称为日志的逻辑序列号(log sequence number)，在innodb存储引擎中，lsn占用8个字节。LSN的值会随着日志的写入而逐渐增大。事务中更新操作会产生一个新的LSN。LSN不仅存在于redo log中，还存在于数据页中。</p>
+<span id="more"></span>
+<h2 id="2-产生原因"><a href="#2-产生原因" class="headerlink" title="2.产生原因"></a>2.产生原因</h2><p>MySQL有两个重要组成部分，内存和磁盘。</p>
+<p>磁盘是永久存储，内存中的数据则有可能丢失。但内存上修改的数据都会记录到redo log，所以即使丢失，也能从redo log中找回。</p>
+<p>MySQL的IO特别耗费性能，所以很多操作在内存中进行的，并不立即刷到磁盘。</p>
+<p>例如，更新一行数据时</p>
+<ul>
+<li>如果内存中不存在该行数据，则从磁盘中找到该行所在的数据页</li>
+<li>将整页的数据读入内存（如果change buffer中记录了该页的更改信息，会在内存中进行更新）</li>
+<li>在内存中对该行进行更新，整个更新操作完成</li>
+</ul>
+<p>这个场景下，内存中的数据和磁盘中的数据已经不一致了，便产生了脏页。</p>
+<p>当读取该行数据时，因为内存中的数据是最新的，直接读取内存数据返回，省去读磁盘的时间，提升性能。</p>
+<h2 id="3-内存数据和redo-log的关系"><a href="#3-内存数据和redo-log的关系" class="headerlink" title="3.内存数据和redo log的关系"></a>3.内存数据和redo log的关系</h2><p>要明白刷脏页的流程，首先要理解内存中的数据和redo log中数据的关系。</p>
+<ol>
+<li>内存中的数据和redo log中的数据是一致的</li>
+<li>如何判断是否为脏页：</li>
+</ol>
+<ul>
+<li>redo log中记录了LSN</li>
+<li>redo log中的checkpoint位于某个LSN，意味着该LSN之前的数据都已写入磁盘</li>
+<li>内存中干净页如有修改，修改后该页的LSN大于 checkpoint 的LSN，则在写redo log的同时该页也会被标记为脏页记录到脏页列表</li>
+</ul>
+<p>脏页本质是内存数据页跟磁盘数据页内容不一致<strong>。所以内存数据页刷盘或者redo log的checkpoint向后移动，都会将脏页变为干净页。</strong></p>
+<p><img src="./image-20210824232723352.png" alt="image-20210824232723352"></p>
+<h2 id="4-刷脏页时机"><a href="#4-刷脏页时机" class="headerlink" title="4.刷脏页时机"></a>4.刷脏页时机</h2><p>刷脏页（flush）的时机如下：</p>
+<p>1.InnoDB 的 redo log 已满</p>
+<ul>
+<li>这时候系统会停止所有更新操作，把 checkpoint 往前推进，以便 redo log 留出空间可以继续写。对checkpoint 移动范围内的日志，对应的所有脏页都 flush到磁盘上</li>
+</ul>
+<p>2.当需要新的内存页，而内存不够用的时候</p>
+<ul>
+<li>淘汰一些内存数据页，空出内存给别的数据页使用。如果淘汰的是“脏页”，就要先将脏页写到磁盘</li>
+</ul>
+<p>3.MySQL 认为系统“空闲”时，见缝插针地找时间，只要有机会就刷一点“脏页”<br>4.MySQL 正常关闭时，会把内存的脏页都 flush 到磁盘上</p>
+<p>刷盘的脏页的LSN可能比redo log中checkpoint的LSN高，但没有影响，当redo log在“重放”的时候，如果一个数据页已经是刷过的，会识别出来并跳过。</p>
+<h2 id="5-刷脏页影响"><a href="#5-刷脏页影响" class="headerlink" title="5.刷脏页影响"></a>5.刷脏页影响</h2><p>需要根据不同的时机来看对性能的影响。</p>
+<p>空闲和正常关闭情况下，不会太关注性能。所以主要看第一种和第二种情况。</p>
+<p>1.尽量不要出现redo log写满的情况，一旦发生，所有更新操作都会停止</p>
+<ul>
+<li>redo log大小需要合理设置</li>
+</ul>
+<p>2.内存页有三种状态：未使用的、干净页、脏页。当要读入的数据页没有在内存的时候，就必须到缓冲池中申请一个数据页。这时候只能把最久不使用的数据页从内存中淘汰掉：如果要淘汰的是一个干净页，就直接释放出来复用；但如果是脏页呢，就必须将脏页先刷到磁盘，变成干净页后才能复用。<strong>如果一个查询要淘汰的脏页个数太多，会导致查询的响应时间明显变长。</strong></p>
+<ul>
+<li>合理控制脏页比例</li>
+</ul>
+<h2 id="6-控制刷脏页"><a href="#6-控制刷脏页" class="headerlink" title="6.控制刷脏页"></a>6.控制刷脏页</h2><ol>
+<li><strong>innodb_io_capacity</strong>：合理设置 innodb_io_capacity，这个值告诉innodb可以以多快速度写磁盘。如果系统要刷脏页了，innodb会参考这个值，计算出一个刷脏页的速度。之所以不按照这个值来刷脏页，是因为不能将所有能力全用于刷脏页，耽误处理正常请求。</li>
+<li>Innodb会根据现在脏页的比例（可通过 innodb_max_dirty_pages_pct控制）和redo log剩余空间，计算出刷盘速度百分比R，从而计算出刷脏页速度=innodb_io_capacity*R%</li>
+</ol>
+<p>所以为防止刷脏页影响性能，要合理设置redo log大小、innodb_io_capacity、innodb_max_dirty_pages_pct。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li>MySQL45讲</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" class="archive-article-date">
-  	<time datetime="2021-04-23T02:05:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">GoLand实用技巧</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-04-22T05:18:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/25/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前辈们对写作的看法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Go设计模式(6)-单例模式</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/" class="archive-article-date">
-  	<time datetime="2021-04-16T01:15:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/">设计模式之美</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/" class="archive-article-date">
-  	<time datetime="2021-03-30T15:21:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/">根据mysql表结构自动生成go struct</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-03-28T13:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/">Go设计模式(5)-类图符号表示法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:49:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/">为动员一切力量争取抗战胜利而斗争</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:48:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/">Go工具之generate</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-03-15T01:19:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">Go单例实现方案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/%E5%89%91%E6%8C%87offer/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:38:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/%E5%89%91%E6%8C%87offer/">剑指offer</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:15:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/">Go设计模式(4)-代码编写</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/14/">14</a><a class="extend next" rel="next" href="/archives/page/6/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +376,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
