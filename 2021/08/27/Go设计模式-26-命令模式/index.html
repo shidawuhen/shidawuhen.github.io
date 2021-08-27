@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go设计模式(26)-命令模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="命令模式很多同学可能不会用到，但这个模式还是蛮有意思的。命令模式能够将操作和数据打包成对象，便于系统对命令进行管理、维护。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25 本文代码链接为：https:&#x2F;&#x2F;github.com&#x2F;shidawuhen&#x2F;asap&#x2F;blob&#x2F;master&#x2F;controller&#x2F;des">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(26)-命令模式">
+<meta property="og:url" content="http://yoursite.com/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="命令模式很多同学可能不会用到，但这个模式还是蛮有意思的。命令模式能够将操作和数据打包成对象，便于系统对命令进行管理、维护。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25 本文代码链接为：https:&#x2F;&#x2F;github.com&#x2F;shidawuhen&#x2F;asap&#x2F;blob&#x2F;master&#x2F;controller&#x2F;des">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/image-20210825132542277.png">
+<meta property="og:image" content="http://yoursite.com/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/image-20210826102828467.png">
+<meta property="article:published_time" content="2021-08-27T13:42:26.000Z">
+<meta property="article:modified_time" content="2021-08-27T13:43:11.738Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/image-20210825132542277.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +171,168 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-26-命令模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(26)-命令模式
+    </h1>
+  
+
+        
+        <a href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-08-27T13:42:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-27</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>命令模式很多同学可能不会用到，但这个模式还是蛮有意思的。命令模式能够将操作和数据打包成对象，便于系统对命令进行管理、维护。</p>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/26command.go">https://github.com/shidawuhen/asap/blob/master/controller/design/26command.go</a></p>
+<span id="more"></span>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1命令模式"><a href="#1-1命令模式" class="headerlink" title="1.1命令模式"></a>1.1命令模式</h3><p><strong>命令模式</strong>：将一个请求封装为一个对象，从而使你可用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。</p>
+<p><strong>UML</strong>：<img src="./image-20210825132542277.png" alt="image-20210825132542277"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>上面的定义和UML比较复杂，大家可能比较难理解。</p>
+<p>首先我们需要明白什么是命令。命令包括指令和数据。指令是行为，数据影响到指令。如前进3米，前进是指令，3米是数据。</p>
+<p>然后我们再看一下各个类的含义。</p>
+<p>Command和ConcreteCommand是命令，有Excute函数，代表要做的行为。</p>
+<p>ConcreteCommand调用Excute()，最终调用Receiver的Action。这意味ConcreteCommand只是一个容器，真正的操作逻辑在Receiver中。</p>
+<p>Invoker包含了所有Command，控制Command何时执行Excute()。</p>
+<p>现在我们将UML简化，把Invoker、Receiver去掉，看看是否容易理解了。</p>
+<p><img src="./image-20210826102828467.png" alt="image-20210826102828467"></p>
+<p>通过这个简洁版UML，我们来看一下为什么要用命令模式。</p>
+<p>命令包括指令和数据，指令其实对应着操作，操作在代码中对应着函数。</p>
+<p><strong>命令模式其实是把函数封装成对象，系统能对对象进行各种操作，如排队执行、记录日志、撤销等。</strong></p>
+<p>为什么要将函数包装成对象呢？C、C++、Go支持函数指针，但并不是所有语言都有这种特性，这时命令模式就起作用了。而且即使语言支持函数指针，命令的数据部分怎么存放仍是一个问题。</p>
+<p><strong>所以简单理解，命令模式就是把请求打包成一个一个Command对象，存储起来，系统根据实际需求进行处理。</strong></p>
+<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2.应用场景"></a>2.应用场景</h2><p>大家可能感觉命令模式与MQ、工厂模式一样，其实在细节上是有区别的：</p>
+<ul>
+<li>MQ只包含数据，不包含行为，命令模式两者都包含</li>
+<li>工厂模式需要实时执行，但命令模式可以进行存储，延后执行</li>
+</ul>
+<p>命令模式我从来没有用过。《设计模式之美》里讲了游戏研发的一种通用架构：客户端的请求被服务端存储起来，服务端有单独线程处理这些请求。那我们就按这个场景写一下代码实现。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 命令接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Command <span class="keyword">interface</span> &#123;</span><br><span class="line">   Execute()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 移动命令</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> MoveCommand <span class="keyword">struct</span> &#123;</span><br><span class="line">   x, y <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 如何移动</span></span><br><span class="line"><span class="comment"> * @receiver m</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MoveCommand)</span> <span class="title">Execute</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Printf(<span class="string">&quot;向右移动%d，向上移动%d \n&quot;</span>, m.x, m.y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 攻击命令</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> AttackCommand <span class="keyword">struct</span> &#123;</span><br><span class="line">   skill <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 如何攻击</span></span><br><span class="line"><span class="comment"> * @receiver a</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *AttackCommand)</span> <span class="title">Execute</span><span class="params">()</span></span> &#123;</span><br><span class="line">   fmt.Printf(<span class="string">&quot;使用技能%s\n&quot;</span>, a.skill)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 记录命令</span></span><br><span class="line"><span class="comment"> * @param action</span></span><br><span class="line"><span class="comment"> * @return Command</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AddCommand</span><span class="params">(action <span class="keyword">string</span>)</span> <span class="title">Command</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> action == <span class="string">&quot;attack&quot;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &amp;AttackCommand&#123;</span><br><span class="line">         skill: <span class="string">&quot;野蛮冲撞&quot;</span>,</span><br><span class="line">      &#125;</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123; <span class="comment">//默认是移动</span></span><br><span class="line">      <span class="keyword">return</span> &amp;MoveCommand&#123;</span><br><span class="line">         x: <span class="number">10</span>,</span><br><span class="line">         y: <span class="number">20</span>,</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">//将命令记录</span></span><br><span class="line">   lc := <span class="built_in">make</span>([]Command, <span class="number">0</span>)</span><br><span class="line">   lc = <span class="built_in">append</span>(lc, AddCommand(<span class="string">&quot;attack&quot;</span>))</span><br><span class="line">   lc = <span class="built_in">append</span>(lc, AddCommand(<span class="string">&quot;move&quot;</span>))</span><br><span class="line">   lc = <span class="built_in">append</span>(lc, AddCommand(<span class="string">&quot;move&quot;</span>))</span><br><span class="line">   lc = <span class="built_in">append</span>(lc, AddCommand(<span class="string">&quot;attack&quot;</span>))</span><br><span class="line"></span><br><span class="line">   <span class="comment">//执行命令</span></span><br><span class="line">   <span class="keyword">for</span> _, c := <span class="keyword">range</span> lc &#123;</span><br><span class="line">      c.Execute()</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>使用技能野蛮冲撞</p>
+<p>向右移动10，向上移动20</p>
+<p>向右移动10，向上移动20</p>
+<p>使用技能野蛮冲撞</p>
+<p>通过上面的代码，大家应该能够理解命令模式了。可以看出，对不同请求，生成不同的Command，Command中包含对应的数据与操作。这也是模式定义中说到的”对请求排队或记录请求日志，以及支持可撤销的操作“。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>设计模式是为了解决现实中的问题，我们需要和具体场景相绑定。在解决问题的时候，采用的是不是标准的设计模式并不重要，模式只是手段，手段需要为达成目的服务。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-04-26T05:09:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Go设计模式(7)-工厂模式</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" class="archive-article-date">
-  	<time datetime="2021-04-23T02:05:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Innodb为啥要刷脏页？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">GoLand实用技巧</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-04-22T05:18:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Go设计模式(6)-单例模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/" class="archive-article-date">
-  	<time datetime="2021-04-16T01:15:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/">设计模式之美</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/" class="archive-article-date">
-  	<time datetime="2021-03-30T15:21:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/">根据mysql表结构自动生成go struct</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-03-28T13:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/">Go设计模式(5)-类图符号表示法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:49:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/">为动员一切力量争取抗战胜利而斗争</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:48:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/">Go工具之generate</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-03-15T01:19:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">Go单例实现方案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/%E5%89%91%E6%8C%87offer/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:38:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/%E5%89%91%E6%8C%87offer/">剑指offer</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/14/">14</a><a class="extend next" rel="next" href="/archives/page/6/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +356,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
