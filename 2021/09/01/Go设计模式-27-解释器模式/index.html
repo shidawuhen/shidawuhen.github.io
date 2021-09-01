@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Go设计模式(27)-解释器模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/14/index.html">
+  <meta name="description" content="解释器模式可以描述如何构建一个简单的“语言”解释器。这个模式只在一些特定的领域才有可能用到，如编译器、规则引擎、正则表达式等。好在解释器模式比较简单，大家可以了解一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(27)-解释器模式">
+<meta property="og:url" content="http://yoursite.com/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="解释器模式可以描述如何构建一个简单的“语言”解释器。这个模式只在一些特定的领域才有可能用到，如编译器、规则引擎、正则表达式等。好在解释器模式比较简单，大家可以了解一下。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/image-20210831094456983.png">
+<meta property="article:published_time" content="2021-09-01T02:30:49.000Z">
+<meta property="article:modified_time" content="2021-09-01T02:32:02.284Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/image-20210831094456983.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +170,158 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-27-解释器模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(27)-解释器模式
+    </h1>
+  
+
+        
+        <a href="/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-09-01T02:30:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-01</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>解释器模式可以描述如何构建一个简单的“语言”解释器。这个模式只在一些特定的领域才有可能用到，如编译器、规则引擎、正则表达式等。好在解释器模式比较简单，大家可以了解一下。</p>
+<span id="more"></span>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/27interpreter.go">https://github.com/shidawuhen/asap/blob/master/controller/design/27interpreter.go</a></p>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1解释器模式"><a href="#1-1解释器模式" class="headerlink" title="1.1解释器模式"></a>1.1解释器模式</h3><p><strong>解释器模式</strong>：给定一个语言，定义它的文法的一种表示，并定义一个解释器，这个解释器使用该表示来解释语言中的句子。</p>
+<p><strong>UML</strong>：<img src="./image-20210831094456983.png" alt="image-20210831094456983"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p><strong>通过定义可以看出，“语言”必然存在规则，而且规则可能相对复杂。对于每一条规则，可以设置对应的类来翻译。</strong></p>
+<p>模式定义与UML完全对应，解释器Expression用于翻译Context，由于Context包含内容类型不同，对这些不同类型的内容创建不同解释器进行解释。</p>
+<p>举个例子，假设定义一个新的加减乘除语言，对于 8 + 2 - 5这种情况，新的语言为 8 2 5 + -。在这个例子中，Context就是8 2 5 + -，新语言包含数字和运算符，我们就可以创建数字解释器和运算符解释器，对数字和运算符进行解释。</p>
+<p>为什么要用解释器模式呢？</p>
+<p><strong>主要是为了将语法解析的工作拆分到各个小类中，以此来避免大而全的解析类。</strong></p>
+<p>如果打算用解释器模式，一般的做法是，将语法规则拆分成一些小的独立的单元，然后对每个单元进行解析，最终合并为对整个语法规则的解析。</p>
+<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2.应用场景"></a>2.应用场景</h2><p>解释器模式一般用于编译器、规则引擎、正则表达式，这些功能实现起来都比较麻烦，就不实现它们了。</p>
+<p>在实际生活中，我对于中文、英文、编程语言都有一些了解，所以能够解释、理解它们。但对于音乐、舞蹈，根本不知道怎么欣赏。</p>
+<p>所以看歌舞表演的时候，特别想有一款翻译器，能对音乐、舞蹈进行翻译，让我了解创作者想表达什么。而且查看解释器源码我也能知道音乐、舞蹈的一般规则，更便于今后的学习。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><p>现在让我们开始翻译歌舞剧！</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 内容信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Context <span class="keyword">struct</span> &#123;</span><br><span class="line">   action  <span class="keyword">string</span></span><br><span class="line">   content <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 翻译接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Interpreter <span class="keyword">interface</span> &#123;</span><br><span class="line">   Interpret(c Context)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 翻译音乐</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> MusicInterpreter <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 翻译音乐内容</span></span><br><span class="line"><span class="comment"> * @receiver m</span></span><br><span class="line"><span class="comment"> * @param c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MusicInterpreter)</span> <span class="title">Interpret</span><span class="params">(c Context)</span></span> &#123;</span><br><span class="line">   fmt.Println(c.action + <span class="string">&quot; 中 &quot;</span> + c.content + <span class="string">&quot; 的意思是感情高昂&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 翻译舞蹈</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> DanceInterpreter <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 翻译舞蹈内容</span></span><br><span class="line"><span class="comment"> * @receiver d</span></span><br><span class="line"><span class="comment"> * @param c</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d DanceInterpreter)</span> <span class="title">Interpret</span><span class="params">(c Context)</span></span> &#123;</span><br><span class="line">   fmt.Println(c.action + <span class="string">&quot; 中 &quot;</span> + c.content + <span class="string">&quot; 的意思是悲凉&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   cList := []Context&#123;</span><br><span class="line">      &#123;action: <span class="string">&quot;music&quot;</span>, content: <span class="string">&quot;高音&quot;</span>&#125;,</span><br><span class="line">      &#123;action: <span class="string">&quot;music&quot;</span>, content: <span class="string">&quot;低音&quot;</span>&#125;,</span><br><span class="line">      &#123;action: <span class="string">&quot;dance&quot;</span>, content: <span class="string">&quot;跳跃&quot;</span>&#125;,</span><br><span class="line">      &#123;action: <span class="string">&quot;dance&quot;</span>, content: <span class="string">&quot;挥手&quot;</span>&#125;,</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//对歌舞剧内容进行翻译</span></span><br><span class="line">   <span class="keyword">for</span> _, c := <span class="keyword">range</span> cList &#123;</span><br><span class="line">      <span class="keyword">if</span> c.action == <span class="string">&quot;music&quot;</span> &#123;</span><br><span class="line">         MusicInterpreter&#123;&#125;.Interpret(c)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> c.action == <span class="string">&quot;dance&quot;</span> &#123;</span><br><span class="line">         DanceInterpreter&#123;&#125;.Interpret(c)</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>music 中 高音 的意思是感情高昂</p>
+<p>music 中 低音 的意思是感情高昂</p>
+<p>dance 中 跳跃 的意思是悲凉</p>
+<p>dance 中 挥手 的意思是悲凉</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>解释器模式主要是分而治之，将翻译功能分开管理，方便维护。翻译器模式理解难度和使用难度不大，主要是使用场景比较受限。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/23/%E7%83%AD%E9%A3%8E/" class="archive-article-date">
-  	<time datetime="2020-02-22T16:22:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/23/%E7%83%AD%E9%A3%8E/">热风</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/" class="archive-article-date">
-  	<time datetime="2020-02-16T14:02:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/29/Innodb-count%E7%9A%84%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Innodb count的内部流程，你知道吗？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/">简单的逻辑学</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-02-16T03:59:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/">Gin框架简洁版</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-02-09T08:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">Gin远吗剖析</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/08/go-callvis/" class="archive-article-date">
-  	<time datetime="2020-02-08T09:12:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/08/go-callvis/">Go-callvis</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-01-30T09:02:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/">Gin框架集成swagger过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-01-27T15:06:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在新项目中使用gomod</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/" class="archive-article-date">
-  	<time datetime="2020-01-27T02:38:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/">领导梯队</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2020-01-24T08:18:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/">麦肯锡给我的写作武器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/" class="archive-article-date">
-  	<time datetime="2020-01-23T13:43:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/">如何高效对接第三方支付</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/13/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/12/">12</a><a class="page-number" href="/archives/page/13/">13</a><span class="page-number current">14</span>
-    </nav>
   
 
 
@@ -476,8 +345,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
