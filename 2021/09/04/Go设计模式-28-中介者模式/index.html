@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2021 | Jason Pang</title>
+  <title>Go设计模式(28)-中介者模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/2021/page/2/index.html">
+  <meta name="description" content="中介者模式是设计模式系列中最后一个模式。这个模式我从未用过，主要原因是没碰到过合适的场景。如果大家有适合使用中介者模式的场景，中介者模式能帮大家更好的维护系统。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25 本文代码链接为：https:&#x2F;&#x2F;github.com&#x2F;shidawuhen&#x2F;asap&#x2F;blob&#x2F;ma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go设计模式(28)-中介者模式">
+<meta property="og:url" content="http://yoursite.com/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="中介者模式是设计模式系列中最后一个模式。这个模式我从未用过，主要原因是没碰到过合适的场景。如果大家有适合使用中介者模式的场景，中介者模式能帮大家更好的维护系统。 UML类图位置：https:&#x2F;&#x2F;www.processon.com&#x2F;view&#x2F;link&#x2F;60d29bf3e401fd49502afd25 本文代码链接为：https:&#x2F;&#x2F;github.com&#x2F;shidawuhen&#x2F;asap&#x2F;blob&#x2F;ma">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/image-20210902100332424.png">
+<meta property="og:image" content="http://yoursite.com/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/image-20210902133139274.png">
+<meta property="og:image" content="http://yoursite.com/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/image-20210904104301674.png">
+<meta property="article:published_time" content="2021-09-04T04:23:20.000Z">
+<meta property="article:modified_time" content="2021-09-04T04:24:59.008Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/image-20210902100332424.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -164,295 +172,166 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Go设计模式-28-中介者模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go设计模式(28)-中介者模式
+    </h1>
+  
+
+        
+        <a href="/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-09-04T04:23:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-04</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>中介者模式是设计模式系列中最后一个模式。这个模式我从未用过，主要原因是没碰到过合适的场景。如果大家有适合使用中介者模式的场景，中介者模式能帮大家更好的维护系统。</p>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/28mediator.go">https://github.com/shidawuhen/asap/blob/master/controller/design/28mediator.go</a></p>
+<span id="more"></span>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h2><h3 id="1-1中介者模式"><a href="#1-1中介者模式" class="headerlink" title="1.1中介者模式"></a>1.1中介者模式</h3><p><strong>中介者模式</strong>：用一个中介对象来封装一系列的对象交互。中介者使各对象不需要显示地相互引用，从而使其耦合松散，而且可以独立地改变他们之间的交互。</p>
+<p><strong>UML</strong>：<img src="./image-20210902100332424.png" alt="image-20210902100332424"></p>
+<h3 id="1-2分析"><a href="#1-2分析" class="headerlink" title="1.2分析"></a>1.2分析</h3><p>对于定义，大家比较容易理解。由中介者控制所有的交互，Colleague对象无需相互感知。</p>
+<p>使用中介者模式有个前提，Colleague之间相互影响，即一个Colleague的变化会影响其它Colleague。</p>
+<p>我们再来看UML。通过UML可以看出</p>
+<ul>
+<li>Mediator包含所有Colleague，这是中介者能控制所有交互的基础</li>
+<li>Colleague包含Mediator，Colleague变化可直接通知Mediator，这是Colleague无需知道其它Colleague的基础，只需知道Mediator即可</li>
+</ul>
+<p>根据前面提到的前提和UML类图，我们思考的再深一些，ConcreteColleague是否有相同父类并不重要，只要Mediator包含所有ConcreteColleague，ConcreteColleague有Mediator，中介者模式依然有效。</p>
+<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2.应用场景"></a>2.应用场景</h2><p>使用中介者模式有哪些好处？</p>
+<p>我们设想一种场景，假设有多个Colleague，分别为Colleague1、Colleague2、Colleague3、Colleague4，如果一个Colleague的动作会影响到其它Colleague，便形成多对多的网状结构，随着Colleague增加，会更加难以管理。如果使用中介者模式，会变成一对多的星状结构，所有Colleague只和Mediator相关，管理复杂度降低。</p>
+<p>在实际工作中，没碰到过网状结构，所以没用过中介者模式。比较合适的例子，如GoLand中的注册，点击Active Goland/Evaluate for free，会显示不同的UI组件。</p>
+<p><img src="./image-20210902133139274.png" alt="image-20210902133139274"></p>
+<p><img src="./image-20210904104301674.png" alt="image-20210904104301674"></p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><p>我们简单实现GoLand激活的例子。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 中介者接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Mediator <span class="keyword">interface</span> &#123;</span><br><span class="line">	Process(colleague UIColleague)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 真正的中介者</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> UIMediator <span class="keyword">struct</span> &#123;</span><br><span class="line">	activate *ActivateColleague</span><br><span class="line">	evaluate *EvaluateColleague</span><br><span class="line">	text     *TextColleague</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 中介者大总管，处理所有事情</span></span><br><span class="line"><span class="comment"> * @receiver u</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UIMediator)</span> <span class="title">Process</span><span class="params">(colleague UIColleague)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> colleague == u.activate &#123; <span class="comment">//如果是激活</span></span><br><span class="line">		u.evaluate.Show(<span class="string">&quot;试用内容隐藏&quot;</span>)</span><br><span class="line">		u.text.Show(<span class="string">&quot;请输入激活码&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> colleague == u.evaluate &#123; <span class="comment">//如果是试用</span></span><br><span class="line">		u.activate.Show(<span class="string">&quot;激活内容隐藏&quot;</span>)</span><br><span class="line">		u.text.Show(<span class="string">&quot;请出入激活时间&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: Colleague接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> UIColleague <span class="keyword">interface</span> &#123;</span><br><span class="line">	Action()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 激活UI</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> ActivateColleague <span class="keyword">struct</span> &#123;</span><br><span class="line">	mediator Mediator</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 激活触发的动作</span></span><br><span class="line"><span class="comment"> * @receiver a</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *ActivateColleague)</span> <span class="title">Action</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a.mediator.Process(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 激活UI显示内容</span></span><br><span class="line"><span class="comment"> * @receiver e</span></span><br><span class="line"><span class="comment"> * @param text</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *ActivateColleague)</span> <span class="title">Show</span><span class="params">(text <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	fmt.Println(text)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 试用UI</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> EvaluateColleague <span class="keyword">struct</span> &#123;</span><br><span class="line">	mediator Mediator</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 试用触发的动作</span></span><br><span class="line"><span class="comment"> * @receiver e</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EvaluateColleague)</span> <span class="title">Action</span><span class="params">()</span></span> &#123;</span><br><span class="line">	e.mediator.Process(e)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 试用UI显示内容</span></span><br><span class="line"><span class="comment"> * @receiver e</span></span><br><span class="line"><span class="comment"> * @param text</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EvaluateColleague)</span> <span class="title">Show</span><span class="params">(text <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	fmt.Println(text)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 文案UI</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> TextColleague <span class="keyword">struct</span> &#123;</span><br><span class="line">	mediator Mediator</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 文案触发动作</span></span><br><span class="line"><span class="comment"> * @receiver t</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *TextColleague)</span> <span class="title">Action</span><span class="params">()</span></span> &#123;</span><br><span class="line">	t.mediator.Process(t)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 文案显示内容</span></span><br><span class="line"><span class="comment"> * @receiver t</span></span><br><span class="line"><span class="comment"> * @param text</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *TextColleague)</span> <span class="title">Show</span><span class="params">(text <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	fmt.Println(text)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//初始化</span></span><br><span class="line">	m := &amp;UIMediator&#123;&#125;</span><br><span class="line"></span><br><span class="line">	activate := &amp;ActivateColleague&#123;</span><br><span class="line">		mediator: m,</span><br><span class="line">	&#125;</span><br><span class="line">	evaluate := &amp;EvaluateColleague&#123;</span><br><span class="line">		mediator: m,</span><br><span class="line">	&#125;</span><br><span class="line">	text := &amp;TextColleague&#123;</span><br><span class="line">		mediator: m,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	m.activate = activate</span><br><span class="line">	m.evaluate = evaluate</span><br><span class="line">	m.text = text</span><br><span class="line">	<span class="comment">//点击激活</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;-----------------点击激活&quot;</span>)</span><br><span class="line">	activate.Action()</span><br><span class="line">	<span class="comment">//点击试用</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;-----------------点击试用&quot;</span>)</span><br><span class="line">	evaluate.Action()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>—————–点击激活</p>
+<p>试用内容隐藏</p>
+<p>请输入激活码</p>
+<p>—————–点击试用</p>
+<p>激活内容隐藏</p>
+<p>请出入激活时间</p>
+<p>从代码中可以看出，Mediator有所有的UI，UI只调用Mediator，无需知道其它UI，Mediator通过Process处理所有操作。当今后增加新UI，只需Mediator知道即可，不必改动其它UI。当然，要防止Mediator变成超级大类，这需要根据实际情况做取舍。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>中介者模式算是聚而歼之的模式，因为从分而治之上讲，对应的操作应该让每一个Colleague自行管理，但这样做，Colleague之间需要相互了解，沟通成本太高。</p>
+<p>如果收拢到Mediator，整体效率会高很多，但Mediator存在成为上帝类的可能，反而导致不好维护。</p>
+<p>这是不是特别像实际生活。所以说世上的处理方案没有定法，能够更好的解决问题就是最好的。共勉。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-11T14:16:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(24)-访问者模式</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/" class="archive-article-date">
-  	<time datetime="2021-08-08T13:22:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/09/04/%E7%88%B6%E6%AF%8D%E4%B9%8B%E5%91%BD%E5%AA%92%E5%A6%81%E4%B9%8B%E8%A8%80/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">父母之命媒妁之言</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/">InnoDB redo、undo、binlog，是如何合作的</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-06T13:16:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(23)-迭代器模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-08-05T02:15:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/">整数区间计算，我这么设计</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-03T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">Go设计模式(22)-状态模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-07-30T05:14:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">权限管理系统设计</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-07-26T07:13:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go锁实现原理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-07-23T07:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">对新人培养的一些想法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/21/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-21-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-07-21T02:44:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/21/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-21-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/">Go设计模式(21)-职责链模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-07-19T03:36:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go互斥锁实现原理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2021/">« Prev</a><a class="page-number" href="/archives/2021/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2021/page/3/">3</a><a class="page-number" href="/archives/2021/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2021/page/7/">7</a><a class="extend next" rel="next" href="/archives/2021/page/3/">Next »</a>
-    </nav>
   
 
 
@@ -476,8 +355,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
