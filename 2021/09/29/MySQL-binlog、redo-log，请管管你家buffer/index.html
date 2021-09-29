@@ -15,15 +15,16 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="以前聊过binlog和redo log，没有涉及binlog buffer和redo log buffer，主要是因为在核心脉络的理解上，buffer容易产生干扰。但buffer很重要，所以我们来看一下log和buffer之间的关系。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/redolog%E6%A0%BC%E5%BC%8F.png">
 <meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210928214816928.png">
 <meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210929094450870.png">
 <meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/Innodb%E6%97%A5%E5%BF%97.png">
 <meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210929102214052.png">
 <meta property="article:published_time" content="2021-09-29T07:14:18.000Z">
-<meta property="article:modified_time" content="2021-09-29T07:16:30.057Z">
+<meta property="article:modified_time" content="2021-09-29T07:22:50.937Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210928214816928.png">
+<meta name="twitter:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/redolog%E6%A0%BC%E5%BC%8F.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -236,7 +237,7 @@
 <h2 id="redo-log简介"><a href="#redo-log简介" class="headerlink" title="redo log简介"></a>redo log简介</h2><p>redo log可用来做数据库crash recovery，是数据库保障数据安全的重要功能之一。它记录的关于每个页（Page）的更改的物理情况，一般默认包括2个日志文件，也可通过命令进行配置。</p>
 <h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><p>redo log的日志文件，每个页面大小512字节，可通过参数调节。文件中的前四个页面，主要用于管理日志内容及整个数据库状态。在2KB（4*512字节）内容之后，就是正常的用来存储日志内容的部分。</p>
 <p>格式如下图所示，图中的数值是指每一项在页面中的偏移位置。</p>
-<p>![redo log格式](./redo log格式.png)</p>
+<p><img src="./redolog%E6%A0%BC%E5%BC%8F.png" alt="redo log格式"></p>
 <p>蓝色为4个header页面，黄色为普通页面。在普通页面中中，都会有12个字节用来存储页面头信息，这些信息主要用于管理这个页面本身的数据存储方式。</p>
 <p>LOG_BLOCK_HDR_NO：4字节，一个与LSN有关系的块号。</p>
 <p>LOG_BLOCK_HDR_DATA_LEN：2字节，表示当前页面中存储的日志长度，这个值一般都等于512-12（12位页面头的大小），因为日志在相连的块中是连续存储的，中间不会存在空闲空间，所以如果这个长度不为500，表示此时日志已经扫描完成（Crash Recovery的工作）。</p>
