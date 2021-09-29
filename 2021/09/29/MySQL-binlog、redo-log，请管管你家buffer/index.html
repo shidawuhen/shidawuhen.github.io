@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>MySQL binlog、redo log，请管管你家buffer | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/6/index.html">
+  <meta name="description" content="以前聊过binlog和redo log，没有涉及binlog buffer和redo log buffer，主要是因为在核心脉络的理解上，buffer容易产生干扰。但buffer很重要，所以我们来看一下log和buffer之间的关系。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL binlog、redo log，请管管你家buffer">
+<meta property="og:url" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="以前聊过binlog和redo log，没有涉及binlog buffer和redo log buffer，主要是因为在核心脉络的理解上，buffer容易产生干扰。但buffer很重要，所以我们来看一下log和buffer之间的关系。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210928214816928.png">
+<meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210929094450870.png">
+<meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/Innodb%E6%97%A5%E5%BF%97.png">
+<meta property="og:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210929102214052.png">
+<meta property="article:published_time" content="2021-09-29T07:14:18.000Z">
+<meta property="article:modified_time" content="2021-09-29T07:16:30.057Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/image-20210928214816928.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,32 +179,121 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-GoLand实用技巧" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-MySQL-binlog、redo-log，请管管你家buffer" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">GoLand实用技巧</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL binlog、redo log，请管管你家buffer
     </h1>
   
 
         
-        <a href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" class="archive-article-date">
-  	<time datetime="2021-04-23T02:05:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
+        <a href="/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/" class="archive-article-date">
+  	<time datetime="2021-09-29T07:14:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>工欲善其事必先利其器，把GoLand调教的符合自己的习惯，也是能够节省大量时间的。本篇文章主要记录自己常用的一些配置内容。</p>
-        
-          <a class="article-more-a" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/#more">more >></a>
-        
+        <p>以前聊过binlog和redo log，没有涉及binlog buffer和redo log buffer，主要是因为在核心脉络的理解上，buffer容易产生干扰。但buffer很重要，所以我们来看一下log和buffer之间的关系。</p>
+<span id="more"></span>
+<h2 id="binlog简介"><a href="#binlog简介" class="headerlink" title="binlog简介"></a>binlog简介</h2><p>binlog用于复制，在主从复制中，从库利用主库上的binlog进行重播，实现主从同步。</p>
+<h3 id="三种格式"><a href="#三种格式" class="headerlink" title="三种格式"></a>三种格式</h3><p>binlog可以设置三种格式：</p>
+<h4 id="STATEMENT"><a href="#STATEMENT" class="headerlink" title="STATEMENT"></a>STATEMENT</h4><p>STATEMENT格式记录的是<strong>日志的逻辑SQL语句</strong>。</p>
+<ul>
+<li>优点：数据量小</li>
+<li>缺点：为了语句能在slave上正确运行，因此还必须记录每条语句在执行的时候的一些相关信息，以保证所有语句能在slave得到和在master端执行时候相同的结果；某些语句和函数如UUID, LOAD DATA INFILE等在复制过程可能导致数据不一致甚至出错</li>
+</ul>
+<h4 id="ROW"><a href="#ROW" class="headerlink" title="ROW"></a>ROW</h4><p>在ROW格式下，二进制日志记录的不再是简单的SQL语句了，而是<strong>记录表的行更改情况</strong>。</p>
+<ul>
+<li>优点：日志内容会非常清楚的记录下每一行数据修改的细节</li>
+<li>缺点：可能会产生大量的日志，如update全表，则每一条更改都需要记录</li>
+</ul>
+<h4 id="MIXED"><a href="#MIXED" class="headerlink" title="MIXED"></a>MIXED</h4><p>MIXED格式下，MySQL默认采用STATEMENT格式进行二进制日志文件的记录，但在一些情况下会使用ROW格式，可能的情况有：</p>
+<p>1）表的存储引擎为NDB，这时对于表的DML操作都会以ROW格式记录。</p>
+<p>2）用UUID（）、USER（）、CUR-RENT_USER（）、FOUND_ROWS（）、ROW_COUNT（）等不确定函数。</p>
+<p>3）使用了INSERT DELAY语句。</p>
+<p>4）使用了用户定义函数（UDF）。</p>
+<p>5）使用了临时表（temporary table）。</p>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><h4 id="日志格式"><a href="#日志格式" class="headerlink" title="日志格式"></a>日志格式</h4><p>我们可用如下命令设置和查看binlog的格式。可按照会话级别设置，也可按照全局级别设置。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> @<span class="variable">@session</span>.binlog_format<span class="operator">=</span><span class="string">&#x27;STATEMENT&#x27;</span>;</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> @<span class="variable">@session</span>.binlog_format;</span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------------+</span></span><br><span class="line"><span class="operator">|</span> @<span class="variable">@session</span>.binlog_format <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------------+</span></span><br><span class="line"><span class="operator">|</span> STATEMENT               <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> <span class="keyword">global</span> binlog_format<span class="operator">=</span><span class="string">&#x27;ROW&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件位置"><a href="#文件位置" class="headerlink" title="文件位置"></a>文件位置</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;datadir&#x27;</span>;</span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------------+</span></span><br><span class="line"><span class="operator">|</span> Variable_name <span class="operator">|</span> <span class="keyword">Value</span>                 <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------------+</span></span><br><span class="line"><span class="operator">|</span> datadir       <span class="operator">|</span> <span class="operator">/</span>usr<span class="operator">/</span><span class="keyword">local</span><span class="operator">/</span>var<span class="operator">/</span>mysql<span class="operator">/</span> <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.01</span> sec)</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">system</span> ls <span class="operator">-</span>lh <span class="operator">/</span>usr<span class="operator">/</span><span class="keyword">local</span><span class="operator">/</span>var<span class="operator">/</span>mysql<span class="operator">/</span></span><br><span class="line">total <span class="number">447360</span></span><br><span class="line"><span class="operator">-</span>rw<span class="operator">-</span>r<span class="comment">-----    1 bytedance  admin   5.9K  9 20 12:55 binlog.000001</span></span><br><span class="line"><span class="operator">-</span>rw<span class="operator">-</span>r<span class="comment">-----    1 bytedance  admin    16B  8 13 21:12 binlog.index</span></span><br></pre></td></tr></table></figure>
+
+<p>binlog.index为二进制索引文件，binlog.000001为二进制日志文件</p>
+<h4 id="文件内容"><a href="#文件内容" class="headerlink" title="文件内容"></a>文件内容</h4><p>binlog的文件内容为二进制，不能直接查看，须通过MySQL提供的工具mysqlbinlog。</p>
+<p>查看STATEMENT格式的命令：</p>
+<p>mysqlbinlog –start-position=5910 /usr/local/var/mysql/binlog.000001</p>
+<p>查看ROW格式命令：</p>
+<p>mysqlbinlog -vv –start-position=3353 –stop-position=4478 /usr/local/var/mysql/binlog.000001</p>
+<p>样例如下，可以看到具体的语句。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ mysqlbinlog -vv --start-position&#x3D;3353 --stop-position&#x3D;4478 &#x2F;usr&#x2F;local&#x2F;var&#x2F;mysql&#x2F;binlog.000001</span><br><span class="line">&#x2F;*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE&#x3D;1*&#x2F;;</span><br><span class="line">&#x2F;*!50003 SET @OLD_COMPLETION_TYPE&#x3D;@@COMPLETION_TYPE,COMPLETION_TYPE&#x3D;0*&#x2F;;</span><br><span class="line">DELIMITER &#x2F;*!*&#x2F;;</span><br><span class="line"># at 156</span><br><span class="line">#210813 21:12:05 server id 1  end_log_pos 125 CRC32 0xc29576e3 	Start: binlog v 4, server v 8.0.23 created 210813 21:12:05 at startup</span><br><span class="line"># Warning: this binlog is either in use or was not closed properly.</span><br><span class="line">ROLLBACK&#x2F;*!*&#x2F;;</span><br><span class="line">BINLOG &#39;</span><br><span class="line">pW8WYQ8BAAAAeQAAAH0AAAABAAQAOC4wLjIzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">AAAAAAAAAAAAAAAAAAClbxZhEwANAAgAAAAABAAEAAAAYQAEGggAAAAICAgCAAAACgoKKioAEjQA</span><br><span class="line">CigB43aVwg&#x3D;&#x3D;</span><br><span class="line">&#39;&#x2F;*!*&#x2F;;</span><br><span class="line"># at 3353</span><br><span class="line">#210912 12:00:11 server id 1  end_log_pos 4478 CRC32 0x110c4a8c 	Query	thread_id&#x3D;21	exec_time&#x3D;0	error_code&#x3D;0	Xid &#x3D; 134</span><br><span class="line">use &#96;testdb&#96;&#x2F;*!*&#x2F;;</span><br><span class="line">SET TIMESTAMP&#x3D;1631419211&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.pseudo_thread_id&#x3D;21&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.foreign_key_checks&#x3D;1, @@session.sql_auto_is_null&#x3D;0, @@session.unique_checks&#x3D;1, @@session.autocommit&#x3D;1&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.sql_mode&#x3D;1168113696&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.auto_increment_increment&#x3D;1, @@session.auto_increment_offset&#x3D;1&#x2F;*!*&#x2F;;</span><br><span class="line">&#x2F;*!\C utf8mb4 *&#x2F;&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.character_set_client&#x3D;255,@@session.collation_connection&#x3D;255,@@session.collation_server&#x3D;255&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.lc_time_names&#x3D;0&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.collation_database&#x3D;DEFAULT&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@session.explicit_defaults_for_timestamp&#x3D;1&#x2F;*!*&#x2F;;</span><br><span class="line">&#x2F;*!80011 SET @@session.default_collation_for_utf8mb4&#x3D;255*&#x2F;&#x2F;*!*&#x2F;;</span><br><span class="line">&#x2F;*!80013 SET @@session.sql_require_primary_key&#x3D;0*&#x2F;&#x2F;*!*&#x2F;;</span><br><span class="line">CREATE TABLE &#96;trace_sp_info2&#96; (</span><br><span class="line">  &#96;id&#96; bigint unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;自增ID&#39;,</span><br><span class="line">  &#96;sp_id&#96; bigint unsigned NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;服务id&#39;,</span><br><span class="line">  &#96;sp_name&#96; varchar(50) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;服务名称&#39;,</span><br><span class="line">  &#96;type&#96; tinyint DEFAULT &#39;0&#39; COMMENT &#39;服务&#39;,</span><br><span class="line">  &#96;type_name&#96; varchar(50) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;服务类型名称&#39;,</span><br><span class="line">  &#96;status&#96; tinyint(1) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;状态 0未激活 1激活 2失效&#39;,</span><br><span class="line">  &#96;create_time&#96; timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#39;创建时间&#39;,</span><br><span class="line">  &#96;create_by&#96; varchar(50) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;创建人&#39;,</span><br><span class="line">  &#96;update_by&#96; varchar(50) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;更新人&#39;,</span><br><span class="line">  &#96;update_time&#96; timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT &#39;更新时间&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  UNIQUE KEY &#96;uniq_spid&#96; (&#96;sp_id&#96;),</span><br><span class="line">  KEY &#96;idx_update_time&#96; (&#96;update_time&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;3 DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;服务&#39;</span><br><span class="line">&#x2F;*!*&#x2F;;</span><br><span class="line">SET @@SESSION.GTID_NEXT&#x3D; &#39;AUTOMATIC&#39; &#x2F;* added by mysqlbinlog *&#x2F; &#x2F;*!*&#x2F;;</span><br><span class="line">DELIMITER ;</span><br><span class="line"># End of log file</span><br><span class="line">&#x2F;*!50003 SET COMPLETION_TYPE&#x3D;@OLD_COMPLETION_TYPE*&#x2F;;</span><br><span class="line">&#x2F;*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE&#x3D;0*&#x2F;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="redo-log简介"><a href="#redo-log简介" class="headerlink" title="redo log简介"></a>redo log简介</h2><p>redo log可用来做数据库crash recovery，是数据库保障数据安全的重要功能之一。它记录的关于每个页（Page）的更改的物理情况，一般默认包括2个日志文件，也可通过命令进行配置。</p>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><p>redo log的日志文件，每个页面大小512字节，可通过参数调节。文件中的前四个页面，主要用于管理日志内容及整个数据库状态。在2KB（4*512字节）内容之后，就是正常的用来存储日志内容的部分。</p>
+<p>格式如下图所示，图中的数值是指每一项在页面中的偏移位置。</p>
+<p>![redo log格式](./redo log格式.png)</p>
+<p>蓝色为4个header页面，黄色为普通页面。在普通页面中中，都会有12个字节用来存储页面头信息，这些信息主要用于管理这个页面本身的数据存储方式。</p>
+<p>LOG_BLOCK_HDR_NO：4字节，一个与LSN有关系的块号。</p>
+<p>LOG_BLOCK_HDR_DATA_LEN：2字节，表示当前页面中存储的日志长度，这个值一般都等于512-12（12位页面头的大小），因为日志在相连的块中是连续存储的，中间不会存在空闲空间，所以如果这个长度不为500，表示此时日志已经扫描完成（Crash Recovery的工作）。</p>
+<p>LOG_BLOCK_FIRST_REC_GROUP：2字节，表示在当前块中是不是有一个MTR的开始位置。因为一个MTR所产生的日志量有可能是超过一个块大小的，那么如果一个MTR跨多个块时，这个值就表示了这个MTR的开始位置究竟是在哪一个块中。如果为0，则表示当前块的日志都属于同一个MTR；而如果其值大于0并且小于上面LOG_BLOCK_HDR_DATA_LEN所表示的值，则说明当前块中的日志是属于两个MTR的，后面MTR的开始位置就是LOG_BLOCK_FIRST_REC_GROUP所表示的位置。</p>
+<p>LOG_BLOCK_CHECKPOINT_NO：4字节，存储的是检查点的序号。</p>
+<p>这里简单说明一下LSN，LSN全名叫Log Sequence Number，用来精确记录日志位置信息，且是连续增长的。</p>
+<p>上面所讲述的就是日志文件的组织结构，只有前面2KB是日志头，后面所有的都是一个个连续的、用来存储MTR产生的日志页面。</p>
+<h3 id="MTR"><a href="#MTR" class="headerlink" title="MTR"></a>MTR</h3><p>MTR也叫Mini-transaction，被称作“物理事务”，用于保证物理操作的完整性。比如在底层页面插入一条记录，如果只修改页头信息而没有修改页尾信息，那对这个页面来说是不完整的，这就需要用事务进行保证。</p>
+<p>MTR有开始与提交阶段，保证物理事务一致性。其作用部位如下图所示：</p>
+<p><img src="./image-20210928214816928.png" alt="image-20210928214816928"></p>
+<p>对页面page进行修改时，MTR会生成redo log record，当MTR提交的时候，会将redo log record拷贝到redo log buffer。而且MTR提交的时候，会给每个log record生成一个lsn，此lsn确定了其在log file中的位置。所以在redo log普通页面中的数据，都会有对应的lsn。</p>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>上面聊完binlog和redo log的基础知识，现在看一下和binlog cache、redo log cache的关系。</p>
+<h3 id="write与fsync"><a href="#write与fsync" class="headerlink" title="write与fsync"></a>write与fsync</h3><p>把buffer里的数据写到磁盘需要几步？<strong>主要分两步，write和fsync。</strong></p>
+<p><strong>write</strong>：指把buffer中日志写入到文件系统的 page cache，这个操作并没有把数据持久化到磁盘，所以速度比较快，但断电丢失。</p>
+<p><strong>fsync</strong>：真正将数据持久化到磁盘，不会丢失。一般情况下，我们认为 fsync 才占磁盘的 IOPS。</p>
+<p>当然对于buffer中的数据，mysql异常重启就会丢失。</p>
+<p><img src="./image-20210929094450870.png" alt="image-20210929094450870"></p>
+<p><strong>所以write和fsync的时机，控制了binlog和redo log的持久化。</strong></p>
+<h3 id="binlog刷盘"><a href="#binlog刷盘" class="headerlink" title="binlog刷盘"></a>binlog刷盘</h3><p>binlog 的写入逻辑比较简单：事务执行过程中，先把日志写到 binlog cache，事务提交时，再把 binlog cache 里的完整事务写到 binlog 文件中。</p>
+<p>binlog 是不能被拆开的，因此不论这个事务多大，也要确保一次性写入。</p>
+<p>参数 sync_binlog 控制binlog的 write 与 fsync 时机：</p>
+<p>1.sync_binlog=0 的时候，表示每次提交事务都只 write，不 fsync。如果主机发生异常重启，会丢失未fsync的 binlog 日志。</p>
+<p>2.sync_binlog=1 的时候，表示每次提交事务都会执行 fsync；</p>
+<p>3.sync_binlog=N(N&gt;1) 的时候，表示每次提交事务都 write，但累积 N 个事务后才fsync。如果主机发生异常重启，会丢失最近N个事务的 binlog 日志。</p>
+<h3 id="redo-log刷盘"><a href="#redo-log刷盘" class="headerlink" title="redo log刷盘"></a>redo log刷盘</h3><p>事务在执行过程中，生成的 redo log 是要先写到 redo log buffer 的。</p>
+<p>innodb_flush_log_at_trx_commit 参数控制redo log的write与fsync：</p>
+<p>1.设置为 0 的时候，表示每次事务提交时都只是把 redo log 留在 redo log buffer 中，MySQL异常重启丢失数据；</p>
+<p>2.设置为 1 的时候，表示每次事务提交时都将 redo log 直接持久化到磁盘；</p>
+<p>3.设置为 2 的时候，表示每次事务提交时都只是把 redo log 写到 page cache，主机发生异常重启，丢失数据；</p>
+<p>当然，对于binlog和redo log刷盘时机，除了参数外还受其它配置控制。如InnoDB 有一个后台线程，每隔 1 秒，就会把 redo log buffer 中的日志，调用 write 写到文件系统的 page cache，然后调用 fsync 持久化到磁盘。</p>
+<p>但这些内容会影响我们理解，所以本次主要理解提交过程中的刷盘时机。</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>以前画过更新一行数据的流程，如下图所示，里面没有涉及binlog cache和redo log cache，这次给增加上。在介绍两阶段提交的时候说过，时序上 redo log 先 prepare， 再写binlog，最后再把 redo log commit。</p>
+<p><img src="./Innodb%E6%97%A5%E5%BF%97.png" alt="Innodb日志"></p>
+<p>在sync_binlog 和innodb_flush_log_at_trx_commit 都为1的情况下，更新流程如下图所示：</p>
+<p><img src="./image-20210929102214052.png" alt="image-20210929102214052"></p>
+<p>对redo log的两个阶段prepare和commit需要说明一下：</p>
+<ul>
+<li>在prepare阶段执行write和fsync操作，redo log完成了持久化</li>
+<li>在commit阶段只执行write操作，这是因为redo log在prepare阶段已经持久化，只是状态未变更为commit。如果发生异常，根据binlog的写入情况，是能够实现数据恢复的。大家如果忘记这部分内容，可以重看一下<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/pQqqqH0KS2x43Iqg6yPYkg">InnoDB redo、undo、binlog，是如何合作的</a></li>
+</ul>
+<p>所以大家能够发现，sync_binlog 和innodb_flush_log_at_trx_commit控制的就是write和fsync操作，哪些在提交过程中执行。</p>
+<p>从流程图上看，双1情况，即sync_binlog 和innodb_flush_log_at_trx_commit都为1，MySQL持久化是最及时的。这意味一个事务完整提交前，需要等待两次刷盘，一次是 redo log（prepare 阶段），一次是 binlog，相应刷盘QPS也会增高。</p>
+<p>对于这两个配置如何选择，看大家业务具体情况。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近事情比较多，写这篇文章用了差不多一个星期，完成之后还是挺开心的。对于自己以前一些模糊的知识点也梳理清晰了。希望这篇文章能够帮助到大家。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1200824">MySQL探秘(三):InnoDB的内存结构和特性</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ilifeilong/p/7221235.html">MySQL共享表空间概念</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhouxinlin2009/article/details/89633464">linux 同步IO: sync、fsync与fdatasync</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/sj349781478/article/details/77816524">Mysql Binlog三种格式详细介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/DataArt/p/9873592.html">MySQL binlog格式解析</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.weijingbiji.com/2183/">MySQL redo log 格式解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/147040331">redo log日志文件</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chuanzhang053/p/8874951.html">mysqlbinlog基于某个偏移量进行数据的恢复(重做),–start-position,–stop-position的使用方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0b2194899e95">mysqlbinlog 技巧</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuhao/p/3714012.html">MySQL redo log及recover过程浅析</a></li>
+</ol>
+
       
 
       
@@ -206,16 +304,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/09/29/MySQL-binlog%E3%80%81redo-log%EF%BC%8C%E8%AF%B7%E7%AE%A1%E7%AE%A1%E4%BD%A0%E5%AE%B6buffer/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/09/25/%E5%87%8F%E8%82%A5%E5%88%9D%E6%AD%A5%E6%88%90%E5%8A%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">减肥初步成功</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,599 +392,14 @@
 
 
 
-
-  
-    <article id="pages-Go设计模式-6-单例模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Go设计模式(6)-单例模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-04-22T05:18:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-说明"><a href="#1-说明" class="headerlink" title="1.说明"></a>1.说明</h2><p>前面5篇文章讲解了设计模式的语法、面向对象分析、原则、代码编写、类图表示法，从本文开始讲述23种设计模式。</p>
-<p>后面会按照创建型、结构型、行为型的顺序来写</p>
-        
-          <a class="article-more-a" href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/22/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-设计模式之美" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/">设计模式之美</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/" class="archive-article-date">
-  	<time datetime="2021-04-16T01:15:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>历经两个月的时间，终于看完了王争的《设计模式之美》，共73篇文章。</p>
-<p>这本书还是很值得一读的，作者对设计理念、设计模式思考的比较深，而且将这些思想运用到实际的工作中，使设计模式显得不那么空；另外这本书花了很大的篇幅来讲设计的理念，讲的比较通透，这是很难得，因为无论哪种设计模式，最终都会映射回理念，设计理念才是根本性的东西。</p>
-        
-          <a class="article-more-a" href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-根据mysql表结构自动生成go-struct" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/">根据mysql表结构自动生成go struct</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/" class="archive-article-date">
-  	<time datetime="2021-03-30T15:21:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当我们用Go做数据库相关操作时，编写出和表对应的结构体是必做的事情，例如</p>
-        
-          <a class="article-more-a" href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-5-类图符号表示法" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/">Go设计模式(5)-类图符号表示法</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-03-28T13:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前四章讲解了Go设计模式的一些原理性知识，后面会开始讲23种设计模式。初步计划是对每种模式至少要说明含义、画类图、找实际用例、写代码实现、描述重点信息（使用场景、原因、好处等）。</p>
-        
-          <a class="article-more-a" href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-为动员一切力量争取抗战胜利而斗争" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/">为动员一切力量争取抗战胜利而斗争</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:49:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是主席为中共中央宣传部起草的关于形式与任务的宣传鼓动提纲。这篇文章主要讲述了现状、团结力量的重要性、团结哪些力量、制定救国纲领等，还有一篇姊妹篇《为争取千百万群众进入抗日民族统一战线》。</p>
-        
-          <a class="article-more-a" href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go工具之generate" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/">Go工具之generate</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:48:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文给大家介绍Go的一个实用技巧，该技巧主要通过go工具实现。</p>
-        
-          <a class="article-more-a" href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go单例实现方案" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">Go单例实现方案</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-03-15T01:19:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>单例模式大家都比较了解，定义如下：一个类只允许创建唯一一个对象（或者实例），那这个类就是一个单例类，这种设计模式就叫作单例设计模式，简称单例模式。</p>
-        
-          <a class="article-more-a" href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-剑指offer" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/13/%E5%89%91%E6%8C%87offer/">剑指offer</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/13/%E5%89%91%E6%8C%87offer/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:38:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>自从上次重新学习了一下算法后，写了一篇总结的文章： <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/pg94QcxIttHUBlGnHBW4zQ">算法总结</a>，写完之后总想去检验一下自己的水平如何。</p>
-        
-          <a class="article-more-a" href="/2021/03/13/%E5%89%91%E6%8C%87offer/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/13/%E5%89%91%E6%8C%87offer/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-4-代码编写" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/">Go设计模式(4)-代码编写</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:15:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>设计原则<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/DCho5dPu-BSjpW-eI7GK9g">Go设计模式(3)-设计原则</a>是从相对高的维度来进行代码设计，设计的再好，代码编写不优雅，代码质量也难以得到保障。</p>
-        
-          <a class="article-more-a" href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -850,8 +422,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
