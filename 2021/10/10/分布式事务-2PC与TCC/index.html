@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>分布式事务-2PC与TCC | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/15/index.html">
+  <meta name="description" content="随着微服务的发展，需要实现分布式事务的场景越来越多。分布式事务在实现上分为基于补偿的方案和基于消息通知方案两种类型。 基于补偿的方案有2PC、TCC模式、Saga模式、Seata AT模式，它们都可以看成是遵守XA协议或是XA协议的变种。本次只聊2PC和TCC，今后有时间再聊其它模式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务-2PC与TCC">
+<meta property="og:url" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="随着微服务的发展，需要实现分布式事务的场景越来越多。分布式事务在实现上分为基于补偿的方案和基于消息通知方案两种类型。 基于补偿的方案有2PC、TCC模式、Saga模式、Seata AT模式，它们都可以看成是遵守XA协议或是XA协议的变种。本次只聊2PC和TCC，今后有时间再聊其它模式。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/image.png">
+<meta property="og:image" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/2pc.png">
+<meta property="og:image" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/2pcfail.jpeg">
+<meta property="og:image" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/try.jpeg">
+<meta property="og:image" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/confirm.jpeg">
+<meta property="og:image" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/cancel.jpeg">
+<meta property="article:published_time" content="2021-10-10T07:29:25.000Z">
+<meta property="article:modified_time" content="2021-10-10T07:33:05.270Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/image.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,268 +181,292 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-分布式事务-2PC与TCC" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分布式事务-2PC与TCC
+    </h1>
+  
+
+        
+        <a href="/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/" class="archive-article-date">
+  	<time datetime="2021-10-10T07:29:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-10</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>随着微服务的发展，需要实现分布式事务的场景越来越多。分布式事务在实现上分为基于补偿的方案和基于消息通知方案两种类型。</p>
+<p>基于补偿的方案有2PC、TCC模式、Saga模式、Seata AT模式，它们都可以看成是遵守XA协议或是XA协议的变种。本次只聊2PC和TCC，今后有时间再聊其它模式。</p>
+<span id="more"></span>
+<h2 id="分布式事务定义"><a href="#分布式事务定义" class="headerlink" title="分布式事务定义"></a>分布式事务定义</h2><p><strong>分布式事务用于在分布式系统中保证不同节点之间的数据一致性。</strong></p>
+<p>分布式事务是相对于单机事务/本地事务而言的，在分布式场景下，一个系统由多个子系统构成，每个子系统有独立的数据源。在微服务系统架构中，我们把每个子系统看成是一个微服务，每个微服务都可以维护自己的数据存储，各自保持独立，最后通过他们之间的互相调用组合出更复杂的业务逻辑。</p>
+<p>举一个简单例子，在电商系统里，会有库存服务、订单服务，还有业务层的购物服务。生成订单的时候，需要调用库存服务扣减库存和调用订单服务插入订单记录。我们需要同时保证库存服务和订单服务的事务性。这就是分布式事务要解决的问题。</p>
+<p><img src="./image.png" alt="image"></p>
+<h2 id="XA协议"><a href="#XA协议" class="headerlink" title="XA协议"></a>XA协议</h2><p>在讲分布式事务之前，必然需要先了解XA协议。<strong>XA是一个协议，是X/Open组织制定的关于分布式事务的一组标准接口，实现这些接口，便意味支持XA协议。</strong></p>
+<p>XA协议有两个重要贡献，一是定义了两个角色，二是定义了相关接口（只有定义无实现）。</p>
+<h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><p>XA协议定义了分布式事务参与方的两个角色：</p>
+<ul>
+<li>事务协调者（TM=Transaction Manager，对应例子中的购物服务）</li>
+<li>资源管理器/事务参与者（RM=Resource Manager，对应例子中的库存服务和订单服务）</li>
+</ul>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>XA 规范主要定义了事务管理器(Transaction Manager)和局部资源管理器(Local Resource Manager)之间的接口。</p>
+<p>以下的函数使事务管理器可以对资源管理器进行的操作：</p>
+<p>1）xa_open,xa_close：建立和关闭与资源管理器的连接。</p>
+<p>2）xa_start,xa_end：开始和结束一个本地事务。</p>
+<p>3）xa_prepare,xa_commit,xa_rollback：预提交、提交和回滚一个本地事务。</p>
+<p>4）xa_recover：回滚一个已进行预提交的事务。</p>
+<p>5）ax_开头的函数使资源管理器可动态地在事务管理器中进行注册，并可以对XID(TRANSACTION IDS)进行操作。</p>
+<p>6）ax_reg,ax_unreg；允许资源管理器在一个TMS(TRANSACTION MANAGER SERVER)中动态注册或撤消注册。</p>
+<h2 id="两阶段提交（2PC）"><a href="#两阶段提交（2PC）" class="headerlink" title="两阶段提交（2PC）"></a>两阶段提交（2PC）</h2><p>二阶段提交（2PC）是XA分布式事务协议的一种实现。其实在XA协议定义的函数中，通过xa_prepare,xa_commit已经能发现XA完整提交分准备和提交两个阶段。</p>
+<p>2PC多用于数据库层面，在业务层面使用2PC需要处理很多问题，用的相对少一些。本次主要聊数据库层面上的2PC。下面我们看一下两阶段提交的流程：</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><h4 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h4><p>准备阶段有如下三个步骤：</p>
+<ul>
+<li>协调者向所有参与者发送事务内容，询问是否可以提交事务，并等待所有参与者答复。</li>
+<li>各参与者执行事务操作，将 undo 和 redo 信息记入事务日志中（但不提交事务）。</li>
+<li>如参与者执行成功，给协调者反馈 yes，即可以提交；如执行失败，给协调者反馈 no，即不可提交。</li>
+</ul>
+<h4 id="提交阶段"><a href="#提交阶段" class="headerlink" title="提交阶段"></a>提交阶段</h4><p>协调者基于各个事务参与者的准备状态，来决策是事务提交Commit()或事务回滚Rollback()。</p>
+<p>如果协调者收到了参与者的失败消息或者超时，直接给每个参与者发送回滚(rollback)消息；否则，发送提交(commit)消息。</p>
+<p>参与者根据协调者的指令执行提交或者回滚操作，释放所有事务处理过程中使用的锁资源。(注意：必须在最后阶段释放锁资源)</p>
+<h3 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h3><p>接下来分两种情况分别讨论<strong>提交阶段</strong>的过程。</p>
+<h4 id="提交事务"><a href="#提交事务" class="headerlink" title="提交事务"></a>提交事务</h4><p>情况 1，当所有参与者均反馈 yes，提交事务，如下图所示：</p>
+<ul>
+<li>协调者向所有参与者发出正式提交事务的请求（即 commit 请求）。</li>
+<li>参与者执行 commit 请求，并释放整个事务期间占用的资源。</li>
+<li>各参与者向协调者反馈 ack(应答)完成的消息。</li>
+<li>协调者收到所有参与者反馈的 ack 消息后，即完成事务提交。</li>
+</ul>
+<p><img src="./2pc.png" alt="2pc"></p>
+<h4 id="中断事务"><a href="#中断事务" class="headerlink" title="中断事务"></a>中断事务</h4><p>情况 2，当准备阶段中任何一个参与者反馈 no，中断事务，如下图所示：</p>
+<ul>
+<li>协调者向所有参与者发出回滚请求（即 rollback 请求）。</li>
+<li>参与者使用阶段 1 中的 undo 信息执行回滚操作，并释放整个事务期间占用的资源。</li>
+<li>各参与者向协调者反馈 ack 完成的消息。</li>
+<li>协调者收到所有参与者反馈的 ack 消息后，即完成事务中断。</li>
+</ul>
+<p><img src="./2pcfail.jpeg" alt="2pcfail"></p>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><p>XA 事务，通过 Start 启动一个 XA 事务，并且被置为 Active 状态，处在 active 状态的事务可以执行 SQL 语句，通过 END 方法将 XA 事务置为 IDLE 状态。处于 IDLE 状态可以执行 PREPARE 操作或者 COMMIT…ONE PHASE 操作，也就是二阶段提交中的第一阶段，PREPARED 状态的 XA事务的时候就可以 Commit 或者 RollBack，也就是二阶段提交的第二阶段。</p>
+<p>「场景：」 模拟现金 + 红包组合支付，假设我们购买了 100 块钱的东西，90块使用现金支付，10 块红包支付，现金和红包处在不同的库。</p>
+<p>「假设：」 现在有两个库：xa_account(账户库，现金库)、xa_red_account(红包库)。两个库下面都有一张 account 表，account 表中的字段也比较简单，就 id、user_id、balance_amount 三个字段。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 是否开启日志</span></span><br><span class="line">        <span class="keyword">boolean</span> logXaCommands = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取账户库的 rm(ap做的事情)</span></span><br><span class="line">        Connection accountConn = DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://106.12.12.xxxx:3306/xa_account?useUnicode=true&amp;characterEncoding=utf8&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;xxxxx&quot;</span>);</span><br><span class="line">        XAConnection accConn = <span class="keyword">new</span> MysqlXAConnection((JdbcConnection) accountConn, logXaCommands);</span><br><span class="line">        XAResource accountRm = accConn.getXAResource();</span><br><span class="line">        <span class="comment">// 获取红包库的RM</span></span><br><span class="line">        Connection redConn = DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://106.12.12.xxxx:3306/xa_red_account?useUnicode=true&amp;characterEncoding=utf8&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;xxxxxx&quot;</span>);</span><br><span class="line">        XAConnection Conn2 = <span class="keyword">new</span> MysqlXAConnection((JdbcConnection) redConn, logXaCommands);</span><br><span class="line">        XAResource redRm = Conn2.getXAResource();</span><br><span class="line">  <span class="comment">// XA 事务开始了</span></span><br><span class="line">        <span class="comment">// 全局事务</span></span><br><span class="line">        <span class="keyword">byte</span>[] globalId = UUID.randomUUID().toString().getBytes();</span><br><span class="line">        <span class="comment">// 就一个标识</span></span><br><span class="line">        <span class="keyword">int</span> formatId = <span class="number">1</span>;</span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 账户的分支事务</span></span><br><span class="line">        <span class="keyword">byte</span>[] accBqual = UUID.randomUUID().toString().getBytes();;</span><br><span class="line">        Xid xid = <span class="keyword">new</span> MysqlXid(globalId, accBqual, formatId);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 红包分支事务</span></span><br><span class="line">        <span class="keyword">byte</span>[] redBqual = UUID.randomUUID().toString().getBytes();;</span><br><span class="line">        Xid xid1 = <span class="keyword">new</span> MysqlXid(globalId, redBqual, formatId);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 账号事务开始 此时状态：ACTIVE</span></span><br><span class="line">            accountRm.start(xid, XAResource.TMNOFLAGS);</span><br><span class="line">            <span class="comment">// 模拟业务</span></span><br><span class="line">            String sql = <span class="string">&quot;update account set balance_amount=balance_amount-90 where user_id=1&quot;</span>;</span><br><span class="line">            PreparedStatement ps1 = accountConn.prepareStatement(sql);</span><br><span class="line">            ps1.execute();</span><br><span class="line">            accountRm.end(xid, XAResource.TMSUCCESS);</span><br><span class="line">    <span class="comment">// 账号 XA 事务 此时状态：IDLE</span></span><br><span class="line">            <span class="comment">// 红包分支事务开始</span></span><br><span class="line">            redRm.start(xid1, XAResource.TMNOFLAGS);</span><br><span class="line">            <span class="comment">// 模拟业务</span></span><br><span class="line">            String sql1 = <span class="string">&quot;update account set balance_amount=balance_amount-10 where user_id=1&quot;</span>;</span><br><span class="line">            PreparedStatement ps2 = redConn.prepareStatement(sql1);</span><br><span class="line">            ps2.execute();</span><br><span class="line">            redRm.end(xid1, XAResource.TMSUCCESS);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 第一阶段：准备提交 </span></span><br><span class="line">            <span class="keyword">int</span> rm1_prepare = accountRm.prepare(xid);</span><br><span class="line">            <span class="keyword">int</span> rm2_prepare = redRm.prepare(xid1);</span><br><span class="line">   </span><br><span class="line">   <span class="comment">//  XA 事务 此时状态：PREPARED  </span></span><br><span class="line">            <span class="comment">// 第二阶段：TM 根据第一阶段的情况决定是提交还是回滚</span></span><br><span class="line">            <span class="keyword">boolean</span> onePhase = <span class="keyword">false</span>; <span class="comment">//TM判断有2个事务分支，所以不能优化为一阶段提交</span></span><br><span class="line">            <span class="keyword">if</span> (rm1_prepare == XAResource.XA_OK &amp;&amp; rm2_prepare == XAResource.XA_OK) &#123;</span><br><span class="line">                accountRm.commit(xid, onePhase);</span><br><span class="line">                redRm.commit(xid1, onePhase);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                accountRm.rollback(xid);</span><br><span class="line">                redRm.rollback(xid1);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// 出现异常，回滚</span></span><br><span class="line">            accountRm.rollback(xid);</span><br><span class="line">            redRm.rollback(xid1);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="业务"><a href="#业务" class="headerlink" title="业务"></a>业务</h4><p>一般分为协调器和若干事务执行者两种角色：</p>
+<p>1.首先协调器先将Prepare()消息写到本机日志，然后向所有事务执行者发Prepare()消息 ；<br>2.事务执行者收到Prepare()消息后，根据本机执行情况，如果成功返回Yes，不成功返回No，返回前把要返回的消息写到日志里。</p>
+<p>3.协调器收集完所有事务执行者的返回消息后(或经过一个超时周期后) ，如果都返回的是Yes，则事务成功，发送给所有执行者Commit()，否则认为事务失败发送Rollback()。<br>4.协调器发送前还是应把消息写到日志里。<br>5.执行者接收到协调者的Commit()或Rollback()后先把消息写到日志里，然后再根据消息提交或回滚。</p>
+<p>注：协调者或事务执行者把发送或接收到的消息<strong>先写到日志里</strong>，主要是为了故障后恢复用。如某一事务执行者从故障中恢复后，先检查本机的日志，如果已收到Commit()，则提交，如果已收到Rollback()则回滚。如果是Yes，则再向协调者询问一下，确定下一步怎么做。如果日志里什么都没有，则很可能在Prepare阶段事务执行者就崩溃了，因此需要回滚。</p>
+<p>二阶段提交的缺陷在于如果事务协调者崩溃，所有执行者可能都需要等待协调者，从而产生阻塞。</p>
+<p>按照这种实现思路，<strong>唯一理论上两阶段提交出现问题的情况是当协调者发出提交指令后宕机并出现磁盘故障等永久性错误，导致事务不可追踪和恢复。</strong></p>
+<h3 id="异常情况"><a href="#异常情况" class="headerlink" title="异常情况"></a>异常情况</h3><p>上面的流程都是理想状态，但网络往往没有这么理想，会产生很多中间状态，让我们看几种异常情况：</p>
+<p>1.在准备阶段，事务协调者故障，故障时间为发送Prepare后</p>
+<ul>
+<li>无解：发送后故障，参与者会一直处于锁定状态</li>
+</ul>
+<p>2.提交阶段，参与者超时未返回或网络问题导致部分参与者未收到信息</p>
+<ul>
+<li>无解：不知道参与者是什么状态</li>
+</ul>
+<p>3.提交阶段，事务协调者故障，故障时间分发送Confirm前、发送过程中、发送后</p>
+<ul>
+<li>无解：发送前故障，参与者会一直处于锁定状态</li>
+<li>无解：发送中故障，不知道之前的决策结果</li>
+<li>无解：发送后故障，不知道完全结束没有</li>
+</ul>
+<p>纯2PC方案，对于很多异常情况，无法处理。<strong>要解决这些问题，需要增加新的特性，就不算2PC了。</strong></p>
+<h3 id="2PC总结"><a href="#2PC总结" class="headerlink" title="2PC总结"></a>2PC总结</h3><p>将提交分成两阶段进行的目的很明确，就是尽可能晚地提交事务，让事务在提交前尽可能地完成所有能完成的工作，这样，最后的提交阶段将是一个耗时极短的微小操作，这种操作在一个分布式系统中失败的概率是非常小的，也就是所谓的“<strong>网络通讯危险期</strong>”非常的短暂，这是两阶段提交确保分布式事务原子性的关键所在。</p>
+<p>2PC 方案实现起来简单，但太过单薄，所以<strong>实际项目中使用比较少</strong>，总结一下原因：</p>
+<ul>
+<li><p>性能：在阶段一需要所有的参与者都返回状态后才能进入第二阶段，并且要把相关的全局资源锁定住，这种同步阻塞的操作，会影响整体事务的并发度。</p>
+</li>
+<li><p>协议：2PC要求RM必须实现XA协议，准确讲XA是一个规范，它只是定义了一系列的接口，只是目前大多数实现XA的都是<strong>数据库或者MQ</strong>，在微服务架构中，RM可能是任意的类型，可以是一个微服务，也可以是一个KV</p>
+</li>
+<li><p>可靠性：如果协调者存在单点故障问题，如果协调者出现故障，参与者将一直处于锁定状态。</p>
+</li>
+<li><p>数据不一致：在二阶段提交的阶段中，当协调者向参与者发送commit请求之后，发生了局部网络异常或者在发送commit请求过程中协调者发生了故障，这会导致只有一部分参与者接受到了commit请求。而在这部分参与者接到commit请求之后就会执行commit操作，但是其他未接到commit请求的机器则无法执行事务提交。于是整个分布式系统便出现了数据不一致性的现象。</p>
+</li>
+</ul>
+<h2 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h2><p>TCC（Try-Confirm-Cancel）的概念，最早是由 Pat Helland 于 2007 年发表的一篇名为《Life beyond Distributed Transactions:an Apostate’s Opinion》的论文提出。</p>
+<p><strong>TCC本质上是一个业务层面上的2PC</strong>，他要求业务在使用TCC模式时必须实现三个接口Try()、Confirm()和Cancel()。在讲述2PC的时候，我们说过2PC无法解决宕机问题，那TCC如何解决2PC无法应对宕机问题的缺陷的呢？<strong>答案是不断重试。</strong></p>
+<p>TCC 是服务化的二阶段编程模型，其 Try、Confirm、Cancel 3 个方法均由业务编码实现：</p>
+<ul>
+<li>Try 操作作为一阶段，负责资源的检查和预留。</li>
+<li>Confirm 操作作为二阶段提交操作，执行真正的业务。</li>
+<li>Cancel 是预留资源的取消。</li>
+</ul>
+<h3 id="流程-1"><a href="#流程-1" class="headerlink" title="流程"></a>流程</h3><p>我们以上面的电商下单为例进行分析。</p>
+<h4 id="Try阶段"><a href="#Try阶段" class="headerlink" title="Try阶段"></a>Try阶段</h4><p>Try 仅是一个初步操作，它和后续的Confirm一起才能真正构成一个完整的业务逻辑，这个阶段主要完成：</p>
+<ul>
+<li>完成所有业务检查( 一致性 ) 。</li>
+<li>预留必须业务资源( 准隔离性 ) 。</li>
+<li>Try 尝试执行业务。</li>
+</ul>
+<p>假设商品库存为 100，购买数量为 2，这里检查和更新库存的同时，冻结用户购买数量的库存，同时创建订单，订单状态为待确认。</p>
+<p><img src="./try.jpeg" alt="try"></p>
+<h4 id="Confirm-Cancel阶段"><a href="#Confirm-Cancel阶段" class="headerlink" title="Confirm/Cancel阶段"></a>Confirm/Cancel阶段</h4><p>根据 Try 阶段服务是否全部正常执行，继续执行确认操作（Confirm）或取消操作（Cancel）。</p>
+<p>Confirm 和 Cancel 操作满足幂等性，如果 Confirm 或 Cancel 操作执行失败，将会不断重试直到执行完成。</p>
+<p>Confirm：当 Try 阶段服务全部正常执行， 执行确认业务逻辑操作</p>
+<p><img src="./confirm.jpeg" alt="confirm"></p>
+<p>这里使用的资源一定是 Try 阶段预留的业务资源。在 TCC 事务机制中认为，如果在 Try 阶段能正常的预留资源，那 Confirm 一定能完整正确的提交。</p>
+<p>Confirm 阶段也可以看成是对 Try 阶段的一个补充，<strong>Try+Confirm 一起组成了一个完整的业务逻辑</strong>。</p>
+<p>Cancel：当 Try 阶段存在服务执行失败， 进入 Cancel 阶段</p>
+<p><img src="./cancel.jpeg" alt="cancel"></p>
+<p>Cancel 取消执行，释放 Try 阶段预留的业务资源，上面的例子中，Cancel 操作会把冻结的库存释放，并更新订单状态为取消。</p>
+<h3 id="设计要点"><a href="#设计要点" class="headerlink" title="设计要点"></a>设计要点</h3><h4 id="空回滚"><a href="#空回滚" class="headerlink" title="空回滚"></a>空回滚</h4><p>如果协调者的Try()请求因为网络超时失败，那么协调者在阶段二时会发送Cancel()请求，而这时这个事务参与者实际上之前并没有执行Try()操作而直接收到了Cancel()请求。</p>
+<p>针对这个问题，TCC模式要求在这种情况下Cancel()能直接返回成功，也就是要允许「空回滚」。</p>
+<h4 id="防悬挂"><a href="#防悬挂" class="headerlink" title="防悬挂"></a>防悬挂</h4><p>接着上面的问题1，Try()请求超时，事务参与者收到Cancel()请求而执行了空回滚，但就在这之后网络恢复正常，事务参与者又收到了这个Try()请求，所以Try()和Cancel()发生了悬挂，也就是先执行了Cancel()后又执行了Try()</p>
+<p>针对这个问题，TCC模式要求在这种情况下，事务参与者要记录下Cancel()的事务ID，当发现Try()的事务ID已经被回滚，则直接忽略掉该请求。</p>
+<h4 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h4><p>Confirm()和Cancel()的实现必须是幂等的。当这两个操作执行失败时协调者都会发起重试。</p>
+<h3 id="伪代码-1"><a href="#伪代码-1" class="headerlink" title="伪代码"></a>伪代码</h3><p>1.初始化：向事务管理器注册新事务，生成全局事务唯一ID</p>
+<p>2.try阶段执行：try相关的代码执行，期间注册相应的调用记录，发送try执行结果到事务管理器，执行成功由事务管理器执行confirm或者cancel步骤</p>
+<p>3.confirm阶段：事务管理器收到try执行成功信息，根据事务ID，进入事务confirm阶段执行，confirm失败进入cancel，成功则结束</p>
+<p>4.cancel阶段：事务管理器收到try执行失败或者confirm执行失败，根据事务ID，进入cancel阶段执行后结束，如果失败了，打印日志或者告警，让人工参与处理，也可记录失败，系统不断对cancel进行重试</p>
+<h3 id="TCC总结"><a href="#TCC总结" class="headerlink" title="TCC总结"></a>TCC总结</h3><p>TCC和2PC看起来很像，TCC和2PC最大的区别是，<strong>2PC是偏数据库层面的，而TCC是纯业务层面</strong>。</p>
+<p>TCC 事务机制相对于传统事务机制（X/Open XA），TCC 事务机制相比于上面介绍的 XA 事务机制，有以下优点：</p>
+<ul>
+<li>性能提升：具体业务来实现控制资源锁的粒度变小，不会锁定整个资源。</li>
+<li>数据最终一致性：基于 Confirm 和 Cancel 的幂等性，保证事务最终完成确认或者取消，保证数据的一致性。</li>
+<li>可靠性：解决了 XA 协议的协调者单点故障问题，由主业务方发起并控制整个业务活动，业务活动管理器也变成多点，引入集群。</li>
+<li>支持度：该模式对有无本地事务控制都可以支持使用面广。</li>
+</ul>
+<p>缺点： TCC 的 Try、Confirm 和 Cancel 操作功能要按具体业务来实现，业务耦合度较高，提高了开发成本。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在看分布式事务的时候，看了一下公司下单代码，发现根本没有使用2PC或者TCC，方案也比较莽：执行正向操作，如果有失败，则调用逆向操作，逆向失败重试几次，还失败就记录，由另一个系统进行重试。</p>
+<p>之所以这么设计，主要是这套系统设计的比较早，当时还没这么复杂场景。一旦系统复杂了，对核心功能的修改难度又较大。虽然系统目前能正常运作，但最终还是需要优化。</p>
+<p>如果重新设计的话，我倒是挺喜欢TCC，因为各个系统按规范设计，都实现上述的设计要点，加入中间状态和重试系统，后面修改、扩充都要容易很多。后面看看有没有时间，实现一版TCC方案，否则容易一看就懂一写就废。不过得先把Saga模式、Seata AT模式和基于消息通知的方案聊完。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://bytedance.feishu.cn/wiki/wikcno3x9JMR32n712NivIAkWGg">分布式事务</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0eKX26pAbSYEH1ZtY6sBww">https://mp.weixin.qq.com/s/0eKX26pAbSYEH1ZtY6sBww</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/TIGERB">https://github.com/TIGERB</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/monkeyblog/p/10449363.html">关于分布式事务，XA协议的学习笔记（整理转载）</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/XA/6370881?fr=aladdin">xa</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chy2055/p/5200592.html">分布式事务之两阶段提交</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/binyue/p/3678390.html">对分布式事务及两阶段提交、三阶段提交的理解</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/111304281">如何理解两阶段提交？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/22594180">两阶段提交的工程实践</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-30212356-id-5731591.html">分布式事务和两阶段提交及三阶段提交</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Paranoia_ZK/article/details/79481976">TCC和两阶段分布式事务处理的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.pianshen.com/article/47271300340/">关于分布式事务：两阶段提交，TCC和tx-lcn框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/98590126">分布式事务解决方案-seata实现2pc分布式事务控制</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.pbteach.com/java/java_06_03/index.html">攀博课堂</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/440584986">分布式强一致性有哪些实现方案，2PC是不是强一致？</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40001372/article/details/111671831">MySQL两阶段提交具体实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ummi/p/10794930.html">基于两阶段提交的分布式事务实现(UP-2PC)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36184390/article/details/81671214">Java分布式事务 两阶段提交的编码实现-TCC</a></li>
+<li><a target="_blank" rel="noopener" href="https://bytedance.feishu.cn/wiki/wikcnG3BIgLuNKw0escq9ym8Zfe#">Go分布式事务调研</a></li>
+<li><a target="_blank" rel="noopener" href="https://bytedance.feishu.cn/docs/doccnW3DmWhljKWMwi0HKjnNqwI#bePSES">RocketMQ事务分享</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/freedom-only/p/14124906.html">TCC Demo 代码实现</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/" class="archive-article-date">
-  	<time datetime="2020-02-16T14:02:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/">简单的逻辑学</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-02-16T03:59:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/10/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%8F%AF%E4%BB%A5%E5%A4%9A%E7%B3%8A%E5%BC%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">程序员可以多糊弄</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/">Gin框架简洁版</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-02-09T08:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">Gin远吗剖析</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/08/go-callvis/" class="archive-article-date">
-  	<time datetime="2020-02-08T09:12:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/08/go-callvis/">Go-callvis</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-01-30T09:02:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/">Gin框架集成swagger过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-01-27T15:06:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在新项目中使用gomod</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/" class="archive-article-date">
-  	<time datetime="2020-01-27T02:38:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/">领导梯队</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2020-01-24T08:18:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/">麦肯锡给我的写作武器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/" class="archive-article-date">
-  	<time datetime="2020-01-23T13:43:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/23/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E5%AF%B9%E6%8E%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/">如何高效对接第三方支付</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/14/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/13/">13</a><a class="page-number" href="/archives/page/14/">14</a><span class="page-number current">15</span>
-    </nav>
   
 
 
@@ -455,8 +490,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
