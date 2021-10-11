@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>MySQL高可用，就这么完美？？？ | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="MySQL以其容易学习和高可用，被开发人员青睐。它的几乎所有的高可用架构，都直接依赖于 binlog。MySQL 能够成为现下最流行的开源数据库，binlog 功不可没。MySQL是怎样实现高可用的？这种高可用足够完美吗？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL高可用，就这么完美？？？">
+<meta property="og:url" content="http://yoursite.com/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="MySQL以其容易学习和高可用，被开发人员青睐。它的几乎所有的高可用架构，都直接依赖于 binlog。MySQL 能够成为现下最流行的开源数据库，binlog 功不可没。MySQL是怎样实现高可用的？这种高可用足够完美吗？">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/image-20211011093125788.png">
+<meta property="og:image" content="http://yoursite.com/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/image-20211011100438590.png">
+<meta property="og:image" content="http://yoursite.com/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/image-20211011112923876.png">
+<meta property="article:published_time" content="2021-10-11T08:53:49.000Z">
+<meta property="article:modified_time" content="2021-10-11T09:00:20.857Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/image-20211011093125788.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,295 +178,249 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-MySQL高可用，就这么完美？？？" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL高可用，就这么完美？？？
+    </h1>
+  
+
+        
+        <a href="/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/" class="archive-article-date">
+  	<time datetime="2021-10-11T08:53:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-11</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MySQL以其容易学习和高可用，被开发人员青睐。它的几乎所有的高可用架构，都直接依赖于 binlog。MySQL 能够成为现下最流行的开源数据库，binlog 功不可没。MySQL是怎样实现高可用的？这种高可用足够完美吗？</p>
+<span id="more"></span>
+<h2 id="主备同步流程"><a href="#主备同步流程" class="headerlink" title="主备同步流程"></a>主备同步流程</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>主库为A，备库为B，其同步流程如下图所示，这张图也很好的阐明一条<strong>更新语句，在master会执行哪些动作</strong>：<img src="./image-20211011093125788.png" alt="image-20211011093125788"></p>
+<p>备库 B 跟主库 A 之间维持了一个长连接。主库 A 内部有一个线程，专门用于服务备库 B 的这个长连接。一个事务日志同步的完整过程是这样的：</p>
+<p>1.在备库 B 上通过 change master 命令，设置主库 A 的 IP、端口、用户名、密码，以及要<strong>从哪个位置开始请求 binlog，这个位置包含文件名和日志偏移量</strong>。</p>
+<p>2.在备库 B 上执行 start slave 命令，这时候备库会启动两个线程，就是图中的 io_thread和 sql_thread。其中 io_thread 负责与主库建立连接。</p>
+<p>3.主库 A 校验完用户名、密码后，开始按照备库 B 传过来的位置，从本地读取 binlog，发给 B。</p>
+<p>4.备库 B 拿到 binlog 后，写到本地文件，称为中转日志（relay log）。</p>
+<p>5.sql_thread 读取中转日志，解析出日志里的命令，并执行。</p>
+<h3 id="同步位置"><a href="#同步位置" class="headerlink" title="同步位置"></a>同步位置</h3><p>主备切换后，从库需要从新的主库同步数据。即上面流程第一步，需要指定从哪个位置开始请求binlog。主要有两种方案：</p>
+<h4 id="基于位点"><a href="#基于位点" class="headerlink" title="基于位点"></a>基于位点</h4><p>MySQL5.6之前，使用change master命令更换主库。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER <span class="keyword">TO</span> </span><br><span class="line"></span><br><span class="line">MASTER_HOST<span class="operator">=</span>$host_name </span><br><span class="line">MASTER_PORT<span class="operator">=</span>$port </span><br><span class="line">MASTER_USER<span class="operator">=</span>$user_name </span><br><span class="line">MASTER_PASSWORD<span class="operator">=</span>$password </span><br><span class="line">MASTER_LOG_FILE<span class="operator">=</span>$master_log_name </span><br><span class="line">MASTER_LOG_POS<span class="operator">=</span>$master_log_pos </span><br></pre></td></tr></table></figure>
+
+<p>操作流程如下：</p>
+<p>1.等待新主库 A’把中转日志（relay log）全部同步完成；</p>
+<p>2.在 A’上执行 show master status 命令，得到当前 A’上最新的 File 和 Position；</p>
+<p>3.取原主库 A 故障的时刻 T；</p>
+<p>4.用 mysqlbinlog 工具解析 A’的 File，得到 T 时刻的位点。</p>
+<h4 id="基于GTID"><a href="#基于GTID" class="headerlink" title="基于GTID"></a>基于GTID</h4><p>基于位点的方案太过繁琐，MySQL 5.6 版本引入了 GTID，无需人工计算位点。</p>
+<p>GTID 的全称是 Global Transaction Identifier，也就是全局事务 ID，是一个事务在提交的时候生成的，是这个事务的唯一标识。每个 MySQL 实例都维护了一个 GTID 集合，用来对应“这个实例执行过的所有事务”。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER <span class="keyword">TO</span> </span><br><span class="line">MASTER_HOST<span class="operator">=</span>$host_name </span><br><span class="line">MASTER_PORT<span class="operator">=</span>$port </span><br><span class="line">MASTER_USER<span class="operator">=</span>$user_name </span><br><span class="line">MASTER_PASSWORD<span class="operator">=</span>$password </span><br><span class="line">master_auto_position<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>master_auto_position=1 就表示这个主备关系使用的是 GTID 协议。</p>
+<p>在实例 B 上执行 start slave 命令，取 binlog 的逻辑如下所示，其中set_a和set_b为执行过的事务的 GTID 集合：</p>
+<p>1.实例 B 指定主库 A’，基于主备协议建立连接。</p>
+<p>2.实例 B 把 set_b 发给主库 A’。</p>
+<p>3.实例 A’算出 set_a 与 set_b 的差集，也就是所有存在于 set_a，但是不存在于 set_b的 GTID 的集合，判断 A’本地是否包含了这个差集需要的所有 binlog 事务。</p>
+<p>   a.如果不包含，表示 A’已经把实例 B 需要的 binlog 给删掉了，直接返回错误；</p>
+<p>   b.如果确认全部包含，A’从自己的 binlog 文件里面，找出第一个不在 set_b 的事务，发给 B；</p>
+<p>4.之后就从这个事务开始，往后读文件，按顺序取 binlog 发给 B 去执行。</p>
+<p><strong>基于GTID的操作，可以认为是系统自行计算出对应位点。</strong></p>
+<h3 id="循环问题"><a href="#循环问题" class="headerlink" title="循环问题"></a>循环问题</h3><p>参数 log_slave_updates 设置为 on，表示备库执行 relay log 后生成 binlog。<strong>在主主复制+主从复制情况下，有时会发现主从没有同步，很可能是因为有的主库没有将log_slave_updates设置为on</strong>。</p>
+<p>既然消费relay log会生成新的binlog，那双master情况下为何没有产生节点间循环复制情况？</p>
+<p>主要是因为MySQL 在 binlog 中记录了这个命令第一次执行时所在实例的server id。</p>
+<p>1.规定两个库的 server id 必须不同，如果相同，则它们之间不能设定为主备关系；</p>
+<p>2.一个备库接到 binlog 并在重放的过程中，生成与原 binlog 的 server id 相同的新的binlog；</p>
+<p>3.每个库在收到从自己的主库发过来的日志后，先判断 server id，如果跟自己的相同，表示这个日志是自己生成的，就直接丢弃这个日志。</p>
+<h2 id="高可用（HA）"><a href="#高可用（HA）" class="headerlink" title="高可用（HA）"></a>高可用（HA）</h2><p>现在大家都用MySQL，主要是因其高可用。高可用原因有两个，一个是主备一致，一个是主备切换。这两者缺一不可。</p>
+<p>1.正常情况下，只要主库执行更新生成的所有 binlog，都可以传到备库并被正确地执行，备库就能达到跟主库一致的状态，这就是最终一致性。</p>
+<p>2.主库出现问题，可以将备库作为主库，继续提供服务。</p>
+<p><strong>MySQL 高可用系统的基础，就是主备切换逻辑，但主备切换又很依赖主备延迟。</strong></p>
+<p>原因很容易理解，如果备库同步没有完成，此时将备库更改为主库，会产生数据丢失、数据不一致问题。</p>
+<h3 id="同步延迟"><a href="#同步延迟" class="headerlink" title="同步延迟"></a>同步延迟</h3><p>根据上面提到的主备同步流程，我们能够看出与数据同步有关的时间点主要包括以下三个：</p>
+<p>1.主库 A 执行完成一个事务，写入 binlog，我们把这个时刻记为 T1;</p>
+<p>2.之后传给备库 B，我们把备库 B 接收完这个 binlog 的时刻记为 T2;</p>
+<p>3.备库 B 执行完成这个事务，我们把这个时刻记为 T3。</p>
+<p>所谓<strong>主备延迟</strong>，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值，也就是 T3-T1。所以主库和备库之间，必然会有延迟。</p>
+<p>延迟时间可通过在备库上执行 show slave status 命令查看，它的返回结果里会显示seconds_behind_master，用于表示当前备库延迟了多少秒。DB监控上显示的时间，就是seconds_behind_master。</p>
+<p><img src="./image-20211011100438590.png" alt="image-20211011100438590"></p>
+<h3 id="延迟原因"><a href="#延迟原因" class="headerlink" title="延迟原因"></a>延迟原因</h3><p>主备延迟必然会有，但不应该延迟太长。主备延迟长，一般有如下几个原因：</p>
+<p>1.<strong>备库所在机器的性能要比主库所在的机器性能差</strong></p>
+<ul>
+<li>备库的机器配置本身就比主库差</li>
+<li>主库多机器部署，备库单机部署</li>
+</ul>
+<p>2.<strong>备库的压力大</strong></p>
+<ul>
+<li>备库上的查询耗费了大量的 CPU 资源</li>
+</ul>
+<p>3.<strong>主库执行大事务或大表 DDL</strong></p>
+<ul>
+<li>语句在主库执行多久，便会导致从库延迟多久</li>
+</ul>
+<p>4.<strong>备库的并行复制能力</strong></p>
+<ul>
+<li>备库使用单线程复制还是多线程复制</li>
+<li>从MySQL5.7.22开始，可以通过 binlog-transaction dependency-tracking 参数的 COMMIT_ORDER、WRITESET 和 WRITE_SESSION，选择使用哪种并行复制策略</li>
+</ul>
+<h3 id="主备切换"><a href="#主备切换" class="headerlink" title="主备切换"></a>主备切换</h3><p>下面是双Master之间主备切换流程。一般说双M是指AB之间设置为互为主备，不过任何时刻只有一个节点在接受更新。</p>
+<p>主备切换主要有两种策略，可靠性优先和可用性优先策略。</p>
+<p><img src="./image-20211011112923876.png" alt="image-20211011112923876"></p>
+<h4 id="可靠性优先"><a href="#可靠性优先" class="headerlink" title="可靠性优先"></a>可靠性优先</h4><p>从状态 1 到状态 2 切换的详细过程是这样的：</p>
+<p>1.判断备库 B 现在的 seconds_behind_master，如果小于某个值（比如 5 秒）继续下一步，否则持续重试；</p>
+<p>2.把主库 A 改成只读状态，即把 readonly 设置为 true；</p>
+<p>3.判断备库 B 的 seconds_behind_master 的值，直到这个值变成 0 为止；</p>
+<p>4.把备库 B 改成可读写状态，也就是把 readonly 设置为 false；</p>
+<p>5.把业务请求切到备库 B。</p>
+<p><strong>可靠性优先的好处是，主备的数据完全一致后再进行切换，不会引起系统问题。但缺点是系统有段时间不可用。</strong></p>
+<h4 id="可用性优先"><a href="#可用性优先" class="headerlink" title="可用性优先"></a>可用性优先</h4><p>从状态 1 到状态 2 切换的详细过程是这样的：</p>
+<p>1.把备库 B 改成可读写状态，也就是把 readonly 设置为 false；</p>
+<p>2.把业务请求切到备库 B；<br>3.把主库 A 改成只读状态，即把 readonly 设置为 true；</p>
+<p><strong>可用性优先的好处是，系统几乎就没有不可用时间，坏处是系统可能出现数据不一致情况。</strong></p>
+<p>之所以出现数据不一致，是因为备库B接收业务请求的同时，还会继续消费未完成的binlog日志，新的请求和老的请求之间可能存在冲突。将binlog设置为row能够更加及时的发现这种问题，减少问题的加剧。</p>
+<h4 id="异常情况"><a href="#异常情况" class="headerlink" title="异常情况"></a>异常情况</h4><p>假设，主库 A 和备库 B 间的主备延迟是 30 分钟，这时候主库 A 掉电了，HA 系统要切换B 作为主库。这时候切和不切都会有问题。</p>
+<ul>
+<li>切：有些数据在备库无法查到，而且会产生数据不一致问题</li>
+<li>不切：数据库不可使用</li>
+</ul>
+<p>这也是为什么说<strong>MySQL 高可用系统的可用性，是依赖于主备延迟的</strong>。延迟的时间越小，在主库故障的时候，服务恢复需要的时间就越短，可用性就越高。所以无论是对DBA还是对研发人员而言，<strong>需要重点关注同步延迟</strong>。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>主从同步虽然给MySQL带来了高可用，但因为必然存在延迟问题，所以会导致更新完主库后，立即查从库，此时从库并没有更新后的数据。这个问题无法避免，但可以想办法优化，需要大家在付出和收益间做好权衡。</p>
+<h3 id="强制走主库方案"><a href="#强制走主库方案" class="headerlink" title="强制走主库方案"></a>强制走主库方案</h3><ul>
+<li>查找操作不查从库，查主库</li>
+</ul>
+<h3 id="sleep-方案"><a href="#sleep-方案" class="headerlink" title="sleep 方案"></a>sleep 方案</h3><ul>
+<li>客户端更新成功后，过一小会再做查找操作</li>
+</ul>
+<h3 id="判断主备无延迟方案"><a href="#判断主备无延迟方案" class="headerlink" title="判断主备无延迟方案"></a>判断主备无延迟方案</h3><ul>
+<li>每次从库执行查询请求前，先判断seconds_behind_master 是否已经等于 0。如果还不等于 0 ，那就必须等到这个参数变为0 才能执行查询请求。</li>
+<li>判断位点：读到的主库的最新位点与备库执行的最新位点做比较，相等即可读</li>
+<li>判断GTID：备库收到的所有日志的 GTID 集合与备库所有已经执行完成的 GTID 集合是否一致，一致即可读</li>
+</ul>
+<h3 id="配合-semi-sync-方案"><a href="#配合-semi-sync-方案" class="headerlink" title="配合 semi-sync 方案"></a>配合 semi-sync 方案</h3><ul>
+<li>一主一备下，半同步复制能确保主备全都收到了更新</li>
+</ul>
+<h3 id="等主库位点方案"><a href="#等主库位点方案" class="headerlink" title="等主库位点方案"></a>等主库位点方案</h3><ul>
+<li>从库上执行select master_pos_wait(file, pos[, timeout])， 返回值是 &gt;=0 的正整数则查询，其中参数 file 和 pos 指的是主库上的文件名和位置</li>
+</ul>
+<h3 id="等-GTID-方案"><a href="#等-GTID-方案" class="headerlink" title="等 GTID 方案"></a>等 GTID 方案</h3><ul>
+<li> 从库上执行select wait_for_executed_gtid_set(gtid_set, 1)，如果返回值是 0，则在这个从库执行查询语句，其中gtid_set是主库事务更新完成后，从返回包直接获取到事务的 GTID</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实MySQL主从同步和开发人员相关性不大，但了解其中的不完美，对于发生异常时进行问题追查是很有帮助的。而且，能够扩展出许多新的玩法，如业务消费binlog日志，实现很多功能。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://blog.itpub.net/12679300/viewspace-1319263/">主从同步设置的重要参数log_slave_updates</a></li>
+<li>MySQL45讲</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_33806300/article/details/85993965">MySQL DDL–ghost工具学习</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-09-01T02:30:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(27)-解释器模式</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/29/Innodb-count%E7%9A%84%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-08-29T06:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/10/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-2PC%E4%B8%8ETCC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">分布式事务-2PC与TCC</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/29/Innodb-count%E7%9A%84%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/">Innodb count的内部流程，你知道吗？</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-27T13:42:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">Go设计模式(26)-命令模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-08-25T05:04:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/">Innodb为啥要刷脏页？</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/25/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-08-25T05:04:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/25/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/">前辈们对写作的看法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2021-08-23T06:24:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/">对如何分析项目的思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-15T16:13:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/">Go设计模式(25)-备忘录模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/15/Innodb%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-08-15T07:27:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/15/Innodb%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/">Innodb事务隔离性实现原理，你知道吗？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-11T14:16:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(24)-访问者模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/" class="archive-article-date">
-  	<time datetime="2021-08-08T13:22:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/">InnoDB redo、undo、binlog，是如何合作的</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/15/">15</a><a class="extend next" rel="next" href="/archives/page/3/">Next »</a>
-    </nav>
   
 
 
@@ -482,8 +444,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
