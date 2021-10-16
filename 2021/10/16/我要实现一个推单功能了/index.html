@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>我要实现一个推单功能了 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/15/index.html">
+  <meta name="description" content="以前都是作为消息接收方，接收消息。记得当时做支付的时候，接收第三方支付公司的各种消息，如支付成功、支付失败、退款成功、退款失败。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我要实现一个推单功能了">
+<meta property="og:url" content="http://yoursite.com/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="以前都是作为消息接收方，接收消息。记得当时做支付的时候，接收第三方支付公司的各种消息，如支付成功、支付失败、退款成功、退款失败。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-16T08:04:04.000Z">
+<meta property="article:modified_time" content="2021-10-16T08:07:18.110Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
   
@@ -170,295 +174,200 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-我要实现一个推单功能了" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      我要实现一个推单功能了
+    </h1>
+  
+
+        
+        <a href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/" class="archive-article-date">
+  	<time datetime="2021-10-16T08:04:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以前都是作为消息接收方，接收消息。记得当时做支付的时候，接收第三方支付公司的各种消息，如支付成功、支付失败、退款成功、退款失败。</p>
+<span id="more"></span>
+<p>有的公司在消息推送的准确性与及时性方面做的很好，有的就很差，尤其是几家欧洲公司，如果我方消费失败，该消息会阻塞在队头，导致整个消费队列卡住，无法消费后面消息，引起我们的各种吐槽。</p>
+<p>天道好轮回，苍天饶过了谁，终于轮到我当发送方了。虽然这个项目难度不是很高，但这是自己第一个推送相关的项目，所以记录一下。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>本来提供了拉单功能，消费方可定时拉单。</p>
+<p>但定时拉单有几个问题，一是时效性问题，如消费方每N分钟拉取一次数据，则最大延迟为N分钟，时效性不好；二是拉取到的订单信息可能不全，对于信息不全的订单，消费方需要定时重新获取，增加了复杂性。</p>
+<p>推单方案则能解决以上问题，首先只有信息完整才推单，其次是信息完整后立即推单。这既能保证时效性，同时也能降低对接复杂度。</p>
+<h2 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h2><p>以前没做过推单功能，仔细想了一下，需要先调研三方面内容：推送什么内容、如何推送、推送失败如何处理。</p>
+<h3 id="推送内容"><a href="#推送内容" class="headerlink" title="推送内容"></a>推送内容</h3><p>如何确定给消费方推送的内容呢？</p>
+<p>通过与消费方沟通、咨询公司业务方、调查竞品，确定好推送内容。</p>
+<p>不过仍有未考虑到的地方，在与接收方联调推单模式时，有的接收方想要批量推送功能。</p>
+<p>目前设计为一单一单推送，基于现状也不会做批量推送功能，还是因为时效性问题，有消息就尽快推送给接收方，接收方收到后尽快流转。批量推送会让整体时效降低，而且实现上也会更加复杂。</p>
+<p><strong>但这个示例说明调研上有缺漏，今后可多调研几家，有些需求可以选择不做，但要知晓需求。</strong></p>
+<h3 id="如何推送"><a href="#如何推送" class="headerlink" title="如何推送"></a>如何推送</h3><p>如何将数据推送出去呢？</p>
+<p>当然得有个平台！因为推送要考虑很多细节，如数据安全、异常处理、接口管理等，好在有部门已经做了推送的管理平台。提供出两种方案，同步方案和异步方案。</p>
+<h4 id="同步方案"><a href="#同步方案" class="headerlink" title="同步方案"></a>同步方案</h4><p>同步方式，是消息发送方，直接调用接收方接口，能够立即感知结果</p>
+<h4 id="异步方案"><a href="#异步方案" class="headerlink" title="异步方案"></a>异步方案</h4><p>异步方式，接收方将消息推送到消息队列，接收方按需进行消费</p>
+<h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><p>同步和异步方式有如下区别</p>
+<ol>
+<li>同步方式可直接知道接收方处理结果；异步方式无法知道处理结果</li>
+<li>同步方式由发送方保证消息推送成功；异步方式由接收方自行保证</li>
+</ol>
+<p>异步方式在设计上，只支持同类型的消息推送给同一个接收方，但商家订单属于不同接收方，使用异步方式会导致信息泄露。而且异步方式也无法知道消息接收情况，所以最终选择同步方案。</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p>推送流程比较简单，消费mq消息，给接收者推送订单信息。我们永远不要相信网络和接收方，总是出现各种各样的问题，当消息消费失败后如何处理呢？</p>
+<p>当然希望Consumer在消费消息包的时候，如果出现一些异常，希望消息包不被直接丢弃，而是可以过段时间继续消费，同时不产生阻塞。简单来说就是<strong>重试</strong>。</p>
+<h4 id="rabbitmq"><a href="#rabbitmq" class="headerlink" title="rabbitmq"></a>rabbitmq</h4><p>以前用的rabbitmq，消费异常后，可以将消息包重新放入主队列的队尾，有两种方案：</p>
+<h5 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h5><ul>
+<li><p><code>basic_consume</code>设置ack模式</p>
+</li>
+<li><p>声明死信队列，设置<code>x-message-ttl=30000</code>，<code>x-dead-letter-routing-key=主队列名</code></p>
+</li>
+<li><p>声明主队列，设置<code>x-dead-letter-routing-key=死信队列名</code></p>
+</li>
+<li><p>主队列通过<code>RoutingKey</code>绑定到<code>Exchange</code></p>
+</li>
+</ul>
+<p>如果消费逻辑出现异常，消费脚本会调用basic_reject()，消息包会被RabbitMQ Requeue到<code>死信队列</code>中。<br>30s超时后，消息包会重新进入主队列的队尾。</p>
+<h5 id="重新投递"><a href="#重新投递" class="headerlink" title="重新投递"></a>重新投递</h5><p>通过chanel.basicAck(tagId, false)与chanel.basicPublish(message.getMessageProperties().getReceivedExchange(),<br>message.getMessageProperties().getReceivedRoutingKey(),<br>true, MessageProperties.PERSISTENT_TEXT_PLAIN, body.getbytes()); 搭配可将消息放回消息队尾，这两个函数一个不再将未被确认的消息发送回队列，一个用于重新投递消息。</p>
+<h4 id="rocketmq"><a href="#rocketmq" class="headerlink" title="rocketmq"></a>rocketmq</h4><p>现在公司使用的rocketmq，基于我对rocketmq的理解，它也是可以进行无阻塞重试的，因为有重试队列嘛：</p>
+<h5 id="重试队列"><a href="#重试队列" class="headerlink" title="重试队列"></a>重试队列</h5><p>消费失败后，消息会进入到 RocketMQ 的<strong>重试队列</strong>中。</p>
+<ul>
+<li>比如说消费者所属的消息组名称为<code>AAAConsumerGroup</code></li>
+<li>其重试队列名称就叫做<code>%RETRY%AAAConsumerGroup</code></li>
+<li>重试队列中的消息过一段时间会再次发送给消费者，如果还是无法正常执行会再次进入重试队列</li>
+<li>默认重试16次，还是无法执行，消息就会从重试队列进入到<strong>死信队列</strong></li>
+</ul>
+<p>因为公司对rocketmq做了一些更改，所以找同学确认重试机制。问了很多同学，大家都说是阻塞性重试，消息阻塞在队头，直到重试成功或达到重试上限。没办法，只能再找对应的研发同学进行确认。</p>
+<p>原来他们设计了两种配置，消息有序和消息无序。在有序情况下，消费失败后会阻塞在队头，直到重试成功；无序情况下，会进入重试队列，根据设置的重试间隔和重试次数进行重试，不会阻塞。如此一来，重试问题也解决了。</p>
+<p>之所以关注这一点，是因为阻塞性重试会导致后面的消息无法推送，对功能产生影响。</p>
+<p>而且即使是非阻塞性重试，也最好设置重试上限，如果异常太多，容易导致消息生产方压力过大，产生崩溃。需要明白多次投递失败的责任方在接收者。</p>
+<h2 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h2><p>项目上线后，需要进行监控，否则无法感知运行情况。数据团队同学给力，很快整理好报表，能够实时查看推单成功数量、推单失败数量、订单信息完整时间、推单失败细节。</p>
+<p>通过这些数据，能快速发现隐藏问题，也能分析出各接收方的情况，有的接收方确实是一言难尽。</p>
+<h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><p>项目上线后，能够确定订单信息完整时间，并能在订单信息完整后，将数据推送给相关方。</p>
+<p>后续会优化拉单功能，保证拉到的订单都是完整订单，同时会更改系统中判断信息完整的逻辑，将判断模块做简化和收敛，为今后的系统更新做好准备。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://help.aliyun.com/knowledge_detail/54318.html">消息队列RocketMQ版消费消息失败是否会重新消费</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/haycheng/p/13755679.html">消息队列中消息消费失败后的处理机制</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_30845665/article/details/88531794">rabbitmq消息重回队列</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xixingzhe2/article/details/84345054">rabbitmq重试机制</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alan6/p/11516773.html">RabbitMQ的消息确认机制</a></li>
+<li><a target="_blank" rel="noopener" href="http://andr.52inlove.com/blog/rabbitmq_business.html">团队使用RabbitMQ几个场景</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/documentation.html">https://www.rabbitmq.com/documentation.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_37860660/article/details/91448882">rabbitmq死信队列</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jwen1994/p/14377549.html">RabbitMQ 死信队列 + TTL介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shuiyj/p/13198497.html">RocketMQ 死信队列 | 消费者出现异常如何处理？</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/LO_YUN/article/details/104301740">RocketMQ消费消息失败的处理办法</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-03-01T08:50:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在旧项目中使用gomod</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/23/%E7%83%AD%E9%A3%8E/" class="archive-article-date">
-  	<time datetime="2020-02-22T16:22:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL高可用，就这么完美？？？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/23/%E7%83%AD%E9%A3%8E/">热风</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/" class="archive-article-date">
-  	<time datetime="2020-02-16T14:02:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/">简单的逻辑学</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-02-16T03:59:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/">Gin框架简洁版</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-02-09T08:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">Gin远吗剖析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/08/go-callvis/" class="archive-article-date">
-  	<time datetime="2020-02-08T09:12:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/08/go-callvis/">Go-callvis</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-01-30T09:02:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/">Gin框架集成swagger过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-01-27T15:06:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在新项目中使用gomod</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/" class="archive-article-date">
-  	<time datetime="2020-01-27T02:38:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/">领导梯队</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2020-01-24T08:18:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/24/%E9%BA%A6%E8%82%AF%E9%94%A1%E6%95%99%E7%BB%99%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E6%AD%A6%E5%99%A8/">麦肯锡给我的写作武器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/14/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/13/">13</a><a class="page-number" href="/archives/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/archives/page/16/">16</a><a class="extend next" rel="next" href="/archives/page/16/">Next »</a>
-    </nav>
   
 
 
@@ -482,8 +391,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
