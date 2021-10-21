@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>规范上说避免使用JOIN | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/15/index.html">
+  <meta name="description" content="以前写过MySQL开发规范，SQL设计中有一条建议：避免使用JOIN和子查询，禁止使用3表以上的JOIN，必要时推荐用JOIN代替子查询。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="规范上说避免使用JOIN">
+<meta property="og:url" content="http://yoursite.com/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="以前写过MySQL开发规范，SQL设计中有一条建议：避免使用JOIN和子查询，禁止使用3表以上的JOIN，必要时推荐用JOIN代替子查询。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/image-20211021133340472.png">
+<meta property="og:image" content="http://yoursite.com/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/image-20211021133757482.png">
+<meta property="article:published_time" content="2021-10-21T07:15:55.000Z">
+<meta property="article:modified_time" content="2021-10-21T07:17:56.984Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/image-20211021133340472.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,295 +177,194 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-规范上说避免使用JOIN" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      规范上说避免使用JOIN
+    </h1>
+  
+
+        
+        <a href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/" class="archive-article-date">
+  	<time datetime="2021-10-21T07:15:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-21</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以前写过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/D06Bi0nZQtVmc72Hv06zjw">MySQL开发规范</a>，SQL设计中有一条建议：避免使用JOIN和子查询，禁止使用3表以上的JOIN，必要时推荐用JOIN代替子查询。</p>
+<span id="more"></span>
+<h2 id="1-解释"><a href="#1-解释" class="headerlink" title="1.解释"></a>1.解释</h2><p>避免使用JOIN和子查询，有两层解释</p>
+<p>第一层是数据库设计合理，不需要使用JOIN或者子查询便可满足业务。</p>
+<p>第二层是如果需要用JOIN或子查询实现，可以想想有没有替代JOIN、子查询的方案。</p>
+<h2 id="2-原因"><a href="#2-原因" class="headerlink" title="2.原因"></a>2.原因</h2><p>不建议使用JOIN和子查询，主要是性能问题。</p>
+<h3 id="2-1JOIN"><a href="#2-1JOIN" class="headerlink" title="2.1JOIN"></a>2.1JOIN</h3><p>使用JOIN时，被驱动表是否使用索引，性能差别极大。如果驱动表是t1，行数为N，被驱动表是t2，行数为M</p>
+<h4 id="2-1-1使用索引"><a href="#2-1-1使用索引" class="headerlink" title="2.1.1使用索引"></a>2.1.1使用索引</h4><p>被驱动表使用索引情况下，SQL语句为select * from t1 straight_join t2 on (t1.a=t2.a)，其中a为索引，则执行流程如下：</p>
+<p>1.对驱动表 t1 做了全表扫描，获取到指定数据集{R}，共N个数据；</p>
+<p>2.而对于t1中每一行 R，根据 a 字段去表 t2 查找，走的是树搜索过程。假设t1和t2数据一一对应，那么每次的搜索过程都只会扫描到一行，也是总共扫描N行；</p>
+<p>3.所以，整个执行流程，总扫描行数是 2*N。</p>
+<p>整个流程近似复杂度是N + N*2*log2M，通过这个公式能看出N越大，消耗越大，<strong>所以需要用小表做驱动表</strong>。不同SQL得出的<strong>复杂度</strong>不同，需具体问题具体分析。</p>
+<p><strong>如果不强制指定驱动表，MySQL会自动计算出合适的驱动表，但无法保证100%选择准确。</strong></p>
+<p>所以在用到被驱动表索引的情况下，使用 JOIN 语句，性能比强行拆成多个单表执行 SQL 语句的性能要好。因为强拆方案，总扫描行数不变，但是客户端和MySQL之间交互增多，还需要客户端自己处理数据。</p>
+<h4 id="2-1-2不使用索引"><a href="#2-1-2不使用索引" class="headerlink" title="2.1.2不使用索引"></a>2.1.2不使用索引</h4><p>如果被驱动表上没有可用索引，SQL语句为select * from t1 straight_join t2 on (t1.a=t2.b)，其中b不是索引，则流程如下：</p>
+<ol>
+<li>把表 t1 的数据读入线程内存 join_buffer 中，由于我们这个语句中写的是 select *，因此是把整个表 t1 放入内存；</li>
+<li>扫描表 t2，把表 t2 中的每一行取出来，跟 join_buffer 中的数据做对比，满足 join 条件的，作为结果集的一部分返回。</li>
+</ol>
+<p>这里是把驱动表的数据读入内存join_buffer。之所以放入join_buffer，是因为内存判断比从表里取出数据判断要快一些，但是比较次数仍为M*N量级，<strong>所以被驱动表如果没有可用索引，就别使用JOIN了</strong>。</p>
+<h5 id="放得下"><a href="#放得下" class="headerlink" title="放得下"></a>放得下</h5><p>如果join_buffer放得下，则近似复杂度为（N+M）次扫描+（M*N）次内存判断</p>
+<h5 id="放不下"><a href="#放不下" class="headerlink" title="放不下"></a>放不下</h5><p>如果join_buffer放不下，则会将驱动表里的数据分多段、多次放入join_buffer，每次放置后，被驱动表和join_buffer里的数据做比较，最终近似复杂度为（N+K*M）次扫描+（N*M）次内存判断</p>
+<p>其中<strong>K是段数，在join_buffer大小一定的情况下，驱动表越小，分段越少，性能越高。</strong></p>
+<p>在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gOWz-To04PdM6Tn3Nev2hg">MySQL Explain详解</a>里创建过两张表，拿来做测试，可以发现JOIN使用join_buffer：</p>
+<p>mysql&gt; explain select * from trace_sp_info straight_join trace_sp_info2 on (trace_sp_info.id=trace_sp_info2.type);</p>
+<p><img src="./image-20211021133340472.png" alt="image-20211021133340472"></p>
+<h3 id="2-2子查询"><a href="#2-2子查询" class="headerlink" title="2.2子查询"></a>2.2子查询</h3><h4 id="2-2-1分类"><a href="#2-2-1分类" class="headerlink" title="2.2.1分类"></a>2.2.1分类</h4><p>子查询又称内部查询，而包含子查询的语句称之外部查询（又称主查询）。所有的子查询可以分为两类，即相关子查询和非相关子查询。</p>
+<h5 id="相关子查询"><a href="#相关子查询" class="headerlink" title="相关子查询"></a>相关子查询</h5><p>相关子查询表示两个查询之间有一定的条件关联，可以理解为2层循环，要想执行内层的查询，需要先从外层查询到1个值出来。执行的顺序是，父查询1个值，子查询对这个得到的值进行1轮查询，总查询次数是m*n。</p>
+<p>因为子查询需要父查询的结果才能执行，所以叫相关子查询，样例SQL如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.id,t.name,t.pass <span class="keyword">from</span> student t <span class="keyword">where</span> <span class="number">80</span><span class="operator">&lt;=</span>(<span class="keyword">select</span> f.score <span class="keyword">from</span> f</span><br><span class="line"> <span class="keyword">where</span> f.id<span class="operator">=</span>t.id <span class="keyword">and</span> f.name<span class="operator">=</span><span class="string">&#x27;xxx&#x27;</span>) </span><br></pre></td></tr></table></figure>
+
+<h5 id="非相关子查询（嵌套子查询）"><a href="#非相关子查询（嵌套子查询）" class="headerlink" title="非相关子查询（嵌套子查询）"></a>非相关子查询（嵌套子查询）</h5><p>独立于外部查询的子查询，子查询总共执行一次，执行完毕后将值传递给外部查询，样例SQL如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.id,t.name,t.pass <span class="keyword">from</span> t <span class="keyword">where</span> t.id <span class="keyword">in</span> (<span class="keyword">select</span> f.id <span class="keyword">from</span>  f <span class="keyword">where</span> f.score<span class="operator">=</span><span class="number">70</span>) </span><br></pre></td></tr></table></figure>
+
+<p>由于2个查询是分开的，无关联的，子查询不需要父查询把结果传进来，所以叫不相关子查询。执行顺序是子查询先执行，得到结果后传给父查询，父查询就不用每次查询完1个值后再执行1轮子查询。</p>
+<h4 id="2-2-2执行过程"><a href="#2-2-2执行过程" class="headerlink" title="2.2.2执行过程"></a>2.2.2执行过程</h4><h5 id="相关子查询-1"><a href="#相关子查询-1" class="headerlink" title="相关子查询"></a>相关子查询</h5><p><strong>执行过程</strong></p>
+<ol>
+<li>从外层查询中取出一个元组（即一行），将元组相关列的值传给内层查询。</li>
+<li>执行内层查询，得到子查询操作的值。</li>
+<li>外查询根据子查询返回的结果或结果集得到满足条件的行。</li>
+<li>然后外层查询取出下一个元组重复做步骤1-3，直到外层的元组全部处理完毕。</li>
+</ol>
+<h5 id="非相关子查询（嵌套子查询）-1"><a href="#非相关子查询（嵌套子查询）-1" class="headerlink" title="非相关子查询（嵌套子查询）"></a>非相关子查询（嵌套子查询）</h5><p><strong>执行过程</strong></p>
+<ol>
+<li>执行子查询，其结果不被显示，而是传递给外部查询，作为外部查询的条件使用。</li>
+<li>执行外部查询，并显示整个结果。</li>
+</ol>
+<h3 id="2-3JOIN与子查询比较"><a href="#2-3JOIN与子查询比较" class="headerlink" title="2.3JOIN与子查询比较"></a>2.3JOIN与子查询比较</h3><p>JOIN和子查询扫描、比较次数都比较多，都不是特别好的方案。</p>
+<p>执行<strong>某些</strong>子查询时，MYSQL需要创建临时表，查询完毕后再删除这些临时表，所以，子查询的速度会受到一定的影响，这里多了一个创建和销毁临时表的过程，所以要比JOIN性能差一些。</p>
+<p>通过explain可以看出，子查询在某些情况下用到了临时表：</p>
+<p>mysql&gt; explain select * from trace_sp_info where type in (select type from trace_sp_info2);</p>
+<p><img src="./image-20211021133757482.png" alt="image-20211021133757482"></p>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h2><p>这次聊了JOIN和子查询性能差的原因，所以生产中应尽量避免使用JOIN和子查询。需二选一的话，大概率使用JOIN替代子查询。</p>
+<p><strong>使用JOIN时，要用小表做驱动表，并且一定要保证用了被驱动表的索引。</strong>虽然这种方式性能上，比强行拆成多个单表执行 SQL 语句要好，但也需要考虑DB承担的业务压力增大，是否会对生产环境产生影响。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fxl-njfu/p/10444171.html">数据库子查询和join的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/buwuliao/p/13268246.html">MySQL的语句执行顺序和子查询执行顺序</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39793098/article/details/113130455">mysql将查询结果作为临时表查询_mysql使用查询结果作为临时表</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/386869708/answer/1296848332">相关子查询与不相关子查询的区别是什么？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/onlysun/p/4513987.html">解析MYsqlexplain执行计划extra列输出</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/" class="archive-article-date">
-  	<time datetime="2020-03-08T14:52:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/">论语</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-03-01T08:50:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-01</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">我要实现一个推单功能了</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在旧项目中使用gomod</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/23/%E7%83%AD%E9%A3%8E/" class="archive-article-date">
-  	<time datetime="2020-02-22T16:22:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/23/%E7%83%AD%E9%A3%8E/">热风</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/" class="archive-article-date">
-  	<time datetime="2020-02-16T14:02:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/">简单的逻辑学</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-02-16T03:59:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/">Gin框架简洁版</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-02-09T08:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">Gin远吗剖析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/08/go-callvis/" class="archive-article-date">
-  	<time datetime="2020-02-08T09:12:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/08/go-callvis/">Go-callvis</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-01-30T09:02:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/30/Gin%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90swagger%E8%BF%87%E7%A8%8B/">Gin框架集成swagger过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-01-27T15:06:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%96%B0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在新项目中使用gomod</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/" class="archive-article-date">
-  	<time datetime="2020-01-27T02:38:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/27/%E9%A2%86%E5%AF%BC%E6%A2%AF%E9%98%9F/">领导梯队</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/14/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/13/">13</a><a class="page-number" href="/archives/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/archives/page/16/">16</a><a class="extend next" rel="next" href="/archives/page/16/">Next »</a>
-    </nav>
   
 
 
@@ -482,8 +388,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
