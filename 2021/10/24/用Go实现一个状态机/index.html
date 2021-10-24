@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>用Go实现一个状态机 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/9/index.html">
+  <meta name="description" content="工作中，很多同学会用到状态机，例如对一个工单进行创建、编辑、审核，在执行新动作前，要检查能否从当前状态流转到下一个状态。对这种需求，我们怎么实现呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Go实现一个状态机">
+<meta property="og:url" content="http://yoursite.com/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="工作中，很多同学会用到状态机，例如对一个工单进行创建、编辑、审核，在执行新动作前，要检查能否从当前状态流转到下一个状态。对这种需求，我们怎么实现呢？">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/image-20211024105040088.png">
+<meta property="og:image" content="http://yoursite.com/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/image-20211024105511654.png">
+<meta property="article:published_time" content="2021-10-24T04:33:59.000Z">
+<meta property="article:modified_time" content="2021-10-24T04:34:35.662Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/image-20211024105040088.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,37 +177,53 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Go通道实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-用Go实现一个状态机" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go通道实现原理</a>
+    <h1 class="article-title" itemprop="name">
+      用Go实现一个状态机
     </h1>
   
 
         
-        <a href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-12-19T07:54:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-19</time>
+        <a href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/" class="archive-article-date">
+  	<time datetime="2021-10-24T04:33:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>channel是Go语言的一大特性，基于channel有很多值得探讨的问题，如</p>
-<ol>
-<li>channel为什么是并发安全的？</li>
-<li>同步通道和异步通道有啥区别？</li>
-<li>通道为何会阻塞协程？</li>
-<li>使用通道导致阻塞的协程是如何解除阻塞的？
-        
-          <a class="article-more-a" href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
+        <p>工作中，很多同学会用到状态机，例如对一个工单进行创建、编辑、审核，在执行新动作前，要检查能否从当前状态流转到下一个状态。对这种需求，我们怎么实现呢？</p>
+<span id="more"></span>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/PfRRFSOFBxSCg98zpg3k_Q">Go设计模式(22)-状态模式</a>中说过，简单的状态管理使用数组即可完成，无需使用状态模式。以下图为例，状态之间的流转，无法跳跃，即只能从编辑中跳到提交，无法直接从编辑中跳到审核通过。</p>
+<p><img src="./image-20211024105040088.png" alt="image-20211024105040088"></p>
+<p>这种实现方案很简单，配置数组用于检查：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *shopWarehouse)</span> <span class="title">statusCheck</span><span class="params">(currentStatus, targetStatus <span class="keyword">int64</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="comment">//target -&gt; currents</span></span><br><span class="line">	statusMap := <span class="keyword">map</span>[<span class="keyword">int64</span>][]<span class="keyword">int64</span>&#123;</span><br><span class="line">		consts.Editing: []<span class="keyword">int64</span>&#123;consts.Editing, consts.Pass, consts.Reject&#125;,</span><br><span class="line">		consts.Submit:  []<span class="keyword">int64</span>&#123;consts.Editing, consts.Reject&#125;,</span><br><span class="line">		consts.Pass:    []<span class="keyword">int64</span>&#123;consts.Submit&#125;,</span><br><span class="line">		consts.Reject:  []<span class="keyword">int64</span>&#123;consts.Submit&#125;,</span><br><span class="line">		consts.Invalid: []<span class="keyword">int64</span>&#123;consts.Pass&#125;,</span><br><span class="line">		consts.Delete:  []<span class="keyword">int64</span>&#123;consts.Reject, consts.Editing&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> statusList, ok := statusMap[targetStatus]; ok &#123;</span><br><span class="line">		<span class="keyword">if</span> util.InArray(currentStatus, statusList) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数组在设置上，可以设置为target-&gt;current，也可设置为为current-&gt;target，current-&gt;target更易于理解。</p>
+<p>状态检查需要两步，先查询当前状态，然后调用statusCheck函数，但两个操作之间，若有其它线程更改了当前状态呢？</p>
+<p>其实可以用Go中加锁的例子进行解释，在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Y7MBDBX1r3qXkYa3XYVnQw">Go锁，我终于搞懂了</a>中，加互斥锁也分两步，获取当前状态，然后执行CAS，必然会遇到并发情况，对当前状态进行了变更。但没有影响，<strong>因为只要更新的那一刻，我们关注的数据状态没有变化，那就说明变更合法的，直接更新即可。</strong></p>
+<p>将状态放到数组里统一维护，比将各个状态分散开判断，在设计上要好得多。</p>
+<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><p>上面的流转比较简单，而且没有跳跃情况。如果状态十分多，而且会跳跃，再用数组方案，维护成本极高。</p>
+<p>此时，图的作用就发挥出来了。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-zcn9hTwEaPshpFLkP8zlg">分支限界法</a>和<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/p62Sc63CoLmM1sirBYU_Tw">回溯法</a>里有很多广度优先遍历和深度优先遍历的例子，希望可以帮助大家回忆起相关算法。</p>
+<p>这里先举一个状态流转例子：</p>
+<p><img src="./image-20211024105511654.png" alt="image-20211024105511654"></p>
+<p>其中红色表示必须经过的节点，白色可以跳过，对于这种情况，我们应该怎样实现呢？</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">   <span class="string">&quot;reflect&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 时序图</span></span><br><span class="line"><span class="keyword">var</span> StatusTimingGraph = <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>&#123;</span><br><span class="line">   <span class="string">&quot;A&quot;</span>:  &#123;<span class="string">&quot;B1&quot;</span>, <span class="string">&quot;B2&quot;</span>&#125;,</span><br><span class="line">   <span class="string">&quot;B1&quot;</span>: &#123;<span class="string">&quot;C1&quot;</span>, <span class="string">&quot;C2&quot;</span>&#125;,</span><br><span class="line">   <span class="string">&quot;B2&quot;</span>: &#123;<span class="string">&quot;B1&quot;</span>&#125;,</span><br><span class="line">   <span class="string">&quot;C1&quot;</span>: &#123;<span class="string">&quot;D&quot;</span>&#125;,</span><br><span class="line">   <span class="string">&quot;C2&quot;</span>: &#123;<span class="string">&quot;C1&quot;</span>&#125;,</span><br><span class="line">   <span class="string">&quot;D&quot;</span>:  &#123;<span class="string">&quot;E&quot;</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 核心节点</span></span><br><span class="line"><span class="keyword">var</span> CoreStatus = []<span class="keyword">string</span>&#123;</span><br><span class="line">   <span class="string">&quot;A&quot;</span>,</span><br><span class="line">   <span class="string">&quot;B1&quot;</span>,</span><br><span class="line">   <span class="string">&quot;C1&quot;</span>,</span><br><span class="line">   <span class="string">&quot;E&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> StatusJumpGraph = InitJumpGraph(StatusTimingGraph, CoreStatus)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitJumpGraph</span><span class="params">(statusMap <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>, coreStatus []<span class="keyword">string</span>)</span> <span class="title">map</span>[<span class="title">string</span>][]<span class="title">string</span></span> &#123;</span><br><span class="line">   retMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>, <span class="number">0</span>)</span><br><span class="line">   <span class="keyword">for</span> status, statusList := <span class="keyword">range</span> statusMap &#123;</span><br><span class="line">      retList := <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>)</span><br><span class="line">      <span class="keyword">for</span> _, tStatus := <span class="keyword">range</span> statusList &#123;</span><br><span class="line">         retList = <span class="built_in">append</span>(retList, tStatus)</span><br><span class="line">         <span class="keyword">if</span> InSlice(coreStatus, tStatus) &#123;</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">         &#125;</span><br><span class="line">         tList := recursionGraph(tStatus, statusMap, coreStatus)</span><br><span class="line">         <span class="keyword">for</span> _, tStatus := <span class="keyword">range</span> tList &#123;</span><br><span class="line">            <span class="keyword">if</span> !InSlice(retList, tStatus) &#123;</span><br><span class="line">               retList = <span class="built_in">append</span>(retList, tStatus)</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      retMap[status] = retList</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> retMap</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">recursionGraph</span><span class="params">(status <span class="keyword">string</span>, statusMap <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>, coreStatus []<span class="keyword">string</span>)</span> []<span class="title">string</span></span> &#123;</span><br><span class="line">   retList := <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>)</span><br><span class="line">   <span class="keyword">if</span> statusList, ok := statusMap[status]; ok &#123;</span><br><span class="line">      <span class="keyword">for</span> _, tStatus := <span class="keyword">range</span> statusList &#123;</span><br><span class="line">         retList = <span class="built_in">append</span>(retList, tStatus)</span><br><span class="line">         <span class="keyword">if</span> InSlice(coreStatus, tStatus) &#123;</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">         &#125;</span><br><span class="line">         retList = <span class="built_in">append</span>(retList, recursionGraph(tStatus, statusMap, coreStatus)...)</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> retList</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InSlice</span><span class="params">(a, b <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">   exist, _ := InSliceWithError(a, b)</span><br><span class="line">   <span class="keyword">return</span> exist</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InSliceWithError</span><span class="params">(a, b <span class="keyword">interface</span>&#123;&#125;)</span> <span class="params">(exist <span class="keyword">bool</span>, err error)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">   va := reflect.ValueOf(a)</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> va.Kind() != reflect.Slice &#123;</span><br><span class="line">      err = fmt.Errorf(<span class="string">&quot;parameter a must be a slice&quot;</span>)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> reflect.TypeOf(a).String()[<span class="number">2</span>:] != reflect.TypeOf(b).String() &#123;</span><br><span class="line">      err = fmt.Errorf(<span class="string">&quot;type of parameter b not match with parameter a&quot;</span>)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; va.Len(); i++ &#123;</span><br><span class="line">      <span class="keyword">if</span> va.Index(i).Interface() == b &#123;</span><br><span class="line">         exist = <span class="literal">true</span></span><br><span class="line">         <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   originStatus := <span class="string">&quot;A&quot;</span></span><br><span class="line">   targetStatus := <span class="string">&quot;B1&quot;</span></span><br><span class="line">   statusList, ok := StatusJumpGraph[originStatus]</span><br><span class="line">   fmt.Println(StatusJumpGraph)</span><br><span class="line">   <span class="keyword">if</span> !ok &#123;</span><br><span class="line">      fmt.Println(<span class="string">&quot;状态有误&quot;</span>)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> !InSlice(statusList, targetStatus) &#123;</span><br><span class="line">      fmt.Println(<span class="string">&quot;状态不合规，无法流转&quot;</span>)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>➜  myproject go run main.go</p>
+<p>map[A:[B1 B2] B1:[C1 C2] B2:[B1] C1:[D E] C2:[C1] D:[E]]</p>
+<p>这个代码其实是深度优先遍历，CoreStatus意味深度优先遍历终止的位置。使用该方案，无论状态图多复杂，只需修改状态配置即可。</p>
+<p><strong>但这个方案有一个问题，正好可以留给大家思考：如果是幂等情况，需要如何实现？即D-&gt;D的情况。</strong></p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li>UML：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/6174cb1b63768912b562ce29">https://www.processon.com/view/link/6174cb1b63768912b562ce29</a></li>
+</ol>
+
       
 
       
@@ -211,16 +234,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/19/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">规范上说避免使用JOIN</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -240,599 +322,14 @@
 
 
 
-
-  
-    <article id="post-Go语言标准库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/">Go语言标准库</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/" class="archive-article-date">
-  	<time datetime="2020-12-17T14:21:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是github上翻译的文章，没有翻译全，不过内容还是很不错的，值得一看。</p>
-<h2 id="第一章-输入输出"><a href="#第一章-输入输出" class="headerlink" title="第一章 输入输出"></a>第一章 输入输出</h2>
-        
-          <a class="article-more-a" href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/17/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GoLang定时器实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">GoLang定时器实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-12-15T12:10:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>工作中经常有定时执行某些代码块的需求，如果是PHP代码，一般写个脚本，然后用Cron实现。</p>
-<p>Go里提供了两种定时器：<code>Timer</code>（到达指定时间触发且只触发一次）和 <code>Ticker</code>（间隔特定时间触发）。</p>
-        
-          <a class="article-more-a" href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/15/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTPS连接过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/">HTTPS连接过程</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-12-14T14:38:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>HTTP协议通信过程中使用未经加密的明文，安全性无法得到保证。比如在Web页面中输入信用卡号，如果这条通信线路遭到窃听，那么信用卡号就暴露了。</p>
-        
-          <a class="article-more-a" href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/14/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-限流实现2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/">限流实现2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/" class="archive-article-date">
-  	<time datetime="2020-12-05T16:26:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>上一篇文章 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hG6QrPPTHjqEaUVQhjDdBg">限流实现1</a> 已经介绍三种限流方案</p>
-        
-          <a class="article-more-a" href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/06/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-一个与运算引发的事故" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/28/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/">一个与运算引发的事故</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/28/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/" class="archive-article-date">
-  	<time datetime="2020-11-27T16:25:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天发生了一起事故，追查下去，找到了一段陈年老代码。</p>
-        
-          <a class="article-more-a" href="/2020/11/28/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/28/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-项目流程管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/21/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/">项目流程管理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/21/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-11-21T07:13:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作这几年，项目做了没有一百也有八十了。在做项目的过程中，需要生成一些方法论，这是对自己经验的总结，也是将流程固化的一个过程。当然这些方法论未必是完全正确的，但是不重要，重要的是有这个想法，然后不断的去完善方法论。</p>
-        
-          <a class="article-more-a" href="/2020/11/21/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/21/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于架构的一些想法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/17/%E5%85%B3%E4%BA%8E%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">关于架构的一些想法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/17/%E5%85%B3%E4%BA%8E%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-11-17T05:33:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近想画一下系统架构图，怎么画都画不出来。</p>
-        
-          <a class="article-more-a" href="/2020/11/17/%E5%85%B3%E4%BA%8E%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/17/%E5%85%B3%E4%BA%8E%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-秒杀系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/">秒杀系统</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
-  	<time datetime="2020-11-15T14:21:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>秒杀能够以极小的经费撬动巨大的流量，虽然会带来一定的口碑损失，但因为极具性价比，所以经常被运营同学使用。本文介绍如何设计一款能够支撑60W QPS的秒杀系统，希望能够帮助到大家。</p>
-        
-          <a class="article-more-a" href="/2020/11/15/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分布式系统与一致性协议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/08/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE/">分布式系统与一致性协议</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/08/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE/" class="archive-article-date">
-  	<time datetime="2020-11-08T13:33:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>《分布式系统概念与设计》一书中对<strong>分布式系统概念的定义</strong>如下：分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系统</p>
-        
-          <a class="article-more-a" href="/2020/11/08/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/08/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -855,8 +352,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
