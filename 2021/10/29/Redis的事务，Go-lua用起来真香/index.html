@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Redis的事务，Go+lua用起来真香 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/7/index.html">
+  <meta name="description" content="Redis是应对高并发的常用工具，在常用缓存技巧中讲过相关技巧。但有些业务场景，使用Redis会遇到问题，如电商里的秒杀、扣减库存等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis的事务，Go+lua用起来真香">
+<meta property="og:url" content="http://yoursite.com/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="Redis是应对高并发的常用工具，在常用缓存技巧中讲过相关技巧。但有些业务场景，使用Redis会遇到问题，如电商里的秒杀、扣减库存等。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/image-20211028220050095.png">
+<meta property="og:image" content="http://yoursite.com/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/lua.jpeg">
+<meta property="og:image" content="http://yoursite.com/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/luaopt.jpeg">
+<meta property="article:published_time" content="2021-10-29T02:30:52.000Z">
+<meta property="article:modified_time" content="2021-10-29T02:32:42.841Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/image-20211028220050095.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,295 +178,257 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-Redis的事务，Go-lua用起来真香" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redis的事务，Go+lua用起来真香
+    </h1>
+  
+
+        
+        <a href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/" class="archive-article-date">
+  	<time datetime="2021-10-29T02:30:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-29</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Redis是应对高并发的常用工具，在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/xElsNUjxiT0MYZuVJct6Gw">常用缓存技巧</a>中讲过相关技巧。但有些业务场景，使用Redis会遇到问题，如电商里的秒杀、扣减库存等。</p>
+<span id="more"></span>
+<p>拿减库存举例，一般需要两步：</p>
+<ul>
+<li><p>先扣减库存，获取扣减后的库存值V</p>
+</li>
+<li><p>如果V小于0，说明库存不够，需要将扣减的值再加回去；如果V大于等于0，则执行后续操作</p>
+</li>
+</ul>
+<p>但这两步是分开的，很可能扣减时成功，但增加回去时失败，导致库存不一致。</p>
+<p>另一种方案是：</p>
+<ul>
+<li>t1时刻，先查询库存，判断是否够用</li>
+<li>t2时刻，再减库存</li>
+</ul>
+<p>但这两步也是分开的，而且t1和t2有时间差，t2时刻扣减库存时，真正的库存和t1时刻已经不一致了。</p>
+<p>Redis有没有像MySQL原子性一样的能力，来解决这个问题呢？</p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>要解决扣减库存的问题，可以借助Redis的事务能力。</p>
+<h3 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>Redis的基本事务（basic transaction）需要用到MULTI命令和EXEC命令，这种事务可以<strong>让一个客户端在不被其他客户端打断的情况下执行多个命令</strong>。</p>
+<p>和关系数据库那种可以在执行的过程中进行回滚（rollback）的事务不同，在Redis里面，被MULTI命令和EXEC命令包围的所有命令会一个接一个地执行，直到所有命令都执行完毕为止。当一个事务执行完毕之后，Redis才会处理其他客户端的命令。</p>
+<p>Redis事务在执行的中途遇到错误，不会回滚，而是继续执行后续命令；</p>
+<ul>
+<li>还未执行exec就报错：如果事务中出现语法错误，则事务会成功回滚，整个事务中的命令都不会提交</li>
+<li>成功执行exec后才报错：如果事务中出现的不是语法错误，而是执行错误，不会触发回滚，该事务中仅有该错误命令不会提交，其他命令依旧会继续提交</li>
+</ul>
+<p>另外，Redis里遇到有查询的情况穿插在事务中间，不会返回结果，如下所示，只有执行exec才能返回查询结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379(TX)&gt; set a aaa</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; get a</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; exec</span><br><span class="line">1) OK</span><br><span class="line">2) &quot;aaa&quot;</span><br></pre></td></tr></table></figure>
+
+<p>对于事务，做个简单的总结：</p>
+<ol>
+<li>Redis事务作为一个整体被执行，执行期间不会被其它客户端打断</li>
+<li>Redis事务在执行的中途遇到错误，不会回滚，而是继续执行后续命令</li>
+<li>Redis里遇到有查询的情况穿插在事务中间，不会返回结果</li>
+</ol>
+<p>Redis事务执行的时候不会被其它客户端打断，所以多个命令可以进行打包，当做一个命令执行。但Redis的原生命令无法提供根据Redis查询结果执行相关动作的功能，这时我们就可以用lua脚本了。</p>
+<h3 id="lua"><a href="#lua" class="headerlink" title="lua"></a>lua</h3><p>Redis2.6之后新增的功能，我们可以在Redis中通过lua脚本操作Redis。</p>
+<p>脚本会将多个命令和操作当成一个命令在Redis中执行，也就是说该脚本在执行的过程中，不会被任何其他脚本或命令打断干扰。</p>
+<p>正是因此这种原子性，lua脚本才可以代替multi和exec的事务功能。同时也是因此，在lua脚本中不宜进行过大的开销操作，避免影响后续的其他请求的正常执行。</p>
+<p>使用lua脚本的好处：</p>
+<ul>
+<li>lua脚本是作为一个整体执行的，所以中间不会被其他命令插入</li>
+<li>可以把多条命令一次性打包，所以可以有效减少网络开销</li>
+<li>lua脚本可以常驻在redis内存中，所以在使用的时候,可以直接拿来复用，也减少了代码量</li>
+</ul>
+<p>lua脚本在Redis里的样子如下图所示：</p>
+<p><img src="./image-20211028220050095.png" alt="image-20211028220050095"></p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/JAC8M_4D2wPoRKhWTbv_CA">秒杀系统</a>里画过秒杀的流程图，其中秒杀库存相关代码为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加库存</span></span><br><span class="line">goodsKey := getGoodsKey(p.AppLocal, tag, tid, goods_id)</span><br><span class="line">cacheQty, err := app.Global().RedisStore.Incr(goodsKey)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="number">11008</span>, fmt.Errorf(SERVICE_BUSY)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//和本次秒杀总数量进行比较</span></span><br><span class="line"><span class="keyword">if</span> cacheQty &gt; <span class="keyword">int64</span>(goodsInfo.Qty) &#123;</span><br><span class="line">   <span class="comment">//不符合条件，则减去库存</span></span><br><span class="line">	_, err := app.Global().RedisStore.Decr(goodsKey)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		ctx.Warn(<span class="string">&quot;%s seckill %s ,incr the cnt but not decr success in count process, err:%s&quot;</span>, userId, goods_id, err.Error())</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="number">11009</span>, fmt.Errorf(NOT_SUCCESS)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，先增加库存，然后和本次秒杀总数量进行比较，如果超出范围，需减去库存。这种分开的操作，增加了失败的可能性。扣减商品库存，也是类似的逻辑。</p>
+<h3 id="使用lua"><a href="#使用lua" class="headerlink" title="使用lua"></a>使用lua</h3><p>在Go语言里用lua脚本实现扣减库存操作。我们可以先查询，后比较，最后扣减，脚本将操作打包，代码为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/go-redis/redis&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Client *redis.Client</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	Client = redis.NewClient(&amp;redis.Options&#123;</span><br><span class="line">		Addr:     <span class="string">&quot;localhost:6379&quot;</span>,</span><br><span class="line">		Password: <span class="string">&quot;111111&quot;</span>, <span class="comment">// no password set</span></span><br><span class="line">		DB:       <span class="number">0</span>,        <span class="comment">// use default DB</span></span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">useLua</span><span class="params">()</span></span> &#123;</span><br><span class="line">	Client.FlushAll()</span><br><span class="line">	<span class="comment">//设置初始值</span></span><br><span class="line">	Client.Set(<span class="string">&quot;stock&quot;</span>, <span class="string">&quot;10&quot;</span>, <span class="number">0</span>)</span><br><span class="line">	<span class="comment">//编写脚本 - 检查数值，是否够用，够用再减，否则返回减掉后的结果</span></span><br><span class="line">	<span class="keyword">var</span> luaScript = redis.NewScript(<span class="string">`</span></span><br><span class="line"><span class="string">		local value = redis.call(&quot;Get&quot;, KEYS[1])</span></span><br><span class="line"><span class="string">		print(&quot;当前值为 &quot; .. value);</span></span><br><span class="line"><span class="string">		if( value - KEYS[2] &gt;= 0 ) then</span></span><br><span class="line"><span class="string">			local leftStock = redis.call(&quot;DecrBy&quot; , KEYS[1],KEYS[2])</span></span><br><span class="line"><span class="string">   			print(&quot;剩余值为&quot; .. leftStock );</span></span><br><span class="line"><span class="string">			return leftStock</span></span><br><span class="line"><span class="string">		else</span></span><br><span class="line"><span class="string">			print(&quot;数量不够，无法扣减&quot;);</span></span><br><span class="line"><span class="string">			return value - KEYS[2]</span></span><br><span class="line"><span class="string">		end</span></span><br><span class="line"><span class="string">		return -1</span></span><br><span class="line"><span class="string">	`</span>)</span><br><span class="line">	<span class="comment">//执行脚本</span></span><br><span class="line">	n, err := luaScript.Run(Client, []<span class="keyword">string</span>&#123;<span class="string">&quot;stock&quot;</span>, <span class="string">&quot;6&quot;</span>&#125;).Result()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;结果&quot;</span>, n, err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	useLua()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>客户端将lua加载到Redis，脚本被Redis执行：</p>
+<p><img src="./lua.jpeg" alt="lua"></p>
+<p>如果将扣减值设置为25，执行之后，观察到返回值为负数，但再次查询，值未变</p>
+<p>➜  myproject go run main.go</p>
+<p>当前值为 10</p>
+<p>数量不够，无法扣减</p>
+<p>结果 -15 <nil></p>
+<p>➜  myproject redis-cli -p 6379 -a 111111</p>
+<p>127.0.0.1:6379&gt; get stock</p>
+<p>“10”</p>
+<p>如果将扣减值设置为6，扣减成功，执行后查看结果</p>
+<p>➜  myproject go run main.go</p>
+<p>当前值为 10</p>
+<p>剩余值为4</p>
+<p>结果 4 <nil></p>
+<p>➜  myproject redis-cli -p 6379 -a 111111</p>
+<p>127.0.0.1:6379&gt; get stock</p>
+<p>“4”</p>
+<h3 id="优化lua使用"><a href="#优化lua使用" class="headerlink" title="优化lua使用"></a>优化lua使用</h3><p>当脚本会被多次执行时，可考虑使用ScriptLoad和EvalSha代替RUN节省带宽。</p>
+<ul>
+<li><p>先用命令ScriptLoad将脚本缓存到Redis，Redis返回一个sha1的标识符</p>
+</li>
+<li><p>命令EvalSha基于sha1执行脚本</p>
+</li>
+</ul>
+<p>这种方案只有标识符sha1通过网络传输，而不需传输lua代码块，节省流量，流程如下图所示：</p>
+<p><img src="./luaopt.jpeg" alt="luaopt"></p>
+<p>具体代码为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/go-redis/redis&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Client *redis.Client</span><br><span class="line"><span class="keyword">var</span> script <span class="keyword">string</span> = <span class="string">`</span></span><br><span class="line"><span class="string">		local value = redis.call(&quot;Get&quot;, KEYS[1])</span></span><br><span class="line"><span class="string">		print(&quot;当前值为 &quot; .. value);</span></span><br><span class="line"><span class="string">		if( value - KEYS[2] &gt;= 0 ) then</span></span><br><span class="line"><span class="string">			local leftStock = redis.call(&quot;DecrBy&quot; , KEYS[1],KEYS[2])</span></span><br><span class="line"><span class="string">   			print(&quot;剩余值为&quot; .. leftStock );</span></span><br><span class="line"><span class="string">			return leftStock</span></span><br><span class="line"><span class="string">		else</span></span><br><span class="line"><span class="string">			print(&quot;数量不够，无法扣减&quot;);</span></span><br><span class="line"><span class="string">			return value - KEYS[2]</span></span><br><span class="line"><span class="string">		end</span></span><br><span class="line"><span class="string">		return -1</span></span><br><span class="line"><span class="string">	`</span></span><br><span class="line"><span class="keyword">var</span> luaHash <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	Client = redis.NewClient(&amp;redis.Options&#123;</span><br><span class="line">		Addr:     <span class="string">&quot;localhost:6379&quot;</span>,</span><br><span class="line">		Password: <span class="string">&quot;111111&quot;</span>, <span class="comment">// no password set</span></span><br><span class="line">		DB:       <span class="number">0</span>,        <span class="comment">// use default DB</span></span><br><span class="line">	&#125;)</span><br><span class="line">	luaHash, _ = Client.ScriptLoad(script).Result() <span class="comment">//返回的脚本会产生一个sha1哈希值,下次用的时候可以直接使用这个值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">useLuaHash</span><span class="params">()</span></span> &#123;</span><br><span class="line">	n, err := Client.EvalSha(luaHash, []<span class="keyword">string</span>&#123;<span class="string">&quot;stock&quot;</span>, <span class="string">&quot;6&quot;</span>&#125;).Result()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;结果&quot;</span>, n, err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	useLuaHash()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定制"><a href="#定制" class="headerlink" title="定制"></a>定制</h3><p>如果大家觉得在Go中自己写lua不优雅，我们可选择定制方案。</p>
+<p>找Redis的运维同学，让运维人员通过lua定制命令，将这些命令常驻Redis内存， 实现复用效果。使用这些定制的命令与使用Redis自身提供的命令没有区别。</p>
+<p>当然，前提是运维同学同意做。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>虽然使用lua利用Redis事务能力，保证执行过程中不会插入其他命令，但无法解决所有问题：</p>
+<ul>
+<li>不确定的返回结果：如请求超时了，要不要归还库存？<ul>
+<li>这种情况一般不要归还，因为很可能没扣减成功，超卖容易造成资损，少卖问题要小一些</li>
+</ul>
+</li>
+<li>归还失败：扣减成功，但后续操作失败，仍要归还库存，始终有归还失败的可能<ul>
+<li>这种情况需要重试，而且必须是确定类型的错误才可重试，例如超时就不可重试，同时要做好记录</li>
+</ul>
+</li>
+</ul>
+<p>这也是要求SLA要高，要常记日志的原因，无形中能解决很多问题。</p>
+<h2 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h2><p>记录一下在Mac机上搭建Redis的过程，大家可以安装一下Redis，执行Go+lua的代码。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Redis搭建比较简单，使用如下命令即可安装完毕</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install redis</span><br></pre></td></tr></table></figure>
+
+<h3 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h3><p>为了安全，可以设置密码。打开 redis.conf 文件，然后按 command + f 进行搜索：#requirepass foobared<br>修改为：<br>requirepass 你的密码</p>
+<h3 id="服务端启动"><a href="#服务端启动" class="headerlink" title="服务端启动"></a>服务端启动</h3><p>执行如下命令，在服务端启动redis</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/redis-server /usr/local/etc/redis.conf</span><br></pre></td></tr></table></figure>
+
+<p>执行redis-server命令时，如果没有redis.conf文件，则按照默认配置启动，这种情况下登录无需auth</p>
+<h3 id="命令行登录"><a href="#命令行登录" class="headerlink" title="命令行登录"></a>命令行登录</h3><p>如果设置了auth，命令行登录如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p 端口 -a 密码</span><br></pre></td></tr></table></figure>
+
+<p>如果未设置auth，直接执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>有些问题无法百分之百解决，我们要接受这个事实。但并不意味着妥协，我们要能发现问题，确定解决方案，即使是手动解决的方案。有一个前提，解决频率要足够低，这时就没必要把关注点放在100%自动化解决上，产出比特别低的事尽量少做。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol start="2">
+<li><a target="_blank" rel="noopener" href="https://studygolang.com/articles/19703?fr=sidebar">在golang中使用lua脚本</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kwzblog/p/10676988.html">redis登录及设置密码</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/chenyao1994/article/details/79491337">为什么说Redis是单线程的以及Redis为什么这么快！</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.manongjc.com/detail/15-sqazuuwokhqoret.html">go-redis 事务提交</a></li>
+<li><a target="_blank" rel="noopener" href="https://studygolang.com/articles/26844?fr=sidebar">Golang使用lua脚本实现redis原子操作</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/MacoLee/p/13986139.html">Redis事务与Lua</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/kingmax54212008/article/details/82731199">Redis事务的分析及改进</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wsdc0521/article/details/106765338">Redis系列(九)、Redis的“事务”及Lua脚本操作</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/" class="archive-article-date">
-  	<time datetime="2021-03-30T15:21:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/30/%E6%A0%B9%E6%8D%AEmysql%E8%A1%A8%E7%BB%93%E6%9E%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90go-struct/">根据mysql表结构自动生成go struct</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-03-28T13:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-28</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">用Go实现一个状态机</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/28/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5-%E7%B1%BB%E5%9B%BE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA%E6%B3%95/">Go设计模式(5)-类图符号表示法</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:49:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/%E4%B8%BA%E5%8A%A8%E5%91%98%E4%B8%80%E5%88%87%E5%8A%9B%E9%87%8F%E4%BA%89%E5%8F%96%E6%8A%97%E6%88%98%E8%83%9C%E5%88%A9%E8%80%8C%E6%96%97%E4%BA%89/">为动员一切力量争取抗战胜利而斗争</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/" class="archive-article-date">
-  	<time datetime="2021-03-21T07:48:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/21/Go%E5%B7%A5%E5%85%B7%E4%B9%8Bgenerate/">Go工具之generate</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-03-15T01:19:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/15/Go%E5%8D%95%E4%BE%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">Go单例实现方案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/%E5%89%91%E6%8C%87offer/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:38:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/%E5%89%91%E6%8C%87offer/">剑指offer</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:15:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/">Go设计模式(4)-代码编写</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:05:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/">MySQL导出表结构</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:01:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/">反对自由主义</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" class="archive-article-date">
-  	<time datetime="2021-02-17T12:07:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">Go设计模式(3)-设计原则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/16/">16</a><a class="extend next" rel="next" href="/archives/page/8/">Next »</a>
-    </nav>
   
 
 
@@ -482,8 +452,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
