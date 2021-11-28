@@ -172,6 +172,71 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="pages-Go设计模式-22-状态模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">Go设计模式(22)-状态模式</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-08-03T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>状态模式使用的相对较少，主要是因为会引入大量的状态类，导致代码比较难维护。但是合适的场景使用状态模式，可以把复杂的判断逻辑简化。</p>
+        
+          <a class="article-more-a" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="pages-权限管理系统设计" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -732,74 +797,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-18-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-17-享元模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">Go设计模式(17)-享元模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-06-27T06:51:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>享元模式主要是为了复用对象，节省内存。使用享元模式需要有两个前提：</p>
-<ol>
-<li>享元对象不可变：当享元模式创建出来后，它的变量和属性不会被修改</li>
-<li>系统中存在大量重复对象：这些重复对象可以使用同一个享元，内存中只存在一份，这样会节省大量空间。当然这也是为什么享元对象不可变的原因，因为有很多引用，变更的话会引起很多问题。
-        
-          <a class="article-more-a" href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-17-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
         </p>
       
 
