@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>分布式事务-SAGA与消息 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/3/index.html">
+  <meta name="description" content="分布式事务分两大类，一类是XA类型的，一类是基于消息通知的事务方案。前些日子写了分布式事务-2PC与TCC，这次聊一下Saga和基于消息的的事务方案。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务-SAGA与消息">
+<meta property="og:url" content="http://yoursite.com/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="分布式事务分两大类，一类是XA类型的，一类是基于消息通知的事务方案。前些日子写了分布式事务-2PC与TCC，这次聊一下Saga和基于消息的的事务方案。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/saga.jpg">
+<meta property="og:image" content="http://yoursite.com/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/sagafail.jpg">
+<meta property="og:image" content="http://yoursite.com/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/msg.png">
+<meta property="article:published_time" content="2021-12-12T12:55:10.000Z">
+<meta property="article:modified_time" content="2021-12-12T12:58:03.149Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/saga.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,295 +178,201 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-分布式事务-SAGA与消息" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分布式事务-SAGA与消息
+    </h1>
+  
+
+        
+        <a href="/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/" class="archive-article-date">
+  	<time datetime="2021-12-12T12:55:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>分布式事务分两大类，一类是XA类型的，一类是基于消息通知的事务方案。前些日子写了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Kcvdf8e6rPkrYbztK4ZCBQ">分布式事务-2PC与TCC</a>，这次聊一下Saga和基于消息的的事务方案。</p>
+<span id="more"></span>
+<h2 id="Saga"><a href="#Saga" class="headerlink" title="Saga"></a>Saga</h2><p>SAGA最初出现在1987年Hector Garcaa-Molrna &amp; Kenneth Salem发表的论文<a target="_blank" rel="noopener" href="https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf">SAGAS</a>里。其核心思想是将长事务拆分为多个本地短事务，由Saga事务协调器协调，如果正常结束那就正常完成，如果某个步骤失败，则根据相反顺序一次调用补偿操作。</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><h4 id="执行成功"><a href="#执行成功" class="headerlink" title="执行成功"></a>执行成功</h4><p>如果我们要进行一个类似于银行跨行转账的业务，转出（TransOut）和转入（TransIn）分别在不同的微服务里，一个成功完成的SAGA事务典型的时序图如下：</p>
+<p><img src="./saga.jpg" alt="saga"></p>
+<h4 id="执行失败"><a href="#执行失败" class="headerlink" title="执行失败"></a>执行失败</h4><p>如果有正向操作失败，则需要调用各分支的补偿操作，进行回滚，最后事务成功回滚。所以对每个事务分支而言，要包括action和compensate两个操作。</p>
+<p><img src="./sagafail.jpg" alt="sagafail"></p>
+<h4 id="补偿失败"><a href="#补偿失败" class="headerlink" title="补偿失败"></a>补偿失败</h4><p>按照Saga模式的协议，补偿操作是不允许失败的，遇见失败的情况，都是由于临时故障或者程序bug。补偿操作遇见失败时，会不断进行重试，直到成功。为了避免程序bug导致补偿操作一直无法成功，建议开发者对全局事务表进行监控，发现重试超过3次的事务，发出报警，由运维人员找开发手动处理。</p>
+<h3 id="设计要点"><a href="#设计要点" class="headerlink" title="设计要点"></a>设计要点</h3><h4 id="空补偿"><a href="#空补偿" class="headerlink" title="空补偿"></a>空补偿</h4><p>同TCC模式，当遇到网络问题时，事务参与者可能会只收到补偿操作的请求，所以补偿操作要求能「空补偿」</p>
+<h4 id="防悬挂"><a href="#防悬挂" class="headerlink" title="防悬挂"></a>防悬挂</h4><p>同TCC模式，当遇到网络问题时，事务参与者可能会先于执行操作收到补偿操作的请求，所以执行操作要求能「防悬挂」</p>
+<h4 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h4><p>执行操作和补偿操作的实现必须是幂等的。</p>
+<h4 id="状态机引擎"><a href="#状态机引擎" class="headerlink" title="状态机引擎"></a>状态机引擎</h4><p>Saga模式通常会通过状态机引擎来实现，状态机引擎可以编排服务的调用流程和补偿服务的拓扑关系。这种状态机可以基于MQ的异步事件驱动，可以极大的提高吞吐量，其实基于事件通知的分布式事务可以看成是Saga模式的一种特例。</p>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><p>我们以下单流程，需要使用优惠券和库存为例，写一下使用Saga生成订单的伪代码。</p>
+<ol>
+<li>生成订单号</li>
+<li>计算使用哪张优惠券、使用哪个库存，确定订单真正的金额等信息</li>
+<li>向事务管理器注册使用优惠券、使用库存、生成订单的执行、补偿行为，设置先执行使用优惠券和库存，后执行生成订单</li>
+<li>事务管理器记录主事务和6个分支事务（使用优惠券、使用库存、生成点单的执行、补偿行为）</li>
+<li>事务管理器调用执行使用优惠券、使用库存、生成订单操作</li>
+<li>如果正向全部成功，事务管理器返回成功，如果有失败，事务管理器进行补偿（补偿失败事务管理器会不断重试），并返回失败</li>
+<li>主程序根据返回结果，显示订单创建成功与失败</li>
+</ol>
+<h3 id="Saga总结"><a href="#Saga总结" class="headerlink" title="Saga总结"></a>Saga总结</h3><p>因为正常情况下每个事务参与者都会直接提交，而不需要等待其他参与者的状态，所以Saga模式的并发性能非常好。但隔离性比较差，它的隔离级别是读未提交，这就意味着一个事务可以读到其他事务还没未提交的数据状态。</p>
+<p>对于业务的接入成本，只需要为Saga单独实现一个补偿操作，而对于补偿操作的实现要求也不是很高，所以Saga的接入成本相对来说比较低。</p>
+<p>综上，Saga模式比较适合于对并发性能和业务接入成本要求比较高，但是对于有隔离性要求不高的场景，如果有遗留系统要接入，考虑到Saga的接入成本比较低，所以这时也适合Saga模式。</p>
+<h2 id="基于消息的分布式事务"><a href="#基于消息的分布式事务" class="headerlink" title="基于消息的分布式事务"></a>基于消息的分布式事务</h2><p>基于消息的分布式事务与上面的方案很不同，适合执行周期长且实时性要求不高的场景。基于消息的分布式事务是指当事务发起方执行完成本地事务后并发出一条消息，事务参与方(消息消费者)一定能够接收消息并处理事务成功，此方案强调的是只要消息发给事务参与方最终事务要达到一致。一般使用消息中间件完成。</p>
+<p>事务发起方（消息生产方）将消息发给消息中间件，事务参与方从消息中间件接收消息，事务发起方和消息中间件之间，事务参与方（消息消费方）和消息中间件之间都是通过网络通信。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>要使用消息实现分布式事务，需要解决三个问题：</p>
+<p>1.本地事务与消息发送的原子性问题</p>
+<ul>
+<li>保证数据库操作与发送消息的一致性，不会出现只有一个成功，另一个不成功的情况</li>
+</ul>
+<p>2.事务参与方接收消息的可靠性</p>
+<ul>
+<li>事务参与方必须能够从消息队列接收到消息，如果接收消息失败可以重复接收消息</li>
+</ul>
+<p>3.消息重复消费的问题</p>
+<ul>
+<li>由于网络的存在，若某一个消费节点超时但是消费成功，此时消息中间件会重复投递此消息，就导致了消息的重复消费</li>
+</ul>
+<h3 id="流程-1"><a href="#流程-1" class="headerlink" title="流程"></a>流程</h3><p>使用RocketMQ事务消息，能够解决以上问题。</p>
+<p>Apache RocketMQ 4.3之后的版本正式支持事务消息，为分布式事务实现提供了便利性支持。RocketMQ 事务消息设计则主要是为了解决 Producer 端的消息发送与本地事务执行的原子性问题，RocketMQ 的设计中 broker 与 producer 端的双向通信能力，使得 broker 天生可以作为一个事务协调者存在；而 RocketMQ 本身提供的存储机制为事务消息提供了持久化能力；RocketMQ 的高可用机制以及可靠消息设计则为事务消息在系统发生异常时依然能够保证达成事务的最终一致性。</p>
+<p><img src="./msg.png" alt="msg"></p>
+<p>1.Producer 发送事务消息</p>
+<p>   本例中，Producer 即MQ发送方。</p>
+<p>   Producer （MQ发送方）发送事务消息至MQ Server，MQ Server将消息状态标记为Prepared（预备状态），注意此时这条消息消费者（MQ订阅方）是无法消费到的。</p>
+<p>2.MQ Server回应消息发送成功</p>
+<p>   MQ Server接收到Producer 发送给的消息则回应发送成功表示MQ已接收到消息。</p>
+<p>3.Producer 执行本地事务</p>
+<p>   Producer 端执行业务代码逻辑，通过本地数据库事务控制。</p>
+<p>4.消息投递</p>
+<p>   若Producer 本地事务执行成功则自动向MQServer发送commit消息，MQ Server接收到commit消息后将”状态标记为可消费，此时MQ订阅方即正常消费消息；</p>
+<p>   若Producer 本地事务执行失败则自动向MQServer发送rollback消息，MQ Server接收到rollback消息后将删除消息 。</p>
+<p>   MQ订阅方消费消息，消费成功则向MQ回应ack，否则将重复接收消息。这里ack默认自动回应，即程序执行正常则自动回应ack。</p>
+<p>5.事务回查</p>
+<p>   如果执行Producer端本地事务过程中，执行端挂掉，或者超时，MQ Server将会不停的询问同组的其他 Producer来获取事务执行状态，这个过程叫事务回查。MQ Server会根据事务回查结果来决定是否投递消息。</p>
+<p>以上主干流程已由RocketMQ实现，对用户侧来说，用户需要分别实现本地事务执行以及本地事务回查方法，因此只需关注本地事务的执行状态即可。</p>
+<h3 id="基于消息的分布式事务总结"><a href="#基于消息的分布式事务总结" class="headerlink" title="基于消息的分布式事务总结"></a>基于消息的分布式事务总结</h3><p>基于消息的分布式事务适合执行周期长且实时性要求不高的场景。引入消息机制后，同步的事务操作变为基于消息执行的异步操作, 避免了分布式事务中的同步阻塞操作的影响，并实现了两个服务的解耦。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>分布式事务的几种主要类型都讲完了，每种类型有不同的特性，大家根据需要选择。但讲的这些都是理论，大家有时间可实现个Demo或者看一下源码，毕竟动手才能真正掌握知识。</p>
+<p>如果是Go语言，可以看一下DTM，github地址为<a target="_blank" rel="noopener" href="https://github.com/yedf/dtm">https://github.com/yedf/dtm</a> ，执行go run app/main.go qs便能查看效果。</p>
+<p>另外使用事务管理器后，性能会受TM影响，可考虑单元化方案进行解决。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/freedom-only/p/14124906.html">TCC Demo 代码实现</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.pbteach.com/java/java_06_03/20210529/583342758555549696.html">Hmily实现TCC事务</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/yedf/dtm">https://github.com/yedf/dtm</a></li>
+<li> <a target="_blank" rel="noopener" href="https://dtm.pub/">https://dtm.pub/</a></li>
+<li> <a target="_blank" rel="noopener" href="http://www.pbteach.com/java/java_06_03/20210520/579960016132374528.html">RocketMQ实现可靠消息最终一致性</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-09-04T04:23:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/09/04/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(28)-中介者模式</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/09/04/%E7%88%B6%E6%AF%8D%E4%B9%8B%E5%91%BD%E5%AA%92%E5%A6%81%E4%B9%8B%E8%A8%80/" class="archive-article-date">
-  	<time datetime="2021-09-04T04:23:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-04</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/12/12/%E5%AF%B9%E6%8A%93%E6%89%8B%E7%9A%84%E7%90%86%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">对抓手的理解</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/09/04/%E7%88%B6%E6%AF%8D%E4%B9%8B%E5%91%BD%E5%AA%92%E5%A6%81%E4%B9%8B%E8%A8%80/">父母之命媒妁之言</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-09-01T02:30:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/09/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(27)-解释器模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/29/Innodb-count%E7%9A%84%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-08-29T06:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/29/Innodb-count%E7%9A%84%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/">Innodb count的内部流程，你知道吗？</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-27T13:42:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">Go设计模式(26)-命令模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-08-25T05:04:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/25/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/">Innodb为啥要刷脏页？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/25/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-08-25T05:04:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/25/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/">前辈们对写作的看法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2021-08-23T06:24:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/">对如何分析项目的思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-15T16:13:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/">Go设计模式(25)-备忘录模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/15/Innodb%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-08-15T07:27:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/15/Innodb%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/">Innodb事务隔离性实现原理，你知道吗？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">« Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/17/">17</a><a class="extend next" rel="next" href="/archives/page/4/">Next »</a>
-    </nav>
   
 
 
@@ -482,8 +396,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
