@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>一道算法题-二叉树的中序遍历 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/16/index.html">
+  <meta name="description" content="最近项目比较紧，忙了将近半个月，再加上现在看的书，比较难整理出技术文章。趁着过年，重新梳理一下2022年的规划，把节奏调整正常。但立的每周完成一道算法题的flag还是要实现的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一道算法题-二叉树的中序遍历">
+<meta property="og:url" content="http://yoursite.com/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="最近项目比较紧，忙了将近半个月，再加上现在看的书，比较难整理出技术文章。趁着过年，重新梳理一下2022年的规划，把节奏调整正常。但立的每周完成一道算法题的flag还是要实现的。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/image-20220130233454080.png">
+<meta property="og:image" content="http://yoursite.com/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/image-20220130233518648.png">
+<meta property="og:image" content="http://yoursite.com/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/image-20220130233533859.png">
+<meta property="og:image" content="http://yoursite.com/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/image-20220130234436127.png">
+<meta property="article:published_time" content="2022-01-31T09:40:24.000Z">
+<meta property="article:modified_time" content="2022-01-31T09:41:21.067Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/image-20220130233454080.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,32 +179,49 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-记博客服务被压垮的历程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pagas-一道算法题-二叉树的中序遍历" class="article article-type-pagas " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">记博客服务被压垮的历程</a>
+    <h1 class="article-title" itemprop="name">
+      一道算法题-二叉树的中序遍历
     </h1>
   
 
         
-        <a href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-16T11:08:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
+        <a href="/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/" class="archive-article-date">
+  	<time datetime="2022-01-31T09:40:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-01-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我们有个博客服务，用WordPress做的，最初的目的就是给内部使用，所以当时设计的时候支持的qps很低，而且线上只用了一台机器部署。</p>
-        
-          <a class="article-more-a" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/#more">more >></a>
-        
+        <p>最近项目比较紧，忙了将近半个月，再加上现在看的书，比较难整理出技术文章。趁着过年，重新梳理一下2022年的规划，把节奏调整正常。但立的每周完成一道算法题的flag还是要实现的。</p>
+<span id="more"></span>
+<p>二叉树中序遍历，如果用递归来做的话，有水题的嫌疑。不过好久没做过二叉树的题目了，用来练练手也是可以的。</p>
+<h2 id="二叉树的中序遍历"><a href="#二叉树的中序遍历" class="headerlink" title="二叉树的中序遍历"></a>二叉树的中序遍历</h2><p>给定一个二叉树的根节点 root ，返回它的 中序 遍历。</p>
+<p>示例 1：</p>
+<p><img src="./image-20220130233454080.png" alt="image-20220130233454080"></p>
+<p>输入：root = [1,null,2,3]<br>输出：[1,3,2]<br>示例 2：</p>
+<p>输入：root = []<br>输出：[]<br>示例 3：</p>
+<p>输入：root = [1]<br>输出：[1]<br>示例 4：</p>
+<p><img src="./image-20220130233518648.png" alt="image-20220130233518648"></p>
+<p>输入：root = [1,2]<br>输出：[2,1]<br>示例 5：</p>
+<p><img src="./image-20220130233533859.png" alt="image-20220130233533859"></p>
+<p>输入：root = [1,null,2]<br>输出：[1,2]</p>
+<p>提示：</p>
+<p>树中节点数目在范围 [0, 100] 内<br>-100 &lt;= Node.val &lt;= 100</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>代码位置： <a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/algorithm/94-binary-tree-inorder-traversal.go">https://github.com/shidawuhen/asap/blob/master/controller/algorithm/94-binary-tree-inorder-traversal.go</a></p>
+<p>解这道题的前提是知晓中序遍历是一种怎样的遍历模式。通过下图可以看出，中序遍历需要先遍历到最左侧节点，然后访问其父节点，然后访问该父节点的右子节点的最左侧节点，如此形成一个循环模式。</p>
+<p><img src="./image-20220130234436127.png" alt="image-20220130234436127"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>按照该模式实现代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nodeValue []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">inorderTraversal</span><span class="params">(root *TreeNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	nodeValue = <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">if</span> root == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> nodeValue</span><br><span class="line">	&#125;</span><br><span class="line">	dsp(root)</span><br><span class="line">	<span class="keyword">return</span> nodeValue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">dsp</span><span class="params">(r *TreeNode)</span></span> &#123;</span><br><span class="line">  <span class="comment">//访问到最左侧节点</span></span><br><span class="line">	<span class="keyword">if</span> r.Left != <span class="literal">nil</span> &#123;</span><br><span class="line">		dsp(r.Left)</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="comment">//访问其父节点</span></span><br><span class="line">	nodeValue = <span class="built_in">append</span>(nodeValue, r.Val)</span><br><span class="line">  <span class="comment">//访问父节点的右子节点。右子节点开始dsp后，会找到该节点的最左侧节点，进入循环。</span></span><br><span class="line">	<span class="keyword">if</span> r.Right != <span class="literal">nil</span> &#123;</span><br><span class="line">		dsp(r.Right)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本来以为这个代码手到擒来，没想到忘了判断root是否为nil，提交的时候出现panic错误。所以说，再简单的题目，也应该细心的应对。</p>
+
       
 
       
@@ -206,16 +232,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          一道算法题-三数之和
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/01/15/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%B8%A4%E6%95%B0%E7%9B%B8%E9%99%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">一道算法题-两数相除</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,599 +329,14 @@
 
 
 
-
-  
-    <article id="post-go1-12使用gomod总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">Go1.12使用gomod总结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-08T12:25:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="如果您使用的-Go-版本是-1-13-及以上-（推荐）"><a href="#如果您使用的-Go-版本是-1-13-及以上-（推荐）" class="headerlink" title="如果您使用的 Go 版本是 1.13 及以上 （推荐）"></a>如果您使用的 Go 版本是 1.13 及以上 （推荐）</h3>
-        
-          <a class="article-more-a" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-记追查go1-13无法获取到cookie的过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">记追查go1.13无法获取到cookie的过程</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-07T16:25:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近的项目从golang0.9升级到golang1.13后，项目中出现了很特殊的现象，在APP里，用户登录后访问页面正常，用户不登录，报错。</p>
-        
-          <a class="article-more-a" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-发票项目总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">发票项目总结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-04T13:18:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前段时间参与了一个发票中台的项目，这个项目我觉得做得不是很理想，如果满分100分的话，这个项目我打60分。项目完成后，我在想如果让我来做这个项目，我会怎么做，让这个项目进展更加理想、开发同学不要加班熬夜、业务方能开开心心的接收这个项目。所以我打算写一个总结，帮助我在今后的项目中做的更好。</p>
-        
-          <a class="article-more-a" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-golang长连接-基于WebSocket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">GoLang长连接-基于WebSocket</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/" class="archive-article-date">
-  	<time datetime="2020-04-25T15:44:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Websocket"><a href="#Websocket" class="headerlink" title="Websocket"></a>Websocket</h2><p>WebSocket可以实现客户端与服务器间双向、基于消息的文本或二进制数据传输。它是浏览器中最靠近套接字的API。但WebSocket连接远远不是一个网络套接字，因为浏览器在这个简单的API之后隐藏了所有的复杂性，而且还提供了更多服务：  </p>
-        
-          <a class="article-more-a" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-飞书使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">飞书使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T10:14:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="即时通信"><a href="#即时通信" class="headerlink" title="即时通信"></a>即时通信</h2><h3 id="信息极致降噪"><a href="#信息极致降噪" class="headerlink" title="信息极致降噪"></a>信息极致降噪</h3><p>1.查找同事（通讯录、搜索）<br>2.静音表情回复<br>3.消息串<br>4.富文本消息<br>5.聊天记录永久保存<br>6.群历史消息自动同步<br>7.群公告<br>8.PIN<br>9.已读/未读<br>10.在对话中查看群成员闲忙</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-领域驱动设计精简版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:38:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​    这是InfoQ推出的领域驱动设计精简版。篇幅不长，半天时间能够阅读完。如果大家想了解一下领域驱动的话，可以把这本书当做入门书。书中将领域驱动的核心思想和一些理念进行了介绍。但是本书只是讲述了领域驱动的骨架，缺乏很多血肉，另外里面也没有具体讲述如何在项目中使用领域驱动。如果大家想深入理解的话，建议阅读以下Eric Evans的《领域驱动设计——软件核心复杂性应对之道》，然后再找一个实例做练习。</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Web性能权威指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:08:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者【加】Ilya Grigorik</p>
-<p>​    如果想做Web性能优化，这本书绝对值得一读。里面讲述了TCP UDP TLS HTTP1 HTTP2怎么优化，有需求的话绝对不要错过。不过这些内容，大部分太过底层，优化和验证相对麻烦一些。后面会针对里面阐述的优化做一些测试，看看效果。</p>
-        
-          <a class="article-more-a" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-52周记忆魔法实战手册" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">52周记忆魔法实战手册</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/" class="archive-article-date">
-  	<time datetime="2020-04-04T07:55:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者：【英】多米尼克•奥布莱恩</p>
-<h2 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h2><p>​    我已经忘记看这本书的原因了。可能当时想测一下自己的记忆力吧。读研的时候，有个师弟是世界记忆大师，蛮酷蛮神奇的。记忆力这个事情，我从小到大没有单独锻炼过，不过我的记忆力应该还可以，唐诗、宋词、古文等都能背下来，毕业这么多年后，很多内容还能回忆起来。</p>
-        
-          <a class="article-more-a" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-goland破解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">GoLand破解</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-03-29T13:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="GoLand-2019-3激活破解教程（永久）"><a href="#GoLand-2019-3激活破解教程（永久）" class="headerlink" title="GoLand 2019.3激活破解教程（永久）"></a>GoLand 2019.3激活破解教程（永久）</h1><p>引用<a target="_blank" rel="noopener" href="https://studygolang.com/articles/25444?fr=sidebar">https://studygolang.com/articles/25444?fr=sidebar</a> 永久破解 - 这个最好</p>
-        
-          <a class="article-more-a" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/15/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/17/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -850,8 +359,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
