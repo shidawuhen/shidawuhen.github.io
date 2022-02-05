@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>一道算法题-被围绕的区域 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="广度优先和深度优先的题目都比较简单，大家有兴趣的话，可以看一下我的算法总结。被围绕的区域使用广度优先遍历算法进行解题，一次通过。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一道算法题-被围绕的区域">
+<meta property="og:url" content="http://yoursite.com/2022/02/05/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="广度优先和深度优先的题目都比较简单，大家有兴趣的话，可以看一下我的算法总结。被围绕的区域使用广度优先遍历算法进行解题，一次通过。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/02/05/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F/image-20220201160118930.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/05/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F/image-20220205175248317.png">
+<meta property="article:published_time" content="2022-02-05T10:11:58.000Z">
+<meta property="article:modified_time" content="2022-02-05T10:12:59.697Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/02/05/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F/image-20220201160118930.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,32 +177,41 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-初探技术管理-4-任务管理" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-一道算法题-被围绕的区域" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/23/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-4-%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86/">初探技术管理(4)-任务管理</a>
+    <h1 class="article-title" itemprop="name">
+      一道算法题-被围绕的区域
     </h1>
   
 
         
-        <a href="/2021/12/23/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-4-%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-12-23T12:15:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-23</time>
+        <a href="/2022/02/05/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F/" class="archive-article-date">
+  	<time datetime="2022-02-05T10:11:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我们聊一下任务管理。任务管理是管理人员的基本职责。因为大部分研发人员特别擅长任务管理，比起角色认知、管理规划、团队建设、管理沟通要容易的多。所以能否做好任务管理，可以用来作为评判是否合格的标准。</p>
-        
-          <a class="article-more-a" href="/2021/12/23/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-4-%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86/#more">more >></a>
-        
+        <p>广度优先和深度优先的题目都比较简单，大家有兴趣的话，可以看一下我的<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/pg94QcxIttHUBlGnHBW4zQ">算法总结</a>。被围绕的区域使用广度优先遍历算法进行解题，一次通过。</p>
+<span id="more"></span>
+<h2 id="被围绕的区域"><a href="#被围绕的区域" class="headerlink" title="被围绕的区域"></a>被围绕的区域</h2><p>给你一个 m x n 的矩阵 board ，由若干字符 ‘X’ 和 ‘O’ ，找到所有被 ‘X’ 围绕的区域，并将这些区域里所有的 ‘O’ 用 ‘X’ 填充。</p>
+<p>示例 1：</p>
+<p><img src="./image-20220201160118930.png" alt="image-20220201160118930"></p>
+<p>输入：board = [[“X”,”X”,”X”,”X”],[“X”,”O”,”O”,”X”],[“X”,”X”,”O”,”X”],[“X”,”O”,”X”,”X”]]<br>输出：[[“X”,”X”,”X”,”X”],[“X”,”X”,”X”,”X”],[“X”,”X”,”X”,”X”],[“X”,”O”,”X”,”X”]]<br>解释：被围绕的区间不会存在于边界上，换句话说，任何边界上的 ‘O’ 都不会被填充为 ‘X’。 任何不在边界上，或不与边界上的 ‘O’ 相连的 ‘O’ 最终都会被填充为 ‘X’。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。<br>示例 2：</p>
+<p>输入：board = [[“X”]]<br>输出：[[“X”]]</p>
+<p>提示：</p>
+<p>m == board.length<br>n == board[i].length<br>1 &lt;= m, n &lt;= 200<br>board[i][j] 为 ‘X’ 或 ‘O’</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>代码位置为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/algorithm/130-surrounded-regions.go">https://github.com/shidawuhen/asap/blob/master/controller/algorithm/130-surrounded-regions.go</a></p>
+<p>整体思路比较简单，从左到右遍历，找到第一个O，然后查看其上下左右位置，如果有O则加入，不断循环该过程。在循环的过程中，需要标记已经找到的O，防止重复获取，同时判断找到的这些O是不是不能被变更的。如果遍历完后，发现要变更，则将所有O填充为X，否则不变。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><img src="./image-20220205175248317.png" alt="image-20220205175248317"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> BoardPoint <span class="keyword">struct</span> &#123;</span><br><span class="line">	row, col <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">solve</span><span class="params">(board [][]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">	row := <span class="built_in">len</span>(board)</span><br><span class="line">	col := <span class="built_in">len</span>(board[<span class="number">0</span>])</span><br><span class="line">	used := <span class="built_in">make</span>([][]<span class="keyword">bool</span>, row)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; row; i++ &#123;</span><br><span class="line">		used[i] = <span class="built_in">make</span>([]<span class="keyword">bool</span>, col)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; row; i++ &#123;</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; col; j++ &#123;</span><br><span class="line">			<span class="keyword">if</span> board[i][j] == <span class="string">&#x27;O&#x27;</span> &amp;&amp; used[i][j] == <span class="literal">false</span> &#123; <span class="comment">//是O且没有用过</span></span><br><span class="line">				oList := <span class="built_in">make</span>([]BoardPoint, <span class="number">0</span>)</span><br><span class="line">				oList = <span class="built_in">append</span>(oList, BoardPoint&#123;</span><br><span class="line">					i,</span><br><span class="line">					j,</span><br><span class="line">				&#125;)</span><br><span class="line">				used[i][j] = <span class="literal">true</span></span><br><span class="line">				change := <span class="literal">true</span></span><br><span class="line">				<span class="keyword">if</span> oList[<span class="number">0</span>].row == <span class="number">0</span> || oList[<span class="number">0</span>].row == row<span class="number">-1</span> || oList[<span class="number">0</span>].col == <span class="number">0</span> || oList[<span class="number">0</span>].col == col<span class="number">-1</span> &#123;</span><br><span class="line">					change = <span class="literal">false</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">//遍历oList，找出临近未用过的点，判断是否可以改变</span></span><br><span class="line">				<span class="keyword">for</span> k := <span class="number">0</span>; k &lt; <span class="built_in">len</span>(oList); k++ &#123;</span><br><span class="line">					r := oList[k].row</span><br><span class="line">					c := oList[k].col</span><br><span class="line">					<span class="comment">//上</span></span><br><span class="line">					<span class="keyword">if</span> r<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; board[r<span class="number">-1</span>][c] == <span class="string">&#x27;O&#x27;</span> &amp;&amp; used[r<span class="number">-1</span>][c] == <span class="literal">false</span> &#123;</span><br><span class="line">						oList = <span class="built_in">append</span>(oList, BoardPoint&#123;</span><br><span class="line">							r - <span class="number">1</span>,</span><br><span class="line">							c,</span><br><span class="line">						&#125;)</span><br><span class="line">						used[r<span class="number">-1</span>][c] = <span class="literal">true</span></span><br><span class="line">						<span class="keyword">if</span> r<span class="number">-1</span> == <span class="number">0</span> &#123;</span><br><span class="line">							change = <span class="literal">false</span></span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="comment">//下</span></span><br><span class="line">					<span class="keyword">if</span> r+<span class="number">1</span> &lt; row &amp;&amp; board[r+<span class="number">1</span>][c] == <span class="string">&#x27;O&#x27;</span> &amp;&amp; used[r+<span class="number">1</span>][c] == <span class="literal">false</span> &#123;</span><br><span class="line">						oList = <span class="built_in">append</span>(oList, BoardPoint&#123;</span><br><span class="line">							r + <span class="number">1</span>,</span><br><span class="line">							c,</span><br><span class="line">						&#125;)</span><br><span class="line">						used[r+<span class="number">1</span>][c] = <span class="literal">true</span></span><br><span class="line">						<span class="keyword">if</span> r+<span class="number">1</span> == row<span class="number">-1</span> &#123;</span><br><span class="line">							change = <span class="literal">false</span></span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="comment">//左</span></span><br><span class="line">					<span class="keyword">if</span> c<span class="number">-1</span> &gt;= <span class="number">0</span> &amp;&amp; board[r][c<span class="number">-1</span>] == <span class="string">&#x27;O&#x27;</span> &amp;&amp; used[r][c<span class="number">-1</span>] == <span class="literal">false</span> &#123;</span><br><span class="line">						oList = <span class="built_in">append</span>(oList, BoardPoint&#123;</span><br><span class="line">							r,</span><br><span class="line">							c - <span class="number">1</span>,</span><br><span class="line">						&#125;)</span><br><span class="line">						used[r][c<span class="number">-1</span>] = <span class="literal">true</span></span><br><span class="line">						<span class="keyword">if</span> c<span class="number">-1</span> == <span class="number">0</span> &#123;</span><br><span class="line">							change = <span class="literal">false</span></span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="comment">//右</span></span><br><span class="line">					<span class="keyword">if</span> c+<span class="number">1</span> &lt; col &amp;&amp; board[r][c+<span class="number">1</span>] == <span class="string">&#x27;O&#x27;</span> &amp;&amp; used[r][c+<span class="number">1</span>] == <span class="literal">false</span> &#123;</span><br><span class="line">						oList = <span class="built_in">append</span>(oList, BoardPoint&#123;</span><br><span class="line">							r,</span><br><span class="line">							c + <span class="number">1</span>,</span><br><span class="line">						&#125;)</span><br><span class="line">						used[r][c+<span class="number">1</span>] = <span class="literal">true</span></span><br><span class="line">						<span class="keyword">if</span> c+<span class="number">1</span> == col<span class="number">-1</span> &#123;</span><br><span class="line">							change = <span class="literal">false</span></span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> change &#123;</span><br><span class="line">					<span class="keyword">for</span> _, item := <span class="keyword">range</span> oList &#123;</span><br><span class="line">						board[item.row][item.col] = <span class="string">&#x27;X&#x27;</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
       
 
       
@@ -206,16 +222,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/23/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-4-%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/02/05/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2022/02/05/%E5%B0%BD%E5%9C%A8%E5%8F%8C11%EF%BC%9A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B%E4%B8%8E%E8%B6%85%E8%B6%8A/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          尽在双11：阿里巴巴技术演进与超越
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/01/31/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">一道算法题-三数之和</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,598 +319,14 @@
 
 
 
-
-  
-    <article id="pages-初探技术管理-3-团队建设" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/19/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-3-%E5%9B%A2%E9%98%9F%E5%BB%BA%E8%AE%BE/">初探技术管理(3)-团队建设</a>
-    </h1>
-  
-
-        
-        <a href="/2021/12/19/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-3-%E5%9B%A2%E9%98%9F%E5%BB%BA%E8%AE%BE/" class="archive-article-date">
-  	<time datetime="2021-12-19T15:11:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这次聊一下如何搭建强有力的团队，希望能够帮助到大家。</p>
-        
-          <a class="article-more-a" href="/2021/12/19/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-3-%E5%9B%A2%E9%98%9F%E5%BB%BA%E8%AE%BE/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/19/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-3-%E5%9B%A2%E9%98%9F%E5%BB%BA%E8%AE%BE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-一道算法题-括号生成" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/19/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/">一道算法题-括号生成</a>
-    </h1>
-  
-
-        
-        <a href="/2021/12/19/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/" class="archive-article-date">
-  	<time datetime="2021-12-19T04:28:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一次系统整理算法知识是2020年8月到10月，最初打算每周至少刷一道题，但后面就没怎么坚持了。大家有兴趣可以看一下<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzUzNzAzMTc3MA==&action=getalbum&album_id=1911928984032854022&scene=21#wechat_redirect">算法系列</a>。</p>
-        
-          <a class="article-more-a" href="/2021/12/19/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/19/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-分布式事务-SAGA与消息" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/">分布式事务-SAGA与消息</a>
-    </h1>
-  
-
-        
-        <a href="/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/" class="archive-article-date">
-  	<time datetime="2021-12-12T12:55:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分布式事务分两大类，一类是XA类型的，一类是基于消息通知的事务方案。前些日子写了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Kcvdf8e6rPkrYbztK4ZCBQ">分布式事务-2PC与TCC</a>，这次聊一下Saga和基于消息的的事务方案。</p>
-        
-          <a class="article-more-a" href="/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-对抓手的理解" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/12/%E5%AF%B9%E6%8A%93%E6%89%8B%E7%9A%84%E7%90%86%E8%A7%A3/">对抓手的理解</a>
-    </h1>
-  
-
-        
-        <a href="/2021/12/12/%E5%AF%B9%E6%8A%93%E6%89%8B%E7%9A%84%E7%90%86%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-12-12T02:45:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前对互联网黑话不感冒，觉得简简单单说人话、干人事多好，净整些虚的。最近发现，还是我浅薄了，不应主观的对这种现象下结论，需要真正的去了解，然后再做判断。</p>
-        
-          <a class="article-more-a" href="/2021/12/12/%E5%AF%B9%E6%8A%93%E6%89%8B%E7%9A%84%E7%90%86%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/12/%E5%AF%B9%E6%8A%93%E6%89%8B%E7%9A%84%E7%90%86%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-git-revert是个好东西" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/">git revert是个好东西</a>
-    </h1>
-  
-
-        
-        <a href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/" class="archive-article-date">
-  	<time datetime="2021-12-09T06:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一个新同学对上线流程不太了解，提前把代码merge了。只能用git revert进行回滚，当上线前再次合并代码，git上没有显示更改。revert大家用的比较少，很多细节可能不知晓，所以这次聊一下git revert的使用，希望大家不会用到它。</p>
-        
-          <a class="article-more-a" href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-常见HTTP错误码模拟" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/">常见HTTP错误码模拟</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/" class="archive-article-date">
-  	<time datetime="2021-11-28T15:48:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近发现部分同学虽然知道HTTP错误码，但对产生的具体原因并不清楚，所以我打算对比较常见的错误码进行模拟，帮助大家理解。</p>
-        
-          <a class="article-more-a" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-初探技术管理-2-管理规划" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/">初探技术管理(2)-管理规划</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/" class="archive-article-date">
-  	<time datetime="2021-11-28T04:05:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>成为管理者后，第一步要做管理规划，管理规划中最重要的是确认团队职能。</p>
-        
-          <a class="article-more-a" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-初探技术管理-1" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/">初探技术管理(1)</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/" class="archive-article-date">
-  	<time datetime="2021-11-24T13:48:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作为一个程序员，想继续成长，管理是绕不过去的槛。</p>
-<p>即使想纯做技术，向架构师方向前进，仍需做好管理，因为架构师也有大小，架构的盘子越大，自身能力也会越强，但大盘子单靠个人是无法达成的。</p>
-        
-          <a class="article-more-a" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-搞明白Go的值和指针，别写bug了" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/">搞明白Go的值和指针，别写bug了</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/" class="archive-article-date">
-  	<time datetime="2021-11-21T10:02:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近多次出现同事误用指针导致系统bug，所以这次聊一下Go的值与指针，大家尽量避免写出错误代码。</p>
-        
-          <a class="article-more-a" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">« Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/3/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -849,8 +349,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
