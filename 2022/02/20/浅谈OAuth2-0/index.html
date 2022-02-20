@@ -6,15 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>浅谈OAuth2.0 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/14/index.html">
+  <meta name="description" content="OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。OAuth不是一个认证协议，这点不要搞混。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈OAuth2.0">
+<meta property="og:url" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。OAuth不是一个认证协议，这点不要搞混。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220219171751795.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220219170424401.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220219174627770.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220220000101785.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/OAuth.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220220001804333.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220220002107694.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220220002252134.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220219174755745.png">
+<meta property="article:published_time" content="2022-02-20T06:11:04.000Z">
+<meta property="article:modified_time" content="2022-02-20T06:15:01.050Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/image-20220219171751795.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,32 +184,72 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-作战篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-浅谈OAuth2-0" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/">作战篇</a>
+    <h1 class="article-title" itemprop="name">
+      浅谈OAuth2.0
     </h1>
   
 
         
-        <a href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:36:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
+        <a href="/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/" class="archive-article-date">
+  	<time datetime="2022-02-20T06:11:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡用兵之法，驰车千驷①，革车千乘②，带甲十万③，千里馈粮④，则内外之费⑤，宾客之用⑥，胶漆之材⑦，车甲之奉⑧，日费千金⑨，然后十万之师举矣⑩。</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/#more">more >></a>
-        
+        <p>OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。OAuth不是一个认证协议，这点不要搞混。</p>
+<span id="more"></span>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>为什么需要OAuth2.0？</p>
+<p>资源拥有者（RO）在资源服务器（RS）上存了一些照片，RO想通过客户应用打印这些照片。想访问RS上的照片，必须有用户授权才可以，传统方法是RO将自己在RS上的账号、密码提供给客户应用，然后客户应用就可以访问RS上的资源了。</p>
+<p><img src="./image-20220219171751795.png" alt="image-20220219171751795"></p>
+<p>但这样会有很多问题：</p>
+<p>1.客户应用为了后续的服务，会保存用户的密码，这样很不安全。</p>
+<p>2.资源服务器不得不部署密码登录，而我们知道，单纯的密码登录并不安全。</p>
+<p>3.客户应用拥有了获取用户储存在资源服务器所有资料的权力，用户没法限制客户应用获得授权的范围和有效期。</p>
+<p>4.用户只有修改密码，才能收回赋予客户应用的权力。但是这样做，会使得其他所有获得用户授权的第三方应用程序全部失效。</p>
+<p>5.只要有一个第三方应用程序被破解，就会导致用户密码泄漏，以及所有被密码保护的数据泄漏。</p>
+<p>OAuth2.0就可以解决这个问题。</p>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><p>OAuth2.0能够基于令牌Token的授权，在无需暴露用户密码的情况下，使应用能够获取对用户数据的有限访问权限。</p>
+<p>OAuth2.0主要是增加了一层授权服务器（AS），客户应用最终从授权服务器获取Token，然后使用Token获取资源服务器上的资源。</p>
+<p>这样做好处有：</p>
+<ol>
+<li>更安全，客户端不接触用户密码</li>
+<li>针对Token可以设置寿命、访问权限</li>
+<li>资源服务器和授权服务器进行解耦（理论上授权服务器和资源服务器来自同一方）</li>
+</ol>
+<p><img src="./image-20220219170424401.png" alt="image-20220219170424401"></p>
+<h2 id="授权类型"><a href="#授权类型" class="headerlink" title="授权类型"></a>授权类型</h2><p>OAuth2.0有四种授权类型。</p>
+<p><img src="./image-20220219174627770.png" alt="image-20220219174627770"></p>
+<h3 id="授权码模式"><a href="#授权码模式" class="headerlink" title="授权码模式"></a>授权码模式</h3><p>授权码模式（authorization code）是功能最完整、流程最严密的授权模式。它的特点就是通过客户应用的后台服务器，与资源服务器的认证服务器进行互动。</p>
+<p><img src="./image-20220220000101785.png" alt="image-20220220000101785"></p>
+<p>交互图为：</p>
+<p><img src="./OAuth.png" alt="OAuth2"></p>
+<p>假设用户想通过浏览器，使用云打印功能，打印资源服务器里的照片。用户通过浏览器在云打印应用上发起打印请求，云打印发现自己没有权限访问，返回302让用户先授权，该请求最终转发到授权服务器上，授权服务器会要求用户输入账号密码，用户输入完成后，给客户应用授予限定权限。授权服务器生成的code会根据最初请求中提供的redirect_uri到云打印应用，这样客户应用就能获取到code。云打印应用使用code去授权服务器获取token，获得后用便可使用该token去资源服务器获取指定资源。</p>
+<h3 id="简化模式"><a href="#简化模式" class="headerlink" title="简化模式"></a>简化模式</h3><p>简化模式（implicit grant type）不通过第三方应用程序的服务器，直接在浏览器中向认证服务器申请令牌，跳过了”授权码”这个步骤，因此得名。所有步骤在浏览器中完成，令牌对访问者是可见的，且客户端不需要认证。</p>
+<p><img src="./image-20220220001804333.png" alt="image-20220220001804333"></p>
+<p>简化模式和授权码模式相比，不再使用授权码，User-Agent（浏览器）也能知道Token值，增加了风险。</p>
+<h3 id="密码模式"><a href="#密码模式" class="headerlink" title="密码模式"></a>密码模式</h3><p>密码模式（Resource Owner Password Credentials Grant）中，用户向客户端提供自己的用户名和密码。客户端使用这些信息，向”服务商提供商”索要授权。</p>
+<p>在这种模式中，用户必须把自己的密码给客户端，但是客户端不得储存密码。这通常用在用户对客户端高度信任的情况下，比如客户端是操作系统的一部分，或者由一个著名公司出品。而认证服务器只有在其他授权模式无法执行的情况下，才能考虑使用这种模式。</p>
+<p><img src="./image-20220220002107694.png" alt="image-20220220002107694"></p>
+<h3 id="客户端模式"><a href="#客户端模式" class="headerlink" title="客户端模式"></a>客户端模式</h3><p>客户端模式（Client Credentials Grant）指客户端以自己的名义，而不是以用户的名义，向”服务提供商”进行认证。严格地说，客户端模式并不属于OAuth框架所要解决的问题。在这种模式中，用户直接向客户端注册，客户端以自己的名义要求”服务提供商”提供服务，其实不存在授权问题。这种模式一般用于内部服务器之间通信。</p>
+<p><img src="./image-20220220002252134.png" alt="image-20220220002252134"></p>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><p>上面讲了OAuth2.0的四种模式，对于不同的客户应用选择哪种模式，可以参考如下方案：</p>
+<p><img src="./image-20220219174755745.png" alt="image-20220219174755745"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>OAuth已经是实际上的标准，另外也有很多框架可以支持OAuth2.0，大家如果有兴趣，可以动手实现一下。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">OAuth 2.0 的四种方式</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/flashsun/p/7424071.html">一张图搞定OAuth2.0 </a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html">理解OAuth 2.0</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/linianhui/p/oauth2-authorization.html">认证 &amp; 授权 1. OAuth2授权</a></li>
+</ol>
+
       
 
       
@@ -206,16 +260,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">一道算法题-验证二叉搜索树</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,597 +348,14 @@
 
 
 
-
-  
-    <article id="post-算法总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">算法总结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-10-24T07:39:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>历经两个月的时间，将算法知识重新梳理完成，整个过程挺累的，每天只能晚上或者周六周日梳理一部分，虽然占用了大量的休息时间，不过整个过程很充实，而且也重新学到了不少东西。</p>
-        
-          <a class="article-more-a" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分支限界法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/">分支限界法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-24T07:38:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>回溯法是深度优先策略遍历问题的解空间树。分支限界法按<strong>广度优先策略</strong>遍历问题的解空间树，在遍历过程中对已经处理的每一个节点根据衔接函数估算目标函数的可能取值，从中选取使目标函数取得极值(极大或极小)的节点优先进行广度优先搜索，从而不断调整搜索方向，尽快找到问题的解。</p>
-        
-          <a class="article-more-a" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">计篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/15/%E8%AE%A1%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-10-15T12:16:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：兵者①，国之大事，死生之地，存亡之道②，不可不察也③。</p>
-        
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-回溯法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/">回溯法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-15T12:13:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>回溯法就是一种有组织的系统化搜索技术，可以看作是蛮力法穷举搜索的改进。</p>
-        
-          <a class="article-more-a" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-贪心法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/">贪心法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-08T14:08:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>贪心法是把一个复杂问题分解为一系列较为简单的局部最优选择，每一步选择都是对当前解的一个扩展，直到获得问题的完整解。贪心法的典型应用是求解最优化问题，而且对许多问题都能得到整体最优解，即使不能得到整体最优解，通常也是最优解的很好近似。</p>
-        
-          <a class="article-more-a" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-动态规划法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/">动态规划法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-05T06:48:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>动态规划是在20世纪50年代由美国数学家贝尔曼为研究最优控制问题而提出的，当该方法在应用数学中的价值被大家认同以后，在计算机学姐，动态规划法成为一种通用的算法设计技术用来求解多阶段决策最优化问题。</p>
-        
-          <a class="article-more-a" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-微服务之服务框架和注册中心" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">微服务之服务框架和注册中心</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" class="archive-article-date">
-  	<time datetime="2020-09-26T06:27:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="微服务体系"><a href="#微服务体系" class="headerlink" title="微服务体系"></a>微服务体系</h3><p>微服务的水挺深的，准确的说，不仅深还特别广。微服务涉及的内容特别多，而且每一块都可以深入研究，成为这方面的专家。</p>
-        
-          <a class="article-more-a" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Beego框架使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">Beego框架使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-09-22T11:14:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们组服务端使用了Beego框架，使用的相对合理，本篇文章简单聊一下我们是如何使用框架的。</p>
-        
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Effective-Go" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/20/Effective-Go/">Effective-Go</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/20/Effective-Go/" class="archive-article-date">
-  	<time datetime="2020-09-20T13:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近有人推荐Effective Go，这本书算是给初学者看的，因为已经看多很多Go方面的书了，所以再看这本书，总体收货较小，文章地址：<a target="_blank" rel="noopener" href="https://learnku.com/docs/effective-go/2020">https://learnku.com/docs/effective-go/2020</a></p>
-        
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/13/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/15/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -848,8 +378,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
