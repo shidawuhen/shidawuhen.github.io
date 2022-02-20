@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>一道算法题-验证二叉搜索树 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/14/index.html">
+  <meta name="description" content="最初看这道题的时候，发现通过率36%，觉得比较神奇，按理说应该是相对简单的题目。结果啪啪打脸，长时间没有做树相关的题目，连这种基础题型都忘记怎么做了。好在经过两次错误尝试后，发现了正常解题方案。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一道算法题-验证二叉搜索树">
+<meta property="og:url" content="http://yoursite.com/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="最初看这道题的时候，发现通过率36%，觉得比较神奇，按理说应该是相对简单的题目。结果啪啪打脸，长时间没有做树相关的题目，连这种基础题型都忘记怎么做了。好在经过两次错误尝试后，发现了正常解题方案。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/image-20220220133433531.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/image-20220220133454894.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/image-20220220134124458.png">
+<meta property="og:image" content="http://yoursite.com/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/image-20220220134731064.png">
+<meta property="article:published_time" content="2022-02-20T06:10:47.000Z">
+<meta property="article:modified_time" content="2022-02-20T06:14:21.533Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/image-20220220133433531.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -170,32 +179,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-作战篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-一道算法题-验证二叉搜索树" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/">作战篇</a>
+    <h1 class="article-title" itemprop="name">
+      一道算法题-验证二叉搜索树
     </h1>
   
 
         
-        <a href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:36:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
+        <a href="/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2022-02-20T06:10:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：凡用兵之法，驰车千驷①，革车千乘②，带甲十万③，千里馈粮④，则内外之费⑤，宾客之用⑥，胶漆之材⑦，车甲之奉⑧，日费千金⑨，然后十万之师举矣⑩。</p>
-        
-          <a class="article-more-a" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/#more">more >></a>
-        
+        <p>最初看这道题的时候，发现通过率36%，觉得比较神奇，按理说应该是相对简单的题目。结果啪啪打脸，长时间没有做树相关的题目，连这种基础题型都忘记怎么做了。好在经过两次错误尝试后，发现了正常解题方案。</p>
+<span id="more"></span>
+<h2 id="验证二叉搜索树"><a href="#验证二叉搜索树" class="headerlink" title="验证二叉搜索树"></a>验证二叉搜索树</h2><p>给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。</p>
+<p>有效 二叉搜索树定义如下：</p>
+<p>节点的左子树只包含 小于 当前节点的数。<br>节点的右子树只包含 大于 当前节点的数。<br>所有左子树和右子树自身必须也是二叉搜索树。</p>
+<p>示例 1：</p>
+<p><img src="./image-20220220133433531.png" alt="image-20220220133433531"></p>
+<p>输入：root = [2,1,3]<br>输出：true<br>示例 2：</p>
+<p><img src="./image-20220220133454894.png" alt="image-20220220133454894"></p>
+<p>输入：root = [5,1,4,null,null,3,6]<br>输出：false<br>解释：根节点的值是 5 ，但是右子节点的值是 4 。</p>
+<p>提示：</p>
+<p>树中节点数目范围在[1, 104] 内<br>-231 &lt;= Node.val &lt;= 231 - 1</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>代码位置为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/algorithm/98-validate-binary-search-tree.go">https://github.com/shidawuhen/asap/blob/master/controller/algorithm/98-validate-binary-search-tree.go</a></p>
+<p>要解这道题，需要先明白二叉搜索树的定义和特性。</p>
+<p>设x是二叉搜索树中的一个结点。如果y是x左子树中的一个结点，那么y.key≤x.key。如果y是x右子树中的一个结点，那么y.key≥x.key。</p>
+<p>在二叉搜索树中：</p>
+<p>1.若任意结点的左子树不空，则左子树上所有结点的值均不大于它的根结点的值。</p>
+<p>2.若任意结点的右子树不空，则右子树上所有结点的值均不小于它的根结点的值。</p>
+<p>3.任意结点的左、右子树也分别为二叉搜索树。</p>
+<p>根据二叉搜索树的特性，我们能发现根节点左侧节点值必然比根节点小，右侧节点值必然比根节点大，<strong>所以如果以中序遍历树的话，值应该是单调递增的。</strong></p>
+<p>最开始都忘记什么叫二叉搜索树了，写最初版本方案的时候也没有考虑用中序遍历，一顿操作猛如虎，收获两次解答错误。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><img src="./image-20220220134124458.png" alt="image-20220220134124458"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//中序遍历，判断是否递增</span></span><br><span class="line"><span class="keyword">var</span> bstVal []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isValidBST</span><span class="params">(root *TreeNode)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	bstVal = <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">	dspVal(root)</span><br><span class="line">	<span class="comment">//fmt.Println(bstVal)</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="built_in">len</span>(bstVal); i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> bstVal[i]-bstVal[i<span class="number">-1</span>] &lt;= <span class="number">0</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">dspVal</span><span class="params">(node *TreeNode)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> node == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	dspVal(node.Left)</span><br><span class="line">	bstVal = <span class="built_in">append</span>(bstVal, node.Val)</span><br><span class="line">	dspVal(node.Right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个代码有一处优化点，可以提前判断要加入bstVal中的值，与其前一个值的大小是否符合规范，如果不符合，可尽早结束执行。</p>
+<p><img src="./image-20220220134731064.png" alt="image-20220220134731064"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bstVal []<span class="keyword">int</span></span><br><span class="line"><span class="comment">//中序遍历优化，判断是否递增</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isValidBSTOpt</span><span class="params">(root *TreeNode)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	bstVal = <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">return</span> dspValOpt(root)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">dspValOpt</span><span class="params">(node *TreeNode)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> node == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	res := dspValOpt(node.Left)</span><br><span class="line">	<span class="keyword">if</span> res == <span class="literal">false</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(bstVal) &gt; <span class="number">0</span> &amp;&amp; node.Val &lt;= bstVal[<span class="built_in">len</span>(bstVal)<span class="number">-1</span>] &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	bstVal = <span class="built_in">append</span>(bstVal, node.Val)</span><br><span class="line">	res = dspValOpt(node.Right)</span><br><span class="line">	<span class="keyword">if</span> res == <span class="literal">false</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
       
 
       
@@ -206,16 +239,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/01/%E4%BD%9C%E6%88%98%E7%AF%87/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          浅谈OAuth2.0
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/02/13/Kafka%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Kafka流程梳理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,597 +336,14 @@
 
 
 
-
-  
-    <article id="post-算法总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">算法总结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-10-24T07:39:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>历经两个月的时间，将算法知识重新梳理完成，整个过程挺累的，每天只能晚上或者周六周日梳理一部分，虽然占用了大量的休息时间，不过整个过程很充实，而且也重新学到了不少东西。</p>
-        
-          <a class="article-more-a" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/24/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分支限界法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/">分支限界法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-24T07:38:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>回溯法是深度优先策略遍历问题的解空间树。分支限界法按<strong>广度优先策略</strong>遍历问题的解空间树，在遍历过程中对已经处理的每一个节点根据衔接函数估算目标函数的可能取值，从中选取使目标函数取得极值(极大或极小)的节点优先进行广度优先搜索，从而不断调整搜索方向，尽快找到问题的解。</p>
-        
-          <a class="article-more-a" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/24/%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计篇" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">计篇</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/15/%E8%AE%A1%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-10-15T12:16:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>孙子曰：兵者①，国之大事，死生之地，存亡之道②，不可不察也③。</p>
-        
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/15/%E8%AE%A1%E7%AF%87/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-回溯法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/">回溯法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-15T12:13:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>回溯法就是一种有组织的系统化搜索技术，可以看作是蛮力法穷举搜索的改进。</p>
-        
-          <a class="article-more-a" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/15/%E5%9B%9E%E6%BA%AF%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-贪心法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/">贪心法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-08T14:08:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>贪心法是把一个复杂问题分解为一系列较为简单的局部最优选择，每一步选择都是对当前解的一个扩展，直到获得问题的完整解。贪心法的典型应用是求解最优化问题，而且对许多问题都能得到整体最优解，即使不能得到整体最优解，通常也是最优解的很好近似。</p>
-        
-          <a class="article-more-a" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/08/%E8%B4%AA%E5%BF%83%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-动态规划法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/">动态规划法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-10-05T06:48:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>动态规划是在20世纪50年代由美国数学家贝尔曼为研究最优控制问题而提出的，当该方法在应用数学中的价值被大家认同以后，在计算机学姐，动态规划法成为一种通用的算法设计技术用来求解多阶段决策最优化问题。</p>
-        
-          <a class="article-more-a" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/05/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-微服务之服务框架和注册中心" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">微服务之服务框架和注册中心</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" class="archive-article-date">
-  	<time datetime="2020-09-26T06:27:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="微服务体系"><a href="#微服务体系" class="headerlink" title="微服务体系"></a>微服务体系</h3><p>微服务的水挺深的，准确的说，不仅深还特别广。微服务涉及的内容特别多，而且每一块都可以深入研究，成为这方面的专家。</p>
-        
-          <a class="article-more-a" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%92%8C%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Beego框架使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">Beego框架使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-09-22T11:14:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们组服务端使用了Beego框架，使用的相对合理，本篇文章简单聊一下我们是如何使用框架的。</p>
-        
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/22/Beego%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Effective-Go" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/20/Effective-Go/">Effective-Go</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/20/Effective-Go/" class="archive-article-date">
-  	<time datetime="2020-09-20T13:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近有人推荐Effective Go，这本书算是给初学者看的，因为已经看多很多Go方面的书了，所以再看这本书，总体收货较小，文章地址：<a target="_blank" rel="noopener" href="https://learnku.com/docs/effective-go/2020">https://learnku.com/docs/effective-go/2020</a></p>
-        
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/20/Effective-Go/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/13/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/15/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -848,8 +366,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
