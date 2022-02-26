@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>Go defer的一些神奇规则，你了解吗？ | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/17/index.html">
+  <meta name="description" content="defer有一些规则，如果不了解，代码实现的最终结果会与预期不一致。对于这些规则，你了解吗？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go defer的一些神奇规则，你了解吗？">
+<meta property="og:url" content="http://yoursite.com/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="defer有一些规则，如果不了解，代码实现的最终结果会与预期不一致。对于这些规则，你了解吗？">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-02-26T03:35:51.000Z">
+<meta property="article:modified_time" content="2022-02-26T03:37:27.701Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
   
@@ -170,32 +174,76 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-记博客服务被压垮的历程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-Go-defer的一些神奇规则，你了解吗？" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">记博客服务被压垮的历程</a>
+    <h1 class="article-title" itemprop="name">
+      Go defer的一些神奇规则，你了解吗？
     </h1>
   
 
         
-        <a href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-16T11:08:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
+        <a href="/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/" class="archive-article-date">
+  	<time datetime="2022-02-26T03:35:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我们有个博客服务，用WordPress做的，最初的目的就是给内部使用，所以当时设计的时候支持的qps很低，而且线上只用了一台机器部署。</p>
-        
-          <a class="article-more-a" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/#more">more >></a>
-        
+        <p>defer有一些规则，如果不了解，代码实现的最终结果会与预期不一致。对于这些规则，你了解吗？</p>
+<span id="more"></span>
+<h2 id="测试题"><a href="#测试题" class="headerlink" title="测试题"></a>测试题</h2><p>这是关于defer使用的代码，可以先考虑一下返回值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 快照</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncParameter1</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> aInt = <span class="number">1</span></span><br><span class="line">	<span class="keyword">defer</span> fmt.Println(aInt)</span><br><span class="line">	aInt = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 快照</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncParameter2</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> aInt = <span class="number">1</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(t <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">		fmt.Println(t)</span><br><span class="line">	&#125;(aInt)</span><br><span class="line">	aInt = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 动态</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncParameter3</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> aInt = <span class="number">1</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		fmt.Println(aInt)</span><br><span class="line">	&#125;()</span><br><span class="line">	aInt = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 影响返回值</span></span><br><span class="line"><span class="comment"> * @return ret</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncReturn1</span><span class="params">()</span> <span class="params">(ret <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	ret = <span class="number">10</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		ret++</span><br><span class="line">		fmt.Println(<span class="string">&quot;-----&quot;</span>, ret)</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 不影响返回值</span></span><br><span class="line"><span class="comment"> * @return ret</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncReturn2</span><span class="params">()</span> <span class="params">(ret <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	ret = <span class="number">10</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(ret <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">		ret++</span><br><span class="line">		fmt.Println(<span class="string">&quot;-----&quot;</span>, ret)</span><br><span class="line">	&#125;(ret)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: defer顺序</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncSeq1</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> aInt = <span class="number">1</span></span><br><span class="line">	<span class="keyword">defer</span> fmt.Println(aInt)</span><br><span class="line">	aInt = <span class="number">2</span></span><br><span class="line">	<span class="keyword">defer</span> fmt.Println(aInt)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;快照&quot;</span>)</span><br><span class="line">	deferFuncParameter1()</span><br><span class="line">	deferFuncParameter2()</span><br><span class="line">	deferFuncParameter3()</span><br><span class="line">	fmt.Println(<span class="string">&quot;返回值&quot;</span>)</span><br><span class="line">	fmt.Println(deferFuncReturn1())</span><br><span class="line">	fmt.Println(deferFuncReturn2())</span><br><span class="line">	fmt.Println(<span class="string">&quot;执行顺序&quot;</span>)</span><br><span class="line">	deferFuncSeq1()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正确输出为：</p>
+<p>➜  myproject go run main.go</p>
+<p>快照</p>
+<p>1</p>
+<p>1</p>
+<p>2</p>
+<p>返回值</p>
+<p>—– 3</p>
+<p>3</p>
+<p>—– 11</p>
+<p>2</p>
+<p>执行顺序</p>
+<p>2</p>
+<p>1</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>defer有几条重要规则，上面的结果都能从这些规则中找到答案。</p>
+<h3 id="规则一-当defer被声明时，其参数就会被实时解析"><a href="#规则一-当defer被声明时，其参数就会被实时解析" class="headerlink" title="规则一 当defer被声明时，其参数就会被实时解析"></a>规则一 当defer被声明时，其参数就会被实时解析</h3><p>当defer被声明的时候，如果直接使用了参数，<strong>此时的参数就会使用快照值</strong>，在整个生命周期内不会变化。如deferFuncParameter1、deferFuncParameter2，虽然aInt在defer声明后被变更，但defer里的值不会再变了。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncParameter1</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> aInt = <span class="number">1</span></span><br><span class="line">	<span class="keyword">defer</span> fmt.Println(aInt)</span><br><span class="line">	aInt = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncParameter2</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> aInt = <span class="number">1</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(t <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">		fmt.Println(t)</span><br><span class="line">	&#125;(aInt)</span><br><span class="line">	aInt = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与之相反的是deferFuncParameter3，随aInt的变化而变化。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncParameter3</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> aInt = <span class="number">1</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		fmt.Println(aInt)</span><br><span class="line">	&#125;()</span><br><span class="line">	aInt = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="规则二-defer可能操作主函数的具名返回值"><a href="#规则二-defer可能操作主函数的具名返回值" class="headerlink" title="规则二 defer可能操作主函数的具名返回值"></a>规则二 defer可能操作主函数的具名返回值</h3><p><strong>defer有可能更改函数的返回值，这是最容易导致错误的地方。</strong></p>
+<p>关键字<em>return</em>不是一个原子操作，实际上<em>return</em>只代理汇编指令<em>ret</em>，即将跳转程序执行。比如语句 return i ，实际上分两步进行，即将i值存入栈中作为返回值，然后执行跳转，而defer的执行时机正是跳转前，所以说defer执行时还是有机会操作返回值的。return i的执行过程如下所示：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">result = i </span><br><span class="line">执行<span class="keyword">defer</span></span><br><span class="line"><span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>所以基于这个规则，对于deferFuncReturn1，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deferFuncReturn1</span><span class="params">()</span> <span class="params">(ret <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	ret = <span class="number">10</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		ret++</span><br><span class="line">		fmt.Println(<span class="string">&quot;-----&quot;</span>, ret)</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行过程为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ret = <span class="number">2</span></span><br><span class="line">ret++</span><br><span class="line">fmt.Println(<span class="string">&quot;-----&quot;</span>, ret)</span><br><span class="line"><span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>所以最终ret的值为3。</p>
+<p>对于deferFuncReturn2，因为defer声明的时候直接使用了参数，所以使用的是快照，不会影响ret的返回值。</p>
+<h3 id="规则三-延迟函数执行按后进先出顺序执行，即先出现的-defer最后执行"><a href="#规则三-延迟函数执行按后进先出顺序执行，即先出现的-defer最后执行" class="headerlink" title="规则三 延迟函数执行按后进先出顺序执行，即先出现的 defer最后执行"></a>规则三 延迟函数执行按后进先出顺序执行，即先出现的 defer最后执行</h3><p>这个规则大家都很熟悉，defer按照栈的顺序执行。</p>
+<h2 id="坑实例"><a href="#坑实例" class="headerlink" title="坑实例"></a>坑实例</h2><p>举一个错误使用defer的实例。在go中使用事务时，有一种推荐写法：将Rollback放到defer中，通过判断函数是否有报错或者panic，来判断是否要回滚。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span>  <span class="title">Update</span><span class="params">()</span> <span class="params">(resp *baseinfo.Resp, err error)</span></span> &#123;</span><br><span class="line">	<span class="comment">//开启事务</span></span><br><span class="line">	panicked := <span class="literal">true</span></span><br><span class="line">	tx, err := db.TXBegin()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> resp, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> panicked || err != <span class="literal">nil</span> &#123;</span><br><span class="line">			tx.Rollback()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="comment">//更新</span></span><br><span class="line">	err = h.update(shopId, tx)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;<span class="comment">//失败返回</span></span><br><span class="line">		<span class="keyword">return</span> resp, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	panicked = <span class="literal">false</span></span><br><span class="line">	err = tx.Commit().Error</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123; <span class="comment">//失败返回</span></span><br><span class="line">		<span class="keyword">return</span> resp, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>判断回滚的err正是函数的具名返回值，在有报错的情况下，返回值被赋值为nil，这意味如果有失败，Rollback也不会被执行。</p>
+<p>之所以不将err直接返回，而是使用nil，是因为框架设计的问题，业务错误通过resp返回，如果直接返回err，框架会认为是RPC错误。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对每一个知识点，都需要有准确的了解，尤其在本有机会去了解的时候，否则极易写出问题。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/vikings-blog/p/7099023.html">golang中defer的使用规则 </a></li>
+<li>Go专家编程</li>
+</ol>
+
       
 
       
@@ -206,16 +254,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/16/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2022/02/26/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">一道算法题-搜索二维矩阵</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,599 +342,14 @@
 
 
 
-
-  
-    <article id="post-go1-12使用gomod总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">Go1.12使用gomod总结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-08T12:25:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="如果您使用的-Go-版本是-1-13-及以上-（推荐）"><a href="#如果您使用的-Go-版本是-1-13-及以上-（推荐）" class="headerlink" title="如果您使用的 Go 版本是 1.13 及以上 （推荐）"></a>如果您使用的 Go 版本是 1.13 及以上 （推荐）</h3>
-        
-          <a class="article-more-a" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/08/go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-记追查go1-13无法获取到cookie的过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">记追查go1.13无法获取到cookie的过程</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-07T16:25:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近的项目从golang0.9升级到golang1.13后，项目中出现了很特殊的现象，在APP里，用户登录后访问页面正常，用户不登录，报错。</p>
-        
-          <a class="article-more-a" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/08/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-发票项目总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">发票项目总结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-04T13:18:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前段时间参与了一个发票中台的项目，这个项目我觉得做得不是很理想，如果满分100分的话，这个项目我打60分。项目完成后，我在想如果让我来做这个项目，我会怎么做，让这个项目进展更加理想、开发同学不要加班熬夜、业务方能开开心心的接收这个项目。所以我打算写一个总结，帮助我在今后的项目中做的更好。</p>
-        
-          <a class="article-more-a" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/04/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-golang长连接-基于WebSocket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">GoLang长连接-基于WebSocket</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/" class="archive-article-date">
-  	<time datetime="2020-04-25T15:44:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Websocket"><a href="#Websocket" class="headerlink" title="Websocket"></a>Websocket</h2><p>WebSocket可以实现客户端与服务器间双向、基于消息的文本或二进制数据传输。它是浏览器中最靠近套接字的API。但WebSocket连接远远不是一个网络套接字，因为浏览器在这个简单的API之后隐藏了所有的复杂性，而且还提供了更多服务：  </p>
-        
-          <a class="article-more-a" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/golang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-飞书使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">飞书使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T10:14:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="即时通信"><a href="#即时通信" class="headerlink" title="即时通信"></a>即时通信</h2><h3 id="信息极致降噪"><a href="#信息极致降噪" class="headerlink" title="信息极致降噪"></a>信息极致降噪</h3><p>1.查找同事（通讯录、搜索）<br>2.静音表情回复<br>3.消息串<br>4.富文本消息<br>5.聊天记录永久保存<br>6.群历史消息自动同步<br>7.群公告<br>8.PIN<br>9.已读/未读<br>10.在对话中查看群成员闲忙</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-领域驱动设计精简版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:38:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​    这是InfoQ推出的领域驱动设计精简版。篇幅不长，半天时间能够阅读完。如果大家想了解一下领域驱动的话，可以把这本书当做入门书。书中将领域驱动的核心思想和一些理念进行了介绍。但是本书只是讲述了领域驱动的骨架，缺乏很多血肉，另外里面也没有具体讲述如何在项目中使用领域驱动。如果大家想深入理解的话，建议阅读以下Eric Evans的《领域驱动设计——软件核心复杂性应对之道》，然后再找一个实例做练习。</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Web性能权威指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:08:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者【加】Ilya Grigorik</p>
-<p>​    如果想做Web性能优化，这本书绝对值得一读。里面讲述了TCP UDP TLS HTTP1 HTTP2怎么优化，有需求的话绝对不要错过。不过这些内容，大部分太过底层，优化和验证相对麻烦一些。后面会针对里面阐述的优化做一些测试，看看效果。</p>
-        
-          <a class="article-more-a" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-52周记忆魔法实战手册" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">52周记忆魔法实战手册</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/" class="archive-article-date">
-  	<time datetime="2020-04-04T07:55:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者：【英】多米尼克•奥布莱恩</p>
-<h2 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h2><p>​    我已经忘记看这本书的原因了。可能当时想测一下自己的记忆力吧。读研的时候，有个师弟是世界记忆大师，蛮酷蛮神奇的。记忆力这个事情，我从小到大没有单独锻炼过，不过我的记忆力应该还可以，唐诗、宋词、古文等都能背下来，毕业这么多年后，很多内容还能回忆起来。</p>
-        
-          <a class="article-more-a" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-goland破解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">GoLand破解</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-03-29T13:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="GoLand-2019-3激活破解教程（永久）"><a href="#GoLand-2019-3激活破解教程（永久）" class="headerlink" title="GoLand 2019.3激活破解教程（永久）"></a>GoLand 2019.3激活破解教程（永久）</h1><p>引用<a target="_blank" rel="noopener" href="https://studygolang.com/articles/25444?fr=sidebar">https://studygolang.com/articles/25444?fr=sidebar</a> 永久破解 - 这个最好</p>
-        
-          <a class="article-more-a" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/16/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/18/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -850,8 +372,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
