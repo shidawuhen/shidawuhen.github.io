@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>对画架构图的一些思考 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/11/index.html">
+  <meta name="description" content="架构图能够帮助自己梳理出系统的核心点，从而制定未来的发展规划。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对画架构图的一些思考">
+<meta property="og:url" content="http://yoursite.com/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="架构图能够帮助自己梳理出系统的核心点，从而制定未来的发展规划。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-02-28T15:13:01.000Z">
+<meta property="article:modified_time" content="2022-02-28T15:13:42.941Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
   
@@ -170,32 +174,53 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Go设计模式-2-面向对象分析与设计" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-对画架构图的一些思考" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">Go设计模式(2)-面向对象分析与设计</a>
+    <h1 class="article-title" itemprop="name">
+      对画架构图的一些思考
     </h1>
   
 
         
-        <a href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-02-14T09:06:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-14</time>
+        <a href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
+  	<time datetime="2022-02-28T15:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前些日子写完了第一篇设计模式<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZiobMMJ8HjdEnd5CVbo_bw">Go设计模式(1)-语法</a>。本篇文章主要讲解遇到项目之后如何做面向对象分析与设计。这篇文章的很多思路都来自于王争的<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/intro/100039001">设计模式之美</a>，不过我会按照自己的经验和构思来进行讲解。</p>
-        
-          <a class="article-more-a" href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/#more">more >></a>
-        
+        <p>架构图能够帮助自己梳理出系统的核心点，从而制定未来的发展规划。</p>
+<span id="more"></span>
+<p>画架构图也是检验自己架构能力的重要标准。职业规划上选择架构师方向，那么画架构图是必不可少的一步，如果还没画的话，现在就可以开始了。不要只关注于项目，容易迷失方向，梳理架构能让我们更好的把握未来。</p>
+<p>最开始画的时候比较难，或者不知如何下手，但只要坚持，会有念念不忘必有回响的效果。慢慢会画的越来越快、越来越全。可以先从自己负责的小模块开始画，到一定程度后，再从整个项目组的视角画，一层一层的提升自己。</p>
+<p>画架构图，有一定的方法，和大家探讨一下，希望能有所帮助。</p>
+<h2 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h2><p>架构图不会是流程图、交互图，架构图更偏向于展示系统的功能、能力。</p>
+<p>画架构图可以先画系统的组成部分，可以从两点考虑：内部和外部，粗和细。</p>
+<ul>
+<li><p>哪些部分是内部系统提供的，哪些部分是外部系统提供的。如DB是自己的，MQ是外部的。</p>
+</li>
+<li><p>对于粗细，可以粗到只写MySQL、Redis，也可细到MySQL中的表，丰俭由人，看哪种能更好的满足。</p>
+</li>
+</ul>
+<p><strong>组成能让我们理解系统依赖什么，哪部分有可能会成为限制、哪部分可以优化。</strong></p>
+<h2 id="功能梳理"><a href="#功能梳理" class="headerlink" title="功能梳理"></a>功能梳理</h2><p>接着可以画系统已经提供了哪些功能。</p>
+<p>这是一个重新梳理系统、熟悉系统的过程，<strong>帮助大家从系统的细枝末节中跳出来，站在高一点的位置观察这个系统帮助业务完成了什么任务。</strong>功能点也分对内和对外，这有利于帮忙分辨系统在不同业务场景下的特性。</p>
+<p>梳理功能点相对比较简单，我们可以通过梳理接口来梳理功能点。在梳理的过程中，会有一种沉浸感，越想越细、越想越全，会发现很多自己以前没有关注的功能。</p>
+<h2 id="抽象领域"><a href="#抽象领域" class="headerlink" title="抽象领域"></a>抽象领域</h2><p>功能点梳理完毕后，需要将这些功能归类，然后将它们抽象为一种能力。</p>
+<p>这比梳理功能点要困难得多，抽象意味言简意赅，同时也需要保留足够的扩展性。</p>
+<p><strong>抽象完后，便知晓系统的领域、系统的核心点，也找到了系统的抓手。</strong></p>
+<h2 id="发展规划"><a href="#发展规划" class="headerlink" title="发展规划"></a>发展规划</h2><p>发展要求从抽象再到现实。</p>
+<p><strong>根据抽象出的能力，将能力向上游、下游系统化的外扩，锻炼自己的规划、预判能力</strong>。</p>
+<p>这部分对个人能力的要求比抽象还高，因为它要求我们对业务有较深的理解，否则根本不知道这些能力应该用在哪些方面。此刻我们多了一些产品的思维。</p>
+<h2 id="迭代优化"><a href="#迭代优化" class="headerlink" title="迭代优化"></a>迭代优化</h2><p><strong>架构不是一时的事，也没有终点，需要不断迭代优化。</strong></p>
+<p>可以过段时间就复盘一下，或者遇到新项目时，根据已有架构来设计项目，同时修改、扩展系统。</p>
+<h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p>将自己负责的每一个部分梳理完毕，整理好架构后，可以换更宏观的视角，整理整个项目组或者整个部门的架构图，这也意味着自己能力有了更高的提升。</p>
+
       
 
       
@@ -206,16 +231,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go defer的一些神奇规则，你了解吗？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,605 +319,14 @@
 
 
 
-
-  
-    <article id="post-评价自己的标准" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/">评价自己的标准</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/" class="archive-article-date">
-  	<time datetime="2021-02-06T13:33:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一个人往往有很多面，有很多特征，很多细节，所以很难用简单的几句话表达出一个人的全貌。</p>
-<p>中国是一个文明古国，特别讲究修身齐家治国平天下，其中对人品质的要求很多，像《论语》或者《道德经》，里面涉及大量对人品质的要求。但这些要求太多太杂了，所以我在想有没有简单、直观、相对全面的标准可以用来衡量自己。</p>
-        
-          <a class="article-more-a" href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-支付对接常规问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/">支付对接常规问题</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2021-02-04T12:28:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前写过一篇如何对接第三方支付的文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NM34aevx3DBT1czcoFMJWw">如何高效对接第三方支付</a>，因为对接的大多数是海外支付公司，这些公司有很多神奇的问题，往往会埋坑，所以开发之前，整理出问题列表，以便尽早发现和解除问题，保证按时上线。</p>
-<p>问题如下</p>
-        
-          <a class="article-more-a" href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP2基础教程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">HTTP2基础教程</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T12:13:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前些日子将自己的网站升级为HTTPS，这次再设置支持HTTP2.0。本篇文章不讲述HTTP2的具体原理，但关于HTTP的相关知识会简单讲述一下，关于HTTP2的详细内容可以参看<a target="_blank" rel="noopener" href="http://www.duokan.com/book/172822">HTTP2基础教程</a>。</p>
-        
-          <a class="article-more-a" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go设计模式-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/">Go设计模式(1)-语法</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/" class="archive-article-date">
-  	<time datetime="2021-02-01T12:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>最近思考了一下这几年写的业务，都是用面向过程思路来实现。之所以用面向过程</p>
-<p>一是因为大家都这么写，很少去思考是否有更好的实现</p>
-<p>二是业务简单，使用面向过程编程可以很方便的实现</p>
-<p>三是业务需要快速上线，面向过程的方法更快更直接</p>
-        
-          <a class="article-more-a" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-服务端团队假期值班方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/">服务端团队假期值班方案</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/" class="archive-article-date">
-  	<time datetime="2021-01-27T16:54:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在想研发团队在假期期间需要做什么事情，以保证业务和质量。所以将经常做的事情进行了整理，今后遇到假期直接按照这个方案执行。</p>
-        
-          <a class="article-more-a" href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/28/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9B%A2%E9%98%9F%E5%81%87%E6%9C%9F%E5%80%BC%E7%8F%AD%E6%96%B9%E6%A1%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/23/%E5%8E%9F%E5%88%99/">原则</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/23/%E5%8E%9F%E5%88%99/" class="archive-article-date">
-  	<time datetime="2021-01-23T14:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这本书的作者是瑞·达利欧，对于这个名字大家可能不熟悉，但是他创建的公司大家一定听过-桥水基金。</p>
-<p>很早之前就有人向我推荐《原则》这本书，但因为有其它的读书计划，就一直没看，终于有时间拜读了一遍，感触颇多。</p>
-        
-          <a class="article-more-a" href="/2021/01/23/%E5%8E%9F%E5%88%99/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/23/%E5%8E%9F%E5%88%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL开发规范" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">MySQL开发规范</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" class="archive-article-date">
-  	<time datetime="2021-01-17T15:36:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近看到一份MySQL开发规范，受益颇多，规范里隐藏了很多MySQL的原理，大家有兴趣可以分析一下这些规范被如此设定的原因。</p>
-<h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><p>1.库名、表名、字段名、索引名必须使用小写字母，并采用下划线分割。</p>
-        
-          <a class="article-more-a" href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/17/MySQL%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTPS配置实战" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/">HTTPS配置实战</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/" class="archive-article-date">
-  	<time datetime="2021-01-17T08:33:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>现在网站使用HTTPS是规范操作之一，前些日子买了腾讯云服务，同时申请了域名<a target="_blank" rel="noopener" href="http://www.asap2me.top/">http://www.asap2me.top/</a> ，目前该域名只支持HTTP，想升级为HTTPS。关于HTTPS的链接过程大家可以看我的这篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/B0gJ-yksfJXFjudiPZNRRA">HTTPS连接过程</a>。</p>
-        
-          <a class="article-more-a" href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/17/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2020博客总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">2020博客总结</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2021-01-13T09:57:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2020年已经结束啦，需要对今年写的博客做个总结。</p>
-<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>其实写博客是从2020年初开始的，之所以写博客有几个原因</p>
-        
-          <a class="article-more-a" href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/13/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/10/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/12/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -856,8 +349,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
