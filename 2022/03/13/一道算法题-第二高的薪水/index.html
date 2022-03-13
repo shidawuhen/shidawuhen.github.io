@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>一道算法题-第二高的薪水 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/18/index.html">
+  <meta name="description" content="第一次知道乐扣上竟然后又MySQL的算法题。本来以为会很容易，没想到还是有很多小技巧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一道算法题-第二高的薪水">
+<meta property="og:url" content="http://yoursite.com/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="第一次知道乐扣上竟然后又MySQL的算法题。本来以为会很容易，没想到还是有很多小技巧。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/image-20220304000456987.png">
+<meta property="article:published_time" content="2022-03-13T12:46:51.000Z">
+<meta property="article:modified_time" content="2022-03-13T12:49:57.951Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/image-20220304000456987.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,33 +200,47 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Web性能权威指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-一道算法题-第二高的薪水" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
+    <h1 class="article-title" itemprop="name">
+      一道算法题-第二高的薪水
     </h1>
   
 
         
-        <a href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:08:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
+        <a href="/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" class="archive-article-date">
+  	<time datetime="2022-03-13T12:46:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-13</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>作者【加】Ilya Grigorik</p>
-<p>​    如果想做Web性能优化，这本书绝对值得一读。里面讲述了TCP UDP TLS HTTP1 HTTP2怎么优化，有需求的话绝对不要错过。不过这些内容，大部分太过底层，优化和验证相对麻烦一些。后面会针对里面阐述的优化做一些测试，看看效果。</p>
-        
-          <a class="article-more-a" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/#more">more >></a>
-        
+        <p>第一次知道乐扣上竟然后又MySQL的算法题。本来以为会很容易，没想到还是有很多小技巧。</p>
+<span id="more"></span>
+<h2 id="第二高的薪水"><a href="#第二高的薪水" class="headerlink" title="第二高的薪水"></a>第二高的薪水</h2><p><code>Employee</code> 表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-------------+------+</span><br><span class="line">| Column Name | Type |</span><br><span class="line">+-------------+------+</span><br><span class="line">| id          | int  |</span><br><span class="line">| salary      | int  |</span><br><span class="line">+-------------+------+</span><br><span class="line">id 是这个表的主键。</span><br><span class="line">表的每一行包含员工的工资信息。</span><br></pre></td></tr></table></figure>
+
+<p>编写一个 SQL 查询，获取 <code>Employee</code> 表中第二高的薪水 。如果不存在第二高的薪水，查询应该返回 <code>null</code> 。</p>
+<p>查询结果如下例所示。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">Employee 表：</span><br><span class="line">+----+--------+</span><br><span class="line">| id | salary |</span><br><span class="line">+----+--------+</span><br><span class="line">| 1  | 100    |</span><br><span class="line">| 2  | 200    |</span><br><span class="line">| 3  | 300    |</span><br><span class="line">+----+--------+</span><br><span class="line">输出：</span><br><span class="line">+---------------------+</span><br><span class="line">| SecondHighestSalary |</span><br><span class="line">+---------------------+</span><br><span class="line">| 200                 |</span><br><span class="line">+---------------------+</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">Employee 表：</span><br><span class="line">+----+--------+</span><br><span class="line">| id | salary |</span><br><span class="line">+----+--------+</span><br><span class="line">| 1  | 100    |</span><br><span class="line">+----+--------+</span><br><span class="line">输出：</span><br><span class="line">+---------------------+</span><br><span class="line">| SecondHighestSalary |</span><br><span class="line">+---------------------+</span><br><span class="line">| null                |</span><br><span class="line">+---------------------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>代码位置：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/algorithm/176-second-highest-salary.go">https://github.com/shidawuhen/asap/blob/master/controller/algorithm/176-second-highest-salary.go</a></p>
+<p>主要利用两点，一是order by和limit，找到第二高的数据，二是使用sum，在不存在的情况下，会返回null。</p>
+<p>需要关注的一点是，对salary做distinct操作，否则如果只有两个数据，且salary一致的话会报错。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><img src="./image-20220304000456987.png" alt="image-20220304000456987"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">sum</span>(salary) <span class="keyword">as</span> SecondHighestSalary <span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">select</span> salary  <span class="keyword">from</span> </span><br><span class="line"> (<span class="keyword">select</span> <span class="keyword">distinct</span>(salary) <span class="keyword">as</span> salary <span class="keyword">from</span> Employee) <span class="keyword">as</span> dsalary</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> salary <span class="keyword">desc</span> limit <span class="number">1</span>,<span class="number">1</span>) <span class="keyword">as</span> t</span><br></pre></td></tr></table></figure>
+
+
+
       
 
       
@@ -231,16 +251,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/09/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2022/03/13/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          电商业务梳理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">对画架构图的一些思考</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -260,605 +348,14 @@
 
 
 
-
-  
-    <article id="post-52周记忆魔法实战手册" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">52周记忆魔法实战手册</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/" class="archive-article-date">
-  	<time datetime="2020-04-04T07:55:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者：【英】多米尼克•奥布莱恩</p>
-<h2 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h2><p>​    我已经忘记看这本书的原因了。可能当时想测一下自己的记忆力吧。读研的时候，有个师弟是世界记忆大师，蛮酷蛮神奇的。记忆力这个事情，我从小到大没有单独锻炼过，不过我的记忆力应该还可以，唐诗、宋词、古文等都能背下来，毕业这么多年后，很多内容还能回忆起来。</p>
-        
-          <a class="article-more-a" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/04/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-goland破解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">GoLand破解</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-03-29T13:41:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="GoLand-2019-3激活破解教程（永久）"><a href="#GoLand-2019-3激活破解教程（永久）" class="headerlink" title="GoLand 2019.3激活破解教程（永久）"></a>GoLand 2019.3激活破解教程（永久）</h1><p>引用<a target="_blank" rel="noopener" href="https://studygolang.com/articles/25444?fr=sidebar">https://studygolang.com/articles/25444?fr=sidebar</a> 永久破解 - 这个最好</p>
-        
-          <a class="article-more-a" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/29/goland%E7%A0%B4%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-敏捷革命" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/">敏捷革命</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/" class="archive-article-date">
-  	<time datetime="2020-03-15T15:57:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="敏捷革命"><a href="#敏捷革命" class="headerlink" title="敏捷革命"></a>敏捷革命</h1><p>【美】杰夫·萨瑟兰</p>
-<p>​    本科时期学的是软件工程，除了学习基础的计算机知识外，软件工程和项目管理方面的内容也学了不少。当时有一门课讲的就是敏捷开发。那时候做项目少，课程学完了，除了记住一堆术语外，倒是没有很多的感触。</p>
-        
-          <a class="article-more-a" href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/15/%E6%95%8F%E6%8D%B7%E9%9D%A9%E5%91%BD/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-论语-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/">论语</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/" class="archive-article-date">
-  	<time datetime="2020-03-08T14:52:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>   我上学的时候非常喜欢《道德经》，当时能够背诵整本书，《道德经》对我的影响也比较大，这是一本能影响自己人生观和价值观的书。《道德经》讲的是出世，讲的是道法自然，上学的时候涉世未深，里面很多的道理反而能看懂。</p>
-        
-          <a class="article-more-a" href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/08/%E8%AE%BA%E8%AF%AD-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-如何在旧项目中使用Go-mod" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">如何在旧项目中使用gomod</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/" class="archive-article-date">
-  	<time datetime="2020-03-01T08:50:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本文主要讲述如何将一个久远的go项目，使用go mod来进行管理。</p>
-<p>我们的电商项目使用的是beego，这个项目是2017年建的，那时候golang刚刚处于兴起阶段，也没有比较好的包管理机制。所以这个项目发展到现在，结构是这样的</p>
-        
-          <a class="article-more-a" href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/01/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A7%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8Go-mod/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-热风" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/23/%E7%83%AD%E9%A3%8E/">热风</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/23/%E7%83%AD%E9%A3%8E/" class="archive-article-date">
-  	<time datetime="2020-02-22T16:22:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​    《热风》在鲁迅的作品中并不怎么出名。这本书是鲁迅在《新青年》的《随感录》中做的一些短评，总共三十多篇，总篇幅不长，三个小时可以阅读完成。</p>
-        
-          <a class="article-more-a" href="/2020/02/23/%E7%83%AD%E9%A3%8E/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/23/%E7%83%AD%E9%A3%8E/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-简单的逻辑学" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/">简单的逻辑学</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/" class="archive-article-date">
-  	<time datetime="2020-02-16T14:02:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者：D.Q. 麦克伦尼</p>
-<p>译者：赵明燕</p>
-<h2 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h2><p>这本书主要讲述了逻辑学的基本原理和技巧。</p>
-<p>我不推荐阅读该书。</p>
-        
-          <a class="article-more-a" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/16/%E7%AE%80%E5%8D%95%E7%9A%84%E9%80%BB%E8%BE%91%E5%AD%A6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Gin框架简洁版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/">Gin框架简洁版</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/" class="archive-article-date">
-  	<time datetime="2020-02-16T03:59:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>看完Gin源码后，我在想是否可以尝试自己写一个简单的web-go框架，既能帮助自己更好的理解Gin，又能当做一个测验，检测自己是否真的学会了一些东西。</p>
-<p>所以自己做了一个简单版的框架，这个框架包含了一些Gin框架的核心内容，感兴趣的朋友可以先看这个简单版的框架，然后再看我写的<a target="_blank" rel="noopener" href="https://shidawuhen.github.io/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">gin源码剖析</a>，可能会更加容易理解。</p>
-        
-          <a class="article-more-a" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/16/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-gin源码剖析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">Gin远吗剖析</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-02-09T08:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Gin 是一个 Golang 写的 web 框架，具有高性能的优点，基于 httprouter，它提供了类似martini但更好性能(路由性能约快40倍)的API服务。官方地址：<a target="_blank" rel="noopener" href="https://github.com/gin-gonic/gin%E3%80%82">https://github.com/gin-gonic/gin。</a></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在项目中使用Gin也极其简单</p>
-        
-          <a class="article-more-a" href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/09/gin%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/17/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/19/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -881,8 +378,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
