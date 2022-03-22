@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>Airflow搭建与使用 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="Airflow 是一个编排、调度和监控workflow的平台，由Airbnb开源，现在在Apache Software Foundation 孵化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Airflow搭建与使用">
+<meta property="og:url" content="http://yoursite.com/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="Airflow 是一个编排、调度和监控workflow的平台，由Airbnb开源，现在在Apache Software Foundation 孵化。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/image-20220321224211377.png">
+<meta property="og:image" content="http://yoursite.com/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/image-20220321224033292.png">
+<meta property="article:published_time" content="2022-03-22T15:21:58.000Z">
+<meta property="article:modified_time" content="2022-03-22T15:25:29.004Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/image-20220321224211377.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,16 +201,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-Airflow搭建与使用" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-Airflow搭建与使用" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/">Airflow搭建与使用</a>
+    <h1 class="article-title" itemprop="name">
+      Airflow搭建与使用
     </h1>
   
 
@@ -217,9 +222,101 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Airflow 是一个编排、调度和监控workflow的平台，由Airbnb开源，现在在Apache Software Foundation 孵化。</p>
-        
-          <a class="article-more-a" href="/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
+<span id="more"></span> 
+<p>Airflow 将workflow编排为由tasks组成的DAGs(有向无环图)，调度器在一组workers上按照指定的依赖关系执行tasks。同时，Airflow 提供了丰富的命令行工具和简单易用的用户界面以便用户查看和操作，并且Airflow提供了监控和报警系统。Airflow的调度依赖于crontab命令，与crontab相比Airflow可以直观的看到任务执行情况、任务之间的逻辑依赖关系、可以设定任务出错时邮件提醒、可以查看任务执行日志。</p>
+<p>本次主要聊一下Airflow的搭建与简单使用，这应该是目前网上最全的配置了。这次搭建是在Centos7系统，Airflow版本是2.2.4。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> airflow需要home目录，默认是~/airflow，</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 但是如果你需要，放在其它位置也是可以的</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> (可选)</span></span><br><span class="line">export AIRFLOW_HOME=~/airflow</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果没有pip3，需要进行安装</span></span><br><span class="line">sudo yum install -y python3-pip</span><br><span class="line"><span class="meta">#</span><span class="bash"> 升级，防止报错Command <span class="string">&quot;python setup.py egg_info&quot;</span> failed with error code 1 <span class="keyword">in</span> /tmp/pip-buil</span></span><br><span class="line">pip3 install --upgrade pip</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用pip从pypi安装</span></span><br><span class="line">pip3 install apache-airflow</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改DB"><a href="#更改DB" class="headerlink" title="更改DB"></a>更改DB</h2><p>Airflow默认使用的是sqlite，正式环境需要改为MySQL。</p>
+<h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><p>Centos下先安装MySQL，强烈建议直接安装8.0，否则各种异常情况。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line"><span class="comment"># 在可写权限目录下安装</span></span><br><span class="line">sudo wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm</span><br><span class="line">sudo yum -y install mysql80-community-release-el7-3.noarch.rpm</span><br><span class="line">sudo yum -y install mysql-community-server --nogpgcheck</span><br><span class="line"><span class="comment"># 启动 </span></span><br><span class="line">sudo systemctl start  mysqld.service</span><br><span class="line"><span class="comment"># 关闭命令为sudo service mysqld stop</span></span><br><span class="line"><span class="comment"># 登录8.0前需要获取临时密码，5.6的初始密码为空，直接回车即可</span></span><br><span class="line">grep <span class="string">&quot;password&quot;</span> /var/<span class="built_in">log</span>/mysqld.log</span><br><span class="line">mysql -uroot -p</span><br><span class="line"><span class="comment"># 8.0修改root密码</span></span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;1234Abcd*&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建Airflow使用的DB"><a href="#创建Airflow使用的DB" class="headerlink" title="创建Airflow使用的DB"></a>创建Airflow使用的DB</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE airflow CHARACTER SET utf8;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建airflow用户</span></span><br><span class="line">CREATE USER &#x27;airflow&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;1234Abcd*&#x27;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#x27;airflow&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果mysql版本较低，无法更新，可更新my.cnf</span></span><br><span class="line">set global explicit_defaults_for_timestamp =1;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改airflow-cfg"><a href="#更改airflow-cfg" class="headerlink" title="更改airflow.cfg"></a>更改airflow.cfg</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> sql_alchemy_conn = mysql://&#123;USERNAME&#125;:&#123;PASSWORD&#125;@&#123;MYSQL_HOST&#125;:3306/airflow</span></span><br><span class="line"></span><br><span class="line">sql_alchemy_conn = mysql+pymysql://airflow:1234Abcd*@localhost:3306/airflow</span><br><span class="line">result_backend = db+mysql://airflow:1234Abcd@localhost:3306/airflow</span><br><span class="line">executor = LocalExecutor</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 初始化数据库，如果sqlite版本过低，需要升级。执行完后出现cfg文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash">airflow initdb 已废弃</span></span><br><span class="line">airflow db init</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动web服务器，默认端口是8080</span></span><br><span class="line">airflow webserver -p 8080 -D</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动定时器</span></span><br><span class="line">airflow scheduler -D</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建账号密码</span></span><br><span class="line">airflow users create \</span><br><span class="line">    --username admin \</span><br><span class="line">    --firstname pzq \</span><br><span class="line">    --lastname pzq \</span><br><span class="line">    --role Admin \</span><br><span class="line">    --email lalalalal@111.com</span><br><span class="line">然后输入密码w</span><br><span class="line"><span class="meta">#</span><span class="bash"> 在浏览器中浏览localhost:8080，并在home页开启example dag</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="创建dags"><a href="#创建dags" class="headerlink" title="创建dags"></a>创建dags</h2><p>查看airflow.cfg中的配置dags_folder，在该目录下添加python文件。</p>
+<p>start_date表示从2022-3-21开始，使用的时区为UTC。schedule_interval表示每隔三分钟需要执行一次，Airflow会根据开始时间和间隔时间自动计算出下一次的执行时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> pendulum</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> airflow</span><br><span class="line"><span class="keyword">from</span> airflow <span class="keyword">import</span> DAG</span><br><span class="line"><span class="keyword">from</span> airflow.operators.bash <span class="keyword">import</span> BashOperator</span><br><span class="line"><span class="keyword">from</span> airflow.operators.dummy <span class="keyword">import</span> DummyOperator</span><br><span class="line"><span class="keyword">from</span> airflow.utils.dates <span class="keyword">import</span> days_ago</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> DAG(</span><br><span class="line">    dag_id=<span class="string">&#x27;my&#x27;</span>,</span><br><span class="line">    schedule_interval=<span class="string">&#x27;*/3 * * * *&#x27;</span>,</span><br><span class="line">    start_date=pendulum.datetime(<span class="number">2022</span>, <span class="number">3</span>, <span class="number">21</span>, tz=<span class="string">&quot;UTC&quot;</span>),</span><br><span class="line">    <span class="comment"># start_date=days_ago(1),</span></span><br><span class="line">    catchup=<span class="literal">False</span>,</span><br><span class="line">    dagrun_timeout=datetime.timedelta(minutes=<span class="number">60</span>),</span><br><span class="line">    tags=[<span class="string">&#x27;example&#x27;</span>, <span class="string">&#x27;example2&#x27;</span>],</span><br><span class="line">    params=&#123;<span class="string">&quot;example_key&quot;</span>: <span class="string">&quot;example_value&quot;</span>&#125;,</span><br><span class="line">) <span class="keyword">as</span> dag:</span><br><span class="line">    run_this_last = DummyOperator(</span><br><span class="line">        task_id=<span class="string">&#x27;run_this_last&#x27;</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># [START howto_operator_bash]</span></span><br><span class="line">    run_this = BashOperator(</span><br><span class="line">        task_id=<span class="string">&#x27;run_after_loop&#x27;</span>,</span><br><span class="line">        bash_command=<span class="string">&#x27;echo 1&#x27;</span>,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># [END howto_operator_bash]</span></span><br><span class="line"></span><br><span class="line">    run_this &gt;&gt; run_this_last</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        task = BashOperator(</span><br><span class="line">            task_id=<span class="string">&#x27;runme_&#x27;</span> + <span class="built_in">str</span>(i),</span><br><span class="line">            bash_command=<span class="string">&#x27;echo &quot;&#123;&#123; task_instance_key_str &#125;&#125;&quot; &amp;&amp; sleep 1&#x27;</span>,</span><br><span class="line">        )</span><br><span class="line">        task &gt;&gt; run_this</span><br><span class="line"></span><br><span class="line">    <span class="comment"># [START howto_operator_bash_template]</span></span><br><span class="line">    also_run_this = BashOperator(</span><br><span class="line">        task_id=<span class="string">&#x27;also_run_this&#x27;</span>,</span><br><span class="line">        bash_command=<span class="string">&#x27;echo &quot;run_id=&#123;&#123; run_id &#125;&#125; | dag_run=&#123;&#123; dag_run &#125;&#125;&quot;&#x27;</span>,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># [END howto_operator_bash_template]</span></span><br><span class="line">    also_run_this &gt;&gt; run_this_last</span><br><span class="line"></span><br><span class="line"><span class="comment"># [START howto_operator_bash_skip]</span></span><br><span class="line">this_will_skip = BashOperator(</span><br><span class="line">    task_id=<span class="string">&#x27;this_will_skip&#x27;</span>,</span><br><span class="line">    bash_command=<span class="string">&#x27;echo &quot;hello world&quot;; exit 99;&#x27;</span>,</span><br><span class="line">    dag=dag,</span><br><span class="line">)</span><br><span class="line"><span class="comment"># [END howto_operator_bash_skip]</span></span><br><span class="line">this_will_skip &gt;&gt; run_this_last</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    dag.cli()</span><br></pre></td></tr></table></figure>
+
+<p>代码中的A&gt;&gt;B，表示A先执行，后执行B。<img src="./image-20220321224211377.png" alt="image-20220321224211377"></p>
+<p>BashOperator可以执行Bash命令，除了BashOperator外，还有其它Operator可以使用，具体可以查看资料。</p>
+<p>过一会在Web页面上便能看到这个Dag：<img src="./image-20220321224033292.png" alt="image-20220321224033292"></p>
+<h2 id="关闭与重启"><a href="#关闭与重启" class="headerlink" title="关闭与重启"></a>关闭与重启</h2><p>关闭airflow方案：</p>
+<ol>
+<li><p>ps -ef | grep -Ei ‘airflow’ | grep -v ‘grep’ | grep -v ‘%s’ | awk ‘{print $2}’ | xargs -i kill -9 {}</p>
+</li>
+<li><p>删除~/airflow下的airflow-webserver和airflow-scheduler</p>
+</li>
+<li><p>airflow webserver -p 8080 -D</p>
+</li>
+<li><p>airflow scheduler -D</p>
+</li>
+<li><p>特殊情况可重新设置db：airflow db reset</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Airflow国内用的比较少，相关资料不全。如果想在实际业务中使用，对于Dag的基本组成部分、Operator等也要有所了解。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/index.html">英文文档</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/AirflowZH/zh-4.md">官方中文文档</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiao987334176/p/12600835.html">Command “python setup.py egg_info” failed with error code 1 in /tmp/pip-build-*解决办法</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/leffss/p/11555556.html">centos 7 下升级自带 sqlite3 </a></p>
+</li>
+</ol>
+<p>sqlit版本太低</p>
+<p>wget –no-check-certificat  <a target="_blank" rel="noopener" href="https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz">https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz</a></p>
+<ol start="4">
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jeasonit/p/11982413.html">Python工作流-Airflow </a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/watermelonbig/article/details/82585196">Airflow Python工作流引擎的重要概念介绍</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40861707/article/details/118873713">Airflow2.1.1超详细安装文档</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/somezz/article/details/82874641">airflow 的使用之 Operators 介绍</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/44768244">如何部署一个健壮的 apache-airflow 调度系统</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/cord/p/9450910.html">AirFlow简介 </a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lshan/p/11768812.html">airflow使用mysql数据库，LocalExecutor并发调度(1)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f318d0e83618">airflow从入门到精通学习笔记系列</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_37943715/article/details/110135716">mysql安装</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/looo000ngname/article/details/106545610">centos7安装mysql报“没有可用软件包 mysql-server”怎么办？</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/book_1992/article/details/115447462">airflow: 新建的dag没有显示在web ui 上</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/dajan/p/8082372.html">airflow 某个DAG不在web界面显示</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34005042/article/details/92453840">MySQL新建用户,授权,删除用户,修改密码</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_29719097/article/details/83577021">explicit_defaults_for_timestamp</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42298876/article/details/113148069">linux mysql cnf_mysql在linux下查看my.cnf位置的方法</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhaochenguang/p/11465738.html">CentOS7 卸载mysql（YUM源方式）</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/z0909y/p/10772854.html">yum 安装Mysql8.0</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/55820850/mysql-fail-on-upgrade-from-v5-1-to-v8-how-to-recover-data">升级问题</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.shangmayuan.com/a/82bacb1f2fa243689662217f.html">Airflow 调度框架 安装经验分享 单节点</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/OldDirverHelpMe/article/details/106843857">AirFlow的Scheduling的start_date解释</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://blog.onecodeall.com/index/blog/detail/id/1524409922130020/tid/0">airflow部署和使用,重启</a></p>
+</li>
+<li><p>  <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57668584/airflow-scheduler-does-not-appear-to-be-running-after-execute-a-task">Airflow scheduler does not appear to be running after execute a task</a></p>
+</li>
+</ol>
+
       
 
       
@@ -230,16 +327,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2022/03/22/%E4%BC%98%E7%A7%80%E4%B8%8E%E5%8D%93%E8%B6%8A/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">优秀与卓越</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -259,598 +415,14 @@
 
 
 
-
-  
-    <article id="pages-优秀与卓越" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/22/%E4%BC%98%E7%A7%80%E4%B8%8E%E5%8D%93%E8%B6%8A/">优秀与卓越</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/22/%E4%BC%98%E7%A7%80%E4%B8%8E%E5%8D%93%E8%B6%8A/" class="archive-article-date">
-  	<time datetime="2022-03-22T15:21:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我媳妇这人吧，不怎么爱看书，但是悟性极好。她的感悟都来自于现实生活中，是根据切身感受进行的总结，所以一旦出“名人名言”，就意味着悟了。这比纸上得来的知识要深刻的多。</p>
-        
-          <a class="article-more-a" href="/2022/03/22/%E4%BC%98%E7%A7%80%E4%B8%8E%E5%8D%93%E8%B6%8A/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/22/%E4%BC%98%E7%A7%80%E4%B8%8E%E5%8D%93%E8%B6%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-电商业务梳理1-导流" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/19/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%861-%E5%AF%BC%E6%B5%81/">电商业务梳理1-导流</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/19/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%861-%E5%AF%BC%E6%B5%81/" class="archive-article-date">
-  	<time datetime="2022-03-19T06:30:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作的几年间，负责十几个国家、地区的国外电商网站开发工作，终端类型有PC、M、APP（Android+IOS）。电商类型是自营电商，非平台类电商，服务对象是海外用户，所以有些方案和经验未必适合国内。</p>
-<p>做电商第一件事情是导流，要把用户引导至电商网站上，有了流量才能有成交，电商才能存活下去。导流方案可以分为两大类，第一类是利用外部资源，第二类是主动触达。</p>
-        
-          <a class="article-more-a" href="/2022/03/19/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%861-%E5%AF%BC%E6%B5%81/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/19/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%861-%E5%AF%BC%E6%B5%81/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-电商业务梳理" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/13/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%86/">电商业务梳理</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/13/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%86/" class="archive-article-date">
-  	<time datetime="2022-03-13T12:47:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前做海外电商的时候，很多内容都没有系统整理。最近发现以前做的很多东西都可以移植到跨境电商上，趁对以前做的事情还有记忆，把做过的事情系统整理一下。</p>
-        
-          <a class="article-more-a" href="/2022/03/13/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/13/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-一道算法题-第二高的薪水" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">一道算法题-第二高的薪水</a>
-    </h1>
-  
-
-        
-        <a href="/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" class="archive-article-date">
-  	<time datetime="2022-03-13T12:46:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>第一次知道乐扣上竟然后又MySQL的算法题。本来以为会很容易，没想到还是有很多小技巧。</p>
-        
-          <a class="article-more-a" href="/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-对画架构图的一些思考" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对画架构图的一些思考</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2022-02-28T15:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>架构图能够帮助自己梳理出系统的核心点，从而制定未来的发展规划。</p>
-        
-          <a class="article-more-a" href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go-defer的一些神奇规则，你了解吗？" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/">Go defer的一些神奇规则，你了解吗？</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2022-02-26T03:35:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>defer有一些规则，如果不了解，代码实现的最终结果会与预期不一致。对于这些规则，你了解吗？</p>
-        
-          <a class="article-more-a" href="/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/26/Go-defer%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A5%9E%E5%A5%87%E8%A7%84%E5%88%99%EF%BC%8C%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-一道算法题-搜索二维矩阵" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/26/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5/">一道算法题-搜索二维矩阵</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/26/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5/" class="archive-article-date">
-  	<time datetime="2022-02-26T03:35:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这道题记得在《剑指offer》上有，当时急急忙忙的刷过一次，这次静下心来做，还是有一些新的领悟。</p>
-        
-          <a class="article-more-a" href="/2022/02/26/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/26/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-浅谈OAuth2-0" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/">浅谈OAuth2.0</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/" class="archive-article-date">
-  	<time datetime="2022-02-20T06:11:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。OAuth不是一个认证协议，这点不要搞混。</p>
-        
-          <a class="article-more-a" href="/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/20/%E6%B5%85%E8%B0%88OAuth2-0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-一道算法题-验证二叉搜索树" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">一道算法题-验证二叉搜索树</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2022-02-20T06:10:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最初看这道题的时候，发现通过率36%，觉得比较神奇，按理说应该是相对简单的题目。结果啪啪打脸，长时间没有做树相关的题目，连这种基础题型都忘记怎么做了。好在经过两次错误尝试后，发现了正常解题方案。</p>
-        
-          <a class="article-more-a" href="/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/20/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/2/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -873,8 +445,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
