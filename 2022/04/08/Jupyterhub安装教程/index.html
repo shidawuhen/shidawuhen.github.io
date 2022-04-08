@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>Jupyterhub安装教程 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="使用 JupyterHub，可以创建一个多用户 Hub，它可以生成、管理和代理单用户 Jupyter notebook 服务器的多个实例。本次在Centos7.5下进行安装，用于单用户使用。这里介绍Jupyterhub的两种安装方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jupyterhub安装教程">
+<meta property="og:url" content="http://yoursite.com/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="使用 JupyterHub，可以创建一个多用户 Hub，它可以生成、管理和代理单用户 Jupyter notebook 服务器的多个实例。本次在Centos7.5下进行安装，用于单用户使用。这里介绍Jupyterhub的两种安装方式。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20220408231722117.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20220408232543770.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20220408232725018.png">
+<meta property="article:published_time" content="2022-04-08T15:54:01.000Z">
+<meta property="article:modified_time" content="2022-04-08T15:55:22.369Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20220408231722117.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,295 +202,162 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="pages-Jupyterhub安装教程" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Jupyterhub安装教程
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="archive-article-date">
+
+        
+        <a href="/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="archive-article-date">
   	<time datetime="2022-04-08T15:54:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-08</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">Jupyterhub安装教程</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用 JupyterHub，可以创建一个多用户 Hub，它可以生成、管理和代理单用户 Jupyter notebook 服务器的多个实例。本次在Centos7.5下进行安装，用于单用户使用。这里介绍Jupyterhub的两种安装方式。</p>
+<span id="more"></span> 
+<h2 id="安装方案一"><a href="#安装方案一" class="headerlink" title="安装方案一"></a>安装方案一</h2><p>Jupyterhub可以通过conda安装，这种方案比较简单</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装conda3</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Download Linux Anaconda distribution (64-Bit)</span></span><br><span class="line">wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh</span><br><span class="line"><span class="meta">#</span><span class="bash"> Install Anaconda，安装位置设置为/home/work/anaconda3</span></span><br><span class="line">sudo bash  Anaconda3-5.0.1-Linux-x86_64.sh</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装jupyterhub，需要修改conda源</span></span><br><span class="line">conda install -c conda-forge jupyterhub  # installs jupyterhub and </span><br><span class="line">conda install notebook  # needed if running the notebook servers locally</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<p>在执行conda install -c conda-forge jupyterhub时，总报Solving package specifications: .Killed，没有找到解决方案。</p>
+<p><img src="./image-20220408231722117.png" alt="image-20220408231722117"></p>
+<h2 id="安装方案二"><a href="#安装方案二" class="headerlink" title="安装方案二"></a>安装方案二</h2><p>使用pip3安装，需要装好configurable-http-proxy、jupyterhub、notebook、jupyterlab。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装jupyterhub</span></span><br><span class="line">npm install -g configurable-http-proxy</span><br><span class="line">sudo pip3 install jupyterhub</span><br><span class="line">sudo conda install notebook</span><br><span class="line">sudo pip3 install jupyterlab</span><br><span class="line"><span class="meta">#</span><span class="bash"> 生成配置文件</span></span><br><span class="line">jupyterhub --generate-config</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">nohup jupyterhub -f jupyterhub_config.py  &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认8000端口，访问链接，查看安装情况</span></span><br><span class="line">http://122.51.225.162:8000/</span><br></pre></td></tr></table></figure>
 
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>打开链接后，可以看到登录界面，用户名和密码默认是centos启动该服务的用户名和密码。</p>
+<p><img src="./image-20220408232543770.png" alt="image-20220408232543770"></p>
+<p>默认打开的目录为/home/work，即该用户的home路径。</p>
+<p><img src="./image-20220408232725018.png" alt="image-20220408232725018"></p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32170808">Jupyterhub的安装与配置</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_32719533/article/details/112188570">conda install -c conda-forge jupyterhub</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/dong19891210/article/details/105062842">centos7上安装JupyterHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/fiery_heart/article/details/79126081">centos7下安装与卸载anconda3</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_31833795/article/details/112578438">仓库镜像源为清华_conda国内镜像修改（最新版）</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/kingsonfu/p/14963663.html">CentOS安装node和npm </a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61564648">图文详解：CentOS 7系统下安装JupyterHub+PySpark</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/yuvejxke/p/13169172.html">anaconda修改国内源</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/upuil/article/details/84645239">centos7 配置jupterhub</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42932905/article/details/106218734">Anaconda 一直 solving package specification</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42014622/article/details/102560859">阿里云centOS7搭建JupyterLab</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/sqq513/article/details/80028675">在centos7上搭建jupyter lab服务器</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuxiaomo/p/13164530.html">超级详细 centos7 安装 jupyter lab </a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/07/Gogs%E9%9B%86%E6%88%90LDAP/" class="archive-article-date">
-  	<time datetime="2022-04-07T03:58:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2022/04/07/Gogs%E9%9B%86%E6%88%90LDAP/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Gogs集成LDAP</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/07/Gogs%E9%9B%86%E6%88%90LDAP/">Gogs集成LDAP</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/05/Gogs%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2022-04-04T16:03:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/05/Gogs%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">Gogs安装教程</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/03/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%862-%E5%AF%BC%E8%B4%AD/" class="archive-article-date">
-  	<time datetime="2022-04-03T15:58:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/03/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%862-%E5%AF%BC%E8%B4%AD/">电商业务梳理2-导购</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2022-03-22T15:21:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/03/22/Airflow%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/">Airflow搭建与使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/03/22/%E4%BC%98%E7%A7%80%E4%B8%8E%E5%8D%93%E8%B6%8A/" class="archive-article-date">
-  	<time datetime="2022-03-22T15:21:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/03/22/%E4%BC%98%E7%A7%80%E4%B8%8E%E5%8D%93%E8%B6%8A/">优秀与卓越</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/03/19/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%861-%E5%AF%BC%E6%B5%81/" class="archive-article-date">
-  	<time datetime="2022-03-19T06:30:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/03/19/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%861-%E5%AF%BC%E6%B5%81/">电商业务梳理1-导流</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/03/13/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%86/" class="archive-article-date">
-  	<time datetime="2022-03-13T12:47:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/03/13/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%86/">电商业务梳理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" class="archive-article-date">
-  	<time datetime="2022-03-13T12:46:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/03/13/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">一道算法题-第二高的薪水</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2022-02-28T15:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/02/28/%E5%AF%B9%E7%94%BB%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对画架构图的一些思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/20/">20</a><a class="extend next" rel="next" href="/archives/page/2/">Next »</a>
-    </nav>
   
 
 
@@ -506,8 +381,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
