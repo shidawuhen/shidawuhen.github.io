@@ -196,6 +196,71 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="pages-MySQL-Innodb锁算法，可算搞明白了" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/09/20/MySQL-Innodb%E9%94%81%E7%AE%97%E6%B3%95%EF%BC%8C%E5%8F%AF%E7%AE%97%E6%90%9E%E6%98%8E%E7%99%BD%E4%BA%86/">MySQL Innodb锁算法，可算搞明白了</a>
+    </h1>
+  
+
+        
+        <a href="/2021/09/20/MySQL-Innodb%E9%94%81%E7%AE%97%E6%B3%95%EF%BC%8C%E5%8F%AF%E7%AE%97%E6%90%9E%E6%98%8E%E7%99%BD%E4%BA%86/" class="archive-article-date">
+  	<time datetime="2021-09-20T14:01:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/MAV1THWYVYMSZCOx0s7pUA">Innodb事务隔离性实现原理，你了解吗？</a>里讲了行锁，但Innodb除了行锁还有间隙锁（Gap Lock）和next-key lock。这些锁之间有什么关系呢？我们经常会听到全局锁、表级锁、行锁，这些又是什么？这篇文章带你搞懂这些内容。本篇如果不做特别说明，隔离级别都为可重复读。</p>
+        
+          <a class="article-more-a" href="/2021/09/20/MySQL-Innodb%E9%94%81%E7%AE%97%E6%B3%95%EF%BC%8C%E5%8F%AF%E7%AE%97%E6%90%9E%E6%98%8E%E7%99%BD%E4%BA%86/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/09/20/MySQL-Innodb%E9%94%81%E7%AE%97%E6%B3%95%EF%BC%8C%E5%8F%AF%E7%AE%97%E6%90%9E%E6%98%8E%E7%99%BD%E4%BA%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="pages-MySQL-Explain详解" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -760,72 +825,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/08/25/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-对如何分析项目的思考" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/">对如何分析项目的思考</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2021-08-23T06:24:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>做了好多项目，这次想聊一下怎么分析项目，算是自己的拙见，也是自己的一点总结吧。</p>
-<p>研发工程师的工作就是不断的处理业务需求，但PM提的需求应该如何来评判、分析呢？我觉得可以从三个方面来考虑，分别是What、Why、How。</p>
-        
-          <a class="article-more-a" href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/23/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/">展开全文 >></a>
         </p>
       
 
