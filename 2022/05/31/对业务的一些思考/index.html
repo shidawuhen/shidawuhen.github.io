@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2022 | Jason Pang</title>
+  <title>对业务的一些思考 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/2022/index.html">
+  <meta name="description" content="好久没写思考相关的博客了，正好有三个和业务相关的内容可以聊聊。它们是组合商品、DDD、交接，分别和模型、架构、调整相关。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对业务的一些思考">
+<meta property="og:url" content="http://yoursite.com/2022/05/31/%E5%AF%B9%E4%B8%9A%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="好久没写思考相关的博客了，正好有三个和业务相关的内容可以聊聊。它们是组合商品、DDD、交接，分别和模型、架构、调整相关。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/05/31/%E5%AF%B9%E4%B8%9A%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/bundle.png">
+<meta property="article:published_time" content="2022-05-31T15:04:09.000Z">
+<meta property="article:modified_time" content="2022-05-31T15:07:37.854Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/05/31/%E5%AF%B9%E4%B8%9A%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/bundle.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,295 +200,221 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-对业务的一些思考" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/05/31/SSH%E7%99%BB%E5%BD%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E9%80%81%E6%8F%90%E9%86%92/" class="archive-article-date">
-  	<time datetime="2022-05-31T15:04:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-31</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/05/31/SSH%E7%99%BB%E5%BD%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E9%80%81%E6%8F%90%E9%86%92/">SSH登录服务器发送提醒</a>
+    <h1 class="article-title" itemprop="name">
+      对业务的一些思考
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/05/31/%E5%AF%B9%E4%B8%9A%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
+        
+        <a href="/2022/05/31/%E5%AF%B9%E4%B8%9A%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
   	<time datetime="2022-05-31T15:04:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-31</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/05/31/%E5%AF%B9%E4%B8%9A%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对业务的一些思考</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>好久没写思考相关的博客了，正好有三个和业务相关的内容可以聊聊。它们是组合商品、DDD、交接，分别和模型、架构、调整相关。</p>
+<span id="more"></span> 
+<h2 id="组合商品"><a href="#组合商品" class="headerlink" title="组合商品"></a>组合商品</h2><p>组合商品对食品、美妆的GMV提升有很大帮助。</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>先明确组合商品的定义：</p>
+<table>
+<thead>
+<tr>
+<th>名词</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>组合商品</td>
+<td>由多个子商品组合成的商品或者由一个子商品多倍组合成的商品类型</td>
+</tr>
+<tr>
+<td>子商品</td>
+<td>平台上的普通商品，发布组合商品时选择的商品，将作为子商品定义</td>
+</tr>
+<tr>
+<td>组合售卖价</td>
+<td>单品在发布组合商品过程中，设置的单品的售价，区别于商品单独售卖的价格</td>
+</tr>
+</tbody></table>
+<p>如洗发水和护发乳可以组合成一个商品进行售卖。</p>
+<p><img src="./bundle.png" alt="bundle"></p>
+<h3 id="技术设计"><a href="#技术设计" class="headerlink" title="技术设计"></a>技术设计</h3><p>最初做组合商品的时候，交易决定不感知子商品，只感知主商品，子商品信息只做透传。这个方案的好处是交易只需要关注主逻辑，不必关注细节。</p>
+<p>但商品终归要拆分到子商品，然后发送给用户的，这部分任务由履约进行处理。</p>
+<h3 id="推演"><a href="#推演" class="headerlink" title="推演"></a>推演</h3><p>随着业务的发展，我们发觉这种设计会带来很多问题：</p>
+<ol>
+<li>如果子商品在下单的时候需要动态添加一些属性，交易不感知子商品，就无法实现</li>
+<li>交易不感知子商品的一个前提是，其它部门获取交易快照，都只需要主商品，不需要子商品。一旦需要感知到子商品，各个组需要自己拆解，无形中增加成本</li>
+</ol>
+<p>综上所述：</p>
+<p>1.<strong>采取何种模型，一定要做好推演，需预判目前的模型能否满足未来的业务需求</strong></p>
+<ul>
+<li>此处经验极其重要</li>
+<li>采用某种方案，一定不能以开发方便为准则。因为后期改动成本远高于一次做好</li>
+</ul>
+<p>2.个人认为，如果自己是处理某个问题的起点且是各个组依赖的中心部门，最好能包掉这些差异<br>3.如果新的功能点引出新的模型，这是特别好的机会，一定要设计好新模型，并和已有模型做好融合</p>
+<h2 id="DDD"><a href="#DDD" class="headerlink" title="DDD"></a>DDD</h2><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>DDD这两年很火，但没有完全推广起来。以前看过两本DDD的书，<a target="_blank" rel="noopener" href="https://shidawuhen.github.io/2020/04/19/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>和<a target="_blank" rel="noopener" href="https://shidawuhen.github.io/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/">领域驱动设计：软件核心复杂性对应之道</a>。我建议使用DDD，因为随着业务越来越复杂，使用传统模式很难应对快速变化的业务。但DDD的学习成本很高，需要不断的去实践、去感受。大家如果有机会，还是尽量去尝试。</p>
+<p>可以从两个方面理解DDD，一个是从系统设计上，一个是从理念上。</p>
+<ul>
+<li><p>在系统设计方面，建好各个领域，并不断做重构</p>
+</li>
+<li><p>在理念上，需要明白什么是自己的核心域，要敢于做好取舍</p>
+</li>
+</ul>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>之所以聊这个话题，是因为我发现部门A对DDD有较深的理解。说来也有些搞笑，和A组合作一个大项目，技术方案已定，但开发前说有变动。</p>
+<p>变动也不大，我们作为调用方，本来A组会提供很多包好的接口，现在不提供了，只提供基础能力，即RPC接口，API层的接口需要我们单独开发。</p>
+<p>我理解这么选择的原因，因为A组</p>
+<ol>
+<li>开发人员数量和支撑的业务数量不匹配，活太多人太少</li>
+<li>业务快速变化，很难在应用层梳理出共性的内容，处理不好会进一步加剧问题1</li>
+</ol>
+<p>所以他们选择将重点放到模型建设上，确保模型是可用、可扩展的，至于上层业务，谁用谁组装。</p>
+<p>好处很明显，一是能够做到收敛，气力都花在刀刃上，不被俗事所扰；二是可以有更多的时间锻炼好内功，解决技术债，给团队指定新的基调；三是成员能在更高的维度上成长。</p>
+<p>坏处就是业务组需要自己多些开发量，不同业务可能存在重复开发的可能性，但这个影响总体还好，因为这也意味给业务方提供了更多自主权，开发效率未必会低。</p>
+<p>我很赞赏A团队解决问题的思路：确定基调、保证实施（强硬）。这两步走起来都不容易，确定基调说明找到了解决问题的核心点，尽管这个基调和团队以前的职责范围不太一致。保证实施则是需要坚持和勇气，好在是兄弟团队，大家相互能够理解和支持。</p>
+<p>不过感觉随着内功练好，最终还是要上移到应用层，收敛出通用业务模型，这样才能进一步扩大影响。</p>
+<h2 id="交接"><a href="#交接" class="headerlink" title="交接"></a>交接</h2><p>几个月前因为组织架构调整，将一些项目进行了交接。我支持交接，因为合理的交接能够帮助业务更快速的发展，从整体上看，大家都能受益。</p>
+<p>对于很明确的项目，直接交接即可。但存在部分业务，处于中间状态，是否需要交接判断的依据是什么呢？</p>
+<p>到现在我还是没完全想明白标准是什么，不过中间做了一些项目，有一些相应的思考：</p>
+<p>1.需求会出自哪里？</p>
+<ul>
+<li>如果完全来自其它团队，那最好直接交接。任何产品都有长期规划，产研不在同一个team，会很绕</li>
+<li>如果需求大部分来自对应的产品团队，那就不应该交接</li>
+<li>如果需求可能来自对应的产品团队，也可能来自其它团队，可以问一下<strong>产品对该模块有什么规划</strong>，如果有详细的规划，也不要交接</li>
+</ul>
+<p>2.项目价值是什么？项目与主航道相符吗？</p>
+<ul>
+<li>这需要自己对项目价值、对今后主航道有较深的理解。无论是个人还是团队，精力都是有限的，需要将精力放到价值最大的事情上</li>
+<li>如果价值低、与主航道不相符，最好交接</li>
+</ul>
+<p>3.是否能提升效率</p>
+<ul>
+<li>完整的功能模块，能全部交接就全部交接。如订单进行履约操作，需要给服务商推送订单、从服务商接收各个订单节点的通知。这种功能要交接的话就一起交接，因为分成两部分没有好处，可能出现顺序错乱问题、系统出问题两边都要查、做全流程数据监控也需要从不同位置获取数据，并不能带来效率提升</li>
+</ul>
+<p>交接还是蛮考验对业务理解的深度的。当然如果一些模块没有想好，可以先不交接，根据后续需求情况，慢慢就知道如何选择更加合适，自己想明白了再处理也是可以的。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/05/31/%E5%AF%B9%E4%B8%9A%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/05/22/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BAFSM/" class="archive-article-date">
-  	<time datetime="2022-05-22T08:19:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-22</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2022/05/31/SSH%E7%99%BB%E5%BD%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E9%80%81%E6%8F%90%E9%86%92/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          SSH登录服务器发送提醒
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/22/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BAFSM/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">有限状态机FSM</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/05/22/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BAFSM/">有限状态机FSM</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/05/08/%E5%A6%82%E4%BD%95%E6%B8%85%E9%99%A4Git%E5%8E%86%E5%8F%B2%E5%8F%98%E6%9B%B4%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2022-05-08T14:59:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/05/08/%E5%A6%82%E4%BD%95%E6%B8%85%E9%99%A4Git%E5%8E%86%E5%8F%B2%E5%8F%98%E6%9B%B4%E8%AE%B0%E5%BD%95/">如何清除Git历史变更记录</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/26/ClickHouse%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2022-04-25T16:10:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/26/ClickHouse%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/">ClickHouse部署与使用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/24/Mac%E5%AE%89%E8%A3%85Docker%E5%8F%8A%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2022-04-24T02:40:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/24/Mac%E5%AE%89%E8%A3%85Docker%E5%8F%8A%E4%BD%BF%E7%94%A8/">Mac安装Docker及使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2022-04-08T15:54:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/08/Jupyterhub%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">Jupyterhub安装教程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/07/Gogs%E9%9B%86%E6%88%90LDAP/" class="archive-article-date">
-  	<time datetime="2022-04-07T03:58:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/07/Gogs%E9%9B%86%E6%88%90LDAP/">Gogs集成LDAP</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/05/Gogs%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2022-04-04T16:03:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/05/Gogs%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">Gogs安装教程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/04/03/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%862-%E5%AF%BC%E8%B4%AD/" class="archive-article-date">
-  	<time datetime="2022-04-03T15:58:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/04/03/%E7%94%B5%E5%95%86%E4%B8%9A%E5%8A%A1%E6%A2%B3%E7%90%862-%E5%AF%BC%E8%B4%AD/">电商业务梳理2-导购</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2022/page/2/">2</a><a class="page-number" href="/archives/2022/page/3/">3</a><a class="page-number" href="/archives/2022/page/4/">4</a><a class="extend next" rel="next" href="/archives/2022/page/2/">Next »</a>
-    </nav>
   
 
 
@@ -506,8 +438,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
