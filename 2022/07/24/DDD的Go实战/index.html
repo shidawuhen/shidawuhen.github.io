@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>DDD的Go实战 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/8/index.html">
+  <meta name="description" content="看过DDD的一些书，这次将自己的理解转化为代码。论语里说“学而不思则罔，思而不学则殆”，学会某种能力需要了解到新的知识并思考这些知识，比较好的方式便是动手实践。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDD的Go实战">
+<meta property="og:url" content="http://yoursite.com/2022/07/24/DDD%E7%9A%84Go%E5%AE%9E%E6%88%98/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="看过DDD的一些书，这次将自己的理解转化为代码。论语里说“学而不思则罔，思而不学则殆”，学会某种能力需要了解到新的知识并思考这些知识，比较好的方式便是动手实践。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/07/24/DDD%E7%9A%84Go%E5%AE%9E%E6%88%98/image-20220723191808179.png">
+<meta property="og:image" content="http://yoursite.com/2022/07/24/DDD%E7%9A%84Go%E5%AE%9E%E6%88%98/image-20220723115728653.png">
+<meta property="article:published_time" content="2022-07-24T07:52:32.000Z">
+<meta property="article:modified_time" content="2022-07-24T07:57:24.258Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/07/24/DDD%E7%9A%84Go%E5%AE%9E%E6%88%98/image-20220723191808179.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,33 +201,174 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-Go设计模式-24-访问者模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-DDD的Go实战" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(24)-访问者模式</a>
+    <h1 class="article-title" itemprop="name">
+      DDD的Go实战
     </h1>
   
 
         
-        <a href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-11T14:16:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-11</time>
+        <a href="/2022/07/24/DDD%E7%9A%84Go%E5%AE%9E%E6%88%98/" class="archive-article-date">
+  	<time datetime="2022-07-24T07:52:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-07-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>访问者模式理解比较困难。可以认为对象开了一扇门，用来接收访问者，然后访问者便可在对象内部操作对象。简单来说，对象对访问者进行了授权。这样做能够实现对象和操作的解耦，职责更加单一。对象只管理自身，操作功能安置在访问者中。</p>
-<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
-        
-          <a class="article-more-a" href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
+        <p>看过DDD的一些书，这次将自己的理解转化为代码。论语里说“学而不思则罔，思而不学则殆”，学会某种能力需要了解到新的知识并思考这些知识，比较好的方式便是动手实践。</p>
+<span id="more"></span>
+<p>对DDD的资料，推荐如下：</p>
+<ol>
+<li>Eric Evans的《领域驱动设计——软件核心复杂性应对之道》或<a target="_blank" rel="noopener" href="https://www.infoq.cn/minibook/domain-driven-design-quickly-new">领域驱动设计精简版</a></li>
+<li>沃恩·弗农的《实现领域驱动设计》</li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/book/7056372655913435172/section/7062144186283196424">DDD案例实战课</a></li>
+</ol>
+<p>前两个都偏理论，后一个偏实战。如果大家没有足够的时间，可以看一下<a target="_blank" rel="noopener" href="https://shidawuhen.github.io/2020/05/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%BD%AF%E4%BB%B6%E6%A0%B8%E5%BF%83%E5%A4%8D%E6%9D%82%E6%80%A7%E5%BA%94%E5%AF%B9%E4%B9%8B%E9%81%93/">领域驱动设计读书笔记</a>，里面包含了几乎所有的名词解释和作用说明。实战部分，可以看现在的这篇文章。</p>
+<p><strong>DDD以面向领域的之名实现面向对象的之实。</strong></p>
+<h2 id="一、场景"><a href="#一、场景" class="headerlink" title="一、场景"></a>一、场景</h2><h3 id="1-1起因"><a href="#1-1起因" class="headerlink" title="1.1起因"></a>1.1起因</h3><p>做跨境业务的时候，负责过商家仓模块。这个模块功能相对简单，但后期发现代码开发、维护的越来越差，这也是为什么我想引入DDD的原因。DDD有一个重要作用，要求开发人员把<strong>业务对象</strong>想清楚再开发，并且设置了达成标准，即领域模型对象。</p>
+<p>领域对象（Domain Object）：包含领域模型对象（Domain Model Object）、资源库（Repository）、领域事件（Domain Event）以及应用服务所涉及到的命令（Command）和查询（Query）对象</p>
+<p>领域模型对象：分为聚合、实体和值对象这三大类</p>
+<h3 id="1-2通用语言"><a href="#1-2通用语言" class="headerlink" title="1.2通用语言"></a>1.2通用语言</h3><p>商家仓是在真实的服务商仓上虚拟出的概念，一个服务商仓可以对应多个商家仓，目的是能够以更细的仓维度对商品进行管理。</p>
+<p>商家仓场景：</p>
+<ul>
+<li>创建商家仓：<strong>商家</strong>可以创建<strong>商家仓</strong>，创建的商家仓需要对应一个<strong>服务商仓</strong>，商家仓的唯一id（<strong>warehouseid</strong>）需要从<strong>仓管理服务</strong>申请</li>
+<li>更新商家仓：商家仓创建后需<strong>运营审核</strong>通过才能使用</li>
+<li>查询商家仓：<strong>商家</strong>、<strong>运营</strong>都能查看商家仓的信息，信息里需要包含<strong>服务商仓的内容</strong></li>
+</ul>
+<p>当然商家仓的场景还有很多，为了方便，我们只选择创建商家仓、更新商家仓状态、查询商家仓这几个场景。</p>
+<p>DDD的具体实现没有标准的方案，本次实现只是其中一种，欢迎和大家一起讨论。</p>
+<h2 id="二、非DDD实现方案"><a href="#二、非DDD实现方案" class="headerlink" title="二、非DDD实现方案"></a>二、非DDD实现方案</h2><p>虽然在Go中我们使用了对象，但本质上还是以面向过程的思维在进行开发。先演示一下常用的开发流程，以便与DDD方案比较。</p>
+<h3 id="2-1目录结构"><a href="#2-1目录结构" class="headerlink" title="2.1目录结构"></a>2.1目录结构</h3><p>一般而言，非DDD的目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── dal</span><br><span class="line">│   └── db &#x2F;&#x2F;操作mysql</span><br><span class="line">│       ├── init.go</span><br><span class="line">│       ├── shopwarehouse.go</span><br><span class="line">│       └── spwarehouse.go</span><br><span class="line">├── handler   &#x2F;&#x2F;入口</span><br><span class="line">│   ├── createwarehouse.go</span><br><span class="line">│   └── getwarehouse.go</span><br><span class="line">├── idl</span><br><span class="line">│   └── idl.go</span><br><span class="line">├── model  &#x2F;&#x2F;表结构</span><br><span class="line">│   └── warehouse.go</span><br><span class="line">└── service &#x2F;&#x2F;通用业务逻辑</span><br><span class="line">    └── warehouse.go</span><br></pre></td></tr></table></figure>
+
+<p>比较重要的几个目录为：</p>
+<p><strong>handler</strong>：入口函数，一般一个场景对应其中的一个函数</p>
+<p><strong>service</strong>：公共的业务逻辑可以放到service层</p>
+<p><strong>dal</strong>：实现存储的初始化、具体操作等，如初始化mysql，对mysql进行增删改查</p>
+<p><strong>model</strong>：与存储相关的数据结构，如mysql的表结构等放在该层</p>
+<h3 id="2-2开发过程"><a href="#2-2开发过程" class="headerlink" title="2.2开发过程"></a>2.2开发过程</h3><h4 id="2-2-1代码"><a href="#2-2-1代码" class="headerlink" title="2.2.1代码"></a>2.2.1代码</h4><p>代码：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/tree/master/controller/warehouse/normal">https://github.com/shidawuhen/asap/tree/master/controller/warehouse/normal</a></p>
+<p>核心逻辑在service层，service层管理业务逻辑、调用第三方服务、和数据库交互、数据组装、处理返回信息等。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 创建商家仓</span></span><br><span class="line"><span class="comment"> * @receiver s</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *shopWarehouseService)</span> <span class="title">CreateShopWareHouse</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="comment">//1.从第三方获取id rpc.getwarehouseid</span></span><br><span class="line">	<span class="comment">//2.从服务商仓获取信息 mysql</span></span><br><span class="line">	<span class="comment">//3.组装信息</span></span><br><span class="line">	shopWarehouseInfo := model.ShopWareHouse&#123;</span><br><span class="line">		Id:            <span class="number">2</span>,</span><br><span class="line">		WarehouseId:   <span class="number">11</span>,</span><br><span class="line">		Code:          <span class="string">&quot;商家仓2&quot;</span>,</span><br><span class="line">		Name:          <span class="string">&quot;商家仓2&quot;</span>,</span><br><span class="line">		SpWareHouseId: <span class="number">2</span>,</span><br><span class="line">		Status:        <span class="number">0</span>, <span class="comment">//init</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//4.插入数据库 mysql</span></span><br><span class="line">	shopWareHouseRepo := db.DefaultShopWareHouseRepo()</span><br><span class="line">  <span class="comment">//5.返回</span></span><br><span class="line">	<span class="keyword">return</span> shopWareHouseRepo.CreateShopWareHouse(&amp;shopWarehouseInfo)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-2编写过程"><a href="#2-2-2编写过程" class="headerlink" title="2.2.2编写过程"></a>2.2.2编写过程</h4><p>虽然我们使用了类，但Service类其实是个贫血模型，而且我们没有办法控制开发人员使用面向对象方案进行开发。这个目录结构对面向过程是天然适应的，只需要按照流程编写即可，从handler-&gt;service-&gt;dal。这种结构有很大的市场，符合人类的分析模式，学习、上手成本低。</p>
+<p>但随着业务变的更加复杂、项目存活时间越长，代码会越来越乱、越来越难以管理。</p>
+<p><strong>关键问题在于service层包含太多功能，没有进行更细维度的拆分。</strong></p>
+<h2 id="三、DDD实现方案"><a href="#三、DDD实现方案" class="headerlink" title="三、DDD实现方案"></a>三、DDD实现方案</h2><p>DDD的方案，强制让开发人员在码代码前，对业务进行深入的思考。因为使用DDD，需分析出有哪些对象，这些对象有哪些特性、能力，这些对象之间是如何交互的。一旦把这些事情想明白，能更从容的面对未来业务的变化。</p>
+<h3 id="3-1目录结构"><a href="#3-1目录结构" class="headerlink" title="3.1目录结构"></a>3.1目录结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── app &#x2F;&#x2F;serveice层</span><br><span class="line">│   ├── commandservice &#x2F;&#x2F;命令类service层</span><br><span class="line">│   │   └── shopwarehouse_commandservice.go</span><br><span class="line">│   └── queryservice &#x2F;&#x2F;查询类service层</span><br><span class="line">│       └── shopwarehouse_queryservice.go</span><br><span class="line">├── controller &#x2F;&#x2F;入口层</span><br><span class="line">│   ├── assembler &#x2F;&#x2F;将请求dto转化为command</span><br><span class="line">│   │   └── shopwarehousecommand_assembler.go</span><br><span class="line">│   ├── dto &#x2F;&#x2F;请求的结构体</span><br><span class="line">│   │   └── shopwarehouse_dto.go</span><br><span class="line">│   └── shopwarehouse_controller.go &#x2F;&#x2F;入口controller</span><br><span class="line">├── domain &#x2F;&#x2F;领域层</span><br><span class="line">│   ├── command &#x2F;&#x2F;命令</span><br><span class="line">│   │   ├── shopwarehousecreate_command.go</span><br><span class="line">│   │   └── shopwarehouseupdatestatus_command.go</span><br><span class="line">│   ├── model &#x2F;&#x2F;领域模型对象</span><br><span class="line">│   │   ├── aggregate &#x2F;&#x2F;聚合根</span><br><span class="line">│   │   │   └── shopwarehouse.go</span><br><span class="line">│   │   ├── entity &#x2F;&#x2F;实体</span><br><span class="line">│   │   │   └── spwarehouse.go</span><br><span class="line">│   │   └── valueobject &#x2F;&#x2F;值对象</span><br><span class="line">│   │       ├── shopwarehousestatus.go</span><br><span class="line">│   │       └── warehouseid.go</span><br><span class="line">│   └── repo &#x2F;&#x2F;资源库接口</span><br><span class="line">│       └── repo.go</span><br><span class="line">├── infra</span><br><span class="line">│   └── persistence</span><br><span class="line">│       ├── convertor &#x2F;&#x2F;po和领域模型对象转换</span><br><span class="line">│       │   └── warehouse_convert.go</span><br><span class="line">│       ├── dal &#x2F;&#x2F;真正操作db</span><br><span class="line">│       │   ├── shopwarehouse_dal.go</span><br><span class="line">│       │   └── spwarehouse_dal.go</span><br><span class="line">│       ├── po &#x2F;&#x2F;数据库表结构定义</span><br><span class="line">│       │   ├── shopwarehouse_po.go</span><br><span class="line">│       │   └── spwarehouse_po.go</span><br><span class="line">│       ├── shopwarehouse_repo_impl.go &#x2F;&#x2F;资源库接口的位置</span><br><span class="line">│       └── spwarehouse_reop_impl.go</span><br><span class="line">└── integration</span><br><span class="line">    └── acl &#x2F;&#x2F;防腐层，用于调用第三方，返回领域模型对象</span><br><span class="line">        └── warehouse_acl.go </span><br></pre></td></tr></table></figure>
+
+<p>通过该目录结构和说明，大家能够对DDD有个大概的认知，DDD中的限界上下文正好包含这几部分：</p>
+<p><img src="./image-20220723191808179.png" alt="image-20220723191808179"></p>
+<h3 id="3-2对应关系"><a href="#3-2对应关系" class="headerlink" title="3.2对应关系"></a>3.2对应关系</h3><p>下方是非DDD实现方案和DDD实现方案的对比，能够很明显的表现出两者之间的区别。</p>
+<p>我们可以发现service层的功能被拆分了：</p>
+<ul>
+<li>application层分为命令服务、查询服务，负责整个逻辑的编排，和service层的对应性最高</li>
+<li>项目的核心业务逻辑（领域）从以前杂糅在service层中，拆分到domain层，这一层也是<strong>最关键、最重要</strong>的一层，包含了这个项目最核心的信息</li>
+<li>数据组装、转换工作拆分到ACL、基础设施层</li>
+</ul>
+<p><img src="./image-20220723115728653.png" alt="image-20220723115728653"></p>
+<p>图片链接：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/62dbdf8907912953fdda6179">https://www.processon.com/view/link/62dbdf8907912953fdda6179</a></p>
+<h3 id="3-3开发过程"><a href="#3-3开发过程" class="headerlink" title="3.3开发过程"></a>3.3开发过程</h3><h4 id="3-3-1代码"><a href="#3-3-1代码" class="headerlink" title="3.3.1代码"></a>3.3.1代码</h4><p>代码：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/tree/master/controller/warehouse/ddd">https://github.com/shidawuhen/asap/tree/master/controller/warehouse/ddd</a></p>
+<p>我们看一下application层和domain层的代码样例：</p>
+<p>Application: 更新商家仓状态。主要负责逻辑编排，调用聚合实现服务功能。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//update等</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *ShopWarehouseApplicationService)</span> <span class="title">UpdateStatus</span><span class="params">(command *command.ShopWarehouseUpdateStatusCommand)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">//1.从数据库获取商家仓信息</span></span><br><span class="line">	shopWareInfo, _ := s.ShopWarehouseRepo.Find(s.ctx, command.WarehouseId.Get())</span><br><span class="line">	<span class="comment">//2.调用聚合更新状态</span></span><br><span class="line">	shopWarehouseAggregate := aggregate.ShopWarehouse&#123;&#125;</span><br><span class="line">	shopWarehouse := shopWarehouseAggregate.UpdateStatus(command, shopWareInfo)</span><br><span class="line">	<span class="keyword">if</span> shopWarehouse == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> errors.New(<span class="string">&quot;更新失败&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//3.存储</span></span><br><span class="line">	s.ShopWarehouseRepo.Save(s.ctx, shopWarehouse)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Domain：更新商家仓状态。虽然样例写的比较简单，但状态机等核心逻辑，全部坐落在Domain了。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *ShopWarehouse)</span> <span class="title">UpdateStatus</span><span class="params">(command *command.ShopWarehouseUpdateStatusCommand, shopWare *ShopWarehouse)</span> *<span class="title">ShopWarehouse</span></span> &#123;</span><br><span class="line">	<span class="comment">//此处是核心逻辑，判断更新的标准</span></span><br><span class="line">	<span class="keyword">if</span> shopWare.Status != command.Status &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	shopWare.Status = command.Status</span><br><span class="line">	<span class="keyword">return</span> shopWare</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-2编写过程"><a href="#3-3-2编写过程" class="headerlink" title="3.3.2编写过程"></a>3.3.2编写过程</h4><p>写DDD可按如下步骤进行</p>
+<ol>
+<li>分析通用语言，找出命令和对应的领域模型对象（实体、聚合、值对象）</li>
+<li>分析聚合所包含的核心业务逻辑，以及实现这些逻辑需要有哪些数据</li>
+<li>application层准备这些数据，需要确定repo的接口、ACL里需要调用哪些服务</li>
+<li>在基础设施层真正实现repo接口，在ACL里真正调用这些服务</li>
+<li>controller层将请求参数转换为命令（command），然后调用application层的接口，完成命令的执行</li>
+</ol>
+<h5 id="3-3-2-1分析通用语言，找出领域模型对象"><a href="#3-3-2-1分析通用语言，找出领域模型对象" class="headerlink" title="3.3.2.1分析通用语言，找出领域模型对象"></a>3.3.2.1分析通用语言，找出领域模型对象</h5><p>在第一节中我们用通用语言描述了商家仓的场景，我们尝试分析对应的领域模型对象</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>命令</th>
+<th>领域模型对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>商家</td>
+<td>创建商家仓</td>
+<td>商家仓、服务商仓</td>
+</tr>
+<tr>
+<td>商家</td>
+<td>查询商家仓</td>
+<td>商家仓、服务商仓</td>
+</tr>
+<tr>
+<td>运营</td>
+<td>更新商家仓状态</td>
+<td>商家仓</td>
+</tr>
+</tbody></table>
+<p>我们能够分析出三个命令，一个是查询类的，两个是执行类的，所以在domain/command下至少要建两个执行类的command。</p>
+<p>我们分析出两个对象：服务商仓和商家仓，这两个都是实体（entity），但在当前场景下，商家仓也是聚合根，因为它本质上是包含服务商仓的。商家仓的warehouseid可以设置为值对象，因为这个数据不可变更。</p>
+<h5 id="3-3-2-2领域模型对象分析"><a href="#3-3-2-2领域模型对象分析" class="headerlink" title="3.3.2.2领域模型对象分析"></a>3.3.2.2领域模型对象分析</h5><p>领域模型对象包含聚合根、实体、值对象，这三者有如下区别：</p>
+<ol>
+<li>实体：包含数据，可对数据进行赋值</li>
+<li>值对象：包含数据，只能new，不可更改其值</li>
+<li>聚合根：聚合根也是实体，但包含其它实体和值对象，并有对应的业务逻辑。在聚合根里，不能和其它系统（DB、RPC等）有交互。</li>
+</ol>
+<p>商家仓聚合根包含两个业务逻辑-创建、更新状态，需要的数据如下：</p>
+<p>创建：商家填写的商家仓部分信息、服务商仓信息</p>
+<p>更新：商家仓warehouseid、要更新的状态、当前商家仓信息</p>
+<p><strong>通过分析，我们能初步写出domain下的创建和更新command、商家仓聚合根aggregate、服务商仓entity、warehouseid的valueobject。</strong></p>
+<h5 id="3-3-2-3application层准备数据"><a href="#3-3-2-3application层准备数据" class="headerlink" title="3.3.2.3application层准备数据"></a>3.3.2.3application层准备数据</h5><p>application承担编排工作，调用聚合根完成核心功能，将结果进行存储。</p>
+<p>我们知道命令有两类，分别是查询和执行类，所以在app层我们创建两个service。</p>
+<p>对于创建和更新状态功能需要和DB、RPC交互，我们需要在</p>
+<ol>
+<li>repo层写接口，persistence层的impl写实现。persistence需要定义出表结构（po）、db的操作（dal），实现po与领域模型对象的转换（convertor）</li>
+<li>在acl中实现与其它服务的交互，并返回指定领域模型对象</li>
+</ol>
+<p>对于查询功能，一般只需要和DB交互，无需关注领域模型，直接调用repo即可。</p>
+<p><strong>通过分析，我们能初步写出app中的服务，domain的repo接口，infra下的impl、po、dal、convertor，integration下的acl。</strong></p>
+<h5 id="3-3-2-4controller接收请求"><a href="#3-3-2-4controller接收请求" class="headerlink" title="3.3.2.4controller接收请求"></a>3.3.2.4controller接收请求</h5><p>无论是query还是command类的请求，都由controller承接，controller需要将请求参数转换为指定命令结构，然后调用相关的服务完成操作，并将操作结构返回。</p>
+<p><strong>通过分析，我们能初步写出controller下的入口函数、dto、assembler。</strong></p>
+<p>在controller/base/base.go中我们实现对controller的调用，大家可以执行一下，看一下返回结果。</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>至此聊完了整个实战过程，大家一边看代码一边看编写过程能更容易理解。</p>
+<p>DDD里有很多细节在本文中没有提及，如为了保证对领域模型对象的操作符合规范需要怎么设计、如果要产生事件需怎么做等。之所以不写这些还是希望大家能够先了解整体框架，然后在这个基础上不断补充细节，这样接受起来会更加简单。</p>
+<p>完全按照DDD来实现，能够达成以领域模型对象限制整个代码的目标，使开发变得更加规范，代价是开发的难度、复杂度提升。具体怎么设计，丰俭由人，但<strong>找出领域模型对象是必须的</strong>，因为这部分能够表示开发人员真的深入思考过业务。</p>
+<h2 id="五、名词解释"><a href="#五、名词解释" class="headerlink" title="五、名词解释"></a>五、名词解释</h2><p>DDD有一些常用名词，此处进行整理，方便大家查询。</p>
+<ol>
+<li>ACL：<strong>防腐层（Anticorruption Layer，ACL）</strong></li>
+<li>UP：<strong>统一协议（Unified Protocol，UP）</strong></li>
+<li>EDA：事件驱动架构（Event-Driven Architecture，EDA）</li>
+<li>CQRS： 的全称是 <strong>Command Query Responsibility Segregation</strong>，也就是<strong>命令和查询职责分离</strong></li>
+<li>CRUD：增加（Create）、检索（Retrieve）、更新（Update）和删除（Delete）</li>
+<li>DMO：领域模型对象（Domain Model Object）</li>
+<li>AOP：切面</li>
+<li>DMO：领域模型对象（Domain Model Object），聚合根、实体、值对象</li>
+<li>DO：领域对象（Domain Object），包含领域模型对象（Domain Model Object）、资源库（Repository）、领域事件（Domain Event）以及应用服务所涉及到的命令（Command）和查询（Query）对象</li>
+<li>PO：资源库实现部分所对应的数据对象称为是一种<strong>持久化对象（Persistence Object，PO）</strong></li>
+<li>DM：<strong>数据映射器（Data Mapper）</strong> 的概念。映射（Mapping）思想在软件设计过程中非常常用，主要用于分离不同层次之间的数据耦合。对于数据访问而言，<strong>数据映射器的作用在于分离领域对象和持久化媒介</strong>。</li>
+<li>VO（View Object）<strong>视图对象</strong>:和视图打交道的，那么经历了视图的都归属于这个类，所以我们的输入输出类都是属于VO</li>
+<li>DTO(Data Transfer Object)<strong>数据传输对象：</strong>我们sql查询的时候是通过Id查询的，但是查询是可以查询出很多条信息的，但是我们给前端的数据只要某一部分，比如上例有4个属性，但是只要求输出3个。</li>
+<li>DAO：Data Access Object，数据访问对象1.用来封装对数据库的访问（CRUD）2.通过接收Business层的数据，将POJO持久化为PO</li>
+<li>BO（ Business Object）：业务对象。 由Service层输出的封装业务逻辑的对象。</li>
+</ol>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://tech.bytedance.net/articles/7103447005514924045">https://tech.bytedance.net/articles/7103447005514924045</a></li>
+<li><a target="_blank" rel="noopener" href="https://tech.bytedance.net/articles/6963521013434810404">https://tech.bytedance.net/articles/6963521013434810404</a></li>
+<li>processon <a target="_blank" rel="noopener" href="https://www.processon.com/view/link/62dbdf8907912953fdda6179">https://www.processon.com/view/link/62dbdf8907912953fdda6179</a></li>
+<li>实战 <a target="_blank" rel="noopener" href="https://juejin.cn/book/7056372655913435172/section/7062144186283196424">https://juejin.cn/book/7056372655913435172/section/7062144186283196424</a></li>
+<li>切面 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/421999882">https://zhuanlan.zhihu.com/p/421999882</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tianminzheng/customer-service">https://github.com/tianminzheng/customer-service</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tianminzheng/customer-service-axon">https://github.com/tianminzheng/customer-service-axon</a></li>
+</ol>
+
       
 
       
@@ -231,16 +379,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/07/24/DDD%E7%9A%84Go%E5%AE%9E%E6%88%98/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2022/07/24/%E7%A7%9F%E6%88%BF%E4%BA%8C%E4%B8%89%E4%BA%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">租房二三事</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -260,606 +467,14 @@
 
 
 
-
-  
-    <article id="pages-InnoDB-redo、undo、binlog，是如何合作的" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/">InnoDB redo、undo、binlog，是如何合作的</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/" class="archive-article-date">
-  	<time datetime="2021-08-08T13:22:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>MySQL日志有重做日志（redo log）、回滚日志（undo log）、二进制日志（binlog）、错误日志（errorlog）、慢查询日志（slow query log）、一般查询日志（general log）、中继日志（relay log）。</p>
-<p><strong>这次主要讲redo log、undo log、binlog之间的联动。</strong>很多细节不会讲解，只梳理最核心的流程。</p>
-        
-          <a class="article-more-a" href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-23-迭代器模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(23)-迭代器模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-06T13:16:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>迭代器模式从来没有写过，第一次接触迭代器，还是好多年前学C++的STL的时候。当时觉得用迭代器太麻烦了，后来用习惯了觉得真香。</p>
-<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
-        
-          <a class="article-more-a" href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-整数区间计算，我这么设计" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/">整数区间计算，我这么设计</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-08-05T02:15:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>整数区间的交集和差集样例：</p>
-<p>[1,5] + [6,10] = [1,10]</p>
-<p>[1,100] - [10,20] = [1,9] + [21,100]</p>
-<p>如果让你设计一个程序，能够计算整数区间的合集、交集、差集，你会怎么设计？</p>
-        
-          <a class="article-more-a" href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-22-状态模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">Go设计模式(22)-状态模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-03T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>状态模式使用的相对较少，主要是因为会引入大量的状态类，导致代码比较难维护。但是合适的场景使用状态模式，可以把复杂的判断逻辑简化。</p>
-        
-          <a class="article-more-a" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-权限管理系统设计" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">权限管理系统设计</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-07-30T05:14:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>权限管理，一般指根据系统设置的安全规则或者安全策略，用户可以访问而且只能访问自己被授权的资源，不多不少。对权限做管理的系统，就是权限管理系统。</p>
-        
-          <a class="article-more-a" href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go锁实现原理" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go锁实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-07-26T07:13:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>自从前两天写了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FBe8AChy_v0vPGO3trdyWg">Go互斥锁实现原理</a>后，我感觉我错了，我不应该看源码，看了也没啥用，会了也不敢用。按照源码中的写法，没人想做代码review，也不好做单元测试。</p>
-<p>我就是想知道锁是怎么实现的，结果整一堆优化逻辑，感觉懂了又感觉啥都不懂。所以我痛定思痛，我看早期版本行吧。来让我们看2014年的版本</p>
-        
-          <a class="article-more-a" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-对新人培养的一些想法" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">对新人培养的一些想法</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-07-23T07:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这次想谈一下对服务端研发岗新人培养的一些看法。</p>
-<p>新人不光指应届生，社招人员进入到新的业务，也算新人，但这次只讨论应届生的培养。</p>
-<p>自己不是专业搞培养的，只是带过几个新同学，所以有些看法也未必准确，欢迎大家积极反馈、沟通。</p>
-        
-          <a class="article-more-a" href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-21-职责链模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/21/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-21-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/">Go设计模式(21)-职责链模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/21/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-21-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-07-21T02:44:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>职责链将处理模块串联成链，请求沿着链条被处理，提供了很好的扩展性，而且能够去掉if-else。</p>
-        
-          <a class="article-more-a" href="/2021/07/21/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-21-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/21/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-21-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go互斥锁实现原理" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go互斥锁实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-07-19T03:36:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Go语言中的锁简单易用，本文整理一下锁的实现原理。</p>
-<p>Golang中锁有两种，互斥锁Mutex和读写互斥锁RWMutex，互斥锁也叫读锁，读写锁也叫读锁，相互之间的关系为：</p>
-        
-          <a class="article-more-a" href="/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/19/Go%E4%BA%92%E6%96%A5%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/9/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -882,8 +497,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
