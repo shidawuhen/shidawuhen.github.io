@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>算法系列-链表 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="以前打算每周刷一道题，从2021年12月坚持到2022年3月，坚持了3个月，后来因为其它事情太多就停止了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法系列-链表">
+<meta property="og:url" content="http://yoursite.com/2022/08/06/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-%E9%93%BE%E8%A1%A8/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="以前打算每周刷一道题，从2021年12月坚持到2022年3月，坚持了3个月，后来因为其它事情太多就停止了。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/08/06/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-%E9%93%BE%E8%A1%A8/image-20220805225734352.png">
+<meta property="article:published_time" content="2022-08-06T14:50:25.000Z">
+<meta property="article:modified_time" content="2022-08-06T14:52:43.032Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/08/06/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-%E9%93%BE%E8%A1%A8/image-20220805225734352.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,295 +200,200 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-算法系列-链表" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      算法系列-链表
+    </h1>
+  
+
+        
+        <a href="/2022/08/06/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-%E9%93%BE%E8%A1%A8/" class="archive-article-date">
+  	<time datetime="2022-08-06T14:50:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-08-06</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以前打算每周刷一道题，从2021年12月坚持到2022年3月，坚持了3个月，后来因为其它事情太多就停止了。</p>
+<span id="more"></span>
+<p>坚持做一件事情，肯定是有价值的。最近总算把很多事情理顺了，那就重新开始做题吧。不过这次换一下思路，从极客时间上跟着《数据结构与算法之美》做，可以去了解一下别人对一些问题的看法，当做对教科书内容的补充。</p>
+<p>当然，只会写一下自己有所感触的部分，否则就太耗时了。</p>
+<p>之所以坚持做算法，原因在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NPk0jeS0JTz_zD2pAnQZTA">一道算法题-括号生成</a></p>
+<h2 id="一、面试"><a href="#一、面试" class="headerlink" title="一、面试"></a>一、面试</h2><p>面试中有很多题目是链表相关的，为什么？</p>
+<p><strong>写链表代码是最考验逻辑思维能力的</strong>。因为，链表代码到处都是指针的操作、边界条件的处理，稍有不慎就容易产生 Bug。链表代码写得好坏，可以看出一个人写代码是否够细心，考虑问题是否全面，思维是否缜密。</p>
+<h2 id="二、技巧"><a href="#二、技巧" class="headerlink" title="二、技巧"></a>二、技巧</h2><ol>
+<li><strong>技巧一：理解指针或引用的含义</strong></li>
+<li><strong>技巧二：警惕指针丢失和内存泄漏</strong></li>
+<li><strong>技巧三：利用哨兵简化实现难度</strong></li>
+<li><strong>技巧四：重点留意边界条件处理</strong></li>
+</ol>
+<ul>
+<li>如果链表为空时，代码是否能正常工作？</li>
+<li>如果链表只包含一个结点时，代码是否能正常工作？</li>
+<li>如果链表只包含两个结点时，代码是否能正常工作？</li>
+<li>代码逻辑在处理头结点和尾结点的时候，是否能正常工作？</li>
+<li>使用next前，判断当前节点是否为nil</li>
+</ul>
+<ol start="5">
+<li><strong>技巧五：举例画图，辅助思考</strong></li>
+<li><strong>技巧六：多写多练，没有捷径</strong></li>
+<li><strong>技巧七：操作中涉及三个指针pre cur next，将正在处理的放cur可简化操作</strong></li>
+</ol>
+<h2 id="三、精选习题"><a href="#三、精选习题" class="headerlink" title="三、精选习题"></a>三、精选习题</h2><p>下面有6道题，拿作者的话说是：”你只要把这几个操作都能写熟练，不熟就多写几遍，我保证你之后再也不会害怕写链表代码。“。</p>
+<p>这些题目确实比较具有代表性，涉及到查找、删除、合并、反转节点，大部分的链表操作都由这几部分组成。我们来实现一下，在乐扣上找原题，这样裁判也有了。</p>
+<p>代码位置：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/tree/master/controller/algorithm/list">https://github.com/shidawuhen/asap/tree/master/controller/algorithm/list</a></p>
+<h3 id="3-1剑指-Offer-II-027-回文链表"><a href="#3-1剑指-Offer-II-027-回文链表" class="headerlink" title="3.1剑指 Offer II 027. 回文链表"></a>3.1<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/aMhZSa/">剑指 Offer II 027. 回文链表</a></h3><p>这道题以前刷过一遍，不过使用的是链表转数组的方案，这次用链表方案来做。解这道题需要先找到链表中间节点，然后对链表做反转。</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">@author: Jason Pang</span></span><br><span class="line"><span class="comment">@desc:</span></span><br><span class="line"><span class="comment">@date: 2022/8/3</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">package</span> list</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ListNode <span class="keyword">struct</span> &#123;</span><br><span class="line">	Val  <span class="keyword">int</span></span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description:</span></span><br><span class="line"><span class="comment">	比较回文的思路，是一个从头部，一个从尾部开始对两个值做对比，比较到中点处结束</span></span><br><span class="line"><span class="comment">	1. 写到数组里，然后在数组里比较</span></span><br><span class="line"><span class="comment">	2. 改造成双向链表，一个往前一个往后</span></span><br><span class="line"><span class="comment">	3. 后半部分改成从后往前的。</span></span><br><span class="line"><span class="comment">    需要找到中间位置</span></span><br><span class="line"><span class="comment">    - 方案1：遍历一遍，记录总长度，再遍历一次，就知道中间位置在哪里了</span></span><br><span class="line"><span class="comment">    - 方案2：快慢指针，快指针走到结束，慢指针走到中间。其实快慢指针是我们1/2,1/3等思想的具体实践</span></span><br><span class="line"><span class="comment">要走都走，无论奇数偶数，慢指针走到的是最后一个</span></span><br><span class="line"><span class="comment">	然后从中间位置开始改变链表顺序</span></span><br><span class="line"><span class="comment">	一个从头，一个从尾开始遍历，从尾部走，走到空就行</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPalindrome</span><span class="params">(head *ListNode)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> head == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//找到中间位置</span></span><br><span class="line">	slow := head</span><br><span class="line">	fast := head</span><br><span class="line">	listLen := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> fast != <span class="literal">nil</span> &amp;&amp; fast.Next != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> listLen%<span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">			slow = slow.Next</span><br><span class="line">		&#125;</span><br><span class="line">		fast = fast.Next</span><br><span class="line">		listLen++</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//从slow到fast做反向。不应该用这种方案，为啥要next、nn呢，要是用三个的话，当前的cur，然后找前一个和后一个，把自己放到中间最好处理</span></span><br><span class="line">	tmp := slow.Next</span><br><span class="line">	slow.Next = <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">var</span> end *ListNode = <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">if</span> tmp != <span class="literal">nil</span> &#123;</span><br><span class="line">		end = tmp.Next</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> tmp != <span class="literal">nil</span> &#123;</span><br><span class="line">		tmp.Next = slow</span><br><span class="line">		slow = tmp</span><br><span class="line">		tmp = end</span><br><span class="line">		<span class="keyword">if</span> tmp != <span class="literal">nil</span> &#123;</span><br><span class="line">			end = tmp.Next</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//从头到中间、从尾到中间</span></span><br><span class="line">	h := head</span><br><span class="line">	<span class="keyword">for</span> fast != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> fast.Val != h.Val &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">		fast = fast.Next</span><br><span class="line">		h = h.Next</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPalindrome2</span><span class="params">(head *ListNode)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> head == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//找到中间位置，这种方案需要slow往后走一步</span></span><br><span class="line">	slow := head</span><br><span class="line">	fast := head</span><br><span class="line">	<span class="keyword">for</span> fast.Next != <span class="literal">nil</span> &amp;&amp; fast.Next.Next != <span class="literal">nil</span> &#123;</span><br><span class="line">		fast = fast.Next.Next</span><br><span class="line">		slow = slow.Next</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//从slow往后逆序</span></span><br><span class="line">	cur := slow.Next</span><br><span class="line">	<span class="keyword">var</span> pre *ListNode = <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">for</span> cur != <span class="literal">nil</span> &#123;</span><br><span class="line">		tmpNext := cur.Next</span><br><span class="line">		cur.Next = pre</span><br><span class="line">		pre = cur</span><br><span class="line">		cur = tmpNext</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//从头到中间、从尾到中间</span></span><br><span class="line">	h := head</span><br><span class="line">	<span class="keyword">for</span> pre != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> pre.Val != h.Val &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">		pre = pre.Next</span><br><span class="line">		h = h.Next</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>几个月不写代码，isPalindrome虽然执行结果准确，但是写的很差，isPalindrome2就好一些。</p>
+<p>判断是否回文，就是头指针向后移动，同时尾指针向前移动，都一样就是回文串。<strong>大方向是目标，只有确定好目标，才能填充细节，否则会毫无头绪。</strong></p>
+<h3 id="3-2剑指-Offer-II-022-链表中环的入口节点"><a href="#3-2剑指-Offer-II-022-链表中环的入口节点" class="headerlink" title="3.2剑指 Offer II 022. 链表中环的入口节点"></a>3.2<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/c32eOV/">剑指 Offer II 022. 链表中环的入口节点</a></h3><h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">@author: Jason Pang</span></span><br><span class="line"><span class="comment">@desc:</span></span><br><span class="line"><span class="comment">@date: 2022/8/4</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">package</span> list</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">这种题，如果提前没有思路的话，应该很难想出来。使用快慢指针，需要做证明，为什么快指针和慢指针肯定能碰上。</span></span><br><span class="line"><span class="comment">有了思路后，再做就容易多了</span></span><br><span class="line"><span class="comment">方向就是，你就不断的走就行，要是快指针到nil了，那就是没有，否则肯定会碰上，不要怕，就是干。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">用乘法，不用除法；用加法不用减法</span></span><br><span class="line"><span class="comment">能自己判断出会相遇，但是相遇之后怎么做没搞出来，还是因为上面思绪错了</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">detectCycle</span><span class="params">(head *ListNode)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> head == <span class="literal">nil</span> || head.Next == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	slow := head</span><br><span class="line">	fast := head</span><br><span class="line">	ptr := head</span><br><span class="line">	<span class="keyword">for</span> fast.Next != <span class="literal">nil</span> &amp;&amp; fast.Next.Next != <span class="literal">nil</span> &#123;</span><br><span class="line">		slow = slow.Next</span><br><span class="line">		fast = fast.Next.Next</span><br><span class="line">		<span class="keyword">if</span> slow == fast &#123;</span><br><span class="line">			<span class="keyword">for</span> ptr != slow &#123;</span><br><span class="line">				ptr = ptr.Next</span><br><span class="line">				slow = slow.Next</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> ptr</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><p>这道题代码相对简单，麻烦点在于证明什么时刻会在入口点相遇。我只能证明出使用快慢指针会相遇，没有证明出相遇的时刻。</p>
+<p>证明快慢指针会相遇：慢指针X步之后，快慢指针位置</p>
+<p>慢指针位置：[(X+1)-(N-M)]%M</p>
+<p>快指针位置：[(2X+1)-(N-M)]%M=[(X+1)-(N-M)]%M  -  X%M</p>
+<p>所以当X对M取余为0时，两者相遇。</p>
+<p>然后我们来看一下官方的推导：</p>
+<p><img src="./image-20220805225734352.png" alt="image-20220805225734352"></p>
+<p>任意时刻，fast 指针走过的距离都为 slow 指针的 22 倍。因此，我们有</p>
+<p>a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)，意味我从头开始走到a结束，等于从相遇点绕(n-1)圈加c步，两个指针相遇的位置就是入口。</p>
+<ul>
+<li><p>官方对题目抽象的更好一些，抽象的越好，越有可能解出答案；<strong>抽象能力是人的一项重要能力</strong></p>
+</li>
+<li><p>图示只有最直接的距离，这些距离只需要做加法；<strong>程序中能用加法就不要用减法，能用乘法就不要用除法</strong></p>
+</li>
+<li><p>有些题目，<strong>10分钟想不出方案，就不要想了</strong></p>
+</li>
+</ul>
+<h3 id="3-3-剑指-Offer-25-合并两个排序的链表"><a href="#3-3-剑指-Offer-25-合并两个排序的链表" class="headerlink" title="3.3 剑指 Offer 25. 合并两个排序的链表"></a>3.3 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/">剑指 Offer 25. 合并两个排序的链表</a></h3><h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">@author: Jason Pang</span></span><br><span class="line"><span class="comment">@desc:</span></span><br><span class="line"><span class="comment">@date: 2022/8/4</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">package</span> list</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">合并两个有序列表，这个不需要太多技巧，纯看能力</span></span><br><span class="line"><span class="comment">输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mergeTwoLists</span><span class="params">(l1 *ListNode, l2 *ListNode)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> l1 == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> l2</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> l2 == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> l1</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//比较大小，确保l1肯定是最小的</span></span><br><span class="line">	<span class="keyword">if</span> l1.Val &gt; l2.Val &#123;</span><br><span class="line">		tmp := l1</span><br><span class="line">		l1 = l2</span><br><span class="line">		l2 = tmp</span><br><span class="line">	&#125;</span><br><span class="line">	l1Ptr := l1</span><br><span class="line">	<span class="comment">//从l1开始，如果l2比它小，就加进来</span></span><br><span class="line">	<span class="keyword">for</span> l1Ptr != <span class="literal">nil</span> &amp;&amp; l1Ptr.Next != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> l2 != <span class="literal">nil</span> &amp;&amp; l2.Val &lt;= l1Ptr.Next.Val &#123;</span><br><span class="line">			tmp := l1Ptr.Next</span><br><span class="line">			l1Ptr.Next = l2</span><br><span class="line">			l2 = l2.Next</span><br><span class="line">			l1Ptr.Next.Next = tmp</span><br><span class="line">		&#125;</span><br><span class="line">		l1Ptr = l1Ptr.Next</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//如果l2还有剩余，则补充到l1上</span></span><br><span class="line">	<span class="keyword">if</span> l2 != <span class="literal">nil</span> &#123;</span><br><span class="line">		l1Ptr.Next = l2</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> l1</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><p>不需要什么技巧，纯看编码能力；画个图辅助一下</p>
+<h3 id="3-4-剑指-Offer-II-021-删除链表的倒数第-n-个结点"><a href="#3-4-剑指-Offer-II-021-删除链表的倒数第-n-个结点" class="headerlink" title="3.4 剑指 Offer II 021. 删除链表的倒数第 n 个结点"></a>3.4 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/SLwz0R/">剑指 Offer II 021. 删除链表的倒数第 n 个结点</a></h3><h4 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">@author: Jason Pang</span></span><br><span class="line"><span class="comment">@desc:</span></span><br><span class="line"><span class="comment">@date: 2022/8/5</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">package</span> list</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">删除倒数节点，这种就是干</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeNthFromEnd</span><span class="params">(head *ListNode, n <span class="keyword">int</span>)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> head == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	ahead := head</span><br><span class="line">	<span class="keyword">for</span> ahead.Next != <span class="literal">nil</span> &amp;&amp; n &gt; <span class="number">0</span> &#123;</span><br><span class="line">		ahead = ahead.Next</span><br><span class="line">		n--</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> n &gt; <span class="number">0</span> &#123;</span><br><span class="line">		head = head.Next</span><br><span class="line">		<span class="keyword">return</span> head</span><br><span class="line">	&#125;</span><br><span class="line">	bhead := head</span><br><span class="line">	<span class="comment">//head和ahead一起移动</span></span><br><span class="line">	<span class="keyword">for</span> ahead.Next != <span class="literal">nil</span> &#123;</span><br><span class="line">		ahead = ahead.Next</span><br><span class="line">		bhead = bhead.Next</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//删除</span></span><br><span class="line">	<span class="keyword">if</span> bhead.Next == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> head</span><br><span class="line">	&#125;</span><br><span class="line">	bhead.Next = bhead.Next.Next</span><br><span class="line">	<span class="keyword">return</span> head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h4><p>这样直接蛮干也行，问题不大，设置哨兵能更优雅一些</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/19/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-3-%E5%9B%A2%E9%98%9F%E5%BB%BA%E8%AE%BE/" class="archive-article-date">
-  	<time datetime="2021-12-19T15:11:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/19/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-3-%E5%9B%A2%E9%98%9F%E5%BB%BA%E8%AE%BE/">初探技术管理(3)-团队建设</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/08/06/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-%E9%93%BE%E8%A1%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/19/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/" class="archive-article-date">
-  	<time datetime="2021-12-19T04:28:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-19</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2022/08/06/%E9%98%B2%E6%AD%A2%E6%95%B0%E6%8D%AE%E5%86%92%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          防止数据冒用的方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/24/DDD%E7%9A%84Go%E5%AE%9E%E6%88%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DDD的Go实战</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/19/%E4%B8%80%E9%81%93%E7%AE%97%E6%B3%95%E9%A2%98-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/">一道算法题-括号生成</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/" class="archive-article-date">
-  	<time datetime="2021-12-12T12:55:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/12/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-SAGA%E4%B8%8E%E6%B6%88%E6%81%AF/">分布式事务-SAGA与消息</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/12/%E5%AF%B9%E6%8A%93%E6%89%8B%E7%9A%84%E7%90%86%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-12-12T02:45:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/12/%E5%AF%B9%E6%8A%93%E6%89%8B%E7%9A%84%E7%90%86%E8%A7%A3/">对抓手的理解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/" class="archive-article-date">
-  	<time datetime="2021-12-09T06:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/">git revert是个好东西</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/" class="archive-article-date">
-  	<time datetime="2021-11-28T15:48:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/">常见HTTP错误码模拟</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/" class="archive-article-date">
-  	<time datetime="2021-11-28T04:05:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/">初探技术管理(2)-管理规划</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/" class="archive-article-date">
-  	<time datetime="2021-11-24T13:48:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/">初探技术管理(1)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/" class="archive-article-date">
-  	<time datetime="2021-11-21T10:02:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/">搞明白Go的值和指针，别写bug了</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2021-11-15T12:51:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/">MySQL总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/21/">21</a><a class="extend next" rel="next" href="/archives/page/6/">Next »</a>
-    </nav>
   
 
 
@@ -506,8 +417,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
