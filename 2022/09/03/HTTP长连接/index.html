@@ -6,15 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>HTTP长连接 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/9/index.html">
+  <meta name="description" content="好久没有写网络相关的文章了。正好这两天和同事聊长连接，所以把这方面的内容进行梳理。里面会涉及TCP性能优化和HTTP2.0基础教程的内容，大家有时间可以看一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP长连接">
+<meta property="og:url" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="好久没有写网络相关的文章了。正好这两天和同事聊长连接，所以把这方面的内容进行梳理。里面会涉及TCP性能优化和HTTP2.0基础教程的内容，大家有时间可以看一下。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220902202535428.png">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220902202653014.png">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220902202942690.png">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220903120418658.png">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220903130001215.png">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220903123516960.png">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220903123355413.png">
+<meta property="og:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220902203648844.png">
+<meta property="article:published_time" content="2022-09-03T06:39:48.000Z">
+<meta property="article:modified_time" content="2022-09-03T06:40:57.760Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/image-20220902202535428.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,295 +207,241 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-HTTP长连接" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP长连接
+    </h1>
+  
+
+        
+        <a href="/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/" class="archive-article-date">
+  	<time datetime="2022-09-03T06:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-03</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>好久没有写网络相关的文章了。正好这两天和同事聊长连接，所以把这方面的内容进行梳理。里面会涉及<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/SwYcLLKhvv2lCjgew3sv9A">TCP性能优化</a>和<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Od_9PWjHAqYGszFVv3JvcQ">HTTP2.0基础教程</a>的内容，大家有时间可以看一下。</p>
+<span id="more"></span>
+<h2 id="一、长连接优点"><a href="#一、长连接优点" class="headerlink" title="一、长连接优点"></a>一、长连接优点</h2><p>HTTP为什么要开启长连接呢？主要是为了节省建立TCP的时间，请求可以复用同一条信道。</p>
+<p>如果没有长连接，每次请求都做一次三次握手和四次挥手。</p>
+<p><img src="./image-20220902202535428.png" alt="image-20220902202535428"></p>
+<p>如果有长链接，在一个 TCP 连接中可以持续发送多份数据而不会断开连接，即请求可以复用这个通道。</p>
+<p><img src="./image-20220902202653014.png" alt="image-20220902202653014"></p>
+<h2 id="二、长连接缺点"><a href="#二、长连接缺点" class="headerlink" title="二、长连接缺点"></a>二、长连接缺点</h2><p>但长连接不是万能的，它存在队头阻塞问题。</p>
+<h3 id="队头阻塞"><a href="#队头阻塞" class="headerlink" title="队头阻塞"></a>队头阻塞</h3><p>如果仅仅使用一个连接，它需要发起请求、等待响应，之后才能发起下一个请求。在请求应答过程中，如果出现任何状况，剩下所有的工作都会被阻塞在那次请求应答之后。这就是“队头阻塞”，它会阻碍网络传输和Web页面渲染，直至失去响应。为了防止这种问题，现代浏览器会针对单个域名开启6个连接，通过各个连接分别发送请求。它实现了某种程度上的并行，但是每个连接仍会受到“队头阻塞”的影响。</p>
+<h3 id="pipline"><a href="#pipline" class="headerlink" title="pipline"></a>pipline</h3><p>为解决队头阻塞这个问题，提出了pipline方案。虽然在一个tcp通道中实现了多个http并发，但因为该方案有缺陷，大部分浏览器默认是关闭pipeline的。</p>
+<p>其一是因为返回的时候是会阻塞的，谁先到达，谁先返回，顺序绝对不能乱。另一个pipeline限制是，只能是幂等请求（get、head等）才能应用pipeline，</p>
+<p><img src="./image-20220902202942690.png" alt="image-20220902202942690"></p>
+<h2 id="三、HTTP开启长连接"><a href="#三、HTTP开启长连接" class="headerlink" title="三、HTTP开启长连接"></a>三、HTTP开启长连接</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>开启HTTP长连接，对前端很简单，方式如下：</p>
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>开启</th>
+<th>关闭</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTTP1.0</td>
+<td>Connection: keep-alive</td>
+<td>默认</td>
+</tr>
+<tr>
+<td>HTTP1.1</td>
+<td>默认</td>
+<td>Connection: close</td>
+</tr>
+</tbody></table>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>Keep-Alive能够实现，需要服务端支持：</p>
+<p>Httpd守护进程，如nginx需要设置keepalive_timeout</p>
+<p>这个 keepalive_timout时间值意味着：一个http产生的tcp连接在传送完最后一个响应后，还需要hold住 keepalive_timeout秒后，才开始关闭这个连接。</p>
+<ul>
+<li>keepalive_timeout=0：建立tcp连接 + 传送http请求 + 执行时间 + 传送http响应 + 关闭tcp连接 + 2MSL</li>
+<li>keepalive_timeout&gt;0：建立tcp连接 + (最后一个响应时间 – 第一个请求时间) + 关闭tcp连接  + 2MSL</li>
+</ul>
+<h3 id="TCP的Keep-Alive"><a href="#TCP的Keep-Alive" class="headerlink" title="TCP的Keep-Alive"></a>TCP的Keep-Alive</h3><p>HTTP的Keep-Alive需要和TCP的Keep-Alive区分开</p>
+<p>TCP自身也有Keep-Alive，是检测TCP连接状况的保鲜机制</p>
+<ul>
+<li><p>net.ipv4.tcpkeepalivetime：表示TCP链接在多少秒之后没有数据报文传输启动探测报文</p>
+</li>
+<li><p>net.ipv4.tcpkeepaliveintvl：前一个探测报文和后一个探测报文之间的时间间隔</p>
+</li>
+<li><p>net.ipv4.tcpkeepaliveprobes：探测的次数</p>
+</li>
+</ul>
+<p>逻辑为：tcpkeepalivetime时间没有数据则开始探测，每过tcpkeepaliveintvl探测一次，最多探测tcpkeepaliveprobes次，如果全部失败则关闭TCP连接。</p>
+<p>这部分内容一般不需要关注。</p>
+<h2 id="四、长连接演练"><a href="#四、长连接演练" class="headerlink" title="四、长连接演练"></a>四、长连接演练</h2><p>talk is cheap, show me the code.</p>
+<p>我们抓包看看是否真是这样的。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>抓包软件：<a target="_blank" rel="noopener" href="https://www.onlinedown.net/soft/109518.htm">wireshark mac</a></p>
+<p>Client语言：go</p>
+<p>Server语言：go</p>
+<p>双击，只监听本机请求</p>
+<p><img src="./image-20220903120418658.png" alt="image-20220903120418658"></p>
+<p><img src="./image-20220903130001215.png" alt="image-20220903130001215"></p>
+<h3 id="服务端代码"><a href="#服务端代码" class="headerlink" title="服务端代码"></a>服务端代码</h3><p>服务端默认是开启keep-alive的，可以通过SetKeepAlivesEnabled进行关闭。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	server := http.Server&#123;</span><br><span class="line">		Addr:        <span class="string">&quot;:8081&quot;</span>,</span><br><span class="line">		IdleTimeout: time.Second * <span class="number">30</span>,</span><br><span class="line">		Handler: http.HandlerFunc(<span class="function"><span class="keyword">func</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">			<span class="keyword">if</span> strings.Index(r.URL.String(), <span class="string">&quot;test&quot;</span>) &gt; <span class="number">0</span> &#123;</span><br><span class="line">				fmt.Fprintf(w, <span class="string">&quot;这是net/http创建的server第一种方式&quot;</span>)</span><br><span class="line">				fmt.Println(<span class="string">&quot;hello &quot;</span>)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			fmt.Println(<span class="string">&quot;world&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;),</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//是否开启长连接</span></span><br><span class="line">	server.SetKeepAlivesEnabled(<span class="literal">true</span>)</span><br><span class="line">	server.ListenAndServe()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端不使用长连接"><a href="#客户端不使用长连接" class="headerlink" title="客户端不使用长连接"></a>客户端不使用长连接</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">@author: Jason Pang</span></span><br><span class="line"><span class="comment">@desc:</span></span><br><span class="line"><span class="comment">@date: 2022/9/3</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io/ioutil&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doGet</span><span class="params">(client *http.Client, url <span class="keyword">string</span>, id <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	resp, err := client.Get(url)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	buf, err := ioutil.ReadAll(resp.Body)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%d: %s -- %v\n&quot;</span>, id, <span class="keyword">string</span>(buf), err)</span><br><span class="line">	<span class="keyword">if</span> err := resp.Body.Close(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	transport := &amp;http.Transport&#123;</span><br><span class="line">		DisableKeepAlives:   <span class="literal">true</span>,</span><br><span class="line">		MaxIdleConnsPerHost: <span class="number">1</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	client := http.Client&#123;</span><br><span class="line">		Transport: transport,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> URL = <span class="string">&quot;http://192.168.199.152:8081/test&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">go</span> doGet(&amp;client, URL, <span class="number">1</span>)</span><br><span class="line">		<span class="comment">//go doGet(&amp;client, URL, 2)</span></span><br><span class="line">		time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到执行了三次，每次都进行TCP三次握手和四次挥手，端口每次都变。</p>
+<p><img src="./image-20220903123516960.png" alt="image-20220903123516960"></p>
+<h3 id="客户端使用长连接"><a href="#客户端使用长连接" class="headerlink" title="客户端使用长连接"></a>客户端使用长连接</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">@author: Jason Pang</span></span><br><span class="line"><span class="comment">@desc:</span></span><br><span class="line"><span class="comment">@date: 2022/9/3</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io/ioutil&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doGet</span><span class="params">(client *http.Client, url <span class="keyword">string</span>, id <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	resp, err := client.Get(url)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	buf, err := ioutil.ReadAll(resp.Body)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%d: %s -- %v\n&quot;</span>, id, <span class="keyword">string</span>(buf), err)</span><br><span class="line">	<span class="keyword">if</span> err := resp.Body.Close(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	transport := &amp;http.Transport&#123;</span><br><span class="line">		DisableKeepAlives:   <span class="literal">false</span>,</span><br><span class="line">		MaxIdleConnsPerHost: <span class="number">1</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	client := http.Client&#123;</span><br><span class="line">		Transport: transport,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> URL = <span class="string">&quot;http://192.168.199.152:8081/test&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">go</span> doGet(&amp;client, URL, <span class="number">1</span>)</span><br><span class="line">		<span class="comment">//go doGet(&amp;client, URL, 2)</span></span><br><span class="line">		time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>每次请求全是同一个端口，而且只进行了一次三次握手。</p>
+<p><img src="./image-20220903123355413.png" alt="image-20220903123355413"></p>
+<p>Go的client有个知识点需要说明：</p>
+<ul>
+<li>它默认会维持两个长连接，所以如果起两个goroutine，会对应两个长连接被不断复用</li>
+<li>长连接返回的数据需要读取后才能被复用，否则go不知道怎么处理未读取数据的连接，大概率就给close了</li>
+</ul>
+<h2 id="五、HTTP2-0"><a href="#五、HTTP2-0" class="headerlink" title="五、HTTP2.0"></a>五、HTTP2.0</h2><p>要真正解决队头阻塞问题，肯定不是缝缝补补，需要的是改革，这就有了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Od_9PWjHAqYGszFVv3JvcQ">HTTP2.0基础教程</a>。</p>
+<p>HTTP/2是完全多路复用的，而非有序并阻塞的</p>
+<ul>
+<li>只需一个连接即可实现并行</li>
+<li>提升TCP连接的利用率</li>
+</ul>
+<p><strong>多路复用（Multiplexing）：一个信道同时传输多路信号。</strong></p>
+<p>那它是怎么实现的呢？主要依靠二进制分帧。</p>
+<p>HTTP/2 通信都在⼀个tcp连接上完成，这个连接会同时处理多个http的request，http2给每个http的request都分配唯一的streamId，而每个request切割出来的fram都共用这个streamId，这样的话http2就可以基于这个streamid将切割的信息还原，http2通道中同时处理多个request的方式类似处理多个流，所以有些文章会指出http2实现了流方式传递信息。</p>
+<p><img src="./image-20220902203648844.png" alt="image-20220902203648844"></p>
+<p>上图中每个大的蓝色方块代表一个http的request，每个request被切割为多个fream，并且被编号，我们用黄红绿三种颜色分别代表三个stream流，不同的颜色代表不同的streamid，http2接收到数据会根据其streamid自动还原数据，这样就实现了在一个TCP连接通道中的流式传输，多个request都会复用这个TCP通道，实现了高效的复用。</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>至此演练了使用HTTP长连接的过程，也讲了和TCP Keep-Alive的区别，同时提供了更好的优化方案。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lulin1/p/9205729.html">http头之keep-alive</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/142b35998947">HTTP keepalive详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34629352/article/details/123466572">HTTP keep-alive详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gaoyuechen/p/7811688.html">nginx的 keepalive_timeout参数是一个请求完成之后还要保持连</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.qb5200.com/article/280701.html">Nginx中的keepalive配置 详解Nginx中HTTP的keepalive相关配置</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1573513">白话http2的多路复用</a></li>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1716588025907324917&wfr=spider&for=pc">什么是全双工和半双工</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jack-hzm/p/10469790.html">全双工与半双工的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/geiii9/article/details/124109824">多路复用</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wasi-991017/p/14541094.html">IO复用 </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xfeiyun/p/15882626.html">彻底理解 IO 多路复用实现机制 </a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_29918313/article/details/118325824">Http2中的多路复用</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lovezbs/p/14083363.html">浅析HTTP/2的多路复用 </a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46059971/article/details/108251123">HTTP2 优点</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/tiandao321/article/details/80897160">http2协议之多路复用</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HideInTime/article/details/107030023">单/半双/全双工和多路复用技术概要</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.modb.pro/db/434317">GoLang里的keep-alive</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zjfblog/p/16190879.html">wireshark抓包–127.0.0.1/本地</a></li>
+<li><a target="_blank" rel="noopener" href="https://serholiu.com/go-http-client-keepalive">Go HTTP Client 持久连接</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-15T16:13:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/16/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/">Go设计模式(25)-备忘录模式</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/15/Innodb%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-08-15T07:27:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-15</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2022/08/28/7%E5%90%AF%E7%94%A8DRS-HA-FT/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">7启用DRS&amp;HA&amp;FT</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/15/Innodb%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/">Innodb事务隔离性实现原理，你知道吗？</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-11T14:16:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/11/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-24-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(24)-访问者模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/" class="archive-article-date">
-  	<time datetime="2021-08-08T13:22:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/08/InnoDB-redo%E3%80%81undo%E3%80%81binlog%EF%BC%8C%E6%98%AF%E5%A6%82%E4%BD%95%E5%90%88%E4%BD%9C%E7%9A%84/">InnoDB redo、undo、binlog，是如何合作的</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-06T13:16:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-23-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(23)-迭代器模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-08-05T02:15:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/">整数区间计算，我这么设计</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-03T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">Go设计模式(22)-状态模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-07-30T05:14:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/30/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">权限管理系统设计</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-07-26T07:13:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go锁实现原理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2021-07-23T07:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/23/%E5%AF%B9%E6%96%B0%E4%BA%BA%E5%9F%B9%E5%85%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">对新人培养的一些想法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/8/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/archives/page/10/">10</a><a class="page-number" href="/archives/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/22/">22</a><a class="extend next" rel="next" href="/archives/page/10/">Next »</a>
-    </nav>
   
 
 
@@ -506,8 +465,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
