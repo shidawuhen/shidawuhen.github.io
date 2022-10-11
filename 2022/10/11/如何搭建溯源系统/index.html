@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>如何搭建溯源系统 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/14/index.html">
+  <meta name="description" content="背景大家购买跨境商品时，会发现商品上有一个溯源二维码，手机扫一扫就能发现这个货品从哪里来，到哪里去，经过了哪些港口。二维码一般如下图所示：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何搭建溯源系统">
+<meta property="og:url" content="http://yoursite.com/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="背景大家购买跨境商品时，会发现商品上有一个溯源二维码，手机扫一扫就能发现这个货品从哪里来，到哪里去，经过了哪些港口。二维码一般如下图所示：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/41a7c305bbf33e8562f34c03b174dfff.jpeg">
+<meta property="og:image" content="http://yoursite.com/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/image-20221009133516882.png">
+<meta property="og:image" content="http://yoursite.com/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/image-20221010134032179.png">
+<meta property="og:image" content="http://yoursite.com/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/image-20221009212956187.png">
+<meta property="article:published_time" content="2022-10-11T03:17:12.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:20:38.530Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/41a7c305bbf33e8562f34c03b174dfff.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,295 +203,201 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-如何搭建溯源系统" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何搭建溯源系统
+    </h1>
+  
+
+        
+        <a href="/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
+  	<time datetime="2022-10-11T03:17:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-11</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>大家购买跨境商品时，会发现商品上有一个溯源二维码，手机扫一扫就能发现这个货品从哪里来，到哪里去，经过了哪些港口。二维码一般如下图所示：</p>
+<span id="more"></span>
+<p><img src="./41a7c305bbf33e8562f34c03b174dfff.jpeg" alt="41a7c305bbf33e8562f34c03b174dfff"></p>
+<p>为什么要有溯源码呢？</p>
+<ol>
+<li>响应国家政策，“建立健全网购保税进口商品质量追溯体系，追溯信息应至少涵盖国外启运地至国内消费者的完整物流轨迹，鼓励向海外发货人、商品生产商等上游溯源。”</li>
+<li>提升跨境品牌的消费者侧的正品心智及购物体验。跨境商品单价相对高，由于型号不同，可能会和国内买到的不一致，用户觉得自己买到假冒伪劣产品。差评很大一部分来自这种情况。溯源系统能够解决这个问题，用户能看到商品完整运输流程，打消很多疑虑。</li>
+<li>后期可以做增值服务</li>
+</ol>
+<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><p>溯源系统包含如下角色</p>
+<ul>
+<li><p>溯源码供应商：负责生产溯源码</p>
+</li>
+<li><p>供应链服务商：负责货物运输和贴码；从溯源码供应商处购买溯源码</p>
+</li>
+<li><p>审核机构：负责对供应链服务商的溯源记录进行审核，机构一般有较强社会地位</p>
+</li>
+<li><p>运营：负责为溯源码供应商提供溯源码列表信息、管理上述三个角色等</p>
+</li>
+</ul>
+<p>通过对角色的描述，我们需建立运营后台，核心功能点如下：</p>
+<ol>
+<li>溯源码供应商备货：在后台申请溯源码信息，然后将申请到的溯源码进行打印</li>
+<li>供应链服务商订购溯源码：供应链服务商向溯源码供应商下订单，购买已经打印出的溯源码</li>
+<li>供应链服务商创建溯源记录：供应链服务商创建溯源记录，该记录绑定使用哪些溯源码，溯源记录经审核机构审核完毕后生效。然后供应链服务商就将溯源码贴到商品上，最终送到用户手中</li>
+</ol>
+<p><img src="./image-20221009133516882.png" alt="image-20221009133516882"></p>
+<p>用户收到商品后，扫描溯源二维码，输入验证码后即可查看由审核机构认证的溯源信息。</p>
+<p><img src="./image-20221010134032179.png" alt="image-20221010134032179"></p>
+<h2 id="技术方案"><a href="#技术方案" class="headerlink" title="技术方案"></a>技术方案</h2><h3 id="设计选型"><a href="#设计选型" class="headerlink" title="设计选型"></a>设计选型</h3><p>系统设计方式有多种，常用的有数据驱动设计和领域驱动设计。</p>
+<p>大家一般更习惯数据驱动设计，通过数据之间的流转，确定存储结构，然后在其上延伸出各个接口。这个设计方式偏向于面向过程设计，更符合我们的思考习惯。</p>
+<p>领域驱动设计也很好，但更复杂一些，偏向于面向对象设计，大家有兴趣的话可以看这篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ODcelOrS7YnzbQhLM7J6vw">DDD的Go实战</a>。</p>
+<p>这次我们基于数据驱动来设计溯源系统。</p>
+<h3 id="表设计"><a href="#表设计" class="headerlink" title="表设计"></a>表设计</h3><p>在设计存储结构之前，我们需要知道溯源码是以码段方式进行管理的，管理码段的技术方案可参考<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FjxkrTFgOpw-FHMy1sTTJA">整数区间计算，我这么设计</a>。</p>
+<p>通过对角色和流程的分析，我们可以确定几张核心表：</p>
+<p>1.溯源码供应商备货表、溯源码表、溯源码供应商备货子表</p>
+<ul>
+<li>因为溯源码供应商需要向运营申请溯源码，运营审核通过后，我方系统会自动生成溯源码，溯源码供应商就可以下载这些溯源码进行打印</li>
+<li>为什么需要溯源码供应商备货子表？因为备货量可能为百万级别，我们可以将百万的量拆分成几千个溯源码为一条，这些子条目放到子表中，然后使用子表的数据，通过离线、异步方式生成溯源码。</li>
+</ul>
+<p>2.供应链服务商购买溯源码表、供应链服务商购买溯源码码段表</p>
+<ul>
+<li>因为供应链服务商要向溯源码供应商下订单，购买溯源码</li>
+<li>供应链服务商手里的溯源码未必是连续的，所以对于一个订单，溯源码供应商给供应链服务商的溯源码可能来自多个码段，这就需要把信息存放到溯源码码段表</li>
+</ul>
+<p>3.溯源记录表、溯源记录码段表、溯源码扫描记录表</p>
+<ul>
+<li>对于每一批要贴码的货物，供应链服务商需要创建溯源记录，让审核机构进行审核</li>
+<li>对于这批货，供应链服务商手里的溯源码也未必是连续的，所以需要放到码段表</li>
+<li>用户扫描某个溯源码后，扫描信息存放到记录表中</li>
+</ul>
+<p>4.角色可用码段表、溯源码最大值表</p>
+<ul>
+<li>记录每个角色可用码段，系统可在此数据上进行码段分配操作，无需遍历其历史码段使用情况</li>
+<li>溯源码最大值表只用来存放当前最大的溯源码号，目的为用mysql的写锁解决高并发问题，防止高并发情况下导致备货订单有相同的溯源码段范围</li>
+</ul>
+<h3 id="表关系"><a href="#表关系" class="headerlink" title="表关系"></a>表关系</h3><p>表之间关系如下：</p>
+<p><img src="./image-20221009212956187.png" alt="image-20221009212956187"></p>
+<p>通过关系图能够看出，任何一个溯源码都能轻易确定分配过程，能够找到属于哪个溯源码供应商、由哪个供应链服务商购买、用于哪个溯源记录、溯源码是否被扫描过。</p>
+<h3 id="技巧点"><a href="#技巧点" class="headerlink" title="技巧点"></a>技巧点</h3><p>我们确认一些技巧点</p>
+<ol>
+<li>合理设置索引：如根据需求，很多请求都根据溯源码值来进行索引，所以很多表可以将码段开始值、结束值设置为联合索引。即使用MySQL，只要索引设置合理，也能存放巨量溯源码</li>
+<li>多用写锁：尽量使用写锁，写锁能够保证码段分配过程中不会因高并发出现问题，而且并发情况很少，不会影响系统性能</li>
+<li>码段管理：要有可靠的管理码段的代码，这是整个项目的核心域，可参考<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FjxkrTFgOpw-FHMy1sTTJA">整数区间计算，我这么设计</a></li>
+<li>大量码段处理：百万级别的码段生成、下载，可采用分而治之思想，分成小块，一块一块生成、一块一块下载</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>文章中的图可以从<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/6342c7921efad416787bc5d4">https://www.processon.com/view/link/6342c7921efad416787bc5d4</a> 下载。</p>
+<p>上面讲的是主干，还有很多细节可以补充，欢迎大家一起讨论。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/%E5%89%91%E6%8C%87offer/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:38:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/%E5%89%91%E6%8C%87offer/">剑指offer</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:15:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2022/10/03/%E3%80%8A%E6%AF%9B%E9%80%89%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">《毛选》读后感</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99/">Go设计模式(4)-代码编写</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:05:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/MySQL%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84/">MySQL导出表结构</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/" class="archive-article-date">
-  	<time datetime="2021-03-13T14:01:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/13/%E5%8F%8D%E5%AF%B9%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89/">反对自由主义</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" class="archive-article-date">
-  	<time datetime="2021-02-17T12:07:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/17/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">Go设计模式(3)-设计原则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2021-02-14T09:06:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/14/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">Go设计模式(2)-面向对象分析与设计</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/" class="archive-article-date">
-  	<time datetime="2021-02-06T13:33:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/06/%E8%AF%84%E4%BB%B7%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A0%87%E5%87%86/">评价自己的标准</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2021-02-04T12:28:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E5%B8%B8%E8%A7%84%E9%97%AE%E9%A2%98/">支付对接常规问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T12:13:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/HTTP2%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">HTTP2基础教程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/" class="archive-article-date">
-  	<time datetime="2021-02-01T12:11:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/01/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1/">Go设计模式(1)-语法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/13/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/12/">12</a><a class="page-number" href="/archives/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/archives/page/15/">15</a><a class="page-number" href="/archives/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/22/">22</a><a class="extend next" rel="next" href="/archives/page/15/">Next »</a>
-    </nav>
   
 
 
@@ -506,8 +421,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
