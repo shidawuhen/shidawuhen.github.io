@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>工厂方法演进 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="最近review代码，感觉工厂方法使用的不准确，正好以此为例聊一下工厂方法的演进。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工厂方法演进">
+<meta property="og:url" content="http://yoursite.com/2022/11/12/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%BC%94%E8%BF%9B/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="最近review代码，感觉工厂方法使用的不准确，正好以此为例聊一下工厂方法的演进。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/11/12/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%BC%94%E8%BF%9B/image-20221109133023309.png">
+<meta property="article:published_time" content="2022-11-12T05:01:04.000Z">
+<meta property="article:modified_time" content="2022-11-12T05:32:51.431Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/11/12/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%BC%94%E8%BF%9B/image-20221109133023309.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,295 +200,175 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="pages-工厂方法演进" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      工厂方法演进
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/12/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%BC%94%E8%BF%9B/" class="archive-article-date">
+
+        
+        <a href="/2022/11/12/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%BC%94%E8%BF%9B/" class="archive-article-date">
   	<time datetime="2022-11-12T05:01:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/12/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%BC%94%E8%BF%9B/">工厂方法演进</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近review代码，感觉工厂方法使用的不准确，正好以此为例聊一下工厂方法的演进。</p>
+<span id="more"></span>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="初始需求"><a href="#初始需求" class="headerlink" title="初始需求"></a>初始需求</h3><p>假设我们有一个需求，需要根据不同的信号做不同的事情，如做饭、吃饭。</p>
+<p>在此需求基础上，我们用Go实现比较简单，使用经典的简单工厂即可：</p>
+<ul>
+<li>创建一个interface，包含参数检查、执行动作</li>
+<li>创建做饭、吃饭类，实现interface中的两个函数</li>
+</ul>
+<p>因为信号不同行为不同，根据<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/VxO6rEKjdVMIArDKBqS4kA">查表法与switch有什么区别？</a>，为后期扩展方便，我们选择switch方式。</p>
+<h3 id="需求进化"><a href="#需求进化" class="headerlink" title="需求进化"></a>需求进化</h3><p>后面我们发现需求变了，要增加洗碗、拖地，而且这两个的操作和做饭也很相似。</p>
+<p>这种情况下我们可以选择的方案有：</p>
+<ol>
+<li>复用做饭类，在里面通过if判断是洗碗还是拖地</li>
+<li>做饭、吃饭、洗碗、拖地完全独立，相互之间没有交集</li>
+</ol>
+<p>我们肯定选择方案2，使用下面两个技巧使代码高内聚、低耦合</p>
+<ol>
+<li>使用基类：如洗碗、拖地都需要用水清扫，这些相同操作，在基类中实现，洗碗、拖地类继承基类</li>
+<li>提取公因子，将各个类共同的功能放到框架中，如在做之前都吼了一嗓子，“我不想工作“</li>
+</ol>
+<h2 id="简单工厂实现"><a href="#简单工厂实现" class="headerlink" title="简单工厂实现"></a>简单工厂实现</h2><p>关于工厂模式，大家可以看一下我的这篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8-_OoSJ9sZu_zmQhp6t2fQ">Go设计模式(7)-工厂模式</a>。简单工厂方法的UML图如下：</p>
+<p><img src="./image-20221109133023309.png" alt="image-20221109133023309"></p>
+<p>对于初始需求的代码实现如下所示：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Life <span class="keyword">interface</span> &#123;</span><br><span class="line">	CheckParams() error <span class="comment">//参数检查</span></span><br><span class="line">	Do() error          <span class="comment">//执行动作</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Cook <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 做饭参数检查</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Cook)</span> <span class="title">CheckParams</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;cook 检查参数，食材准备完毕&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 开始做饭</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Cook)</span> <span class="title">Do</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;不想工作&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;开始做饭&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Eat <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 吃饭参数检查</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Eat)</span> <span class="title">CheckParams</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;eat 检查参数，饭已做好，碗筷放好&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 开始吃饭</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Eat)</span> <span class="title">Do</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;不想工作&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;开始吃饭&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 简单工厂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Factory <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(simple *Factory)</span> <span class="title">create</span><span class="params">(ext <span class="keyword">string</span>)</span> <span class="title">Life</span></span> &#123;</span><br><span class="line">	<span class="keyword">switch</span> ext &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;cook&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> &amp;Cook&#123;&#125;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;eat&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> &amp;Eat&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//简单工厂使用代码</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;------------简单工厂&quot;</span>)</span><br><span class="line">	factory := &amp;Factory&#123;&#125;</span><br><span class="line">	life := factory.create(<span class="string">&quot;cook&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> life != <span class="literal">nil</span> &#123;</span><br><span class="line">		life.CheckParams()</span><br><span class="line">		life.Do()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<h2 id="简单工厂演进实现"><a href="#简单工厂演进实现" class="headerlink" title="简单工厂演进实现"></a>简单工厂演进实现</h2><p>需求演变之后，代码实现如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Life <span class="keyword">interface</span> &#123;</span><br><span class="line">	CheckParams() error <span class="comment">//参数检查</span></span><br><span class="line">	Do() error          <span class="comment">//执行动作</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 基类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> BaseLife <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 参数检查</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *BaseLife)</span> <span class="title">CheckParams</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;通用参数检查&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 开始做饭</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *BaseLife)</span> <span class="title">Do</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;用水处理&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Cook <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 做饭参数检查</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Cook)</span> <span class="title">CheckParams</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;cook 检查参数，食材准备完毕&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 开始做饭</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Cook)</span> <span class="title">Do</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;开始做饭&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Eat <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 吃饭参数检查</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Eat)</span> <span class="title">CheckParams</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;eat 检查参数，饭已做好，碗筷放好&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 开始吃饭</span></span><br><span class="line"><span class="comment"> * @receiver c</span></span><br><span class="line"><span class="comment"> * @return error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Eat)</span> <span class="title">Do</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;开始吃饭&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Author: Jason Pang</span></span><br><span class="line"><span class="comment"> * @Description: 洗碗</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Wash <span class="keyword">struct</span> &#123;</span><br><span class="line">	BaseLife</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Mop <span class="keyword">struct</span> &#123;</span><br><span class="line">	BaseLife</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Mop)</span> <span class="title">CheckParams</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;mop 检查参数，拖把是否存在&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @Description: 简单工厂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">type</span> Factory <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(simple *Factory)</span> <span class="title">create</span><span class="params">(ext <span class="keyword">string</span>)</span> <span class="title">Life</span></span> &#123;</span><br><span class="line">	<span class="keyword">switch</span> ext &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;cook&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> &amp;Cook&#123;&#125;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;eat&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> &amp;Eat&#123;&#125;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;wash&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> &amp;Wash&#123;&#125;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;mop&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> &amp;Mop&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">EchoBeforeDo</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;不想工作&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//简单工厂使用代码</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;------------简单工厂&quot;</span>)</span><br><span class="line">	factory := &amp;Factory&#123;&#125;</span><br><span class="line">	life := factory.create(<span class="string">&quot;mop&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> life != <span class="literal">nil</span> &#123;</span><br><span class="line">		life.CheckParams()</span><br><span class="line">		EchoBeforeDo()</span><br><span class="line">		life.Do()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">➜  myproject go run main.go</span><br><span class="line">------------简单工厂</span><br><span class="line">cook 检查参数，食材准备完毕</span><br><span class="line">不想工作</span><br><span class="line">开始做饭</span><br><span class="line">➜  myproject go run main.go</span><br><span class="line">------------简单工厂</span><br><span class="line">eat 检查参数，饭已做好，碗筷放好</span><br><span class="line">不想工作</span><br><span class="line">开始吃饭</span><br><span class="line">➜  myproject go run main.go</span><br><span class="line">------------简单工厂</span><br><span class="line">通用参数检查</span><br><span class="line">不想工作</span><br><span class="line">用水处理</span><br><span class="line">➜  myproject go run main.go</span><br><span class="line">------------简单工厂</span><br><span class="line">mop 检查参数，拖把是否存在</span><br><span class="line">不想工作</span><br><span class="line">用水处理</span><br></pre></td></tr></table></figure>
+
+<p>大家可以看到，<strong>这种方案即保证了各个操作之间的独立，又复用了共同代码（通过基类和提取公因子）。</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用工厂方法，有两个检验标准</p>
+<ol>
+<li>具体产品类不应该相互之间关联</li>
+<li>产品类里也不应该有相同的代码</li>
+</ol>
+<p>随着对业务的理解，区分出变与不变的内容，不变的内容需要整合到框架中，不应该在各个产品类里。</p>
+<p>产品类只需关注自己的逻辑，按照接口要求处理输入和返回值。这样今后即使有新功能接入，开发者也不需要关心整体框架，上手速度快、出问题的概率低。</p>
+<p>如果有默认的逻辑操作能跑通整个流程，最好有一个基类实现这个逻辑，这样就能最大程度的进行复用。</p>
+<p>开发过程中需要随着业务的变化和自己对业务的理解不断重构代码，这样才能让代码不成为屎山。但很多同学可能不敢重构，怕引起更多问题。其实这就和单元测试、自动化测试等关联起来了，只要质量保障的好，才能更放心的修改。我认为质量保障就是内功了，需要不断的坚持、不松懈，需要团队有很强的执行力，这是很难短时间被学去的，这便是护城河。</p>
+<p>代码位置：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/factory.go">https://github.com/shidawuhen/asap/blob/master/controller/design/factory.go</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/11/12/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%BC%94%E8%BF%9B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/07/%E5%85%BB%E7%8C%AB%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2022-11-07T13:24:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2022/11/07/%E5%85%BB%E7%8C%AB%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">养猫记</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/07/%E5%85%BB%E7%8C%AB%E8%AE%B0/">养猫记</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/06/%E6%88%91%E7%94%A8python%E5%88%86%E6%9E%90%E4%B9%B0%E6%88%BF%E6%95%B0%E6%8D%AE/" class="archive-article-date">
-  	<time datetime="2022-11-06T05:26:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/06/%E6%88%91%E7%94%A8python%E5%88%86%E6%9E%90%E4%B9%B0%E6%88%BF%E6%95%B0%E6%8D%AE/">我用python分析买房数据</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/06/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E5%9B%9B%E7%AF%87-%E9%87%8C%E4%BB%81/" class="archive-article-date">
-  	<time datetime="2022-11-06T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/06/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E5%9B%9B%E7%AF%87-%E9%87%8C%E4%BB%81/">论语第四篇-里仁</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/24/%E6%9F%A5%E8%A1%A8%E6%B3%95%E4%B8%8Eswitch%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2022-10-24T05:25:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/24/%E6%9F%A5%E8%A1%A8%E6%B3%95%E4%B8%8Eswitch%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/">查表法与switch有什么区别？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/17/%E3%80%8A%E5%A5%87%E7%89%B9%E7%9A%84%E4%B8%80%E7%94%9F%E3%80%8B/" class="archive-article-date">
-  	<time datetime="2022-10-17T12:46:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/17/%E3%80%8A%E5%A5%87%E7%89%B9%E7%9A%84%E4%B8%80%E7%94%9F%E3%80%8B/">《奇特的一生》</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
-  	<time datetime="2022-10-11T03:17:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/">如何搭建溯源系统</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/03/%E3%80%8A%E6%AF%9B%E9%80%89%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" class="archive-article-date">
-  	<time datetime="2022-10-03T14:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/03/%E3%80%8A%E6%AF%9B%E9%80%89%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/">《毛选》读后感</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/22/MySQL%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2022-09-22T05:04:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/22/MySQL%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%EF%BC%9F/">MySQL如何导入大量数据？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/13/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%89%E7%AF%87-%E5%85%AB%E4%BE%91/" class="archive-article-date">
-  	<time datetime="2022-09-13T12:26:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/13/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%89%E7%AF%87-%E5%85%AB%E4%BE%91/">论语第三篇-八侑</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/23/">23</a><a class="extend next" rel="next" href="/archives/page/2/">Next »</a>
-    </nav>
   
 
 
@@ -506,8 +392,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
