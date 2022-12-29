@@ -6,15 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>常用密码算法介绍 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/8/index.html">
+  <meta name="description" content="算法种类根据技术特征，现代密码学可分为三类：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用密码算法介绍">
+<meta property="og:url" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="算法种类根据技术特征，现代密码学可分为三类：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/aes.png">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/ecb.png">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/cbc.png">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/cfb.png">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/ofb.png">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/ctr.png">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/pcbc1.png">
+<meta property="og:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/pcbc2.png">
+<meta property="article:published_time" content="2022-12-29T09:10:54.000Z">
+<meta property="article:modified_time" content="2022-12-29T09:17:41.627Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/aes.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,32 +207,188 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-git-revert是个好东西" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-常用密码算法介绍" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/">git revert是个好东西</a>
+    <h1 class="article-title" itemprop="name">
+      常用密码算法介绍
     </h1>
   
 
         
-        <a href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/" class="archive-article-date">
-  	<time datetime="2021-12-09T06:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-09</time>
+        <a href="/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
+  	<time datetime="2022-12-29T09:10:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一个新同学对上线流程不太了解，提前把代码merge了。只能用git revert进行回滚，当上线前再次合并代码，git上没有显示更改。revert大家用的比较少，很多细节可能不知晓，所以这次聊一下git revert的使用，希望大家不会用到它。</p>
-        
-          <a class="article-more-a" href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/#more">more >></a>
-        
+        <h2 id="算法种类"><a href="#算法种类" class="headerlink" title="算法种类"></a>算法种类</h2><p>根据技术特征，现代密码学可分为三类：</p>
+<span id="more"></span>
+<h3 id="对称算法"><a href="#对称算法" class="headerlink" title="对称算法"></a>对称算法</h3><p>说明：加密密钥和解密密钥相同，对明文、密文长度没有限制</p>
+<p>子算法：</p>
+<ul>
+<li><p>流密码算法：每次加密或解密一位或一字节的明文或密文</p>
+</li>
+<li><p>分组密码算法：将明文（密文）分成固定长度的数据块（比特块或字节块），用同一密钥和算法对每一明文（密文）块加密（解密）后得到等长的密文（明文）块，然后将密文（明文）块按照顺序组合起来最终得到密文（明文）</p>
+</li>
+</ul>
+<p>常见算法：</p>
+<ul>
+<li>流密码算法：RC4</li>
+<li>分组密码算法：DES、IDEA、RC2、AES、SM4</li>
+</ul>
+<h3 id="非对称算法"><a href="#非对称算法" class="headerlink" title="非对称算法"></a>非对称算法</h3><p>说明：加密密钥和解密密钥不相同。</p>
+<ul>
+<li><p>公钥加密，私钥解密</p>
+</li>
+<li><p>私钥加签，公钥验签</p>
+</li>
+</ul>
+<p>常见算法：RSA、DH、DSA、ECDSA、ECC、SM2</p>
+<h3 id="摘要算法"><a href="#摘要算法" class="headerlink" title="摘要算法"></a>摘要算法</h3><p>说明：把任意长的输入消息数据转化成固定长度的输出数据的一种密码算法，又称散列函数、哈希函数或杂凑函数、单向函数等。摘要算法没有密钥。</p>
+<p>常见算法：MD5、SHA1、SM3</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="对称算法-RC4"><a href="#对称算法-RC4" class="headerlink" title="对称算法-RC4"></a>对称算法-RC4</h3><h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ol>
+<li>加密key长度为1byte~256byte</li>
+<li>加密后的结果为base-16编码的字符串，需进行转换</li>
+</ol>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;crypto/rc4&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RC4</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//加密</span></span><br><span class="line">	<span class="keyword">var</span> key []<span class="keyword">byte</span> = []<span class="keyword">byte</span>(<span class="string">&quot;fd6cde7c2f4913f22297c948dd530c84&quot;</span>) <span class="comment">//初始化用于加密的KEY，长度1byte~256byte</span></span><br><span class="line">	rc4obj1, _ := rc4.NewCipher(key)                            <span class="comment">//返回 Cipher</span></span><br><span class="line">	rc4str1 := []<span class="keyword">byte</span>(<span class="string">&quot;RC4&quot;</span>)                                    <span class="comment">//需要加密的字符串</span></span><br><span class="line">	plaintext := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(rc4str1))</span><br><span class="line">	rc4obj1.XORKeyStream(plaintext, rc4str1)     <span class="comment">//加密</span></span><br><span class="line">	stringinf1 := fmt.Sprintf(<span class="string">&quot;%x\n&quot;</span>, plaintext) <span class="comment">//转换字符串，base-16 编码的字符串，每个字节使用 2 个字符表示</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;RC4加密后:&quot;</span> + stringinf1)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//解密</span></span><br><span class="line">	dest2 := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(rc4str1))</span><br><span class="line">	cipher2, _ := rc4.NewCipher(key) <span class="comment">// 切记：这里不能重用rc4obj1，必须重新生成新的</span></span><br><span class="line">	cipher2.XORKeyStream(dest2, plaintext)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;RC4解密后:%s \n\n&quot;</span>, dest2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	RC4()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：可以看到长度是一致的</p>
+<p>➜  myproject go run main.go</p>
+<p>RC4加密后:4daff0</p>
+<p>RC4解密后:RC4</p>
+<h3 id="对称算法-AES"><a href="#对称算法-AES" class="headerlink" title="对称算法-AES"></a>对称算法-AES</h3><h4 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h4><ol>
+<li>AES是分组密码算法，所以AES的计算包含两部分</li>
+</ol>
+<ul>
+<li>分组大小：128位</li>
+<li>密钥大小：128位、192位和256位，三种可选</li>
+</ul>
+<p><img src="./aes.png" alt="aes"></p>
+<ol start="2">
+<li>AES加密过程是在一个4×4的字节（128位）矩阵上运作，加密时，各轮AES加密循环（除最后一轮外）均包含4个步骤</li>
+</ol>
+<ul>
+<li>AddRoundKey：—矩阵中的每一个字节都与该次回合金钥（round key）做XOR运算；每个子密钥由密钥生成方案产生。</li>
+<li>SubBytes：通过一个非线性的替换函数，用查找表的方式把每个字节替换成对应的字节。</li>
+<li>ShiftRows：将矩阵中的每个横列进行循环式移位。</li>
+<li>MixColumns：使用线性转换来混合每内联的四个字节</li>
+</ul>
+<h4 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h4><p>AES有6种加密模式。ECB模式和CBC模式是最常用的两种模式，代码也只实现这两种。</p>
+<p>需要块对对齐（填充）的AES加密模式：ECB、CBC、PCBC，其余模式无需块对齐。</p>
+<p>需要初始向量的AES加密模式：除ECB模式外，都需要初始向量。</p>
+<h5 id="电子密码本：Electronic-Code-Book-Mode-ECB"><a href="#电子密码本：Electronic-Code-Book-Mode-ECB" class="headerlink" title="电子密码本：Electronic Code Book Mode (ECB)"></a>电子密码本：Electronic Code Book Mode (ECB)</h5><p>ECB模式是最早采用和最简单的模式，它将加密的数据分成若干组，每组的大小跟加密密钥长度相同，然后每组都用相同的密钥进行加密。</p>
+<p>优点：有利于并行计算；误差不会累计(互不干扰）。</p>
+<p>缺点：可能对明文进行主动攻击。</p>
+<p><img src="./ecb.png" alt="ecb"></p>
+<h5 id="密码分组链接：Cipher-Block-Chaining-Mode-CBC"><a href="#密码分组链接：Cipher-Block-Chaining-Mode-CBC" class="headerlink" title="密码分组链接：Cipher Block Chaining Mode (CBC)"></a>密码分组链接：Cipher Block Chaining Mode (CBC)</h5><p>CBC模式对于每个待加密的密码块，在加密前会先与前一个密码块的密文异或然后再用加密器加密（图中的圆圈十字符号表示异或操作，下同）。第一个明文块与一个叫初始化向量（IV）的数据块异或。加、解密双方共同知晓密钥和初始化向量才能实现加解密。</p>
+<p>优点：安全性比ECB模式高；是SSL的标准。</p>
+<p>缺点：数据块之间的加密有依赖关系，因此不能并行计算。<br><img src="./cbc.png" alt="cbc"></p>
+<h5 id="密文反馈：Cipher-Feedback-Mode-CFB"><a href="#密文反馈：Cipher-Feedback-Mode-CFB" class="headerlink" title="密文反馈：Cipher Feedback Mode (CFB)"></a>密文反馈：Cipher Feedback Mode (CFB)</h5><p>CFB 模式是用分组算法实现流算法，明文数据不需要按分组大小对齐。</p>
+<p>优点：明文数据不需要按分组大小对齐，即无需填充。</p>
+<p>缺点：同CBC模式，无法并行计算。</p>
+<p><img src="./cfb.png" alt="cfb"></p>
+<h5 id="输出反馈：Output-Feedback-Mode-OFB"><a href="#输出反馈：Output-Feedback-Mode-OFB" class="headerlink" title="输出反馈：Output Feedback Mode (OFB)"></a>输出反馈：Output Feedback Mode (OFB)</h5><p>OFB 模式的过程和CBC模式有点像，但明文数据不需要按分组大小对齐。</p>
+<p>优点：明文数据不需要按分组大小对齐，即无需填充。</p>
+<p>缺点：同CBC模式，无法并行计算。</p>
+<p><img src="./ofb.png" alt="ofb"></p>
+<h5 id="计数器模式：Counter-Mode-CTR"><a href="#计数器模式：Counter-Mode-CTR" class="headerlink" title="计数器模式：Counter Mode (CTR)"></a>计数器模式：Counter Mode (CTR)</h5><p>CTR模式是在ECB模式的基础上，引入了Nonce随机数和Counter计数器，Nounce随机数和Counter计数器整体可看作计数器，每加密一段明文，计数器向上加一，并且这个计数器都会和初始IV进行连接、加加、异或等运算，然后使用加密器进行加密，最后在和明文异或得到分段密文。</p>
+<p>优点：明文数据不需要按分组大小对齐，即无需填充。</p>
+<p>缺点：加密方和解密方需要同时维护初始IV、Nonce、Counter。<br><img src="./ctr.png" alt="ctr"></p>
+<h5 id="填充密码分组链接：Propagating-Cipher-Block-Chaining-Mode（PCBC）"><a href="#填充密码分组链接：Propagating-Cipher-Block-Chaining-Mode（PCBC）" class="headerlink" title="填充密码分组链接：Propagating Cipher Block Chaining Mode（PCBC）"></a>填充密码分组链接：Propagating Cipher Block Chaining Mode（PCBC）</h5><p>PCBC模式是CBC模式的改进版，与CBC模式的不同点在于，CBC模式后段明文加密的所需向量是前一段的密文，而PCBC模式后段明文加密所需的向量是前一段明文和密文的异或值。</p>
+<p>优点：同CBC模式。</p>
+<p>缺点：同CBC模式。</p>
+<p><img src="./pcbc1.png" alt="pcbc1"></p>
+<p><img src="./pcbc2.png" alt="pcbc2"></p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////////////////////////////AES</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AES</span><span class="params">()</span></span> &#123;</span><br><span class="line">	origData := []<span class="keyword">byte</span>(<span class="string">&quot;AES待加密数据&quot;</span>)    <span class="comment">// 待加密的数据</span></span><br><span class="line">	key := []<span class="keyword">byte</span>(<span class="string">&quot;ABCDEFGHIJKLMNOP&quot;</span>) <span class="comment">// 加密的密钥，只能128位、192位和256位</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;原文：&quot;</span>, <span class="keyword">string</span>(origData))</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;------------------ CBC模式 --------------------&quot;</span>)</span><br><span class="line">	encrypted := AesEncryptCBC(origData, key)</span><br><span class="line">	fmt.Println(<span class="string">&quot;密文(hex)：&quot;</span>, hex.EncodeToString(encrypted))</span><br><span class="line">	fmt.Println(<span class="string">&quot;密文(base64)：&quot;</span>, base64.StdEncoding.EncodeToString(encrypted))</span><br><span class="line">	decrypted := AesDecryptCBC(encrypted, key)</span><br><span class="line">	fmt.Println(<span class="string">&quot;解密结果：&quot;</span>, <span class="keyword">string</span>(decrypted))</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;------------------ ECB模式 --------------------&quot;</span>)</span><br><span class="line">	encrypted = AesEncryptECB(origData, key)</span><br><span class="line">	fmt.Println(<span class="string">&quot;密文(hex)：&quot;</span>, hex.EncodeToString(encrypted))</span><br><span class="line">	fmt.Println(<span class="string">&quot;密文(base64)：&quot;</span>, base64.StdEncoding.EncodeToString(encrypted))</span><br><span class="line">	decrypted = AesDecryptECB(encrypted, key)</span><br><span class="line">	fmt.Println(<span class="string">&quot;解密结果：&quot;</span>, <span class="keyword">string</span>(decrypted))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// =================== CBC ======================</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncryptCBC</span><span class="params">(origData []<span class="keyword">byte</span>, key []<span class="keyword">byte</span>)</span> <span class="params">(encrypted []<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">	<span class="comment">// 分组秘钥</span></span><br><span class="line">	<span class="comment">// NewCipher该函数限制了输入k的长度必须为16, 24或者32</span></span><br><span class="line">	block, _ := aes.NewCipher(key)</span><br><span class="line">	blockSize := block.BlockSize()                              <span class="comment">// 获取秘钥块的长度</span></span><br><span class="line">	origData = pkcs5Padding(origData, blockSize)                <span class="comment">// 补全码</span></span><br><span class="line">	blockMode := cipher.NewCBCEncrypter(block, key[:blockSize]) <span class="comment">// 加密模式，key[:blockSize]是IV</span></span><br><span class="line">	encrypted = <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(origData))                     <span class="comment">// 创建数组</span></span><br><span class="line">	blockMode.CryptBlocks(encrypted, origData)                  <span class="comment">// 加密</span></span><br><span class="line">	<span class="keyword">return</span> encrypted</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesDecryptCBC</span><span class="params">(encrypted []<span class="keyword">byte</span>, key []<span class="keyword">byte</span>)</span> <span class="params">(decrypted []<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">	block, _ := aes.NewCipher(key)                              <span class="comment">// 分组秘钥</span></span><br><span class="line">	blockSize := block.BlockSize()                              <span class="comment">// 获取秘钥块的长度</span></span><br><span class="line">	blockMode := cipher.NewCBCDecrypter(block, key[:blockSize]) <span class="comment">// 加密模式</span></span><br><span class="line">	decrypted = <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(encrypted))                    <span class="comment">// 创建数组</span></span><br><span class="line">	blockMode.CryptBlocks(decrypted, encrypted)                 <span class="comment">// 解密</span></span><br><span class="line">	decrypted = pkcs5UnPadding(decrypted)                       <span class="comment">// 去除补全码</span></span><br><span class="line">	<span class="keyword">return</span> decrypted</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pkcs5Padding</span><span class="params">(ciphertext []<span class="keyword">byte</span>, blockSize <span class="keyword">int</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	padding := blockSize - <span class="built_in">len</span>(ciphertext)%blockSize</span><br><span class="line">	padtext := bytes.Repeat([]<span class="keyword">byte</span>&#123;<span class="keyword">byte</span>(padding)&#125;, padding)</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">append</span>(ciphertext, padtext...)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pkcs5UnPadding</span><span class="params">(origData []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	length := <span class="built_in">len</span>(origData)</span><br><span class="line">	unpadding := <span class="keyword">int</span>(origData[length<span class="number">-1</span>])</span><br><span class="line">	<span class="keyword">return</span> origData[:(length - unpadding)]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// =================== ECB ======================</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncryptECB</span><span class="params">(origData []<span class="keyword">byte</span>, key []<span class="keyword">byte</span>)</span> <span class="params">(encrypted []<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">	cipher, _ := aes.NewCipher(generateKey(key))</span><br><span class="line">	length := (<span class="built_in">len</span>(origData) + aes.BlockSize) / aes.BlockSize</span><br><span class="line">	plain := <span class="built_in">make</span>([]<span class="keyword">byte</span>, length*aes.BlockSize)</span><br><span class="line">	<span class="built_in">copy</span>(plain, origData)</span><br><span class="line">	pad := <span class="keyword">byte</span>(<span class="built_in">len</span>(plain) - <span class="built_in">len</span>(origData))</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(origData); i &lt; <span class="built_in">len</span>(plain); i++ &#123;</span><br><span class="line">		plain[i] = pad</span><br><span class="line">	&#125;</span><br><span class="line">	encrypted = <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(plain))</span><br><span class="line">	<span class="comment">// 分组分块加密</span></span><br><span class="line">	<span class="keyword">for</span> bs, be := <span class="number">0</span>, cipher.BlockSize(); bs &lt;= <span class="built_in">len</span>(origData); bs, be = bs+cipher.BlockSize(), be+cipher.BlockSize() &#123;</span><br><span class="line">		cipher.Encrypt(encrypted[bs:be], plain[bs:be])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> encrypted</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesDecryptECB</span><span class="params">(encrypted []<span class="keyword">byte</span>, key []<span class="keyword">byte</span>)</span> <span class="params">(decrypted []<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">	cipher, _ := aes.NewCipher(generateKey(key))</span><br><span class="line">	decrypted = <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(encrypted))</span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="keyword">for</span> bs, be := <span class="number">0</span>, cipher.BlockSize(); bs &lt; <span class="built_in">len</span>(encrypted); bs, be = bs+cipher.BlockSize(), be+cipher.BlockSize() &#123;</span><br><span class="line">		cipher.Decrypt(decrypted[bs:be], encrypted[bs:be])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	trim := <span class="number">0</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(decrypted) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		trim = <span class="built_in">len</span>(decrypted) - <span class="keyword">int</span>(decrypted[<span class="built_in">len</span>(decrypted)<span class="number">-1</span>])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> decrypted[:trim]</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateKey</span><span class="params">(key []<span class="keyword">byte</span>)</span> <span class="params">(genKey []<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">	genKey = <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">16</span>)</span><br><span class="line">	<span class="built_in">copy</span>(genKey, key)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">16</span>; i &lt; <span class="built_in">len</span>(key); &#123;</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="number">16</span> &amp;&amp; i &lt; <span class="built_in">len</span>(key); j, i = j+<span class="number">1</span>, i+<span class="number">1</span> &#123;</span><br><span class="line">			genKey[j] ^= key[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> genKey</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	AES()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p>➜  myproject go run main.go</p>
+<p>原文： AES待加密数据</p>
+<p>—————— CBC模式 ——————–</p>
+<p>密文(hex)： 49c5e79d2c1167345135323346135484a2ad8e591b05b75ac0d5fcc206fdda90</p>
+<p>密文(base64)： ScXnnSwRZzRRNTIzRhNUhKKtjlkbBbdawNX8wgb92pA=</p>
+<p>解密结果： AES待加密数据</p>
+<p>—————— ECB模式 ——————–</p>
+<p>密文(hex)： 74c3a459214e98d6e91ffc4ea291d63ece558f39d07e3f4ade14adbc3486f60f</p>
+<p>密文(base64)： dMOkWSFOmNbpH/xOopHWPs5VjznQfj9K3hStvDSG9g8=</p>
+<p>解密结果： AES待加密数据</p>
+<h3 id="非对称算法-RSA"><a href="#非对称算法-RSA" class="headerlink" title="非对称算法-RSA"></a>非对称算法-RSA</h3><h4 id="说明-2"><a href="#说明-2" class="headerlink" title="说明"></a>说明</h4><p>1.加密的明文长度不能超过  RSA密钥的长度，根据填充方案的不同，RSA加密时，对于原文数据的要求</p>
+<ul>
+<li><p>OAEP填充模式： 原文长度 &lt;= 密钥模长 - (2 * 原文的摘要值长度) - 2字节 ，各摘要值长度：</p>
+<pre><code> ​        SHA-1:      20字节
+ ​        SHA-256:  32字节
+ ​        SHA-384:  48字节
+ ​        SHA-512:  64字节
+</code></pre>
+</li>
+<li><p>PKCA1-V1_5填充模式：原文长度 &lt;= 密钥模长 - 11字节，比如密钥长度1024位（即128字节），明文长度不能超过117=128-11</p>
+</li>
+</ul>
+<p>2.RSA加密内容的长度有限，这是它的算法决定的，所以一般用RSA加密其他算法的密钥，比如用RSA加密AES的密钥，再用AES算法加密明文数据。如果非要加密大量数据，只能将数据分段进行加密。</p>
+<p>3.RSA一般还是用来签名比较多，如果只是签名用的话，加密明文的MD5值就可以</p>
+<p>4.密文的长度总是密钥的长度的一半</p>
+<p>5.RSA签名也需要选择填充方案，如PKCS_V15或PKCS_V21（PSS）</p>
+<p>6.RSA签名先计算出消息的消息摘要,然后使用自己的私钥加密消息摘要，所以需要选择计算摘要的算法，如SHA256等</p>
+<h4 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h4><p>密钥生成有几种方案，我们用openssl生成密钥对，看看公私钥的样式</p>
+<p><strong>生成RSA私钥（无加密）</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out rsa_private.key 2048</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看rsa_private.key</span></span><br><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIIEpAIBAAKCAQEA3vK7hHEblXqIw4OlAdyYBoSm6TYW80KH6WenPR24J8FehpxB</span><br><span class="line">yQY6mpMTR/XM4BTAflfouvdNZ9OPAm3IarHaBbc1aXwznzn93yPp/nQdBdZq9RDA</span><br><span class="line">JA1f5ESrCY/YJWiBW88C33EtLF2xiOj1l+02HepdFo0FvO0BE19yrS2mcBLH8LTU</span><br><span class="line">YAW+7dUzjonS1hTKJo+i1r+Zwq6Djp7mxB6hFqsRSIVVypFd6gs2o4GLUJRR9CQL</span><br><span class="line">YoceSFECsRef25jhKFxR/HaMZJPHkMo9W8CNV7swLatDcObv8AJC7vHmjYVQDSxb</span><br><span class="line">QMxtK+8fUYGMwS4TLHnt/IL0tbyQWuvh1f6LaQIDAQABAoIBAEQCl+FW/6shrga2</span><br><span class="line">aeefe2DBpokNzwJ2ES/KRuIF5t95xXQaxpakJ8xvgTo6aT0SF4ZzGrOuLRa3GrEK</span><br><span class="line">/FBP4MpNkSWUlcrEzgT7162fjhrxxb7sVTCqQ85GhEZucuk2b/+prp6qz7Tw/+9b</span><br><span class="line">4U9vNUr661qtukpfoixeuYTKoDMfdbPG+nMIVlHb5jRfH/foLarau4Y+8DNr+OTW</span><br><span class="line">73ay84i0n8CwdI4uLAAHF1MskdSKfLFn1QcmFBjFspXNqnyQo3W1LFvyoLy2v7rt</span><br><span class="line">QGh3oFlug0p8EguurW4Hmgcfsobyo6Lz4INM5WqNJ7qiltMBRkkrievhO/IjL8UI</span><br><span class="line">c4MC94ECgYEA99aYQXVk4mFCF6DNqYa28feHwmCIl1x76ylVC+k3oOcoH1SLaX4a</span><br><span class="line">hZbQKAGLgi3tGZ/BedYBKi/6Yv5DdljSR4XKD0fipl7LKvF1uHLk7JzdL87RdlvE</span><br><span class="line">mB0E3oOewzu+T5d4t3SiSU4yQqaCFOxX8s+NqV5HostI0MdUFjDoMWUCgYEA5kpN</span><br><span class="line">J1Pm6fDWAJLNNqPGrDKcb93ahmpYIsh0G6DJklJxHVHpdx+poLkEduN5MtCK7jcH</span><br><span class="line">aoguUyzNuD1TY9+mVLakQ4KzspsL9ggqecXSmkM7D1BqL1OdJ9JPjJeo3CPrikYS</span><br><span class="line">qSKONzwNjmfekNuYpTKXaEZmPrdYX0d5+mqCs7UCgYEAwKFAshAGm5WwgyDu+QbG</span><br><span class="line">Bwe3szLIt6ygfEUh3yIjpKJGIyPZP+NNxetUWuPohQQhNztea84UFbA40tyBnuim</span><br><span class="line">eATa6kmbNmiTTQtjzjsvB2Fc4Z3EXFQzV2+mqzRuH5y97Kr0ntK+mG94zSkSDiUs</span><br><span class="line">roL3vl6TG0sZi3yCNMVKk6kCgYEAh6od6Z0z231VlODmo9m3oJnwLrazlZvwcA1G</span><br><span class="line">2T/Pf7Oxj2RB9Tth4p0cVC2NqLHSJqOkas3u/HDYgEEgbyXCBwXRnzPQSNeuJDKL</span><br><span class="line">U1GGz/nrQQpOg7LuUhdDZb+yan1+tOay95Cz1zY5hjsKkqvLMQasy3EtqqS4Gukw</span><br><span class="line">oqU8ekECgYBzq/iL6f+h1MyHrPfsrgLDogb2pwM9lXLV1dj+Z5mU2EFnGV3tP+Ol</span><br><span class="line">JRC0VZsVy4XsmjUbBVHc2AUB8xAqzpsurjSPYPk8bY0LpRCF95cIiz6296cUIdn3</span><br><span class="line">95fH9Or7v/5BoXK9twG340j/ETxkLUh70ZZ7Vm0J4o8wNZZjVQb8lg==</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+
+<p><strong>生成RSA公钥</strong></p>
+<p>本质上是从私钥中提取公钥</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -in rsa_private.key -pubout -out rsa_public.key</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看rsa_public.key</span></span><br><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3vK7hHEblXqIw4OlAdyY</span><br><span class="line">BoSm6TYW80KH6WenPR24J8FehpxByQY6mpMTR/XM4BTAflfouvdNZ9OPAm3IarHa</span><br><span class="line">Bbc1aXwznzn93yPp/nQdBdZq9RDAJA1f5ESrCY/YJWiBW88C33EtLF2xiOj1l+02</span><br><span class="line">HepdFo0FvO0BE19yrS2mcBLH8LTUYAW+7dUzjonS1hTKJo+i1r+Zwq6Djp7mxB6h</span><br><span class="line">FqsRSIVVypFd6gs2o4GLUJRR9CQLYoceSFECsRef25jhKFxR/HaMZJPHkMo9W8CN</span><br><span class="line">V7swLatDcObv8AJC7vHmjYVQDSxbQMxtK+8fUYGMwS4TLHnt/IL0tbyQWuvh1f6L</span><br><span class="line">aQIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看公/私钥明细</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -in rsa_private.key -noout -text</span><br><span class="line">openssl rsa -pubin -in rsa_public.key -noout -text</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">私钥明细</span></span><br><span class="line">Private-Key: (2048 bit)</span><br><span class="line">modulus:</span><br><span class="line">    00:de:f2:bb:84:71:1b:95:7a:88:c3:83:a5:01:dc:</span><br><span class="line">    98:06:84:a6:e9:36:16:f3:42:87:e9:67:a7:3d:1d:</span><br><span class="line">    b8:27:c1:5e:86:9c:41:c9:06:3a:9a:93:13:47:f5:</span><br><span class="line">    cc:e0:14:c0:7e:57:e8:ba:f7:4d:67:d3:8f:02:6d:</span><br><span class="line">    c8:6a:b1:da:05:b7:35:69:7c:33:9f:39:fd:df:23:</span><br><span class="line">    e9:fe:74:1d:05:d6:6a:f5:10:c0:24:0d:5f:e4:44:</span><br><span class="line">    ab:09:8f:d8:25:68:81:5b:cf:02:df:71:2d:2c:5d:</span><br><span class="line">    b1:88:e8:f5:97:ed:36:1d:ea:5d:16:8d:05:bc:ed:</span><br><span class="line">    01:13:5f:72:ad:2d:a6:70:12:c7:f0:b4:d4:60:05:</span><br><span class="line">    be:ed:d5:33:8e:89:d2:d6:14:ca:26:8f:a2:d6:bf:</span><br><span class="line">    99:c2:ae:83:8e:9e:e6:c4:1e:a1:16:ab:11:48:85:</span><br><span class="line">    55:ca:91:5d:ea:0b:36:a3:81:8b:50:94:51:f4:24:</span><br><span class="line">    0b:62:87:1e:48:51:02:b1:17:9f:db:98:e1:28:5c:</span><br><span class="line">    51:fc:76:8c:64:93:c7:90:ca:3d:5b:c0:8d:57:bb:</span><br><span class="line">    30:2d:ab:43:70:e6:ef:f0:02:42:ee:f1:e6:8d:85:</span><br><span class="line">    50:0d:2c:5b:40:cc:6d:2b:ef:1f:51:81:8c:c1:2e:</span><br><span class="line">    13:2c:79:ed:fc:82:f4:b5:bc:90:5a:eb:e1:d5:fe:</span><br><span class="line">    8b:69</span><br><span class="line">publicExponent: 65537 (0x10001)</span><br><span class="line">privateExponent:</span><br><span class="line">    44:02:97:e1:56:ff:ab:21:ae:06:b6:69:e7:9f:7b:</span><br><span class="line">    60:c1:a6:89:0d:cf:02:76:11:2f:ca:46:e2:05:e6:</span><br><span class="line">    df:79:c5:74:1a:c6:96:a4:27:cc:6f:81:3a:3a:69:</span><br><span class="line">    3d:12:17:86:73:1a:b3:ae:2d:16:b7:1a:b1:0a:fc:</span><br><span class="line">    50:4f:e0:ca:4d:91:25:94:95:ca:c4:ce:04:fb:d7:</span><br><span class="line">    ad:9f:8e:1a:f1:c5:be:ec:55:30:aa:43:ce:46:84:</span><br><span class="line">    46:6e:72:e9:36:6f:ff:a9:ae:9e:aa:cf:b4:f0:ff:</span><br><span class="line">    ef:5b:e1:4f:6f:35:4a:fa:eb:5a:ad:ba:4a:5f:a2:</span><br><span class="line">    2c:5e:b9:84:ca:a0:33:1f:75:b3:c6:fa:73:08:56:</span><br><span class="line">    51:db:e6:34:5f:1f:f7:e8:2d:aa:da:bb:86:3e:f0:</span><br><span class="line">    33:6b:f8:e4:d6:ef:76:b2:f3:88:b4:9f:c0:b0:74:</span><br><span class="line">    8e:2e:2c:00:07:17:53:2c:91:d4:8a:7c:b1:67:d5:</span><br><span class="line">    07:26:14:18:c5:b2:95:cd:aa:7c:90:a3:75:b5:2c:</span><br><span class="line">    5b:f2:a0:bc:b6:bf:ba:ed:40:68:77:a0:59:6e:83:</span><br><span class="line">    4a:7c:12:0b:ae:ad:6e:07:9a:07:1f:b2:86:f2:a3:</span><br><span class="line">    a2:f3:e0:83:4c:e5:6a:8d:27:ba:a2:96:d3:01:46:</span><br><span class="line">    49:2b:89:eb:e1:3b:f2:23:2f:c5:08:73:83:02:f7:</span><br><span class="line">    81</span><br><span class="line">prime1:</span><br><span class="line">    00:f7:d6:98:41:75:64:e2:61:42:17:a0:cd:a9:86:</span><br><span class="line">    b6:f1:f7:87:c2:60:88:97:5c:7b:eb:29:55:0b:e9:</span><br><span class="line">    37:a0:e7:28:1f:54:8b:69:7e:1a:85:96:d0:28:01:</span><br><span class="line">    8b:82:2d:ed:19:9f:c1:79:d6:01:2a:2f:fa:62:fe:</span><br><span class="line">    43:76:58:d2:47:85:ca:0f:47:e2:a6:5e:cb:2a:f1:</span><br><span class="line">    75:b8:72:e4:ec:9c:dd:2f:ce:d1:76:5b:c4:98:1d:</span><br><span class="line">    04:de:83:9e:c3:3b:be:4f:97:78:b7:74:a2:49:4e:</span><br><span class="line">    32:42:a6:82:14:ec:57:f2:cf:8d:a9:5e:47:a2:cb:</span><br><span class="line">    48:d0:c7:54:16:30:e8:31:65</span><br><span class="line">prime2:</span><br><span class="line">    00:e6:4a:4d:27:53:e6:e9:f0:d6:00:92:cd:36:a3:</span><br><span class="line">    c6:ac:32:9c:6f:dd:da:86:6a:58:22:c8:74:1b:a0:</span><br><span class="line">    c9:92:52:71:1d:51:e9:77:1f:a9:a0:b9:04:76:e3:</span><br><span class="line">    79:32:d0:8a:ee:37:07:6a:88:2e:53:2c:cd:b8:3d:</span><br><span class="line">    53:63:df:a6:54:b6:a4:43:82:b3:b2:9b:0b:f6:08:</span><br><span class="line">    2a:79:c5:d2:9a:43:3b:0f:50:6a:2f:53:9d:27:d2:</span><br><span class="line">    4f:8c:97:a8:dc:23:eb:8a:46:12:a9:22:8e:37:3c:</span><br><span class="line">    0d:8e:67:de:90:db:98:a5:32:97:68:46:66:3e:b7:</span><br><span class="line">    58:5f:47:79:fa:6a:82:b3:b5</span><br><span class="line">exponent1:</span><br><span class="line">    00:c0:a1:40:b2:10:06:9b:95:b0:83:20:ee:f9:06:</span><br><span class="line">    c6:07:07:b7:b3:32:c8:b7:ac:a0:7c:45:21:df:22:</span><br><span class="line">    23:a4:a2:46:23:23:d9:3f:e3:4d:c5:eb:54:5a:e3:</span><br><span class="line">    e8:85:04:21:37:3b:5e:6b:ce:14:15:b0:38:d2:dc:</span><br><span class="line">    81:9e:e8:a6:78:04:da:ea:49:9b:36:68:93:4d:0b:</span><br><span class="line">    63:ce:3b:2f:07:61:5c:e1:9d:c4:5c:54:33:57:6f:</span><br><span class="line">    a6:ab:34:6e:1f:9c:bd:ec:aa:f4:9e:d2:be:98:6f:</span><br><span class="line">    78:cd:29:12:0e:25:2c:ae:82:f7:be:5e:93:1b:4b:</span><br><span class="line">    19:8b:7c:82:34:c5:4a:93:a9</span><br><span class="line">exponent2:</span><br><span class="line">    00:87:aa:1d:e9:9d:33:db:7d:55:94:e0:e6:a3:d9:</span><br><span class="line">    b7:a0:99:f0:2e:b6:b3:95:9b:f0:70:0d:46:d9:3f:</span><br><span class="line">    cf:7f:b3:b1:8f:64:41:f5:3b:61:e2:9d:1c:54:2d:</span><br><span class="line">    8d:a8:b1:d2:26:a3:a4:6a:cd:ee:fc:70:d8:80:41:</span><br><span class="line">    20:6f:25:c2:07:05:d1:9f:33:d0:48:d7:ae:24:32:</span><br><span class="line">    8b:53:51:86:cf:f9:eb:41:0a:4e:83:b2:ee:52:17:</span><br><span class="line">    43:65:bf:b2:6a:7d:7e:b4:e6:b2:f7:90:b3:d7:36:</span><br><span class="line">    39:86:3b:0a:92:ab:cb:31:06:ac:cb:71:2d:aa:a4:</span><br><span class="line">    b8:1a:e9:30:a2:a5:3c:7a:41</span><br><span class="line">coefficient:</span><br><span class="line">    73:ab:f8:8b:e9:ff:a1:d4:cc:87:ac:f7:ec:ae:02:</span><br><span class="line">    c3:a2:06:f6:a7:03:3d:95:72:d5:d5:d8:fe:67:99:</span><br><span class="line">    94:d8:41:67:19:5d:ed:3f:e3:a5:25:10:b4:55:9b:</span><br><span class="line">    15:cb:85:ec:9a:35:1b:05:51:dc:d8:05:01:f3:10:</span><br><span class="line">    2a:ce:9b:2e:ae:34:8f:60:f9:3c:6d:8d:0b:a5:10:</span><br><span class="line">    85:f7:97:08:8b:3e:b6:f7:a7:14:21:d9:f7:f7:97:</span><br><span class="line">    c7:f4:ea:fb:bf:fe:41:a1:72:bd:b7:01:b7:e3:48:</span><br><span class="line">    ff:11:3c:64:2d:48:7b:d1:96:7b:56:6d:09:e2:8f:</span><br><span class="line">    30:35:96:63:55:06:fc:96</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash">公钥明细</span></span><br><span class="line">Public-Key: (2048 bit)</span><br><span class="line">Modulus:</span><br><span class="line">    00:de:f2:bb:84:71:1b:95:7a:88:c3:83:a5:01:dc:</span><br><span class="line">    98:06:84:a6:e9:36:16:f3:42:87:e9:67:a7:3d:1d:</span><br><span class="line">    b8:27:c1:5e:86:9c:41:c9:06:3a:9a:93:13:47:f5:</span><br><span class="line">    cc:e0:14:c0:7e:57:e8:ba:f7:4d:67:d3:8f:02:6d:</span><br><span class="line">    c8:6a:b1:da:05:b7:35:69:7c:33:9f:39:fd:df:23:</span><br><span class="line">    e9:fe:74:1d:05:d6:6a:f5:10:c0:24:0d:5f:e4:44:</span><br><span class="line">    ab:09:8f:d8:25:68:81:5b:cf:02:df:71:2d:2c:5d:</span><br><span class="line">    b1:88:e8:f5:97:ed:36:1d:ea:5d:16:8d:05:bc:ed:</span><br><span class="line">    01:13:5f:72:ad:2d:a6:70:12:c7:f0:b4:d4:60:05:</span><br><span class="line">    be:ed:d5:33:8e:89:d2:d6:14:ca:26:8f:a2:d6:bf:</span><br><span class="line">    99:c2:ae:83:8e:9e:e6:c4:1e:a1:16:ab:11:48:85:</span><br><span class="line">    55:ca:91:5d:ea:0b:36:a3:81:8b:50:94:51:f4:24:</span><br><span class="line">    0b:62:87:1e:48:51:02:b1:17:9f:db:98:e1:28:5c:</span><br><span class="line">    51:fc:76:8c:64:93:c7:90:ca:3d:5b:c0:8d:57:bb:</span><br><span class="line">    30:2d:ab:43:70:e6:ef:f0:02:42:ee:f1:e6:8d:85:</span><br><span class="line">    50:0d:2c:5b:40:cc:6d:2b:ef:1f:51:81:8c:c1:2e:</span><br><span class="line">    13:2c:79:ed:fc:82:f4:b5:bc:90:5a:eb:e1:d5:fe:</span><br><span class="line">    8b:69</span><br><span class="line">Exponent: 65537 (0x10001)</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////////////////////////////RSA</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RSA</span><span class="params">()</span></span> &#123;</span><br><span class="line">	RSAEncDec()</span><br><span class="line">	RSASignVerify(crypto.SHA256)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RSAEncDec</span><span class="params">()</span></span> &#123;</span><br><span class="line">	origData := []<span class="keyword">byte</span>(<span class="string">&quot;RSA待加密数据&quot;</span>) <span class="comment">// 待加密的数据，不能超过指定长度</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;原文：&quot;</span>, <span class="keyword">string</span>(origData))</span><br><span class="line">	<span class="comment">//生成私钥</span></span><br><span class="line">	privateKey, err := rsa.GenerateKey(rand.Reader, <span class="number">2048</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	ShowRSAKeys(privateKey)</span><br><span class="line">	<span class="comment">//生成公钥</span></span><br><span class="line">	publicKey := privateKey.PublicKey</span><br><span class="line">	<span class="comment">//根据公钥加密</span></span><br><span class="line">	encryptedBytes, err := rsa.EncryptOAEP(</span><br><span class="line">		sha256.New(),</span><br><span class="line">		rand.Reader,</span><br><span class="line">		&amp;publicKey,</span><br><span class="line">		origData, <span class="comment">//需要加密的字符串</span></span><br><span class="line">		<span class="literal">nil</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;密文(bytes): &quot;</span>, encryptedBytes)</span><br><span class="line">	fmt.Println(<span class="string">&quot;密文(hex)：&quot;</span>, hex.EncodeToString(encryptedBytes))</span><br><span class="line">	fmt.Println(<span class="string">&quot;密文(base64)：&quot;</span>, base64.StdEncoding.EncodeToString(encryptedBytes))</span><br><span class="line">	<span class="comment">//根据私钥解密</span></span><br><span class="line">	decryptedBytes, err := privateKey.Decrypt(<span class="literal">nil</span>, encryptedBytes, &amp;rsa.OAEPOptions&#123;Hash: crypto.SHA256&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;decrypted message: &quot;</span>, <span class="keyword">string</span>(decryptedBytes))</span><br><span class="line">	fmt.Println(<span class="string">&quot;\n\n&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//PKCS1格式的key</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ShowRSAKeys</span><span class="params">(rsaPrivateKey *rsa.PrivateKey)</span></span> &#123;</span><br><span class="line">	privateKey := <span class="keyword">string</span>(pem.EncodeToMemory(&amp;pem.Block&#123;</span><br><span class="line">		Type:  <span class="string">&quot;RSA PRIVATE KEY&quot;</span>,</span><br><span class="line">		Bytes: x509.MarshalPKCS1PrivateKey(rsaPrivateKey),</span><br><span class="line">	&#125;))</span><br><span class="line"></span><br><span class="line">	derPkix, err := x509.MarshalPKIXPublicKey(&amp;rsaPrivateKey.PublicKey)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	publicKey := <span class="keyword">string</span>(pem.EncodeToMemory(&amp;pem.Block&#123;</span><br><span class="line">		Type:  <span class="string">&quot;PUBLIC KEY&quot;</span>,</span><br><span class="line">		Bytes: derPkix,</span><br><span class="line">	&#125;))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;公钥：%v\n私钥：%v\n&quot;</span>, publicKey, privateKey)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//签名和验签</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RSASignVerify</span><span class="params">(algorithmSign crypto.Hash)</span></span> &#123;</span><br><span class="line">	origData := []<span class="keyword">byte</span>(<span class="string">&quot;RSA待签名数据&quot;</span>) <span class="comment">// 待签名的数据，长度无影响</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;原文：&quot;</span>, <span class="keyword">string</span>(origData))</span><br><span class="line">	<span class="comment">//生成私钥</span></span><br><span class="line">	privateKey, err := rsa.GenerateKey(rand.Reader, <span class="number">2048</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	ShowRSAKeys(privateKey)</span><br><span class="line">	<span class="comment">//生成公钥</span></span><br><span class="line">	publicKey := privateKey.PublicKey</span><br><span class="line"></span><br><span class="line">	<span class="comment">//签名</span></span><br><span class="line">	hash := algorithmSign.New()</span><br><span class="line">	hash.Write(origData)</span><br><span class="line">	sign, err := rsa.SignPKCS1v15(rand.Reader, privateKey, algorithmSign, hash.Sum(<span class="literal">nil</span>))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;签名(bytes): &quot;</span>, sign)</span><br><span class="line">	fmt.Println(<span class="string">&quot;签名(hex)：&quot;</span>, hex.EncodeToString(sign))</span><br><span class="line"></span><br><span class="line">	<span class="comment">//验签</span></span><br><span class="line">	err = rsa.VerifyPKCS1v15(&amp;publicKey, algorithmSign, hash.Sum(<span class="literal">nil</span>), sign)</span><br><span class="line">	<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;验签成功&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;验签失败&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	RSA()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">原文： RSA待加密数据</span><br><span class="line">公钥：-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuXBB99idiOOKvY3vdNnz</span><br><span class="line">gF0XWOrQj9hKb0lqU9phdGC5ngi7gxQpLgzewFL8&#x2F;B5sXTEIBBsGsg+szwsjAykv</span><br><span class="line">PMjgJs7e6hpnNqCiaX7e936DakCZc7Cgkjv7Qc7Flvy2j+A2OyDntVvu&#x2F;RwAgRNQ</span><br><span class="line">MNBJ&#x2F;QR9ErHmhjFJwain+mN42U0ng4WvObonAJMJ70LASxpdpifW2LnHQijn+HHE</span><br><span class="line">J0ZNDLzBrObcoLw+xjMpSg4GazPhgi6bPpBlIEXOSXkNeQ&#x2F;k8uGyx9XNor4Vqiql</span><br><span class="line">24sSzZnoar1hfpTG7SIAkSuqh8wj7dO&#x2F;zXkbZ&#x2F;RfA&#x2F;EVfzS4XKNfFICnP46XuP6W</span><br><span class="line">XQIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br><span class="line"></span><br><span class="line">私钥：-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIIEowIBAAKCAQEAuXBB99idiOOKvY3vdNnzgF0XWOrQj9hKb0lqU9phdGC5ngi7</span><br><span class="line">gxQpLgzewFL8&#x2F;B5sXTEIBBsGsg+szwsjAykvPMjgJs7e6hpnNqCiaX7e936DakCZ</span><br><span class="line">c7Cgkjv7Qc7Flvy2j+A2OyDntVvu&#x2F;RwAgRNQMNBJ&#x2F;QR9ErHmhjFJwain+mN42U0n</span><br><span class="line">g4WvObonAJMJ70LASxpdpifW2LnHQijn+HHEJ0ZNDLzBrObcoLw+xjMpSg4GazPh</span><br><span class="line">gi6bPpBlIEXOSXkNeQ&#x2F;k8uGyx9XNor4Vqiql24sSzZnoar1hfpTG7SIAkSuqh8wj</span><br><span class="line">7dO&#x2F;zXkbZ&#x2F;RfA&#x2F;EVfzS4XKNfFICnP46XuP6WXQIDAQABAoIBAAPZIIVUKXC9yBNG</span><br><span class="line">7sEuBK+VPvbJaKqTgnfsvhgfYAZaO3&#x2F;cDogZ0wDxo226SyWwO+9zJQdwyCLJ0Hw7</span><br><span class="line">bu6R3DkWshAcGuQgyCOKEdS+nUHljjSWQpj0AWEHfZ9P+ym29NLnhDiV5jkNP1hh</span><br><span class="line">TGFhVTiuGdr2TOImbvI5853hMhswDDWpgpy66&#x2F;z40Lma4w4Uk5kCBi5aYs0KCPZg</span><br><span class="line">iBQQVIYHXvB0ys6ev0PJgkXOK51H8yqqFORDsQyMQJFqMzQ3N0qKYTIAcdtzxnih</span><br><span class="line">LXEZOLBaREXbfCXKWj&#x2F;ZRQocSPcZEHVlct0hbwxka3&#x2F;2nCHg12cfn9Wbsq9pj0De</span><br><span class="line">hf3HtAECgYEA4VaEBrIyCnCnH4PxwScTDhBAKolzfQkptsr737Xkpf9xOlbGbJSV</span><br><span class="line">mDvuH3ARXbbLVGwtBT9yD5wn01ZrAUgsnCDzKQxLAMbejSaCl7vOXf3ovVNgJiU+</span><br><span class="line">SLiw44mfnpcvXYa9OKB3GLY8si2gS4If0PNIvuQuj4+uXmbEbdW6iG0CgYEA0qvf</span><br><span class="line">qi8n1n&#x2F;jRkc+hldQgn8QkGfkUmO8HG9dguCXjGTXJlHfIUCvB65yoPivFLa7FORw</span><br><span class="line">WxDuvsoRxW15jg5lYfRo1K0OcIRsWUGRsLPh98H4zey34CYnv4L4DOrKFguskpCC</span><br><span class="line">0rj5+9RTBQO4MwnqoGl4N7uOWvr8s06qwSv7b7ECgYAdcGIbRdiHyKPs2B4Tb&#x2F;lr</span><br><span class="line">UvAvHnn6EeJjQS2a0namwTKXvpJ5yQeqNdosPUXnimQSCXfwQZOzOmFxmM6uAjHh</span><br><span class="line">y+Q4rqR124Vjx240SJLzcKKhaW0cTq1ObuKdN3OlEndbrqi15zDoB5byaEeS1dM2</span><br><span class="line">RzJvzfvPQaQ0LRTojI2sGQKBgQCw6YqTBLSEqbK24r8723kNjRzg143iLkTa8B5r</span><br><span class="line">+KTrTgdq85fX+dTCM5mpWgzU7TqfqdI8dzS2XUSdMXjBdY9nufKKnqUgkePW9Hwf</span><br><span class="line">EoAxKeABNceX4RLB&#x2F;X7GgiigaL9L+TUTNikfdEcfT+dQXQR+HvPIgaVi+6BYBzjX</span><br><span class="line">rVKhkQKBgBvothb8QrSe7GLpMNTr5Y6Y5yJoqezDByeqtNhnjHrmzftGnHI36LF1</span><br><span class="line">C7RoxAqjizN9Z&#x2F;IZhRdkxA59HALjkp7vieoRmlO+VLiW09nX+tLmk7LMeUEWXx7u</span><br><span class="line">3Wkp+NfAZywpwWMKzM3aSMtMfvcvVuulZGYFzG33QIP9T9GuX1P7</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br><span class="line"></span><br><span class="line">密文(bytes):  [69 137 219 156 198 176 241 87 252 65 36 93 225 66 98 196 211 200 35 209 28 71 199 70 2 219 241 165 226 149 31 150 121 91 143 42 26 188 203 10 3 143 201 66 120 26 134 138 224 153 60 34 180 189 79 89 249 107 61 209 3 175 145 151 112 189 254 166 107 177 2 28 121 241 16 99 183 88 192 198 161 142 144 18 116 219 158 146 205 10 15 209 58 75 62 197 103 99 130 129 51 135 69 123 44 237 72 46 55 79 51 130 137 160 109 251 82 3 104 86 36 207 120 80 195 47 79 127 115 242 118 234 234 13 213 128 147 226 74 91 86 196 209 212 85 32 171 94 119 165 206 65 225 222 82 73 11 204 108 167 235 2 154 64 208 45 58 100 195 86 243 53 5 49 142 122 52 34 245 177 15 117 162 94 245 154 205 198 160 16 215 191 201 159 6 168 252 52 225 24 19 166 116 88 187 118 106 34 143 243 35 205 212 130 111 215 230 231 187 200 126 144 78 246 85 7 236 2 74 51 4 164 229 202 47 183 220 84 30 198 153 79 189 184 253 72 155 241 136 39 155 88 60 0 85 178]</span><br><span class="line">密文(hex)： 4589db9cc6b0f157fc41245de14262c4d3c823d11c47c74602dbf1a5e2951f96795b8f2a1abccb0a038fc942781a868ae0993c22b4bd4f59f96b3dd103af919770bdfea66bb1021c79f11063b758c0c6a18e901274db9e92cd0a0fd13a4b3ec5676382813387457b2ced482e374f338289a06dfb5203685624cf7850c32f4f7f73f276eaea0dd58093e24a5b56c4d1d45520ab5e77a5ce41e1de52490bcc6ca7eb029a40d02d3a64c356f33505318e7a3422f5b10f75a25ef59acdc6a010d7bfc99f06a8fc34e11813a67458bb766a228ff323cdd4826fd7e6e7bbc87e904ef65507ec024a3304a4e5ca2fb7dc541ec6994fbdb8fd489bf188279b583c0055b2</span><br><span class="line">密文(base64)： RYnbnMaw8Vf8QSRd4UJixNPII9EcR8dGAtvxpeKVH5Z5W48qGrzLCgOPyUJ4GoaK4Jk8IrS9T1n5az3RA6+Rl3C9&#x2F;qZrsQIcefEQY7dYwMahjpASdNueks0KD9E6Sz7FZ2OCgTOHRXss7UguN08zgomgbftSA2hWJM94UMMvT39z8nbq6g3VgJPiSltWxNHUVSCrXnelzkHh3lJJC8xsp+sCmkDQLTpkw1bzNQUxjno0IvWxD3WiXvWazcagENe&#x2F;yZ8GqPw04RgTpnRYu3ZqIo&#x2F;zI83Ugm&#x2F;X5ue7yH6QTvZVB+wCSjMEpOXKL7fcVB7GmU+9uP1Im&#x2F;GIJ5tYPABVsg&#x3D;&#x3D;</span><br><span class="line">decrypted message:  RSA待加密数据</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">原文： RSA待签名数据</span><br><span class="line">公钥：-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFXHUNFP7gWmRNyNdXhG</span><br><span class="line">caTrNim4GFKKPBOWLLGN6jURBODRjosJL2B&#x2F;+6kLPDXCO9tPLPm2suKCVdmlaxgE</span><br><span class="line">PoN0g+YA&#x2F;pmUPBf0B+CJU8fWRZHrpA4aQ9gsCGnfj5bX8U5WCk03YFgkXHbGer1f</span><br><span class="line">JkUxK+IksgqOf1Lvr5HPI4oHKjVRA6aOr1qJO82oaQSYSBEmHnQ3Ico7WX2TEQvn</span><br><span class="line">t0lrJbt8GDFtcK94Sp+oLr5j&#x2F;OZy4VFmw+4zNCy2+XpsC5fGcUGEKeLeB3Hm3zkh</span><br><span class="line">ts6T4imAyCr679dIcNFGgHKHm8uH7c+gNTPfOOjVmOrYgIQRn8j9npR2x0oPnMpv</span><br><span class="line">lQIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br><span class="line"></span><br><span class="line">私钥：-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIIEpAIBAAKCAQEAnFXHUNFP7gWmRNyNdXhGcaTrNim4GFKKPBOWLLGN6jURBODR</span><br><span class="line">josJL2B&#x2F;+6kLPDXCO9tPLPm2suKCVdmlaxgEPoN0g+YA&#x2F;pmUPBf0B+CJU8fWRZHr</span><br><span class="line">pA4aQ9gsCGnfj5bX8U5WCk03YFgkXHbGer1fJkUxK+IksgqOf1Lvr5HPI4oHKjVR</span><br><span class="line">A6aOr1qJO82oaQSYSBEmHnQ3Ico7WX2TEQvnt0lrJbt8GDFtcK94Sp+oLr5j&#x2F;OZy</span><br><span class="line">4VFmw+4zNCy2+XpsC5fGcUGEKeLeB3Hm3zkhts6T4imAyCr679dIcNFGgHKHm8uH</span><br><span class="line">7c+gNTPfOOjVmOrYgIQRn8j9npR2x0oPnMpvlQIDAQABAoIBACgrwnN51VgMC5VW</span><br><span class="line">NuMgbLl27xmTzsIxM2QMhGInnZe42w6t1isSfuG1oi1AWqq2BZrr14RvBgshOOxm</span><br><span class="line">aKMEINMPZDkgONEzFWv7m7EKeT8V8nEd9bbKCOW1&#x2F;lqLGe8Di6ltv54WCUywWWeI</span><br><span class="line">&#x2F;ac8Ud67mM715Qf6vnLpFL3AccFnp12zG5iDct24hPGzvmXBZXBGj5C&#x2F;8DESU&#x2F;y1</span><br><span class="line">HRUxAO6KTPX8lPdweyQKNdL2p&#x2F;UMbdXEeMro&#x2F;L8FNh+OkAltSRdAuTj5VDdrgQa0</span><br><span class="line">22Qd&#x2F;h9JxpagbZD1A6tyupQAAsUTZcBJbTeij9jvyOPS22SelQVEgY5B8QiB81Gs</span><br><span class="line">Wps37WECgYEAwLt2jNRBHsMyIfdhJAsdatRalkdjuDRydW3+5PRDuwPnf7TxxZCn</span><br><span class="line">eNEya0qXGV2Dk5MfiTB1WuD6tzjaJOpaiK6slQhrBq&#x2F;JB54j8cdDpvN9a5Sjum0z</span><br><span class="line">JsQPgL&#x2F;4NQUgGf2U2shbtxzSG2t3MgQhjPOqoF5bOl5&#x2F;cWLygLxC5gcCgYEAz6ef</span><br><span class="line">nPhRryUFs9ng5rsQPCRb9gHhapoeqKAToawyAiRvfMQxSMV61gdjXJRV+3wnbvdN</span><br><span class="line">Uc2In6YdHsCC26LtgEyYPoSmIUf&#x2F;7T3MZ8MM6s&#x2F;YTeA0l&#x2F;+3qtCX5MazBXxxww64</span><br><span class="line">WylZCpucO+dKfaUsoTr6qUc2j2eu7YATRFVc9oMCgYEAvj3MzUIObYEbkS+QcXWP</span><br><span class="line">Og4WxNP++Kq8eHF08yaxXH6EGijPpcYdqUJF1GYyM9V8tUS6Ej8E+AmvMQArQ9kY</span><br><span class="line">OGbC7&#x2F;D5RAZsFtrgfB3HB5q9KF32J2T24sMQ0nOrWxqOD1mhfzvaXCtUscAoTfSJ</span><br><span class="line">8Ynr2JSK1FjGz3NuD+jE2C0CgYEAhqiZzg4N0nk8qHO674URMx8U74QqrJmDFjCw</span><br><span class="line">amAjEdaU4aDMoPdG&#x2F;&#x2F;JMkeWzmGDbpY8Dee&#x2F;CEF2FdsK6WTnfsBp7g9c7cEujgDJa</span><br><span class="line">ElOfVcow59dj48m1TjT0uyvLPdyEXUx3as52anWcrBAB81agiXGYyRtgG0DOZD9w</span><br><span class="line">vxhoL4cCgYA6WrasukE5w7wzoRRPIVSGwnSeiG4A8uDaGKa0eNWSoHbggKUTutQ2</span><br><span class="line">wnB1O89n4AyDN9tIXKxT0XH3a96AA0RUsW9apbQeuyxGAf2R+varlaLsm99xP2x6</span><br><span class="line">7YfRXcLByG+RIQDRx&#x2F;&#x2F;HR64k+BptmZ4MyLp7hyAi4XtXLEO4B9Rpmg&#x3D;&#x3D;</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br><span class="line"></span><br><span class="line">签名(bytes):  [153 8 165 215 86 112 125 54 204 34 44 38 124 183 171 194 144 68 37 38 210 196 74 40 85 71 25 34 3 93 46 254 247 191 232 198 228 12 115 87 237 246 46 226 229 73 222 230 38 57 54 170 219 254 87 204 235 9 249 235 190 30 77 185 20 55 100 97 249 103 120 65 231 138 214 148 175 134 157 0 205 64 36 16 19 238 33 81 63 36 155 154 119 140 43 248 192 219 98 133 241 91 88 236 181 76 78 238 236 164 183 196 170 178 39 91 79 147 198 45 85 206 101 71 159 136 182 225 141 88 126 60 59 53 251 170 5 30 153 239 89 180 148 216 237 218 163 205 150 151 115 73 13 10 147 78 180 251 29 80 185 17 194 61 112 191 136 240 142 182 60 228 191 225 123 162 3 217 224 59 208 95 114 166 27 173 171 139 178 248 82 72 124 209 230 78 245 86 122 213 171 158 113 91 11 158 128 196 152 134 64 21 120 77 148 95 249 6 70 51 24 233 222 160 180 218 27 132 162 237 110 126 188 125 110 130 249 177 108 159 141 121 19 66 78 72 208 38 124 228 141 124 77 79 149 221]</span><br><span class="line">签名(hex)： 9908a5d756707d36cc222c267cb7abc290442526d2c44a2855471922035d2efef7bfe8c6e40c7357edf62ee2e549dee6263936aadbfe57cceb09f9ebbe1e4db914376461f9677841e78ad694af869d00cd40241013ee21513f249b9a778c2bf8c0db6285f15b58ecb54c4eeeeca4b7c4aab2275b4f93c62d55ce65479f88b6e18d587e3c3b35fbaa051e99ef59b494d8eddaa3cd969773490d0a934eb4fb1d50b911c23d70bf88f08eb63ce4bfe17ba203d9e03bd05f72a61badab8bb2f852487cd1e64ef5567ad5ab9e715b0b9e80c498864015784d945ff906463318e9dea0b4da1b84a2ed6e7ebc7d6e82f9b16c9f8d7913424e48d0267ce48d7c4d4f95dd</span><br><span class="line">验签成功</span><br></pre></td></tr></table></figure>
+
+<h3 id="摘要算法-SHA256"><a href="#摘要算法-SHA256" class="headerlink" title="摘要算法-SHA256"></a>摘要算法-SHA256</h3><h4 id="说明-3"><a href="#说明-3" class="headerlink" title="说明"></a>说明</h4><p>摘要算法比对称算法和非对称算法要容易理解。</p>
+<p>对于任意长度的消息，SHA256都会产生一个256bit长的哈希值，称作消息摘要。这个摘要相当于是个长度为32个字节的数组，通常用一个长度为64的十六进制字符串来表示。</p>
+<p>摘要计算的速度比较快：</p>
+<p>以一个60M的文件为测试样本，经过1000次的测试平均值，三种算法的表现为：</p>
+<p>MD5算法运行1000次的平均时间为：226ms</p>
+<p>SHA1算法运行1000次的平均时间为：308ms</p>
+<p>SHA256算法运行1000次的平均时间为：473ms</p>
+<h4 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SHA256</span><span class="params">()</span></span> &#123;</span><br><span class="line">	src := <span class="string">&quot;sha256待处理数据&quot;</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;原文：&quot;</span>, <span class="keyword">string</span>(src))</span><br><span class="line">	m := sha256.New()</span><br><span class="line">	m.Write([]<span class="keyword">byte</span>(src))</span><br><span class="line">	res := hex.EncodeToString(m.Sum(<span class="literal">nil</span>))</span><br><span class="line">	fmt.Println(<span class="string">&quot;sha256摘要数据：&quot;</span>, res) <span class="comment">//长度256bit，64字节</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;\n\n&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	SHA256()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p>原文： sha256待处理数据</p>
+<p>sha256摘要数据： 703d4c3b6d0a73831112d78b0369511483f0de671839c79b119a6587394b7237</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>对于上面的算法只进行了简单介绍，具体的实现逻辑大家可以找资料继续研究。</p>
+<p>世界果然是数学的！</p>
+<p>计算机追到根上，都是数学！</p>
+<p>代码位置为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/various/secret.go">https://github.com/shidawuhen/asap/blob/master/controller/various/secret.go</a></p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/shachao888/article/details/53096820">golang rc4加密算法的使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/AtlanSI/article/details/110631873">什么是对称加密（对称加密简介)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/cljdsc/article/details/127428414">Golang里的AES加密、解密</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%AB%98%E7%BA%A7%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86/468774?fromtitle=aes&fromid=5903&fr=aladdin">高级加密标准（Advanced Encryption Standard，AES）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78913397">密码学基础：AES加密算法</a></li>
+<li><a target="_blank" rel="noopener" href="http://t.zoukankan.com/kancy-p-10135534.html">AES五种加密模式（CBC、ECB、CTR、OCF、CFB）</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27575841/article/details/124218972">AES加密模式总结</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/bensantan/article/details/40354337">RSA加密的限制</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28058509/article/details/120997693">golang实现RSA加密解密算法</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/juanxiaseng0838/article/details/127246349">RSA算法多种生成公私钥的方式</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43369218/article/details/118520383">RSA密钥证书的生成</a></li>
+<li><a target="_blank" rel="noopener" href="http://t.zoukankan.com/wyzhou-p-9738964.html">(4) openssl rsa/pkey(查看私钥、从私钥中提取公钥、查看公钥)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27706119/article/details/127078681">关于RSA加密/解密中OAEP填充模式和PKCS1-v1_5填充模式时对于原文数据的要求</a></li>
+<li><a target="_blank" rel="noopener" href="https://code84.com/165561.html">golang语言rsa加解密及签名验签</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/nie19940803/article/details/88194340">RSA签名和验签</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44750892/article/details/120075922">RSA加密、解密、签名、验签（验证签名）&amp;RSA算法原理</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Tenfei/articles/14283340.html">SHA256简介 </a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.ngui.cc/el/517647.html">加密算法比较：SHA1，SHA256（SHA2），MD5</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/taoshihan/article/details/125692696">【Golang】golang实现sha256加密函数</a></li>
+</ol>
+
       
 
       
@@ -230,16 +399,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/09/git-revert%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2022/12/29/%E5%B8%B8%E7%94%A8%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2022/12/19/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E6%84%9F%E6%9F%93%E7%BB%8F%E5%8E%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">新冠病毒感染经历</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -259,598 +487,14 @@
 
 
 
-
-  
-    <article id="pages-常见HTTP错误码模拟" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/">常见HTTP错误码模拟</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/" class="archive-article-date">
-  	<time datetime="2021-11-28T15:48:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近发现部分同学虽然知道HTTP错误码，但对产生的具体原因并不清楚，所以我打算对比较常见的错误码进行模拟，帮助大家理解。</p>
-        
-          <a class="article-more-a" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-初探技术管理-2-管理规划" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/">初探技术管理(2)-管理规划</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/" class="archive-article-date">
-  	<time datetime="2021-11-28T04:05:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>成为管理者后，第一步要做管理规划，管理规划中最重要的是确认团队职能。</p>
-        
-          <a class="article-more-a" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-初探技术管理-1" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/">初探技术管理(1)</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/" class="archive-article-date">
-  	<time datetime="2021-11-24T13:48:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作为一个程序员，想继续成长，管理是绕不过去的槛。</p>
-<p>即使想纯做技术，向架构师方向前进，仍需做好管理，因为架构师也有大小，架构的盘子越大，自身能力也会越强，但大盘子单靠个人是无法达成的。</p>
-        
-          <a class="article-more-a" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-搞明白Go的值和指针，别写bug了" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/">搞明白Go的值和指针，别写bug了</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/" class="archive-article-date">
-  	<time datetime="2021-11-21T10:02:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近多次出现同事误用指针导致系统bug，所以这次聊一下Go的值与指针，大家尽量避免写出错误代码。</p>
-        
-          <a class="article-more-a" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-MySQL总结" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/">MySQL总结</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2021-11-15T12:51:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>半个月没写文章了，这是从去年到现在断更最长的一次，原因有如下几个：</p>
-        
-          <a class="article-more-a" href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Redis的事务，Go-lua用起来真香" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/">Redis的事务，Go+lua用起来真香</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/" class="archive-article-date">
-  	<time datetime="2021-10-29T02:30:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Redis是应对高并发的常用工具，在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/xElsNUjxiT0MYZuVJct6Gw">常用缓存技巧</a>中讲过相关技巧。但有些业务场景，使用Redis会遇到问题，如电商里的秒杀、扣减库存等。</p>
-        
-          <a class="article-more-a" href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-用Go实现一个状态机" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/">用Go实现一个状态机</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/" class="archive-article-date">
-  	<time datetime="2021-10-24T04:33:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作中，很多同学会用到状态机，例如对一个工单进行创建、编辑、审核，在执行新动作前，要检查能否从当前状态流转到下一个状态。对这种需求，我们怎么实现呢？</p>
-        
-          <a class="article-more-a" href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-规范上说避免使用JOIN" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/">规范上说避免使用JOIN</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/" class="archive-article-date">
-  	<time datetime="2021-10-21T07:15:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前写过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/D06Bi0nZQtVmc72Hv06zjw">MySQL开发规范</a>，SQL设计中有一条建议：避免使用JOIN和子查询，禁止使用3表以上的JOIN，必要时推荐用JOIN代替子查询。</p>
-        
-          <a class="article-more-a" href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-我要实现一个推单功能了" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/">我要实现一个推单功能了</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/" class="archive-article-date">
-  	<time datetime="2021-10-16T08:04:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前都是作为消息接收方，接收消息。记得当时做支付的时候，接收第三方支付公司的各种消息，如支付成功、支付失败、退款成功、退款失败。</p>
-        
-          <a class="article-more-a" href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/9/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -873,8 +517,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
