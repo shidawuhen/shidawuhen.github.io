@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2023/1 | Jason Pang</title>
+  <title>来了解一下ASN.1？ | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/2023/01/index.html">
+  <meta name="description" content="想要了解证书，必须先了解ASN.1和编码规则。这篇文章简单介绍ASN.1，不过分探讨细节，大家如果有兴趣可以继续深入研究。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="来了解一下ASN.1？">
+<meta property="og:url" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="想要了解证书，必须先了解ASN.1和编码规则。这篇文章简单介绍ASN.1，不过分探讨细节，大家如果有兴趣可以继续深入研究。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115181115540.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115181155854.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115223425434.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115223607034.png">
+<meta property="article:published_time" content="2023-01-16T02:01:56.000Z">
+<meta property="article:modified_time" content="2023-01-16T02:03:46.626Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115181115540.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,124 +203,235 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="pages-来了解一下ASN-1？" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      来了解一下ASN.1？
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/" class="archive-article-date">
+
+        
+        <a href="/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/" class="archive-article-date">
   	<time datetime="2023-01-16T02:01:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-16</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/">来了解一下ASN.1？</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>想要了解证书，必须先了解ASN.1和编码规则。这篇文章简单介绍ASN.1，不过分探讨细节，大家如果有兴趣可以继续深入研究。</p>
+<span id="more"></span>
+<h2 id="一、ASN-1"><a href="#一、ASN-1" class="headerlink" title="一、ASN.1"></a>一、ASN.1</h2><p><strong>ASN.1是Abstract Syntax Notation One（抽象文法描述语言）的缩写。计算机系统之间交换的数据消息如果用ASN.1进行描述，可以减少了双方的沟通成本。</strong></p>
+<p>ASN.1作为抽象描述文法，将现有的数据类型抽象描述成近20种数据类型。这些数据类型主要分为两大类：基本类型和结构类型。ASN.1的数据类型几乎概括了现实世界中存在的所有数据类型，具有相当的通用性。</p>
+<p>基本类型又称为原子类型，是构成其他结构类型的成员类型，如</p>
+<ol>
+<li>布尔值类型：BOOLEAN</li>
+<li>整型：INTEGER</li>
+<li>字符串：OCTET STRING</li>
+<li>空：NULL</li>
+</ol>
+<p>结构类型又称为复合类型，如</p>
+<ol>
+<li>有序成员固定结构：SEQUENCE</li>
+<li>无序成员固定结构：SET</li>
+</ol>
+<h3 id="1-1实战"><a href="#1-1实战" class="headerlink" title="1.1实战"></a>1.1实战</h3><p>通过一个实例我们看看怎样使用ASN.1。</p>
+<p>我们先创建一个ASN1格式的schema，该schema表示用户信息，里面有用户名和用户描述。然后填写数据，将数据进行编解码。大家可以用<a target="_blank" rel="noopener" href="https://asn1.io/asn1playground/default.aspx%E6%9D%A5%E5%81%9A%E5%AE%9E%E9%AA%8C%E3%80%82">https://asn1.io/asn1playground/default.aspx来做实验。</a></p>
+<h4 id="1-1-1schema"><a href="#1-1-1schema" class="headerlink" title="1.1.1schema"></a>1.1.1schema</h4><p>首先创建改结构对应的ASN.1描述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--&lt;ASN1.HugeInteger World-Schema.Rocket.range&gt;--</span><br><span class="line">World-Schema DEFINITIONS AUTOMATIC TAGS ::&#x3D; </span><br><span class="line">BEGIN</span><br><span class="line">  Rocket ::&#x3D; SEQUENCE       </span><br><span class="line">  &#123;</span><br><span class="line">     name      UTF8String (SIZE(1..16)),</span><br><span class="line">     message   UTF8String (SIZE(1..16))</span><br><span class="line">  &#125;                                                     </span><br><span class="line">END</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<h4 id="1-1-2设置数据"><a href="#1-1-2设置数据" class="headerlink" title="1.1.2设置数据"></a>1.1.2设置数据</h4><p>有了schema后，我们对该结构进行赋值，可以使用ASN.1格式或json格式赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># ASN.1格式</span><br><span class="line">value Rocket ::&#x3D; &#123;</span><br><span class="line">  name &quot;Falcon&quot;,</span><br><span class="line">  message &quot;hh&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;Falcon&quot;,</span><br><span class="line">  &quot;message&quot;:&quot;hh&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h4 id="1-1-3编码"><a href="#1-1-3编码" class="headerlink" title="1.1.3编码"></a>1.1.3编码</h4><p>然后我们将数据编码为需要的格式，如ber、der、per、uper、oer、coer、xml等，编码结果如下所示：</p>
+<p><a href="hh.PDU.ber">hh.PDU.ber</a></p>
+<p><a href="hh.PDU.der">hh.PDU.der</a></p>
+<p><a href="hh.PDU.xml">hh.PDU.xml</a></p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1Zz8dJCErDe1Fiz57oQF4Pg">https://pan.baidu.com/s/1Zz8dJCErDe1Fiz57oQF4Pg</a>  密码: 2wdr</p>
+<h4 id="1-1-4解码"><a href="#1-1-4解码" class="headerlink" title="1.1.4解码"></a>1.1.4解码</h4><p>我们尝试解码der文件，如果没有schema，解析的内容如下图所示：</p>
+<p><img src="./image-20230115181115540.png" alt="image-20230115181115540"></p>
+<p>如果有对应的schema，解析出的内容存放在txt或json中：</p>
+<p><img src="./image-20230115181155854.png" alt="image-20230115181155854"></p>
+<p><a href="hh.PDU.der.json">hh.PDU.der.json</a></p>
+<p><a href="hh.PDU.der.txt">hh.PDU.der.txt</a></p>
+<h3 id="1-2代码实现"><a href="#1-2代码实现" class="headerlink" title="1.2代码实现"></a>1.2代码实现</h3><p>如果用代码，如何实现上述功能呢？本次用php实现，大家需要安装<a target="_blank" rel="noopener" href="https://github.com/fgrosse/PHPASN1%E3%80%82">https://github.com/fgrosse/PHPASN1。</a></p>
+<p>代码主要包含4部分内容：</p>
+<ol>
+<li>先对结构进行赋值</li>
+<li>然后将数据进行der编码和base64编码</li>
+<li>编写该结构对应的schema（这个其实可以放在最开始编写）</li>
+<li>将编码后的数据进行解析（支持base64编码或der编码的数据），解析完成后，便可获取各个数据</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#namespace FG\Test\ASN1;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FG</span>\<span class="title">Test</span>\<span class="title">ASN1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Identifier</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">TemplateParser</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Universal</span>\<span class="title">BitString</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Universal</span>\<span class="title">Integer</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Universal</span>\<span class="title">ObjectIdentifier</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Universal</span>\<span class="title">Sequence</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Universal</span>\<span class="title">Set</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Universal</span>\<span class="title">CharacterString</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">FG</span>\<span class="title">ASN1</span>\<span class="title">Universal</span>\<span class="title">UTF8String</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//use PHPUnit_Framework_TestCase;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TemplateParserTest</span> //<span class="keyword">extends</span> <span class="title">PHPUnit_Framework_TestCase</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testParseBase64</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">#1.赋值</span></span><br><span class="line">        <span class="variable">$sequence</span> = <span class="keyword">new</span> Sequence(</span><br><span class="line">           <span class="comment">// new Set(</span></span><br><span class="line">                <span class="comment">//new ObjectIdentifier(&#x27;ID Number&#x27;),</span></span><br><span class="line">                <span class="keyword">new</span> UTF8String(<span class="string">&quot;Falcon&quot;</span>),</span><br><span class="line">                <span class="keyword">new</span> UTF8String(<span class="string">&quot;hh&quot;</span>)</span><br><span class="line">           <span class="comment">// )</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">#2.der编码后，做base64编码</span></span><br><span class="line">        <span class="variable">$data</span> = base64_encode(<span class="variable">$sequence</span>-&gt;getBinary());</span><br><span class="line">        var_dump(<span class="variable">$sequence</span>-&gt;getBinary(),<span class="variable">$data</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">#3.schema结构</span></span><br><span class="line">        <span class="variable">$template</span> = [</span><br><span class="line">            Identifier::SEQUENCE =&gt; [</span><br><span class="line">               <span class="comment">// Identifier::SET =&gt; [</span></span><br><span class="line">                    <span class="comment">//Identifier::OBJECT_IDENTIFIER,</span></span><br><span class="line">                    Identifier::UTF8_STRING,</span><br><span class="line">                    Identifier::UTF8_STRING,</span><br><span class="line">               <span class="comment">// ]</span></span><br><span class="line">            ]</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        <span class="comment">#4.解析</span></span><br><span class="line">        <span class="variable">$parser</span> = <span class="keyword">new</span> TemplateParser();</span><br><span class="line">        <span class="variable">$object</span> = <span class="variable">$parser</span>-&gt;parseBase64(<span class="variable">$data</span>, <span class="variable">$template</span>);</span><br><span class="line">        var_dump(<span class="variable">$object</span>);</span><br><span class="line"></span><br><span class="line">        var_dump(<span class="string">&quot;-------------&quot;</span>);</span><br><span class="line">        var_dump(<span class="variable">$object</span>-&gt;getChildren()[<span class="number">0</span>]-&gt;getContent());</span><br><span class="line">        var_dump(<span class="string">&quot;-------------&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//        $this-&gt;assertInstanceOf(Set::class, $object[0]);</span></span><br><span class="line"><span class="comment">//        $this-&gt;assertInstanceOf(ObjectIdentifier::class, $object[0][0]);</span></span><br><span class="line"><span class="comment">//        $this-&gt;assertInstanceOf(Sequence::class, $object[0][1]);</span></span><br><span class="line"><span class="comment">//        $this-&gt;assertInstanceOf(Integer::class, $object[0][1][0]);</span></span><br><span class="line"><span class="comment">//        $this-&gt;assertInstanceOf(BitString::class, $object[0][1][1]);</span></span><br><span class="line">        <span class="variable">$object</span> = <span class="variable">$parser</span>-&gt;parseBinary(<span class="variable">$sequence</span>-&gt;getBinary(),<span class="variable">$template</span>);</span><br><span class="line">        var_dump(<span class="variable">$object</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/vendor/autoload.php&#x27;</span>;</span><br><span class="line"><span class="variable">$parse</span> = <span class="keyword">new</span> TemplateParserTest();</span><br><span class="line"><span class="variable">$parse</span>-&gt;testParseBase64();</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">➜  myproject php asn1.php</span><br><span class="line">string(14) &quot;0</span><br><span class="line"></span><br><span class="line">             Falcon</span><br><span class="line">                   hh&quot;</span><br><span class="line">string(20) &quot;MAwMBkZhbGNvbgwCaGg&#x3D;&quot;</span><br><span class="line">object(FG\ASN1\Universal\Sequence)#8 (4) &#123;</span><br><span class="line">  [&quot;children&quot;:protected]&#x3D;&gt;</span><br><span class="line">  array(2) &#123;</span><br><span class="line">    [0]&#x3D;&gt;</span><br><span class="line">    object(FG\ASN1\Universal\UTF8String)#9 (5) &#123;</span><br><span class="line">      [&quot;value&quot;:protected]&#x3D;&gt;</span><br><span class="line">      string(6) &quot;Falcon&quot;</span><br><span class="line">      [&quot;checkStringForIllegalChars&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      bool(false)</span><br><span class="line">      [&quot;allowedCharacters&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      array(0) &#123;</span><br><span class="line">      &#125;</span><br><span class="line">      [&quot;contentLength&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(6)</span><br><span class="line">      [&quot;nrOfLengthOctets&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(1)</span><br><span class="line">    &#125;</span><br><span class="line">    [1]&#x3D;&gt;</span><br><span class="line">    object(FG\ASN1\Universal\UTF8String)#10 (5) &#123;</span><br><span class="line">      [&quot;value&quot;:protected]&#x3D;&gt;</span><br><span class="line">      string(2) &quot;hh&quot;</span><br><span class="line">      [&quot;checkStringForIllegalChars&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      bool(false)</span><br><span class="line">      [&quot;allowedCharacters&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      array(0) &#123;</span><br><span class="line">      &#125;</span><br><span class="line">      [&quot;contentLength&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(2)</span><br><span class="line">      [&quot;nrOfLengthOctets&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(1)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  [&quot;iteratorPosition&quot;:&quot;FG\ASN1\Construct&quot;:private]&#x3D;&gt;</span><br><span class="line">  int(2)</span><br><span class="line">  [&quot;contentLength&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">  int(12)</span><br><span class="line">  [&quot;nrOfLengthOctets&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">  int(1)</span><br><span class="line">&#125;</span><br><span class="line">string(13) &quot;-------------&quot;</span><br><span class="line">string(6) &quot;Falcon&quot;</span><br><span class="line">string(13) &quot;-------------&quot;</span><br><span class="line">object(FG\ASN1\Universal\Sequence)#11 (4) &#123;</span><br><span class="line">  [&quot;children&quot;:protected]&#x3D;&gt;</span><br><span class="line">  array(2) &#123;</span><br><span class="line">    [0]&#x3D;&gt;</span><br><span class="line">    object(FG\ASN1\Universal\UTF8String)#12 (5) &#123;</span><br><span class="line">      [&quot;value&quot;:protected]&#x3D;&gt;</span><br><span class="line">      string(6) &quot;Falcon&quot;</span><br><span class="line">      [&quot;checkStringForIllegalChars&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      bool(false)</span><br><span class="line">      [&quot;allowedCharacters&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      array(0) &#123;</span><br><span class="line">      &#125;</span><br><span class="line">      [&quot;contentLength&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(6)</span><br><span class="line">      [&quot;nrOfLengthOctets&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(1)</span><br><span class="line">    &#125;</span><br><span class="line">    [1]&#x3D;&gt;</span><br><span class="line">    object(FG\ASN1\Universal\UTF8String)#13 (5) &#123;</span><br><span class="line">      [&quot;value&quot;:protected]&#x3D;&gt;</span><br><span class="line">      string(2) &quot;hh&quot;</span><br><span class="line">      [&quot;checkStringForIllegalChars&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      bool(false)</span><br><span class="line">      [&quot;allowedCharacters&quot;:&quot;FG\ASN1\AbstractString&quot;:private]&#x3D;&gt;</span><br><span class="line">      array(0) &#123;</span><br><span class="line">      &#125;</span><br><span class="line">      [&quot;contentLength&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(2)</span><br><span class="line">      [&quot;nrOfLengthOctets&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">      int(1)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  [&quot;iteratorPosition&quot;:&quot;FG\ASN1\Construct&quot;:private]&#x3D;&gt;</span><br><span class="line">  int(2)</span><br><span class="line">  [&quot;contentLength&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">  int(12)</span><br><span class="line">  [&quot;nrOfLengthOctets&quot;:&quot;FG\ASN1\ASNObject&quot;:private]&#x3D;&gt;</span><br><span class="line">  int(1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、编码规则"><a href="#二、编码规则" class="headerlink" title="二、编码规则"></a>二、编码规则</h2><p>ASN.1应用越来越广泛的主要原因之一是这种抽象文法描述与几种标准化编码规则联系在一起。这些编码规则规定了如何在非传输介质下<strong>实现ASN.1定义的数据类型与字节流的相互转换</strong>。因为编码规则是针对ASN.1的数据类型而制定的，因此可以称这些编码规则为ASN.1的编码规则。</p>
+<p>ASN.1的编码规则是把使用ASN.1语言说明的数据转化成一种标准格式的系列规则，同时，保证转换后的数据在任意操作系统中，只要使用相同编码规则的解码器就可以解码获得原始数据。</p>
+<p>目前，ASN.1的标准化编码规则有以下几种：BER（Basic Encoding Rules），DER（Distinguished Encoding Rules），PER（Packed Encoding Rules）和CER（Canonical Encoding Rules）等。我们简单介绍一下BER（基本编码规则）和DER（定长编码规则）。</p>
+<h3 id="2-1BER"><a href="#2-1BER" class="headerlink" title="2.1BER"></a>2.1BER</h3><p>BER编码信息由以下几部分组成：</p>
+<p>① 标识串，表示要编码的 ASN.1 类型的标识类和标识码以及使用的编码方法（是简单型还是结构型）。</p>
+<p>② 长度串，定长型编码方法中它表示内容串的长度，非定长编码方法中它表示长度不定。</p>
+<p>③ 内容串，简单定长型编码方法中它表示要编码类型值的具体内容，结构型编码方法中表示各个成员编码的串联。</p>
+<p>④ 内容结束串，只有在结构非定长型编码方法中表示内容串的结束，其他方法中该串省略。</p>
+<p>对一个 ASN.1 对象的 BER 编码有三种模式，使用哪一种模式取决于该对象的类型和该类型数据的长度是否已知，</p>
+<p>不同模式下编码信息中每个组成部分的编码规则不同。主要为基本类型定长模式、结构类型定长模式、结构类型非定长模式。</p>
+<p><a href="hh.PDU.ber">hh.PDU.ber</a></p>
+<h3 id="2-2DER"><a href="#2-2DER" class="headerlink" title="2.2DER"></a>2.2DER</h3><p>DER编码是ASN.1数据类型中具有唯一编码的编码规则。DER编码是BER编码的子集，是将每一个ASN.1抽象对象</p>
+<p>类型表示成唯一的1和0码字符串的编码规则。这种编码规则是为需要编码成唯一比特串的应用系统而制定的，特</p>
+<p>别是在应用安全技术的应用系统中，由于安全加密技术要求输入数据是字节流的形式，并且是与原数据唯一对应的</p>
+<p>字节流，因此需要使用DER编码来实现数据结构的编码。</p>
+<p>DER编码称为有关安全技术的应用系统的最佳选择。它基本上继承了BER编码规则，同样，也有三种编码方法。但</p>
+<p>为了保证编码结果的唯一性，DER 编码在 BER 编码规则的基础上又附加了一些规则：</p>
+<p>① 必须使用定长模式编码。</p>
+<p>② 对于内容长度小于127的类型值，长度串编码必须采用短型。</p>
+<p>③ 对于内容长度大于128的类型值，长度串编码必须采用长型，同时长度串编码的字节个数必须是最少的。</p>
+<p>④ 对于简单字符串类型和从简单字符串类型通过隐式派生得到的类型，必须使用基本类型定长模式编码方法。</p>
+<p>⑤ 对于结构类型、从结构类型通过隐式派生得到的类型，以及从任何类型通过显示派生得到的类型，必须使用结</p>
+<p>构类型定长模式编码方法。</p>
+<p><a href="hh.PDU.der">hh.PDU.der</a></p>
+<p>如果Name类型ASN.1描述如下图：<img src="./image-20230115223425434.png" alt="image-20230115223425434"></p>
+<p>将数据使用基本类型定长模式编码后的结果为：</p>
+<p><img src="./image-20230115223607034.png" alt="image-20230115223607034"></p>
+<h2 id="三、使用"><a href="#三、使用" class="headerlink" title="三、使用"></a>三、使用</h2><p>现在很多内容都使用ASN.1描述，如密码算法、数字证书等。</p>
+<h3 id="3-1密码算法ASN-1描述"><a href="#3-1密码算法ASN-1描述" class="headerlink" title="3.1密码算法ASN.1描述"></a>3.1密码算法ASN.1描述</h3><p>PKCS #7 v1.5描述了密码消息的通用语法。该语法允许嵌套，如一个数字信封可以包含另一个数字信封，或可以对已做数字信封的数据进行签名；该语法也允许扩展各种属性，还可以用于分发证书和CRL。PKCS #7与PEM兼容，可以直接将加密的消息转换成PEM消息，反之亦然。PKCS #7支持多种基于证书的管理系统，PEM就是其中之一。在RFC 5652中有增强定义。该标准主要包括消息通用语法和6种内容类型（明文、签名、信封、签名信封、摘要、密文）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line">① 消息通用语法用ASN.1描述如下：</span><br><span class="line"></span><br><span class="line">Contentlnfo::&#x3D; SEQUENCE&#123;</span><br><span class="line"></span><br><span class="line">    contentType ContentType，</span><br><span class="line"></span><br><span class="line">    content</span><br><span class="line"></span><br><span class="line">    [0] EXPLICIT ANY DEFINED BY contentType OPTIONAL</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ContentType:&#x3D; OBJECT IDENTIFIER</span><br><span class="line"></span><br><span class="line">② 明文消息内容用ASN.1描述如下：</span><br><span class="line"></span><br><span class="line">Data ::&#x3D; OCTET STRNG</span><br><span class="line"></span><br><span class="line">③ 签名消息内容用ASN.1描述如下：</span><br><span class="line"></span><br><span class="line">SignedData ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    version Version，</span><br><span class="line"></span><br><span class="line">    digestAlgorithms DigestAlgorithmldentifiers，</span><br><span class="line"></span><br><span class="line">    contentInfo Contentlnfo，</span><br><span class="line"></span><br><span class="line">    certificates [0] IMPLICIT ExtendedCertificatesAndCertificates</span><br><span class="line"></span><br><span class="line">    OPTIONAL，</span><br><span class="line"></span><br><span class="line">    Crls [1] IMPLICIT CertificateRevocationLists OPTIONAL，</span><br><span class="line"></span><br><span class="line">    signerlnfos Signerlnfos</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DigestAlgorithmldentifiers ::&#x3D; SET OF DigestAlgorithmldentifier</span><br><span class="line"></span><br><span class="line">Signerlnfos ::&#x3D; SET OF Signerlnfo</span><br><span class="line"></span><br><span class="line">Signerlnfo ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    version Version，</span><br><span class="line"></span><br><span class="line">    issuerAndSeriaINumber IssuerAndSerialNumber，</span><br><span class="line"></span><br><span class="line">    digestAlgorithm DigestAlgorithmldentifier，</span><br><span class="line"></span><br><span class="line">    authenticatedAttributes [0] IMPLICIT Attributes OPTIONA L，</span><br><span class="line"></span><br><span class="line">    digestEncryptionAlgorithm DigestEncryptionAIgorithmldentitler，</span><br><span class="line"></span><br><span class="line">    encryptedDigest EncryptedDigest，</span><br><span class="line"></span><br><span class="line">    unauthenticatedAttributes [1] IMPLJC.IT Attributes OPTIONAL</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EncryptedDigest ::&#x3D; OC.TET STRING</span><br><span class="line"></span><br><span class="line">Digestlnfo ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    digestAlgorithum DigestAlgorithmldentifier，</span><br><span class="line"></span><br><span class="line">    digest Digest</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Digest ::&#x3D; OCTET STRING</span><br><span class="line"></span><br><span class="line">④ 信封消息内容用ASN.1描述如下：</span><br><span class="line"></span><br><span class="line">EnvelopedData ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    version Version，</span><br><span class="line"></span><br><span class="line">    recipientlnfos Recipientlnfos.</span><br><span class="line"></span><br><span class="line">    encryptedContentlnfo EncryptedContentlnfo</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Recipientlnlos ::&#x3D; SET OF Recipientlnfo</span><br><span class="line"></span><br><span class="line">EncryptedContentInfo ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    contentType ContentType，</span><br><span class="line"></span><br><span class="line">    contentEncryptionAlgorithm</span><br><span class="line"></span><br><span class="line">    ContentEncryptionAlgorithmldentifier，</span><br><span class="line"></span><br><span class="line">    encryptedContent [0] IMPLICLT EncryptedContent OPTIONAL</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EncryptcdContenr ::&#x3D; OCTET STRING</span><br><span class="line"></span><br><span class="line">Recipientlnfo ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    version Version，</span><br><span class="line"></span><br><span class="line">    issuerAndSerialNumber IssuerAndSerialNumber，</span><br><span class="line"></span><br><span class="line">    keyEncryptionAlgorithm</span><br><span class="line"></span><br><span class="line">    KeyEncryptionAlgorithmldentifier，</span><br><span class="line"></span><br><span class="line">    encryptedKey EncryptedKey</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EncryptedKey ::&#x3D; OCTET STRING</span><br><span class="line"></span><br><span class="line">⑤ 签名信封消息内容用 ASN.1描述如下:</span><br><span class="line"></span><br><span class="line">SignedAndEnvelopedData ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    version Version，</span><br><span class="line"></span><br><span class="line">    recipientlnfos Recipientlnfos，</span><br><span class="line"></span><br><span class="line">    digestAlgorithms DigestAlgorithmldetifiers，</span><br><span class="line"></span><br><span class="line">    encryptedContentlnfo EncryptedComentlnfo，</span><br><span class="line"></span><br><span class="line">    certificates [0] IMPLICIT ExtendedCertificatesAndCertificates</span><br><span class="line"></span><br><span class="line">    OPTIONAL，</span><br><span class="line"></span><br><span class="line">    Crls [1] IMPLICIT CertificateRevocationLists OPTIONAL，</span><br><span class="line"></span><br><span class="line">    signerlnfos Signerlnfos</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">⑥ 摘要消息内容用 ASN.1描述如下:</span><br><span class="line"></span><br><span class="line">DigestedData ::&#x3D; SEQUENCE&#123;</span><br><span class="line"></span><br><span class="line">    version Version，</span><br><span class="line"></span><br><span class="line">    digestAlgorithm DigestAlgorithmldentifier，</span><br><span class="line"></span><br><span class="line">    contentlnfo Contentlnfo，</span><br><span class="line"></span><br><span class="line">    digest Digest</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Digest ::&#x3D; OCTET STRING</span><br><span class="line"></span><br><span class="line">⑦ 密文消息内容用ASN.1描述如下：</span><br><span class="line"></span><br><span class="line">EncryptedData ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">    version Version，</span><br><span class="line"></span><br><span class="line">    encryptedContentlnfo EncryptedContentlnfo</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2数字证书ASN-1描述"><a href="#3-2数字证书ASN-1描述" class="headerlink" title="3.2数字证书ASN.1描述"></a>3.2数字证书ASN.1描述</h3><p>X.509数字证书用ASN.1描述如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">Certificate ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　tbsCertificate TBSCertificate,</span><br><span class="line"></span><br><span class="line">　　signatureAlgorithm AlgorithmIdentifier,</span><br><span class="line"></span><br><span class="line">　　signature BIT STRING</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　TBSCertificate ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　version [0] EXPLICIT Version DEFAULT v1,</span><br><span class="line"></span><br><span class="line">　　serialNumber CertificateSerialNumber,</span><br><span class="line"></span><br><span class="line">　　signature AlgorithmIdentifier,</span><br><span class="line"></span><br><span class="line">　　issuer Name,</span><br><span class="line"></span><br><span class="line">　　validity Validity,</span><br><span class="line"></span><br><span class="line">　　subject Name,</span><br><span class="line"></span><br><span class="line">　　subjectPublicKeyInfo SubjectPublicKeyInfo,</span><br><span class="line"></span><br><span class="line">　　issuerUniqueID [1] IMPLICIT UniqueIdentifier OPTIONAL,</span><br><span class="line"></span><br><span class="line">　　-- If present, version must be v2or v3</span><br><span class="line"></span><br><span class="line">　　subjectUniqueID [2] IMPLICIT UniqueIdentifier OPTIONAL,</span><br><span class="line"></span><br><span class="line">　　-- If present, version must be v2or v3</span><br><span class="line"></span><br><span class="line">　　extensions [3] EXPLICIT Extensions OPTIONAL</span><br><span class="line"></span><br><span class="line">　　-- If present, version must be v3</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　Version ::&#x3D; INTEGER &#123;</span><br><span class="line"></span><br><span class="line">　　v1(0), v2(1), v3(2)</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　CertificateSerialNumber ::&#x3D; INTEGER</span><br><span class="line"></span><br><span class="line">　　Validity ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　notBefore CertificateValidityDate,</span><br><span class="line"></span><br><span class="line">　　notAfter CertificateValidityDate</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　CertificateValidityDate ::&#x3D; CHOICE &#123;</span><br><span class="line"></span><br><span class="line">　　utcTime UTCTime,</span><br><span class="line"></span><br><span class="line">　　generalTime GeneralizedTime</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　UniqueIdentifier ::&#x3D; BIT STRING</span><br><span class="line"></span><br><span class="line">　　SubjectPublicKeyInfo ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　algorithm AlgorithmIdentifier,</span><br><span class="line"></span><br><span class="line">　　subjectPublicKey BIT STRING</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　Extensions ::&#x3D; SEQUENCE OF Extension</span><br><span class="line"></span><br><span class="line">　　Extension ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　extnID OBJECT IDENTIFIER,</span><br><span class="line"></span><br><span class="line">　　critical BOOLEAN DEFAULT FALSE,</span><br><span class="line"></span><br><span class="line">　　extnValue OCTET STRING</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>通过这篇文章，大家应该能够了解ASN.1的价值和使用方法。</p>
+<p>发送/接受方或标准化组织等制定好对应的schema，使用方按照该schema进行赋值，然后将数据转换为ber、der等格式，接收方根据指定的schema进行解析，就能获取到对应数据。</p>
+<h2 id="五、资料"><a href="#五、资料" class="headerlink" title="五、资料"></a>五、资料</h2><ol>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/feinifi/article/details/106269204">ASN.1格式数据编解码总结</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/l993316381-/p/16123045.html">ASN.1描述与实例 </a></li>
+<li> <strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/NathanYang/p/9951282.html">ASN.1编码方式详解</a></strong></li>
+<li> <strong><a target="_blank" rel="noopener" href="https://vimsky.com/examples/detail/golang-ex-encoding.asn1---Marshal-function.html">Golang asn1.Marshal函数代码示例</a></strong></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/Dybinx/article/details/115458634">高效的5G ASN.1编解码工具</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39763896/article/details/116273173">网页版ASN1解码工具使用教程</a></li>
+<li> <a target="_blank" rel="noopener" href="https://asn1.io/asn1playground/">https://asn1.io/asn1playground/</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.thinbug.com/q/56453965">如何解析ASN.1值表示法格式</a></li>
+<li> <a target="_blank" rel="noopener" href="https://qa.1r1g.com/sf/ask/1866568441/#">Go - 解码/编码asn.1</a></li>
+<li> <a target="_blank" rel="noopener" href="https://bbs.csdn.net/topics/399099852">PHPASN1:一个PHP库，用于使用ITU-T X.690编码规则对任意ASN.1结构进行编码和解码-源码下载</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39528029/article/details/115938823">php asn.1,A PHP library to encode and decode arbitrary ASN.1 structures using ITU-T X.690 encoding r…</a></li>
+<li> <a target="_blank" rel="noopener" href="https://github.com/fgrosse/PHPASN1">GitHub - fgrosse/PHPASN1: A PHP library to encode and decode arbitrary ASN.1 structures using ITU-T </a></li>
+<li> <strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yehuisir/p/13972467.html">ThinkPHP5——引用vendor或extend里的第三方类（多种方法）</a></strong></li>
+<li> <a target="_blank" rel="noopener" href="http://www.scanywhere.com/technology/PKI/PKCS.haml"><strong>PKCS规范</strong></a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/cmathz1234/article/details/6021813">x509及其ASN.1表示法</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/" class="archive-article-date">
-  	<time datetime="2023-01-16T02:01:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">centos7.9安装xgboost</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/">centos7.9安装xgboost</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/15/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/hh.PDU.der/" class="archive-article-date">
-  	<time datetime="2023-01-15T10:12:29.838Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/08/2022%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2023-01-08T07:09:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/08/2022%E6%80%BB%E7%BB%93/">2022总结</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -334,8 +454,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

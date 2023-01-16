@@ -1,0 +1,4 @@
+rec1value Rocket ::= {
+  name "Falcon",
+  message "hh"
+}

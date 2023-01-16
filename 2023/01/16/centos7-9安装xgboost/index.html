@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2023/1 | Jason Pang</title>
+  <title>centos7.9安装xgboost | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/2023/01/index.html">
+  <meta name="description" content="XGBoost是一个优化的分布式梯度增强库，旨在实现高效，灵活和便携。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos7.9安装xgboost">
+<meta property="og:url" content="http://yoursite.com/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="XGBoost是一个优化的分布式梯度增强库，旨在实现高效，灵活和便携。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/image-20220928212349934.png">
+<meta property="article:published_time" content="2023-01-16T02:01:45.000Z">
+<meta property="article:modified_time" content="2023-01-16T02:02:31.928Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/image-20220928212349934.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,124 +200,161 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-centos7-9安装xgboost" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2023-01-16T02:01:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-16</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/">来了解一下ASN.1？</a>
+    <h1 class="article-title" itemprop="name">
+      centos7.9安装xgboost
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/" class="archive-article-date">
+        
+        <a href="/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/" class="archive-article-date">
   	<time datetime="2023-01-16T02:01:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-16</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/">centos7.9安装xgboost</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>XGBoost是一个优化的分布式梯度增强库，旨在实现高效，灵活和便携。</p>
+<span id="more"></span>
+<p>它在 Gradient Boosting 框架下实现<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/18635836?fromModule=lemma_inlink">机器学习算法</a>。XGBoost提供并行树提升（也称为GBDT，GBM），可以快速准确地解决许多数据科学问题。相同的代码在主要的分布式环境（Hadoop，SGE，MPI）上运行，并且可以解决数十亿个示例之外的问题。</p>
+<p>要想使用xgboost，必须先进行安装，官方网址为：<a target="_blank" rel="noopener" href="https://xgboost.readthedocs.io/en/latest/build.html#building-python-package-from-source%E3%80%82">https://xgboost.readthedocs.io/en/latest/build.html#building-python-package-from-source。</a></p>
+<p>xgboost可以使用两种方式进行安装。</p>
+<h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>使用pip方式安装最简单，pip3 install xgboost</p>
+<p>不过该方式目前应该最高支持到1.7.3</p>
+<h2 id="C-源码"><a href="#C-源码" class="headerlink" title="C++源码"></a>C++源码</h2><p>我们还可以通过编译xgboost的C++源码实现安装，该方式可安装各种版本，但操作也是最麻烦的。</p>
+<p>想用centos7.9编译C++源码，需要安装正确版本的cmake，升级gcc和g++。</p>
+<p>yum install cmake，自动安装版本为2.8.12.2，版本太低，至少需要3.14以上。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 删除gcc</span></span><br><span class="line">yum remove gcc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">升级gcc g++</span></span><br><span class="line">yum install centos-release-scl</span><br><span class="line">yum install devtoolset-8-gcc*</span><br><span class="line">mv /usr/bin/gcc /usr/bin/gcc-4.8.5</span><br><span class="line">ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc</span><br><span class="line">mv /usr/bin/g++ /usr/bin/g++-4.8.5</span><br><span class="line">ln -s /opt/rh/devtoolset-8/root/bin/g++ /usr/bin/g++</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装cmake</span></span><br><span class="line">wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5.tar.gz</span><br><span class="line">tar -zxvf cmake-3.15.5.tar.gz</span><br><span class="line">cd cmake-3.15.5</span><br><span class="line">./configure --prefix=/usr/local/cmake</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">ln -s /usr/local/cmake/bin/cmake /usr/bin/cmake</span><br><span class="line"></span><br><span class="line">export CC=/usr/bin/gcc </span><br><span class="line">export CXX=/usr/bin/g++</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<p>如果报如下问题，需要删除cmakecahe.txt、cmakefiles</p>
+<p><img src="./image-20220928212349934.png" alt="image-20220928212349934"></p>
+<p>环境配置完成后，即可开始编译，假设大家已经下载了C++源码xgboost-master.zip。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">unzip xgboost-master.zip </span><br><span class="line">cd xgboost-master/</span><br><span class="line">mkdir build</span><br><span class="line">cd build/</span><br><span class="line">cmake ..</span><br><span class="line">make -j$(nproc)</span><br><span class="line">cd ../python-package</span><br><span class="line">sudo python setup.py install</span><br></pre></td></tr></table></figure>
 
+<p>执行完install命令后，通过pip list | grep xgboost，便能查看到指定xgboost包已被安装。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2023/01/16/centos7-9%E5%AE%89%E8%A3%85xgboost/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/15/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/hh.PDU.der/" class="archive-article-date">
-  	<time datetime="2023-01-15T10:12:29.838Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/08/2022%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2023-01-08T07:09:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-08</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/08/2022%E6%80%BB%E7%BB%93/">2022总结</a>
-    </h1>
+    <a href="/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          来了解一下ASN.1？
+        
+      </div>
+    </a>
   
+  
+    <a href="/2023/01/15/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/hh.PDU.der/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -334,8 +377,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
