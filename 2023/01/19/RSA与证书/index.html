@@ -6,15 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>RSA与证书 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/21/index.html">
+  <meta name="description" content="这篇文章详细讲述一下RSA与证书的相关内容。内容有点多，但都是干货。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA与证书">
+<meta property="og:url" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="这篇文章详细讲述一下RSA与证书的相关内容。内容有点多，但都是干货。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230118-102630.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230118-102702.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230118-102702.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/image-20230118174130245.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230118-175425.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230118-193423.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/20230119-105727.jpg">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/%E8%AF%81%E4%B9%A6%E6%A0%BC%E5%BC%8F.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230119-152608.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/20230119-151558.png">
+<meta property="og:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230119-161807.png">
+<meta property="article:published_time" content="2023-01-19T10:01:56.000Z">
+<meta property="article:modified_time" content="2023-01-19T10:10:14.692Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/screenshot-20230118-102630.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,295 +210,329 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-RSA与证书" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RSA与证书
+    </h1>
+  
+
+        
+        <a href="/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/" class="archive-article-date">
+  	<time datetime="2023-01-19T10:01:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-19</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇文章详细讲述一下RSA与证书的相关内容。内容有点多，但都是干货。</p>
+<span id="more"></span>
+<h2 id="一、RSA算法"><a href="#一、RSA算法" class="headerlink" title="一、RSA算法"></a>一、RSA算法</h2><h3 id="1-1简介"><a href="#1-1简介" class="headerlink" title="1.1简介"></a>1.1简介</h3><p>RSA算法是由美国三位科学家Rivest、Shamir和Adleman于1976年提出并在1978年正式发表的公开密码算法，其命名取自三位创始人名字的首字母缩写。该算法基于数论中的大数分解难题，即：<strong>根据数论，寻求两个大素数比较简单，而将它们的乘积分解开则极其困难。</strong></p>
+<h3 id="1-2算法说明"><a href="#1-2算法说明" class="headerlink" title="1.2算法说明"></a>1.2算法说明</h3><p>该算法中，用户有两个密钥：公钥 PK={e，n}和私钥 SK={d，n}，n 为两个大素数 p和q的乘积（素数p和q一般为1 0 0位以上的十进制数），e和d满足一定的关系，如只知道e和n并不能求出d。</p>
+<p>（1）加密/解密过程</p>
+<p>若用整数X表示明文，用整数Y表示密文（X和Y均小于n），则加密和解密运算为：<img src="./screenshot-20230118-102630.png" alt="screenshot-20230118-102630"></p>
+<p>（2）密钥的产生</p>
+<p>① 计算n。用户秘密选择两个大素数p和q，计算出n=pq。n称为RSA算法的模数。明文必须能够用小于n的数来表示。</p>
+<ul>
+<li><p>素数/质数是指在大于1的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%87%AA%E7%84%B6%E6%95%B0/385394?fromModule=lemma_inlink">自然数</a>中，除了1和它本身以外不再有其他<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%9B%A0%E6%95%B0/9539111?fromModule=lemma_inlink">因数</a>的自然数。</p>
+</li>
+<li><p>RSA密钥长度指的是模数的位数，如2048位RSA密钥指的是模数为2048比特的RSA密钥对，常规选值为：1024、2048、4096等。</p>
+</li>
+<li><p>密文长度就是对给定符合条件的明文加密出来的结果位长，这个是可以确定的，加密后的密文长度跟密钥长度是相同的，也就是模数的长度。</p>
+</li>
+</ul>
+<p>② 计算φ（n）。用户计算出n的欧拉函数φ（n）=（p-1）（q-1）。φ（n）定义为不超过n并与n互素的数的个数。</p>
+<ul>
+<li>在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E8%AE%BA/3700?fromModule=lemma_inlink">数论</a>，对<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%AD%A3%E6%95%B4%E6%95%B0/8461335?fromModule=lemma_inlink">正整数</a>n，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%AC%A7%E6%8B%89?fromModule=lemma_inlink">欧拉</a>函数是小于n的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%AD%A3%E6%95%B4%E6%95%B0/8461335?fromModule=lemma_inlink">正整数</a>中与n<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BA%92%E8%B4%A8/577412?fromModule=lemma_inlink">互质</a>的数的数目。</li>
+<li>互质/互素是公约数只有1的两个整数，叫做互质整数。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%AC%E7%BA%A6%E6%95%B0/1063409?fromModule=lemma_inlink">公约数</a>只有1的两个<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%87%AA%E7%84%B6%E6%95%B0/385394?fromModule=lemma_inlink">自然数</a>，叫做互质自然数，后者是前者的特殊情形。</li>
+</ul>
+<p>③ 选择e。用户从[0，φ（n）-1]中选择一个与φ（n）互素的数e作为公开的加密指数。</p>
+<p>④ 计算d。用户计算出满足公式ed=1 modφ（n）的d作为解密指数。</p>
+<p>⑤ 得出所需要的公钥和私钥：</p>
+<p><img src="./screenshot-20230118-102702.png" alt="screenshot-20230118-102702"></p>
+<h3 id="1-3实际运算"><a href="#1-3实际运算" class="headerlink" title="1.3实际运算"></a>1.3实际运算</h3><h4 id="1-3-1公私钥值"><a href="#1-3-1公私钥值" class="headerlink" title="1.3.1公私钥值"></a>1.3.1公私钥值</h4><p>实际走一下计算过程</p>
+<p>1.随机选择两个不相等的质数p和q，p = 61，q = 53</p>
+<p>2.计算p和q的乘积n，n = 61×53 = 3233</p>
+<p>3.计算n的欧拉函数φ(n)(这儿用到了欧拉定理)</p>
+<ul>
+<li><p>φ(n) = (p1-1)(p2-1)</p>
+</li>
+<li><p>φ(3233) = 60x52 = 3120</p>
+</li>
+</ul>
+<p>4.随机选择一个整数e，条件是1&lt; e &lt; φ(n)，且e与φ(n) 互质 ，假设选择了17</p>
+<p>5.计算出d，使得ed % φ(n)=（17*2753）%3120 = 1（如何解出d需要用到辗转相除法），得到d为2753</p>
+<p>6.形成公钥（e, n） =(17, 3223) ,私钥 （d, n） = (2753, 3223)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算欧拉函数值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">euler</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	ans := n</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">2</span>; i*i &lt;= ans; i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> n%i == <span class="number">0</span> &#123;</span><br><span class="line">			ans = ans / i * (i - <span class="number">1</span>)</span><br><span class="line">			<span class="comment">// 将相同的因子除去</span></span><br><span class="line">			<span class="keyword">for</span> n%i == <span class="number">0</span> &#123;</span><br><span class="line">				n /= i</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> n &gt; <span class="number">1</span> &#123;</span><br><span class="line">		ans = ans / n * (n - <span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-3-2加解密"><a href="#1-3-2加解密" class="headerlink" title="1.3.2加解密"></a>1.3.2加解密</h4><p>用公钥加密，假设选择A，ASCII为65，即m=65</p>
+<h5 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h5><p>m^e=c(modn)</p>
+<p>即 65 ^ 17=c(mod 3233)</p>
+<p>得到c = 2790</p>
+<h5 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h5><p>c^d=m(modn)</p>
+<p>即2790 ^ 2753 = m(mod 3233)</p>
+<p>得到m = 65</p>
+<h2 id="二、OpenSSL"><a href="#二、OpenSSL" class="headerlink" title="二、OpenSSL"></a>二、OpenSSL</h2><p>openssl是一个安全套接字层密码库，囊括主要的密码算法、常用密钥、证书封装管理功能及实现ssl协议。openssl有三类命令：标准命令，消息摘要(dgst子命令)，加密命令(enc子命令)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">$openssl</span><br><span class="line">OpenSSL&gt; help</span><br><span class="line">Standard commands</span><br><span class="line">asn1parse         ca                ciphers           cms               </span><br><span class="line">crl               crl2pkcs7         dgst              dhparam           </span><br><span class="line">dsa               dsaparam          ec                ecparam           </span><br><span class="line">enc               engine            errstr            gendsa            </span><br><span class="line">genpkey           genrsa            help              list              </span><br><span class="line">nseq              ocsp              passwd            pkcs12            </span><br><span class="line">pkcs7             pkcs8             pkey              pkeyparam         </span><br><span class="line">pkeyutl           prime             rand              rehash            </span><br><span class="line">req               rsa               rsautl            s_client          </span><br><span class="line">s_server          s_time            sess_id           smime             </span><br><span class="line">speed             spkac             srp               storeutl          </span><br><span class="line">ts                verify            version           x509              </span><br><span class="line"></span><br><span class="line">Message Digest commands (see the &#96;dgst&#39; command for more details)</span><br><span class="line">blake2b512        blake2s256        gost              md4               </span><br><span class="line">md5               rmd160            sha1              sha224            </span><br><span class="line">sha256            sha3-224          sha3-256          sha3-384          </span><br><span class="line">sha3-512          sha384            sha512            sha512-224        </span><br><span class="line">sha512-256        shake128          shake256          sm3               </span><br><span class="line"></span><br><span class="line">Cipher commands (see the &#96;enc&#39; command for more details)</span><br><span class="line">aes-128-cbc       aes-128-ecb       aes-192-cbc       aes-192-ecb       </span><br><span class="line">aes-256-cbc       aes-256-ecb       aria-128-cbc      aria-128-cfb      </span><br><span class="line">aria-128-cfb1     aria-128-cfb8     aria-128-ctr      aria-128-ecb      </span><br><span class="line">aria-128-ofb      aria-192-cbc      aria-192-cfb      aria-192-cfb1     </span><br><span class="line">aria-192-cfb8     aria-192-ctr      aria-192-ecb      aria-192-ofb      </span><br><span class="line">aria-256-cbc      aria-256-cfb      aria-256-cfb1     aria-256-cfb8     </span><br><span class="line">aria-256-ctr      aria-256-ecb      aria-256-ofb      base64            </span><br><span class="line">bf                bf-cbc            bf-cfb            bf-ecb            </span><br><span class="line">bf-ofb            camellia-128-cbc  camellia-128-ecb  camellia-192-cbc  </span><br><span class="line">camellia-192-ecb  camellia-256-cbc  camellia-256-ecb  cast              </span><br><span class="line">cast-cbc          cast5-cbc         cast5-cfb         cast5-ecb         </span><br><span class="line">cast5-ofb         des               des-cbc           des-cfb           </span><br><span class="line">des-ecb           des-ede           des-ede-cbc       des-ede-cfb       </span><br><span class="line">des-ede-ofb       des-ede3          des-ede3-cbc      des-ede3-cfb      </span><br><span class="line">des-ede3-ofb      des-ofb           des3              desx              </span><br><span class="line">rc2               rc2-40-cbc        rc2-64-cbc        rc2-cbc           </span><br><span class="line">rc2-cfb           rc2-ecb           rc2-ofb           rc4               </span><br><span class="line">rc4-40            seed              seed-cbc          seed-cfb          </span><br><span class="line">seed-ecb          seed-ofb          sm4-cbc           sm4-cfb           </span><br><span class="line">sm4-ctr           sm4-ecb           sm4-ofb           </span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-1创建私钥"><a href="#2-1创建私钥" class="headerlink" title="2.1创建私钥"></a>2.1创建私钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out rsa_private.key 2048</span><br></pre></td></tr></table></figure>
+
+<p>通过该命令创建了pem编码的私钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIIEpAIBAAKCAQEA71qL1&#x2F;8EPegW&#x2F;LbtqhLs5N180IDK5KlqeA+xYo6rDKUYekLf</span><br><span class="line">xRcjxDZbjQ3cEWIYSQ6aNBJPjh3KWPf6WjWBvk5WgxexXWGFOrzz5iaah+MPMAq2</span><br><span class="line">iGqW8mdAszhHbD6FjP7OAH0kjsFTJVhmESXe9ngGxAxdooei+W1fp9W3DcYanRov</span><br><span class="line">djh+1pvVpmBKdKpo3TVisgp9x5siUc3G236G8y8C0UWeyRjVpNfNrjtwtNAa08Xk</span><br><span class="line">P4AJ+GAUP2N1bHARhe0YD3wkF779MnZY7QLsT5vXO8zcplxym90ZOAnKi9avpUrY</span><br><span class="line">1&#x2F;PIOI3yPwROTtn&#x2F;BkQ9sNQDY1lcZX9&#x2F;tgGfAQIDAQABAoIBAFYgQL3CN6aHAu6A</span><br><span class="line">bFiMYs2fnS&#x2F;xiBBrnbICA5QxPf9Y0Mv9kEN9JhOOc7b3y749i&#x2F;uN05L1G8dJlOwa</span><br><span class="line">nu0i38K4sYyOU&#x2F;YEB0qxfxnLvkMzQt3InRHNOO+Uk8VpdNnQTYIEld+7KBJuIhsI</span><br><span class="line">CgIVnHsXiWe2A2NeZxhVcNwVnL7JXdV83xsP3U7NDzETiraCT3XSqEGS3HeqPrSf</span><br><span class="line">+9kGm3&#x2F;txa6MdTNJ177X5WzB11ihptSVsMQ+w1j5vKZCY5kZwyhi9lzqhxWX6g9R</span><br><span class="line">J1e3dg&#x2F;NsD1l4qHhz6Hxb&#x2F;qJWsdeHpCXiDFKGUYKP&#x2F;N7n5UV1wJqOGAD6NowhoUB</span><br><span class="line">ho2Oa&#x2F;kCgYEA+sxNZD+vL2Cbkwy6aiI9M8QZ7Lm1637MSonrfb&#x2F;pSd1CgWwFBlmb</span><br><span class="line">146NZ6tVRIuTwNKgXyILJIuGK7Y1lxK6d9eDZf4pjm+mXbe0TCfD95pHvVuzivzt</span><br><span class="line">l9bIzf&#x2F;ij6mWbdtHEh3FmQGXphvwayKemgCu3YXgr0oFNYJxZg21MJcCgYEA9FF5</span><br><span class="line">6icROF&#x2F;Z8IHz6NqiHl1d6zWhpY74w4O5YENPXYnZbN&#x2F;rr0HLxbHmkPMUVHliOORU</span><br><span class="line">bH61GfhFQQKZpVd1VOBC2HoBcuUucl8VnDVxLUvg69XT+OLa5Wk&#x2F;9Nn0UvQ35hgF</span><br><span class="line">5T6jkn&#x2F;whbJxc8kET8N1bfO2orGC3gc&#x2F;Y9sBiCcCgYEAjfuHfM+I7&#x2F;tzV+aGynsj</span><br><span class="line">xuCoBJqGYRHhufkmtoQlIEoA0qBCn&#x2F;uu&#x2F;HOZni0jErEqLqmPXQw63q+Wf7yhzisu</span><br><span class="line">IZaCrwUapaaTus67ZbnFebGAF7WIiZDzOVjBSc4ph0dtADh5ncn5Ccwa&#x2F;FEo5J4u</span><br><span class="line">x+THGmYmc1YmaMq2RB5Si3UCgYEA6YeTo9hR4nPkSrq8nL+WpLWUF0Z9S1W8vI2F</span><br><span class="line">PNk53GvuMt5aVnvqvf4NKFHhBdm8pCrD86ytiLRB5iEJIfzV&#x2F;xoZavg7uEoOOm5e</span><br><span class="line">pqCCnMxhoqsR4V1d5FjVNEK9AinD4KDnybc0&#x2F;Mxj6DensAfdoixva3jAAwTv1TBS</span><br><span class="line">TC1DapMCgYAkFP7dV9HmfdXWPqsDoDgPsrC0ndqGhN0OodMax0+uaGkSaJLhEAWh</span><br><span class="line">jTMNnyoMDiMlnRh9QTotAMnksu1xsdcFQckj3i8AzeSetseV4S&#x2F;MlObcszDxPIam</span><br><span class="line">neleAIEIa4Z5uao8Xjs2xyZi3nVL9bIozluz0UhGe+Zdixe4U7dieQ&#x3D;&#x3D;</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2获取公钥"><a href="#2-2获取公钥" class="headerlink" title="2.2获取公钥"></a>2.2获取公钥</h3><p>Rsa命令专门管理RSA密钥，从私钥中提取公钥等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -in rsa_private.key -pubout -out rsa_public.pem</span><br></pre></td></tr></table></figure>
+
+<p>该命令从私钥文件中提取出公钥，默认也是pem编码，可以通过 -outform 参数，指定想导出的编码格式，如    DER、PEM、PVK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA71qL1&#x2F;8EPegW&#x2F;LbtqhLs</span><br><span class="line">5N180IDK5KlqeA+xYo6rDKUYekLfxRcjxDZbjQ3cEWIYSQ6aNBJPjh3KWPf6WjWB</span><br><span class="line">vk5WgxexXWGFOrzz5iaah+MPMAq2iGqW8mdAszhHbD6FjP7OAH0kjsFTJVhmESXe</span><br><span class="line">9ngGxAxdooei+W1fp9W3DcYanRovdjh+1pvVpmBKdKpo3TVisgp9x5siUc3G236G</span><br><span class="line">8y8C0UWeyRjVpNfNrjtwtNAa08XkP4AJ+GAUP2N1bHARhe0YD3wkF779MnZY7QLs</span><br><span class="line">T5vXO8zcplxym90ZOAnKi9avpUrY1&#x2F;PIOI3yPwROTtn&#x2F;BkQ9sNQDY1lcZX9&#x2F;tgGf</span><br><span class="line">AQIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3生成证书"><a href="#2-3生成证书" class="headerlink" title="2.3生成证书"></a>2.3生成证书</h3><p>根据私钥，生成对应的X509证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -sha512 -new -x509 -key rsa_private.key -out rsatest.crt -days 3650 -subj /CN=jasonpang.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4证书格式转换"><a href="#2-4证书格式转换" class="headerlink" title="2.4证书格式转换"></a>2.4证书格式转换</h3><p>证书从pem转换为der</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -inform PEM -outform DER -text -in rsatest.crt -out rsatest.der</span><br></pre></td></tr></table></figure>
+
+<p>证书从pem转换为p7b</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl crl2pkcs7 -nocrl -certfile rsatest.crt -out rsatest.p7b</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5查看证书"><a href="#2-5查看证书" class="headerlink" title="2.5查看证书"></a>2.5查看证书</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看pem证书</span></span><br><span class="line">openssl x509 -in rsatest.crt -noout -text</span><br><span class="line"><span class="meta">#</span><span class="bash">查看p7b证书</span></span><br><span class="line">openssl pkcs7 -print -in rsatest.p7b</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、公私钥格式说明"><a href="#三、公私钥格式说明" class="headerlink" title="三、公私钥格式说明"></a>三、公私钥格式说明</h2><p>根据RSA算法描述，我们知道公私钥需要有哪些核心数据。</p>
+<p><img src="./screenshot-20230118-102702.png" alt="screenshot-20230118-102702"></p>
+<p>那公私钥在文件中的格式是怎样的呢？</p>
+<h3 id="3-1公钥格式"><a href="#3-1公钥格式" class="headerlink" title="3.1公钥格式"></a>3.1公钥格式</h3><p>公钥的ASN.1格式</p>
+<p><img src="./image-20230118174130245.png" alt="image-20230118174130245"></p>
+<p>命令：openssl rsa -pubin -in rsa_public.key -noout -text</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">RSA Public-Key: (2048 bit)</span><br><span class="line">Modulus:</span><br><span class="line">    00:ef:5a:8b:d7:ff:04:3d:e8:16:fc:b6:ed:aa:12:</span><br><span class="line">    ec:e4:dd:7c:d0:80:ca:e4:a9:6a:78:0f:b1:62:8e:</span><br><span class="line">    ab:0c:a5:18:7a:42:df:c5:17:23:c4:36:5b:8d:0d:</span><br><span class="line">    dc:11:62:18:49:0e:9a:34:12:4f:8e:1d:ca:58:f7:</span><br><span class="line">    fa:5a:35:81:be:4e:56:83:17:b1:5d:61:85:3a:bc:</span><br><span class="line">    f3:e6:26:9a:87:e3:0f:30:0a:b6:88:6a:96:f2:67:</span><br><span class="line">    40:b3:38:47:6c:3e:85:8c:fe:ce:00:7d:24:8e:c1:</span><br><span class="line">    53:25:58:66:11:25:de:f6:78:06:c4:0c:5d:a2:87:</span><br><span class="line">    a2:f9:6d:5f:a7:d5:b7:0d:c6:1a:9d:1a:2f:76:38:</span><br><span class="line">    7e:d6:9b:d5:a6:60:4a:74:aa:68:dd:35:62:b2:0a:</span><br><span class="line">    7d:c7:9b:22:51:cd:c6:db:7e:86:f3:2f:02:d1:45:</span><br><span class="line">    9e:c9:18:d5:a4:d7:cd:ae:3b:70:b4:d0:1a:d3:c5:</span><br><span class="line">    e4:3f:80:09:f8:60:14:3f:63:75:6c:70:11:85:ed:</span><br><span class="line">    18:0f:7c:24:17:be:fd:32:76:58:ed:02:ec:4f:9b:</span><br><span class="line">    d7:3b:cc:dc:a6:5c:72:9b:dd:19:38:09:ca:8b:d6:</span><br><span class="line">    af:a5:4a:d8:d7:f3:c8:38:8d:f2:3f:04:4e:4e:d9:</span><br><span class="line">    ff:06:44:3d:b0:d4:03:63:59:5c:65:7f:7f:b6:01:</span><br><span class="line">    9f:01</span><br><span class="line">Exponent: 65537 (0x10001)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2私钥格式"><a href="#3-2私钥格式" class="headerlink" title="3.2私钥格式"></a>3.2私钥格式</h3><p>私钥的ASN.1格式</p>
+<p><img src="./screenshot-20230118-175425.png" alt="screenshot-20230118-175425"></p>
+<p>命令：openssl rsa -in rsa_private.key -noout -text</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">RSA Private-Key: (2048 bit, 2 primes)</span><br><span class="line">modulus:</span><br><span class="line">    00:ef:5a:8b:d7:ff:04:3d:e8:16:fc:b6:ed:aa:12:</span><br><span class="line">    ec:e4:dd:7c:d0:80:ca:e4:a9:6a:78:0f:b1:62:8e:</span><br><span class="line">    ab:0c:a5:18:7a:42:df:c5:17:23:c4:36:5b:8d:0d:</span><br><span class="line">    dc:11:62:18:49:0e:9a:34:12:4f:8e:1d:ca:58:f7:</span><br><span class="line">    fa:5a:35:81:be:4e:56:83:17:b1:5d:61:85:3a:bc:</span><br><span class="line">    f3:e6:26:9a:87:e3:0f:30:0a:b6:88:6a:96:f2:67:</span><br><span class="line">    40:b3:38:47:6c:3e:85:8c:fe:ce:00:7d:24:8e:c1:</span><br><span class="line">    53:25:58:66:11:25:de:f6:78:06:c4:0c:5d:a2:87:</span><br><span class="line">    a2:f9:6d:5f:a7:d5:b7:0d:c6:1a:9d:1a:2f:76:38:</span><br><span class="line">    7e:d6:9b:d5:a6:60:4a:74:aa:68:dd:35:62:b2:0a:</span><br><span class="line">    7d:c7:9b:22:51:cd:c6:db:7e:86:f3:2f:02:d1:45:</span><br><span class="line">    9e:c9:18:d5:a4:d7:cd:ae:3b:70:b4:d0:1a:d3:c5:</span><br><span class="line">    e4:3f:80:09:f8:60:14:3f:63:75:6c:70:11:85:ed:</span><br><span class="line">    18:0f:7c:24:17:be:fd:32:76:58:ed:02:ec:4f:9b:</span><br><span class="line">    d7:3b:cc:dc:a6:5c:72:9b:dd:19:38:09:ca:8b:d6:</span><br><span class="line">    af:a5:4a:d8:d7:f3:c8:38:8d:f2:3f:04:4e:4e:d9:</span><br><span class="line">    ff:06:44:3d:b0:d4:03:63:59:5c:65:7f:7f:b6:01:</span><br><span class="line">    9f:01</span><br><span class="line">publicExponent: 65537 (0x10001)</span><br><span class="line">privateExponent:</span><br><span class="line">    56:20:40:bd:c2:37:a6:87:02:ee:80:6c:58:8c:62:</span><br><span class="line">    cd:9f:9d:2f:f1:88:10:6b:9d:b2:02:03:94:31:3d:</span><br><span class="line">    ff:58:d0:cb:fd:90:43:7d:26:13:8e:73:b6:f7:cb:</span><br><span class="line">    be:3d:8b:fb:8d:d3:92:f5:1b:c7:49:94:ec:1a:9e:</span><br><span class="line">    ed:22:df:c2:b8:b1:8c:8e:53:f6:04:07:4a:b1:7f:</span><br><span class="line">    19:cb:be:43:33:42:dd:c8:9d:11:cd:38:ef:94:93:</span><br><span class="line">    c5:69:74:d9:d0:4d:82:04:95:df:bb:28:12:6e:22:</span><br><span class="line">    1b:08:0a:02:15:9c:7b:17:89:67:b6:03:63:5e:67:</span><br><span class="line">    18:55:70:dc:15:9c:be:c9:5d:d5:7c:df:1b:0f:dd:</span><br><span class="line">    4e:cd:0f:31:13:8a:b6:82:4f:75:d2:a8:41:92:dc:</span><br><span class="line">    77:aa:3e:b4:9f:fb:d9:06:9b:7f:ed:c5:ae:8c:75:</span><br><span class="line">    33:49:d7:be:d7:e5:6c:c1:d7:58:a1:a6:d4:95:b0:</span><br><span class="line">    c4:3e:c3:58:f9:bc:a6:42:63:99:19:c3:28:62:f6:</span><br><span class="line">    5c:ea:87:15:97:ea:0f:51:27:57:b7:76:0f:cd:b0:</span><br><span class="line">    3d:65:e2:a1:e1:cf:a1:f1:6f:fa:89:5a:c7:5e:1e:</span><br><span class="line">    90:97:88:31:4a:19:46:0a:3f:f3:7b:9f:95:15:d7:</span><br><span class="line">    02:6a:38:60:03:e8:da:30:86:85:01:86:8d:8e:6b:</span><br><span class="line">    f9</span><br><span class="line">prime1:</span><br><span class="line">    00:fa:cc:4d:64:3f:af:2f:60:9b:93:0c:ba:6a:22:</span><br><span class="line">    3d:33:c4:19:ec:b9:b5:eb:7e:cc:4a:89:eb:7d:bf:</span><br><span class="line">    e9:49:dd:42:81:6c:05:06:59:9b:d7:8e:8d:67:ab:</span><br><span class="line">    55:44:8b:93:c0:d2:a0:5f:22:0b:24:8b:86:2b:b6:</span><br><span class="line">    35:97:12:ba:77:d7:83:65:fe:29:8e:6f:a6:5d:b7:</span><br><span class="line">    b4:4c:27:c3:f7:9a:47:bd:5b:b3:8a:fc:ed:97:d6:</span><br><span class="line">    c8:cd:ff:e2:8f:a9:96:6d:db:47:12:1d:c5:99:01:</span><br><span class="line">    97:a6:1b:f0:6b:22:9e:9a:00:ae:dd:85:e0:af:4a:</span><br><span class="line">    05:35:82:71:66:0d:b5:30:97</span><br><span class="line">prime2:</span><br><span class="line">    00:f4:51:79:ea:27:11:38:5f:d9:f0:81:f3:e8:da:</span><br><span class="line">    a2:1e:5d:5d:eb:35:a1:a5:8e:f8:c3:83:b9:60:43:</span><br><span class="line">    4f:5d:89:d9:6c:df:eb:af:41:cb:c5:b1:e6:90:f3:</span><br><span class="line">    14:54:79:62:38:e4:54:6c:7e:b5:19:f8:45:41:02:</span><br><span class="line">    99:a5:57:75:54:e0:42:d8:7a:01:72:e5:2e:72:5f:</span><br><span class="line">    15:9c:35:71:2d:4b:e0:eb:d5:d3:f8:e2:da:e5:69:</span><br><span class="line">    3f:f4:d9:f4:52:f4:37:e6:18:05:e5:3e:a3:92:7f:</span><br><span class="line">    f0:85:b2:71:73:c9:04:4f:c3:75:6d:f3:b6:a2:b1:</span><br><span class="line">    82:de:07:3f:63:db:01:88:27</span><br><span class="line">exponent1:</span><br><span class="line">    00:8d:fb:87:7c:cf:88:ef:fb:73:57:e6:86:ca:7b:</span><br><span class="line">    23:c6:e0:a8:04:9a:86:61:11:e1:b9:f9:26:b6:84:</span><br><span class="line">    25:20:4a:00:d2:a0:42:9f:fb:ae:fc:73:99:9e:2d:</span><br><span class="line">    23:12:b1:2a:2e:a9:8f:5d:0c:3a:de:af:96:7f:bc:</span><br><span class="line">    a1:ce:2b:2e:21:96:82:af:05:1a:a5:a6:93:ba:ce:</span><br><span class="line">    bb:65:b9:c5:79:b1:80:17:b5:88:89:90:f3:39:58:</span><br><span class="line">    c1:49:ce:29:87:47:6d:00:38:79:9d:c9:f9:09:cc:</span><br><span class="line">    1a:fc:51:28:e4:9e:2e:c7:e4:c7:1a:66:26:73:56:</span><br><span class="line">    26:68:ca:b6:44:1e:52:8b:75</span><br><span class="line">exponent2:</span><br><span class="line">    00:e9:87:93:a3:d8:51:e2:73:e4:4a:ba:bc:9c:bf:</span><br><span class="line">    96:a4:b5:94:17:46:7d:4b:55:bc:bc:8d:85:3c:d9:</span><br><span class="line">    39:dc:6b:ee:32:de:5a:56:7b:ea:bd:fe:0d:28:51:</span><br><span class="line">    e1:05:d9:bc:a4:2a:c3:f3:ac:ad:88:b4:41:e6:21:</span><br><span class="line">    09:21:fc:d5:ff:1a:19:6a:f8:3b:b8:4a:0e:3a:6e:</span><br><span class="line">    5e:a6:a0:82:9c:cc:61:a2:ab:11:e1:5d:5d:e4:58:</span><br><span class="line">    d5:34:42:bd:02:29:c3:e0:a0:e7:c9:b7:34:fc:cc:</span><br><span class="line">    63:e8:37:a7:b0:07:dd:a2:2c:6f:6b:78:c0:03:04:</span><br><span class="line">    ef:d5:30:52:4c:2d:43:6a:93</span><br><span class="line">coefficient:</span><br><span class="line">    24:14:fe:dd:57:d1:e6:7d:d5:d6:3e:ab:03:a0:38:</span><br><span class="line">    0f:b2:b0:b4:9d:da:86:84:dd:0e:a1:d3:1a:c7:4f:</span><br><span class="line">    ae:68:69:12:68:92:e1:10:05:a1:8d:33:0d:9f:2a:</span><br><span class="line">    0c:0e:23:25:9d:18:7d:41:3a:2d:00:c9:e4:b2:ed:</span><br><span class="line">    71:b1:d7:05:41:c9:23:de:2f:00:cd:e4:9e:b6:c7:</span><br><span class="line">    95:e1:2f:cc:94:e6:dc:b3:30:f1:3c:86:a6:9d:e9:</span><br><span class="line">    5e:00:81:08:6b:86:79:b9:aa:3c:5e:3b:36:c7:26:</span><br><span class="line">    62:de:75:4b:f5:b2:28:ce:5b:b3:d1:48:46:7b:e6:</span><br><span class="line">    5d:8b:17:b8:53:b7:62:79</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3说明"><a href="#3-3说明" class="headerlink" title="3.3说明"></a>3.3说明</h3><p>1.e的值为65537原因</p>
+<ul>
+<li>NIST SP800-78 Rev 1 (2007) 曾强调“不允许使用比65537更低的公钥指数e”，但PKCS#1却从未有过类似的建议。e=65537=(2^16+1)，其签名/加密运算只需要17次模乘，性能也算不错。但我认为选这个值的目的只是一个介于小指数攻击和运算效率之间的一个折中考虑，即以防万一将来有一天”e=3”被攻破而侥幸”e=65537”可能还是安全的。</li>
+</ul>
+<p>2.公钥需要包含e、n，私钥需要d、n</p>
+<ul>
+<li>私钥文件里面包含n、e、d、p、q等，所以可以从私钥文件获取到公钥</li>
+<li>如果有n、e、d、p、q，也可自行制作出公私钥文件</li>
+<li>公钥、私钥不是只有一个数值，而是由多个数值的组合而成</li>
+</ul>
+<p>3.<a target="_blank" rel="noopener" href="https://www.gmssl.cn/gmssl/index.jsp">https://www.gmssl.cn/gmssl/index.jsp</a> 可查看公私钥文件里的数值</p>
+<p><img src="./screenshot-20230118-193423.png" alt="screenshot-20230118-193423"></p>
+<h2 id="四、数字证书"><a href="#四、数字证书" class="headerlink" title="四、数字证书"></a>四、数字证书</h2><h3 id="4-1证书格式"><a href="#4-1证书格式" class="headerlink" title="4.1证书格式"></a>4.1证书格式</h3><p>X.509数字证书用ASN.1描述如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">Certificate ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　tbsCertificate TBSCertificate, -- 证书内容（待签名），包含持有者公钥、持有者信息、签发者信息</span><br><span class="line"></span><br><span class="line">　　signatureAlgorithm AlgorithmIdentifier, -- 签名算法，包括摘要算法和公钥算法，如sha1WithRSAEncryption，由算法标识和算法参数组成</span><br><span class="line"></span><br><span class="line">　　signature BIT STRING -- 使用签名算法对证书内容tbsCertificate进行签名后的结果</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line">　　AlgorithmIdentifier ::&#x3D; SEQUENCE &#123;</span><br><span class="line">　　	Algorithm OBJECT IDENTIFIER,</span><br><span class="line">　　	Parameters ANY DEFINED BY algorithm OPTIONAL&#125;</span><br><span class="line"></span><br><span class="line">　　TBSCertificate ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　version [0] EXPLICIT Version DEFAULT v1, --版本号，用于区分证书格式版本，最新版本V3，缺省值为V1</span><br><span class="line"></span><br><span class="line">　　serialNumber CertificateSerialNumber, -- 序列号，证书唯一标识，由签发者统一分配</span><br><span class="line"></span><br><span class="line">　　signature AlgorithmIdentifier, --签名算法，必须与证书域中的签名算法相同，即等于Certificate-&gt;signatureAlgorithm</span><br><span class="line"></span><br><span class="line">　　issuer Name, -- 用于区分证书签发者，包含证书签发者身份信息</span><br><span class="line"></span><br><span class="line">　　validity Validity, -- 由生效日期和失效日期组成</span><br><span class="line"></span><br><span class="line">　　subject Name, -- 用于区分证书持有者，包含证书持有者身份信息</span><br><span class="line"></span><br><span class="line">　　subjectPublicKeyInfo SubjectPublicKeyInfo, -- 包含证书持有者公钥信息</span><br><span class="line"></span><br><span class="line">　　issuerUniqueID [1] IMPLICIT UniqueIdentifier OPTIONAL, --表示证书签发者唯一标识</span><br><span class="line"></span><br><span class="line">　　-- If present, version must be v2or v3</span><br><span class="line"></span><br><span class="line">　　subjectUniqueID [2] IMPLICIT UniqueIdentifier OPTIONAL, --表示证书持有者唯一标识</span><br><span class="line"></span><br><span class="line">　　-- If present, version must be v2or v3</span><br><span class="line"></span><br><span class="line">　　extensions [3] EXPLICIT Extensions OPTIONAL --包含其他可扩展信息</span><br><span class="line"></span><br><span class="line">　　-- If present, version must be v3</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　Version ::&#x3D; INTEGER &#123;</span><br><span class="line"></span><br><span class="line">　　v1(0), v2(1), v3(2)</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　CertificateSerialNumber ::&#x3D; INTEGER --序列号必须是正整数</span><br><span class="line"></span><br><span class="line">　　Validity ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　notBefore CertificateValidityDate,</span><br><span class="line"></span><br><span class="line">　　notAfter CertificateValidityDate</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　CertificateValidityDate ::&#x3D; CHOICE &#123;</span><br><span class="line"></span><br><span class="line">　　utcTime UTCTime,</span><br><span class="line"></span><br><span class="line">　　generalTime GeneralizedTime</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　UniqueIdentifier ::&#x3D; BIT STRING</span><br><span class="line"></span><br><span class="line">　　SubjectPublicKeyInfo ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　algorithm AlgorithmIdentifier,</span><br><span class="line"></span><br><span class="line">　　subjectPublicKey BIT STRING</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">　　Extensions ::&#x3D; SEQUENCE OF Extension</span><br><span class="line"></span><br><span class="line">　　Extension ::&#x3D; SEQUENCE &#123;</span><br><span class="line"></span><br><span class="line">　　extnID OBJECT IDENTIFIER,</span><br><span class="line"></span><br><span class="line">　　critical BOOLEAN DEFAULT FALSE,</span><br><span class="line"></span><br><span class="line">　　extnValue OCTET STRING</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2查看证书"><a href="#4-2查看证书" class="headerlink" title="4.2查看证书"></a>4.2查看证书</h3><h4 id="4-2-1细节"><a href="#4-2-1细节" class="headerlink" title="4.2.1细节"></a>4.2.1细节</h4><p>我们可以使用mac的钥匙串查看openssl生成的证书信息</p>
+<p><img src="./20230119-105727.jpg" alt="20230119-105727"></p>
+<h4 id="4-2-2说明"><a href="#4-2-2说明" class="headerlink" title="4.2.2说明"></a>4.2.2说明</h4><p>1.公共秘钥与指数：大家可以看到，这两个信息，正是公钥文件里的n和e</p>
+<p>2.指纹：</p>
+<ul>
+<li><p>纹指纹不是证书的签名值, 和证书本身生成的字段无关, 并不包含在证书中. 因为你的任何改动都会影响最终输出的DER或PEM文件, 所以只能在证书生成之后进行指纹生成.</p>
+</li>
+<li><p>计算：要计算指纹，首先需要将其从PEM表示解码为二进制。为此，需要删除页眉和页脚（从<code>-----</code>开始），其余部分需要解码为base64。从得到的二进制文件中，可以计算SHA1或SHA-256散列。</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -v ^- rsatest.crt  | base64 -d | sha256sum </span><br></pre></td></tr></table></figure>
+
+<p>​    结果为c455ce81fd0ce98eb70bc59f10f099f4ca9cd04ccd0eda4cce29ead2fcb72323，和图片信息一致</p>
+<p>3.签名</p>
+<ul>
+<li><p>签名过程：CA机构拥有非对称加密的私钥和公钥。CA机构对证书明文数据T进行hash。对hash后的值用私钥加密，得到数字签名S。明文和数字签名共同组成了数字证书。</p>
+</li>
+<li><p>验证过程：拿到证书，得到明文T，签名S。用CA机构的公钥对S解密（由于是浏览器信任的机构，所以浏览器保有它的公钥。详情见下文），得到S’。用证书里指明的hash算法对明文T进行hash得到T’。显然通过以上步骤，T’应当等于S‘，除非明文或签名被篡改。所以此时比较S’是否等于T’，等于则表明证书可信。</p>
+</li>
+<li><p>明文数据T：TBSCertificate结构的der编码是计算签名的数据</p>
+</li>
+<li><p>这个证书是根证书，所以自己给自己进行签名</p>
+</li>
+</ul>
+<h2 id="五、证书编码"><a href="#五、证书编码" class="headerlink" title="五、证书编码"></a>五、证书编码</h2><p>大家是否被众多的证书格式搞懵了？让我们看一下证书和私钥都以哪些形式进行保存！图片来自 <a target="_blank" rel="noopener" href="https://www.processon.com/view/link/63c8f6ffc12afe0cada9b596">https://www.processon.com/view/link/63c8f6ffc12afe0cada9b596</a></p>
+<p><img src="./%E8%AF%81%E4%B9%A6%E6%A0%BC%E5%BC%8F.png" alt="格式"></p>
+<p>我们找几个常用的编码格式，看看它们的真实样子。</p>
+<h3 id="5-1pem编码"><a href="#5-1pem编码" class="headerlink" title="5.1pem编码"></a>5.1pem编码</h3><p>PEM是把二进制数据通过Base64进行编码，然后在头部添加header —–BEGIN XXX—– 尾部添加footer —–END XXX—–。 header 和footer之间的数据就是被Base64编码的二进制数据。XXX 是要编码的数据内容类型，可以是 CERTIFICATE 、CERTIFICATE REQUEST、 PRIVATE KEY 、X509 CRL 。</p>
+<p>上述的公钥、私钥、证书都是pem编码，可以看到都带有—–BEGIN XXX—–。</p>
+<p>Base64是一种很常用的编码方式，可以将任意二进制字节编码成64个可打印的ASCII码字符。Base64编码的基本原理如下。</p>
+<p><strong>1.字符索引</strong></p>
+<p>64个字符包括大小写英文字母各26个、10个数字、加号和左斜杠。等号用于末尾填充。64个字符所对应的索引如表所示。<img src="./screenshot-20230119-152608.png" alt="screenshot-20230119-152608"></p>
+<p><strong>2.编码过程</strong></p>
+<p>将二进制字节流按3个字节一组进行分组，然后分别对每个3字节组进行编码。当二进制字节流长度不是3的倍数时，最后一个3字节组可能不足3个字节，编码时需要进行填充处理。每个3字节组可编码成4个字符。</p>
+<p>将3字节组中的每个字节按最高位到最低位顺序排列后组成24位，然后按6位一组分成4组，每组取值范围为0～63，将每组取值作为索引按照表5-7获得对应的字符后，最终形成4个字符。</p>
+<p>如果最后的3字节组只有1个字节，则将形成8位，右边补足4位0比特后，可形成2个6位组，转换成2个字符，然后填充2个等号，凑成4个字符。如果最后的3字节组只有2个字节，将形成16位，右边补足2位0比特后，可形成3个6位组，转换成3个字符，然后填充1个等号，凑成4个字符。</p>
+<p>Base64编码后的字符之间允许插入回车换行符，但每行不允许超过76个字个字符。</p>
+<p><strong>3.解码过程</strong></p>
+<p>将字符流中回车换行符删除后，按 4 个字符一组进行分组，然后分别对每个 4 字符组进行解码。若删除回车换行符后的字符流长度不是4的倍数，则该字符流有误。每个4字符组可解码成 3个字节。若最后一个 4字符组末尾是 1或 2个等号，将解码成 2或 1个字节。</p>
+<p>将 4 字符组中每个字符按表 5-8 获得对应的索引，该索引取值范围为 0～63，将索引转换成6位比特后，按最高位到最低位顺序排列后组成24位比特；然后按8位一组分成3组，每组8位转换成1个字节，最终形成3个字节。</p>
+<p>如果最后的4字符组末尾是1个等号，则前3个字符的索引将组合成18位，取前16位转换成2个字节。如果最后的4字符组末尾是2个等号，则前2个字符的索引将组合成12位，取前8位比特转换成1个字符。</p>
+<h3 id="5-2der编码"><a href="#5-2der编码" class="headerlink" title="5.2der编码"></a>5.2der编码</h3><p>将X509证书从PEM格式转换为DER格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -inform PEM -outform DER -text -in rsatest.crt -out rsatest.der</span><br><span class="line">cat rsatest.der</span><br></pre></td></tr></table></figure>
+
+<p>能够看到证书的信息，同时还有部分乱码</p>
+<p><img src="./20230119-151558.png" alt="20230119-151558"></p>
+<h3 id="5-3p7b编码"><a href="#5-3p7b编码" class="headerlink" title="5.3p7b编码"></a>5.3p7b编码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl crl2pkcs7 -nocrl -certfile rsatest.crt -out rsatest.p7b</span><br><span class="line">cat rsatest.p7b</span><br></pre></td></tr></table></figure>
+
+<p>结果为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PKCS7-----</span><br><span class="line">MIIDQAYJKoZIhvcNAQcCoIIDMTCCAy0CAQExADALBgkqhkiG9w0BBwGgggMVMIID</span><br><span class="line">ETCCAfmgAwIBAgIULycC2Tf/y7um8/WhJrWy/naloJQwDQYJKoZIhvcNAQENBQAw</span><br><span class="line">GDEWMBQGA1UEAwwNamFzb25wYW5nLmNvbTAeFw0yMzAxMTkwMjUxMzdaFw0zMzAx</span><br><span class="line">MTYwMjUxMzdaMBgxFjAUBgNVBAMMDWphc29ucGFuZy5jb20wggEiMA0GCSqGSIb3</span><br><span class="line">DQEBAQUAA4IBDwAwggEKAoIBAQDvWovX/wQ96Bb8tu2qEuzk3XzQgMrkqWp4D7Fi</span><br><span class="line">jqsMpRh6Qt/FFyPENluNDdwRYhhJDpo0Ek+OHcpY9/paNYG+TlaDF7FdYYU6vPPm</span><br><span class="line">JpqH4w8wCraIapbyZ0CzOEdsPoWM/s4AfSSOwVMlWGYRJd72eAbEDF2ih6L5bV+n</span><br><span class="line">1bcNxhqdGi92OH7Wm9WmYEp0qmjdNWKyCn3HmyJRzcbbfobzLwLRRZ7JGNWk182u</span><br><span class="line">O3C00BrTxeQ/gAn4YBQ/Y3VscBGF7RgPfCQXvv0ydljtAuxPm9c7zNymXHKb3Rk4</span><br><span class="line">CcqL1q+lStjX88g4jfI/BE5O2f8GRD2w1ANjWVxlf3+2AZ8BAgMBAAGjUzBRMB0G</span><br><span class="line">A1UdDgQWBBSCjbFdXy7jx6jYo0f/6n1k63c3vzAfBgNVHSMEGDAWgBSCjbFdXy7j</span><br><span class="line">x6jYo0f/6n1k63c3vzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBDQUAA4IB</span><br><span class="line">AQBem1lBhTmCF9Z996XF8VlOiDk+sQSd6L878Kxrp9DvWA7+8EE3GFewLkPtk7hf</span><br><span class="line">yTDTXBbyHom3dIfhBlcB5YFB8aJkpnIJUnWnRkXpHi/q95zcEzLPH+LvSsLkhTHU</span><br><span class="line">g8Npdmzn4wF3tU+JFrnzQumV1uU6It9JPJtjgr91Tr+x1VKMOTnelDEP+rk/pFPS</span><br><span class="line">SmllrXxqCRg+dWlIibdxMZr4AHP8a3vbqewp9gKcf21VQxVy8Nlj35o+WVh6M37O</span><br><span class="line">Tt335wxw2vYI8TnjejtGpqq1b2Vd7SsXE28e4EfVpOtowhQW12VEFct/Tka0LEex</span><br><span class="line">Fp157eoxEGVft3k45t6KZWJ+MQA=</span><br><span class="line">-----END PKCS7----</span><br></pre></td></tr></table></figure>
+
+<p>通过如下命令可查看p7b格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs7 -print -in rsatest.p7b</span><br></pre></td></tr></table></figure>
+
+<p><img src="./screenshot-20230119-161807.png" alt="screenshot-20230119-161807"></p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>终于梳理完RSA和证书之间的关系。</p>
+<p>RSA生成公私钥，其中公钥制成证书。公私钥、证书的格式、细节也都做了说明。希望对大家有所帮助。</p>
+<p>这部分内容可以和这两篇文章一起看：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247486077&idx=1&sn=990f74893039b7353fc96620c1b7dcd0&chksm=faec6f48cd9be65e114578f9ee9814560228e4a365eff1b64d0c83d8254edc3e13f946823445&scene=126&sessionid=1674119489#rd">常用密码算法介绍</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247486103&idx=1&sn=e4edd8bb3ddbaa6f5d69b395ff3577bf&chksm=faec6fa2cd9be6b481cbb41e750c5143e0dbb6393923ffc847e393efae28c13fce9503a5e7b8#rd">来了解一下ASN.1？</a></p>
+<h2 id="七、资料"><a href="#七、资料" class="headerlink" title="七、资料"></a>七、资料</h2><ol>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/real-bert/p/15257838.html">X509证书及其格式扩展名 </a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.icode9.com/content-4-613610.html">https://www.icode9.com/content-4-613610.html</a></li>
+<li> <a target="_blank" rel="noopener" href="https://jamielinux.com/docs/openssl-certificate-authority/create-the-root-pair.html">https://jamielinux.com/docs/openssl-certificate-authority/create-the-root-pair.html</a></li>
+<li> <a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/zh-hans/X.509">https://zh.m.wikipedia.org/zh-hans/X.509</a></li>
+<li> <a target="_blank" rel="noopener" href="https://tech.bytedance.net/articles/7094078786773188639#doxcnAC0w2kWkwS8ui6Bajy5GUf">https://tech.bytedance.net/articles/7094078786773188639#doxcnAC0w2kWkwS8ui6Bajy5GUf</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/tianpengfei123/article/details/123335248">搞懂 PEM、ANS、PFX、P12、p8、CER、X509 等证书相关文件格式 后缀</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.gmssl.cn/gmssl/index.jsp">国密实验室</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lyc94620/p/14137227.html">PHP实现DER密钥转PEM密钥</a></li>
+<li> <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1944364">pem 文件详解</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/naioonai/article/details/80984032">OpenSSL简介</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/huawublog/p/15892128.html">RSA 从私钥中获取公钥</a></li>
+<li> <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%B4%A8%E6%95%B0/263515">素数/质数</a></li>
+<li> <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/1944850?fr=aladdin">欧拉函数</a></li>
+<li> <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BA%92%E8%B4%A8/577412?fromModule=lemma_inlink">互质/互素</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/l8947943/article/details/90287573">RSA算法计算过程</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq799028706/article/details/86601495">欧拉函数及其计算</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.xiaohongshu.com/explore/623f0e0f0000000021039749">C语言实现欧拉函数的计算</a></li>
+<li> <a target="_blank" rel="noopener" href="https://jisuan5.com/hexadecimal-to-decimal/">进制转换</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.pudn.com/news/629057bebf399b7f352572c0.html">Java从RSA私钥中提取出 E N P Q D DP DQ QP</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/caidi/p/14794952.html">RSA——长度问题</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/mutourend/article/details/103559305">RSA2048基础知识</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.codenong.com/34911103/">使用OpenSSL从bash中的n，e，d，p，q值生成RSA私钥</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/hherima/article/details/52461759">为什么RSA 公钥指数(e=65537)</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44435327/article/details/127283519">利用openssl生成X509证书</a></li>
+<li> <a target="_blank" rel="noopener" href="https://qa.1r1g.com/sf/ask/3581582021/#">RSA.SignHash SHA512 和 SHA256 给出相同的签名长度</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.5axxw.com/questions/content/zv4wcr">如何正确计算证书的指纹</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/a2337116/article/details/118884318">关于证书指纹</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.codenong.com/29786863/">解释X509数字证书的证书签名值字段</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38418878/article/details/98487188">数字签名、数字证书与CA</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33898609/article/details/120188275">数字证书和数字签名</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39161141/article/details/124405215">证书链的终极版</a></li>
+<li> <a target="_blank" rel="noopener" href="https://dandelioncloud.cn/article/details/1537657053699227650">使用openssl进行证书格式转换</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.bbsmax.com/A/D854VLAYzE/">openssl ans.1编码规则分析及证书密钥编码方式</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/26/%E5%AF%B9%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-07-26T10:44:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/26/%E5%AF%B9%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/">对项目管理的一些看法</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2023/01/19/RSA%E4%B8%8E%E8%AF%81%E4%B9%A6/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-07-19T08:09:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">来了解一下ASN.1？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/19/%E5%AF%B9%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">对产品经理的一些思考</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/" class="archive-article-date">
-  	<time datetime="2020-07-19T08:08:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/19/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0-1/">限流实现1</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="archive-article-date">
-  	<time datetime="2020-07-04T15:03:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/04/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Redis实现分布式锁</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-06-26T07:10:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/26/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">事务原子性、一致性、持久性的实现原理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-06-21T11:54:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/21/InnoDB%E9%94%81%E4%B8%8E%E4%BA%8B%E5%8A%A1%E7%AE%80%E6%9E%90/">InnoDB锁与事务简析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/" class="archive-article-date">
-  	<time datetime="2020-06-21T07:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/21/Markdown%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90-Typora/">Markdown编辑器推荐</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-06-14T12:18:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/14/CDN%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">CDN请求过程详解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-06-09T15:35:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/09/%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E5%91%98%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E7%9A%84%E6%80%9D%E8%80%83/">关于程序员职业发展的思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2020-05-30T06:04:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/30/%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%A0%81review%E7%9A%84%E6%80%9D%E8%80%83/">关于代码review的思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/20/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/19/">19</a><a class="page-number" href="/archives/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/archives/page/22/">22</a><a class="page-number" href="/archives/page/23/">23</a><a class="page-number" href="/archives/page/24/">24</a><a class="extend next" rel="next" href="/archives/page/22/">Next »</a>
-    </nav>
   
 
 
@@ -506,8 +556,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
