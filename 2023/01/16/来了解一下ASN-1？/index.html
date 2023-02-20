@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115223425434.png">
 <meta property="og:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115223607034.png">
 <meta property="article:published_time" content="2023-01-16T02:01:56.000Z">
-<meta property="article:modified_time" content="2023-01-16T02:03:46.626Z">
+<meta property="article:modified_time" content="2023-02-20T12:10:17.463Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2023/01/16/%E6%9D%A5%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8BASN-1%EF%BC%9F/image-20230115181115540.png">
@@ -248,16 +248,16 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># ASN.1格式</span><br><span class="line">value Rocket ::&#x3D; &#123;</span><br><span class="line">  name &quot;Falcon&quot;,</span><br><span class="line">  message &quot;hh&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;Falcon&quot;,</span><br><span class="line">  &quot;message&quot;:&quot;hh&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="1-1-3编码"><a href="#1-1-3编码" class="headerlink" title="1.1.3编码"></a>1.1.3编码</h4><p>然后我们将数据编码为需要的格式，如ber、der、per、uper、oer、coer、xml等，编码结果如下所示：</p>
-<p><a href="hh.PDU.ber">hh.PDU.ber</a></p>
-<p><a href="hh.PDU.der">hh.PDU.der</a></p>
-<p><a href="hh.PDU.xml">hh.PDU.xml</a></p>
+<p><a href="./hh.PDU.ber">hh.PDU.ber</a></p>
+<p><a href="./hh.PDU.der">hh.PDU.der</a></p>
+<p><a href="./hh.PDU.xml">hh.PDU.xml</a></p>
 <p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1Zz8dJCErDe1Fiz57oQF4Pg">https://pan.baidu.com/s/1Zz8dJCErDe1Fiz57oQF4Pg</a>  密码: 2wdr</p>
 <h4 id="1-1-4解码"><a href="#1-1-4解码" class="headerlink" title="1.1.4解码"></a>1.1.4解码</h4><p>我们尝试解码der文件，如果没有schema，解析的内容如下图所示：</p>
 <p><img src="./image-20230115181115540.png" alt="image-20230115181115540"></p>
 <p>如果有对应的schema，解析出的内容存放在txt或json中：</p>
 <p><img src="./image-20230115181155854.png" alt="image-20230115181155854"></p>
-<p><a href="hh.PDU.der.json">hh.PDU.der.json</a></p>
-<p><a href="hh.PDU.der.txt">hh.PDU.der.txt</a></p>
+<p><a href="./hh.PDU.der.json">hh.PDU.der.json</a></p>
+<p><a href="./hh.PDU.der.txt">hh.PDU.der.txt</a></p>
 <h3 id="1-2代码实现"><a href="#1-2代码实现" class="headerlink" title="1.2代码实现"></a>1.2代码实现</h3><p>如果用代码，如何实现上述功能呢？本次用php实现，大家需要安装<a target="_blank" rel="noopener" href="https://github.com/fgrosse/PHPASN1%E3%80%82">https://github.com/fgrosse/PHPASN1。</a></p>
 <p>代码主要包含4部分内容：</p>
 <ol>
@@ -281,7 +281,7 @@
 <p>④ 内容结束串，只有在结构非定长型编码方法中表示内容串的结束，其他方法中该串省略。</p>
 <p>对一个 ASN.1 对象的 BER 编码有三种模式，使用哪一种模式取决于该对象的类型和该类型数据的长度是否已知，</p>
 <p>不同模式下编码信息中每个组成部分的编码规则不同。主要为基本类型定长模式、结构类型定长模式、结构类型非定长模式。</p>
-<p><a href="hh.PDU.ber">hh.PDU.ber</a></p>
+<p><a href="./hh.PDU.ber">hh.PDU.ber</a></p>
 <h3 id="2-2DER"><a href="#2-2DER" class="headerlink" title="2.2DER"></a>2.2DER</h3><p>DER编码是ASN.1数据类型中具有唯一编码的编码规则。DER编码是BER编码的子集，是将每一个ASN.1抽象对象</p>
 <p>类型表示成唯一的1和0码字符串的编码规则。这种编码规则是为需要编码成唯一比特串的应用系统而制定的，特</p>
 <p>别是在应用安全技术的应用系统中，由于安全加密技术要求输入数据是字节流的形式，并且是与原数据唯一对应的</p>
@@ -294,7 +294,7 @@
 <p>④ 对于简单字符串类型和从简单字符串类型通过隐式派生得到的类型，必须使用基本类型定长模式编码方法。</p>
 <p>⑤ 对于结构类型、从结构类型通过隐式派生得到的类型，以及从任何类型通过显示派生得到的类型，必须使用结</p>
 <p>构类型定长模式编码方法。</p>
-<p><a href="hh.PDU.der">hh.PDU.der</a></p>
+<p><a href="./hh.PDU.der">hh.PDU.der</a></p>
 <p>如果Name类型ASN.1描述如下图：<img src="./image-20230115223425434.png" alt="image-20230115223425434"></p>
 <p>将数据使用基本类型定长模式编码后的结果为：</p>
 <p><img src="./image-20230115223607034.png" alt="image-20230115223607034"></p>
