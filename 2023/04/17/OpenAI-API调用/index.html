@@ -6,15 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>OpenAI API调用 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/15/index.html">
+  <meta name="description" content="上次简单写了一篇对ChatGPT的一些看法，最近想深入研究一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenAI API调用">
+<meta property="og:url" content="http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="上次简单写了一篇对ChatGPT的一些看法，最近想深入研究一下。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/image-20230416111302948.png">
+<meta property="og:image" content="http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/image-20230416112008809.png">
+<meta property="og:image" content="http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/%E6%88%AA%E5%9B%BE-2023-04-17-154710.png">
+<meta property="og:image" content="http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/%E6%88%AA%E5%9B%BE-2023-04-17-160222.png">
+<meta property="og:image" content="http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230417153501.jpg">
+<meta property="article:published_time" content="2023-04-17T09:46:42.000Z">
+<meta property="article:modified_time" content="2023-04-17T09:47:20.493Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/image-20230416111302948.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,32 +204,120 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-分页复选设计的坑" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-OpenAI-API调用" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/">分页复选设计的坑</a>
+    <h1 class="article-title" itemprop="name">
+      OpenAI API调用
     </h1>
   
 
         
-        <a href="/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/" class="archive-article-date">
-  	<time datetime="2021-05-29T04:09:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-29</time>
+        <a href="/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2023-04-17T09:46:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>什么是分页复选设计呢？如下图所示，这是掘金专栏的一个功能，可以选择将同类的文件批量添加到专栏里，随着下拉，会一页一页的返回。</p>
-        
-          <a class="article-more-a" href="/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/#more">more >></a>
-        
+        <p>上次简单写了一篇<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/r9BoKDjkK8b8np8f1wqPVg">对ChatGPT的一些看法</a>，最近想深入研究一下。</p>
+<span id="more"></span>
+<p>极客时间上有个课程《AI大模型之美》，看了一下还可以。当做入门是不错的，但还是有很多细节可以打磨，不过毕竟是在风口上的课，也能接受。</p>
+<p>本次演示如何调用OpenAPI的函数。</p>
+<h2 id="人工智能分类"><a href="#人工智能分类" class="headerlink" title="人工智能分类"></a>人工智能分类</h2><p>要了解GPT，大体总得知道一下GPT在人工智能分类里属于哪部分吧！</p>
+<p>GPT模型是一种基于深度学习的神经网络模型，是一种自然语言处理技术。GPT模型使用了一个称为“自回归语言模型”的方法来训练。在训练过程中，模型会接收到一个输入序列，并预测下一个单词或句子。这个预测过程会不断重复，直到生成完整的文本。在预测过程中，GPT模型会根据已经生成的文本和上下文信息来预测下一个单词或句子。这种无监督学习方法可以让模型从大量的文本数据中学习语言的模式和规律，从而生成高质量的自然语言文本。</p>
+<p>GPT4回答的分类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">机器学习</span><br><span class="line">│</span><br><span class="line">├── 监督学习</span><br><span class="line">│   ├── 线性回归</span><br><span class="line">│   ├── 逻辑回归</span><br><span class="line">│   ├── 支持向量机 (SVM)</span><br><span class="line">│   ├── 决策树</span><br><span class="line">│   │   └── 随机森林</span><br><span class="line">│   ├── K-近邻</span><br><span class="line">│   └── 神经网络</span><br><span class="line">│       ├── 深度学习</span><br><span class="line">│       │   ├── 卷积神经网络 (CNN)</span><br><span class="line">│       │   ├── 循环神经网络 (RNN)</span><br><span class="line">│       │   │   └── 长短时记忆网络 (LSTM)</span><br><span class="line">│       │   └── 生成对抗网络 (GAN)</span><br><span class="line">│       ├── TensorFlow</span><br><span class="line">│       │   └── Keras</span><br><span class="line">│       ├── PyTorch</span><br><span class="line">│       └── MXNet</span><br><span class="line">│</span><br><span class="line">├── 无监督学习</span><br><span class="line">│   ├── 聚类</span><br><span class="line">│   │   ├── K-均值</span><br><span class="line">│   │   ├── 层次聚类</span><br><span class="line">│   │   └── DBSCAN</span><br><span class="line">│   ├── 降维</span><br><span class="line">│   │   ├── 主成分分析 (PCA)</span><br><span class="line">│   │   ├── t-分布邻域嵌入算法 (t-SNE)</span><br><span class="line">│   │   └── 自编码器</span><br><span class="line">│   └── 关联规则学习</span><br><span class="line">│       └── Apriori算法</span><br><span class="line">│</span><br><span class="line">├── 半监督学习</span><br><span class="line">│   └── 标签传播算法</span><br><span class="line">│</span><br><span class="line">└── 强化学习</span><br><span class="line">    ├── Q-learning</span><br><span class="line">    ├── SARSA</span><br><span class="line">    ├── 深度Q网络 (DQN)</span><br><span class="line">    ├── 策略梯度 (PG)</span><br><span class="line">    ├── 代理者演员-评论家 (DDPG)</span><br><span class="line">    └── 深度确定性策略梯度 (PPO)</span><br></pre></td></tr></table></figure>
+
+<p>Sage回答的分类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line">机器学习</span><br><span class="line">├── 监督学习</span><br><span class="line">│   ├── 线性回归（Linear Regression）</span><br><span class="line">│   ├── 逻辑回归（Logistic Regression）</span><br><span class="line">│   ├── 决策树（Decision Tree）</span><br><span class="line">│   ├── 随机森林（Random Forest）</span><br><span class="line">│   ├── 支持向量机（Support Vector Machines）</span><br><span class="line">│   ├── 朴素贝叶斯（Naive Bayes）</span><br><span class="line">│   ├── K最近邻（K-Nearest Neighbors）</span><br><span class="line">│   └── 神经网络（Neural Networks）</span><br><span class="line">│       ├── 前馈神经网络（Feedforward Neural Networks）</span><br><span class="line">│       ├── 卷积神经网络（Convolutional Neural Networks）</span><br><span class="line">│       ├── 循环神经网络（Recurrent Neural Networks）</span><br><span class="line">│       ├── 长短时记忆网络（Long Short-Term Memory Networks）</span><br><span class="line">│       ├── 生成对抗网络（Generative Adversarial Networks）</span><br><span class="line">│       └── 转移学习（Transfer Learning）</span><br><span class="line">├── 无监督学习</span><br><span class="line">│   ├── 聚类（Clustering）</span><br><span class="line">│   │   ├── K均值聚类（K-Means Clustering）</span><br><span class="line">│   │   ├── 层次聚类（Hierarchical Clustering）</span><br><span class="line">│   │   ├── 密度聚类（Density-Based Clustering）</span><br><span class="line">│   │   └── 高斯混合模型（Gaussian Mixture Model）</span><br><span class="line">│   ├── 关联规则学习（Association Rule Learning）</span><br><span class="line">│   │   ├── Apriori算法</span><br><span class="line">│   │   └── FP-growth算法</span><br><span class="line">│   ├── 异常检测（Anomaly Detection）</span><br><span class="line">│   ├── 主成分分析（Principal Component Analysis）</span><br><span class="line">│   ├── 特征选择（Feature Selection）</span><br><span class="line">│   └── 降维（Dimensionality Reduction）</span><br><span class="line">│       ├── 主成分分析（Principal Component Analysis）</span><br><span class="line">│       ├── 独立成分分析（Independent Component Analysis）</span><br><span class="line">│       ├── t-SNE</span><br><span class="line">│       └── UMAP</span><br><span class="line">├── 强化学习</span><br><span class="line">│   ├── Q-learning</span><br><span class="line">│   ├── Sarsa</span><br><span class="line">│   ├── 深度Q网络（Deep Q-Network）</span><br><span class="line">│   ├── 策略梯度（Policy Gradient）</span><br><span class="line">│   ├── Actor-Critic</span><br><span class="line">│   └── 强化学习应用</span><br><span class="line">├── 半监督学习（Semi-Supervised Learning）</span><br><span class="line">├── 迁移学习（Transfer Learning）</span><br><span class="line">├── 元学习（Meta Learning）</span><br><span class="line">├── 神经架构搜索（Neural Architecture Search）</span><br><span class="line">├── 自然语言处理（Natural Language Processing）</span><br><span class="line">│   ├── 词袋模型（Bag of Words）</span><br><span class="line">│   ├── 词嵌入（Word Embedding）</span><br><span class="line">│   ├── 递归神经网络（Recursive Neural Networks）</span><br><span class="line">│   ├── 长短时记忆网络（Long Short-Term Memory Networks）</span><br><span class="line">│   ├── 注意力机制（Attention Mechanism）</span><br><span class="line">│   ├── 预训练模型（Pretrained Models）</span><br><span class="line">│   │   ├── BERT</span><br><span class="line">│   │   ├── GPT</span><br><span class="line">│   │   ├── GPT-2</span><br><span class="line">│   │   ├── GPT-3</span><br><span class="line">│   │   ├── RoBERTa</span><br><span class="line">│   │   ├── T5</span><br><span class="line">│   │   └── XLNet</span><br><span class="line">│   └── 序列到序列模型（Sequence-to-Sequence Models）</span><br><span class="line">│       ├── 编码器-解码器（Encoder-Decoder）模型</span><br><span class="line">│       ├── 注意力机制（Attention Mechanism）模型</span><br><span class="line">│       ├── 递归神经网络（Recursive Neural Networks）模型</span><br><span class="line">│       ├── 门控循环单元（Gated Recurrent Unit）模型</span><br><span class="line">│       ├── 长短时记忆网络（Long Short-Term Memory Networks）模型</span><br><span class="line">│       └── 转移学习（Transfer Learning）模型</span><br><span class="line">├── 计算机视觉（Computer Vision）</span><br><span class="line">│   ├── 卷积神经网络（Convolutional Neural Networks）</span><br><span class="line">│   ├── 残差网络（Residual Networks）</span><br><span class="line">│   ├──目标检测（Object Detection）</span><br><span class="line">│   │   ├── R-CNN</span><br><span class="line">│   │   ├── Fast R-CNN</span><br><span class="line">│   │   ├── Faster R-CNN</span><br><span class="line">│   │   ├── YOLO</span><br><span class="line">│   │   ├── SSD</span><br><span class="line">│   │   └── RetinaNet</span><br><span class="line">│   ├── 语义分割（Semantic Segmentation）</span><br><span class="line">│   ├── 实例分割（Instance Segmentation）</span><br><span class="line">│   ├── 图像分类（Image Classification）</span><br><span class="line">│   ├── 图像生成（Image Generation）</span><br><span class="line">│   │   ├── 生成对抗网络（Generative Adversarial Networks）</span><br><span class="line">│   │   ├── 变分自编码器（Variational Autoencoders）</span><br><span class="line">│   │   └── 流模型（Flow Models）</span><br><span class="line">│   ├── 姿态估计（Pose Estimation）</span><br><span class="line">│   ├── 光流估计（Optical Flow Estimation）</span><br><span class="line">│   ├── 图像超分辨（Image Super-Resolution）</span><br><span class="line">│   └── 图像风格转换（Image Style Transfer）</span><br><span class="line">├── 常用框架和产品</span><br><span class="line">│   ├── TensorFlow</span><br><span class="line">│   ├── PyTorch</span><br><span class="line">│   ├── Keras</span><br><span class="line">│   ├── Scikit-Learn</span><br><span class="line">│   ├── XGBoost</span><br><span class="line">│   ├── LightGBM</span><br><span class="line">│   ├── CatBoost</span><br><span class="line">│   ├── Caffe</span><br><span class="line">│   ├── MXNet</span><br><span class="line">│   ├── Theano</span><br><span class="line">│   ├── Microsoft Cognitive Toolkit</span><br><span class="line">│   ├── Amazon SageMaker</span><br><span class="line">│   ├── Google Cloud AI Platform</span><br><span class="line">│   ├── IBM Watson Studio</span><br><span class="line">│   ├── Hugging Face Transformers</span><br><span class="line">│   └── OpenAI GPT</span><br><span class="line">└── 其他应用领域</span><br><span class="line">    ├── 推荐系统（Recommendation Systems）</span><br><span class="line">    ├── 时间序列分析（Time Series Analysis）</span><br><span class="line">    ├── 异常检测（Anomaly Detection）</span><br><span class="line">    ├── 信用风险评估（Credit Risk Assessment）</span><br><span class="line">    ├── 医学诊断（Medical Diagnosis）</span><br><span class="line">    ├── 股票市场预测（Stock Market Prediction）</span><br><span class="line">    ├── 自动驾驶（Autonomous Driving）</span><br><span class="line">    ├── 语音识别（Speech Recognition）</span><br><span class="line">    ├── 人脸识别（Face Recognition）</span><br><span class="line">    ├── 自然语言生成（Natural Language Generation）</span><br><span class="line">    ├── 机器翻译（Machine Translation）</span><br><span class="line">    ├── 游戏AI（Game AI）</span><br><span class="line">    └── 机器人控制（Robot Control）</span><br></pre></td></tr></table></figure>
+
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><p>这里列出一些常用的名次，方便大家理解</p>
+<table>
+<thead>
+<tr>
+<th>名词</th>
+<th>全称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GPT</td>
+<td>生成式预训练 Transformer（Generative Pre-trained Transformer）</td>
+<td>GPT模型的训练是一种无监督学习方法，它不需要人工标注的标签或答案来指导模型的学习。相反，它使用大量的文本数据来预测下一个单词或句子，从而让模型学习语言的模式和规律。GPT模型不属于聚类或者降维等传统机器学习算法，它是一种基于<strong>深度学习的神经网络模型</strong>。具体来说，GPT模型是基于Transformer架构的神经网络模型，它使用了多层的自注意力机制来对输入序列进行编码，并通过解码器生成新的自然语言文本。</td>
+</tr>
+<tr>
+<td>NLP</td>
+<td>Natural Language Processing</td>
+<td>NLP代表自然语言处理（Natural Language Processing），是一种计算机科学和人工智能领域的交叉学科，旨在使计算机能够理解、解释和操作人类语言。自然语言处理涉及使用计算机算法和统计模型来分析、处理、理解和生成人类语言，包括文本和语音。自然语言处理技术已经广泛应用于许多领域，例如语音识别、机器翻译、情感分析、文本分类、信息检索、自然语言生成、问答系统等等。这些应用领域涵盖了许多实际场景，例如智能客服、语音助手、社交媒体分析、金融分析、医疗诊断等等。</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>large language model</td>
+<td>大语言模型</td>
+</tr>
+<tr>
+<td>召回率（Recall）</td>
+<td></td>
+<td>在人工智能领域中，召回率（Recall）是指模型正确识别出的正样本数占总正样本数的比例，通常用以下公式表示：Recall = TP / (TP + FN)  其中，TP表示真正例（True Positive），即模型正确识别出的正样本数；FN表示假反例（False Negative），即模型未能识别出的正样本数。召回率衡量了模型识别正样本的能力，即模型能够正确地找到多少个正样本。召回率越高，表示模型能够正确地识别出更多的正样本，但同时可能会导致误识别负样本的数量增加。召回率，代表模型判定属于这个分类的标题占实际这个分类下所有标题的比例，也就是没有漏掉的比例。比如，模型判断 100 个都是农业新闻，这 100 个的确都是农业新闻。准确率已经 100% 了。但是，实际我们一共有 200 条农业新闻。那么有 100 条其实被放到别的类目里面去了。那么在农业新闻这个类目，我们的召回率，就只有 100/200 = 50%。所以模型效果的好坏，既要考虑准确率，又要考虑召回率，综合考虑这两项得出的结果，就是 F1 分数（F1 Score）。</td>
+</tr>
+<tr>
+<td>准确率（Precision）</td>
+<td></td>
+<td>准确率是指模型正确识别出的正样本数占总样本数的比例，通常用以下公式表示：Precision = TP / (TP + FP)   其中，FP表示假正例（False Positive），即模型错误地识别出的正样本数。准确率衡量的是模型识别出的正样本占总样本数的比例，即模型能够正确地找到多少个被识别为正样本的样本。准确率越高，表示模型能够更准确地识别正样本，但同时可能会导致未能识别出的正样本数量增加。准确率，代表模型判定属于这个分类的标题里面判断正确的有多少，有多少真的是属于这个分类的。比如，模型判断里面有 100 个都是农业新闻，但是这 100 个里面其实只有 83 个是农业新闻，那么准确率就是 0.83。准确率自然是越高越好，但是并不是准确率达到 100% 就代表模型全对了。因为模型可能会漏，所以我们还要考虑召回率。</td>
+</tr>
+<tr>
+<td>F1 分数</td>
+<td></td>
+<td>F1 分数，是准确率和召回率的调和平均数，也就是 F1 Score = 2/ (1/Precision + 1/Recall)。当准确率和召回率都是 100% 的时候，F1 分数也是 1。如果准确率是 100%，召回率是 80%，那么算下来 F1 分数就是 0.88。F1 分数也是越高越好。</td>
+</tr>
+<tr>
+<td>支持的样本量</td>
+<td></td>
+<td>是指数据里面，实际是这个分类的数据条数有多少。一般来说，数据条数越多，这个分类的训练就会越准确。</td>
+</tr>
+<tr>
+<td>预训练模型（Pre-trained Model）</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="创建API-Key"><a href="#创建API-Key" class="headerlink" title="创建API Key"></a>创建API Key</h2><p>OpenAI 还没有向中国大陆和香港地区开放，所以要注册的话，至少需要VPN和短信接收平台。这里默认大家已经有办法注册账号了。</p>
+<p>我们首先需要获取API Key，需要用这个值作为请求API的token。这个Key一定要自己记录下来，否则再也查不到了。另外千万不要泄露出去。</p>
+<p>地址：<a target="_blank" rel="noopener" href="https://platform.openai.com/overview">https://platform.openai.com/overview</a></p>
+<p><img src="./image-20230416111302948.png" alt="image-20230416111302948"></p>
+<p><img src="./image-20230416112008809.png" alt="image-20230416112008809"></p>
+<p>我的账号注册的比较早，所以有18美元的试用额度</p>
+<p><img src="./%E6%88%AA%E5%9B%BE-2023-04-17-154710.png" alt="截图-2023-04-17-154710"></p>
+<h2 id="搭建Jupyter-Labs开发环境"><a href="#搭建Jupyter-Labs开发环境" class="headerlink" title="搭建Jupyter Labs开发环境"></a>搭建Jupyter Labs开发环境</h2><p>大家可以参考我的<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/7d58KrnJeuu50QId3hTn9A">Jupyterhub安装教程</a>，我是用npm方式安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mkdir jupyter</span><br><span class="line">cd jupyter</span><br><span class="line">sudo npm install -g configurable-http-proxy</span><br><span class="line">sudo apt install python3-pip</span><br><span class="line">sudo pip3 install jupyterhub</span><br><span class="line">sudo pip3 install notebook</span><br><span class="line">sudo pip3 install jupyterlab</span><br><span class="line"><span class="meta">#</span><span class="bash"> 生成配置文件</span></span><br><span class="line">jupyterhub --generate-config</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">nohup jupyterhub -f jupyterhub_config.py  &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认8000端口，访问链接，查看安装情况</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">http://127.0.0.1:8000/hub/login?next=%2Fhub%2F</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="./%E6%88%AA%E5%9B%BE-2023-04-17-160222.png" alt="截图-2023-04-17-160222"></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>简单找个例子测试一下</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> openai</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">openai.api_key = os.environ.get(<span class="string">&quot;OPENAI_API_KEY&quot;</span>)</span><br><span class="line">COMPLETION_MODEL = <span class="string">&quot;text-davinci-003&quot;</span></span><br><span class="line"></span><br><span class="line">prompt = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Consideration product : 工厂现货PVC充气青蛙夜市地摊热卖充气玩具发光蛙儿童水上玩具</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1. Compose human readable product title used on Amazon in english within 20 words.</span></span><br><span class="line"><span class="string">2. Write 5 selling points for the products in Amazon.</span></span><br><span class="line"><span class="string">3. Evaluate a price range for this product in U.S.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Output the result in json format with three properties called title, selling_points and price_range</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_response</span>(<span class="params">prompt</span>):</span></span><br><span class="line">    completions = openai.Completion.create (</span><br><span class="line">        engine=COMPLETION_MODEL,</span><br><span class="line">        prompt=prompt,</span><br><span class="line">        max_tokens=<span class="number">512</span>,</span><br><span class="line">        n=<span class="number">1</span>,</span><br><span class="line">        stop=<span class="literal">None</span>,</span><br><span class="line">        temperature=<span class="number">0.0</span>,        </span><br><span class="line">    )</span><br><span class="line">    message = completions.choices[<span class="number">0</span>].text</span><br><span class="line">    <span class="keyword">return</span> message</span><br><span class="line"></span><br><span class="line">print(get_response(prompt)) </span><br></pre></td></tr></table></figure>
+
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;title&quot;: &quot;PVC Inflatable Glow-in-the-Dark Frog Water Toy for Kids Night Market Stall&quot;,</span><br><span class="line">    &quot;selling_points&quot;: [</span><br><span class="line">        &quot;Made of durable PVC material&quot;,</span><br><span class="line">        &quot;Inflatable design for easy storage and transport&quot;,</span><br><span class="line">        &quot;Glow-in-the-dark feature for night time fun&quot;,</span><br><span class="line">        &quot;Perfect for water play and pool parties&quot;,</span><br><span class="line">        &quot;Great for kids of all ages&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;price_range&quot;: &quot;$10 - $20&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p>第一个参数是 engine，也就是我们使用的是 Open AI 的哪一个引擎，这里我们使用的是 text-davinci-003，也就是现在可以使用到的最擅长根据你的指令输出内容的模型。当然，也是调用成本最高的模型。</p>
+<p>第二个参数是 prompt，自然就是我们输入的提示语。</p>
+<p>第三个参数是 max_tokens，也就是调用生成的内容允许的最大 token 数量。你可以简单地把 token 理解成一个单词。实际上，token 是分词之后的一个字符序列里的一个单元。有时候，一个单词会被分解成两个 token。比如，icecream 是一个单词，但是实际在大语言模型里，会被拆分成 ice 和 cream 两个 token。这样分解可以帮助模型更好地捕捉到单词的含义和语法结构。一般来说，750 个英语单词就需要 1000 个 token。我们这里用的 text-davinci-003 模型，允许最多有 4096 个 token。需要注意，这个数量既包括你输入的提示语，也包括 AI 产出的回答，两个加起来不能超过 4096 个 token。比如，你的输入有 1000 个 token，那么你这里设置的 max_tokens 就不能超过 3096。不然调用就会报错。</p>
+<p>第四个参数 n，代表你希望 AI 给你生成几条内容供你选择。在这样自动生成客服内容的场景里，我们当然设置成 1。但是如果在一些辅助写作的场景里，你可以设置成 3 或者更多，供用户在多个结果里面自己选择自己想要的。</p>
+<p>第五个参数 stop，代表你希望模型输出的内容在遇到什么内容的时候就停下来。这个参数我们常常会选用 “\n\n”这样的连续换行，因为这通常意味着文章已经要另起一个新的段落了，既会消耗大量的 token 数量，又可能没有必要。</p>
+<p>第六个参数temperature，参数的输入范围是 0-2 之间的浮点数，代表输出结果的随机性或者说多样性。可以把这个参数设置为 0，这样，每次输出的结果的随机性就会比较小。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/api-reference/introduction">https://platform.openai.com/docs/api-reference/introduction</a></p>
+<p>函数不是很多，大家有兴趣可以自己看一下，使用起来也是很方便的。</p>
+<p>链接：<a target="_blank" rel="noopener" href="http://gk.link/a/121Tn">http://gk.link/a/121Tn</a></p>
+<p>海报：<img src="./%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230417153501.jpg" alt="微信图片_20230417153501"></p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/api-reference/completions/create">官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/monica-%E2%80%94-your-chatgpt-cop/ofpnmcalabcbjgholdjcjblkibolbppb?hl=zh-CN&utm_source=chrome-ntp-launcher">monica</a></li>
+</ol>
+
       
 
       
@@ -230,16 +328,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/29/%E5%88%86%E9%A1%B5%E5%A4%8D%E9%80%89%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%9D%91/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2023/04/17/OpenAI-API%E8%B0%83%E7%94%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2023/04/06/%E5%B9%B8%E7%A6%8F%E7%9A%84%E5%A9%9A%E5%A7%BB/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">幸福的婚姻</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -259,599 +416,14 @@
 
 
 
-
-  
-    <article id="pages-Go设计模式-11-代理模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/15/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-11-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">Go设计模式(11)-代理模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/15/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-11-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-05-15T05:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前面通过5篇文章讲解了创建型模式，创建型模式主要解决对象的创建问题，封装复杂的创建过程，解耦对象的创建代码和使用代码。</p>
-        
-          <a class="article-more-a" href="/2021/05/15/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-11-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/15/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-11-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-一文搞懂pprof" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/13/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82pprof/">一文搞懂pprof</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/13/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82pprof/" class="archive-article-date">
-  	<time datetime="2021-05-13T07:05:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>pprof是GoLang程序性能分析工具，prof是profile（画像）的缩写，用pprof我们可以分析下面9种数据</p>
-        
-          <a class="article-more-a" href="/2021/05/13/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82pprof/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/13/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82pprof/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-10-原型模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-10-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/">Go设计模式(10)-原型模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-10-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-05-06T12:00:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>原型模式是创建型模式中的最后一个，<strong>它主要用于对象创建成本比较大的情况。</strong></p>
-<p>本文UML类图链接为：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/6080def6079129456d4beecf">https://www.processon.com/view/link/6080def6079129456d4beecf</a></p>
-<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/10prototype.go">https://github.com/shidawuhen/asap/blob/master/controller/design/10prototype.go</a></p>
-        
-          <a class="article-more-a" href="/2021/05/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-10-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-10-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-游五台山" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/%E6%B8%B8%E4%BA%94%E5%8F%B0%E5%B1%B1/">游五台山</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/%E6%B8%B8%E4%BA%94%E5%8F%B0%E5%B1%B1/" class="archive-article-date">
-  	<time datetime="2021-05-06T11:58:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>清明节去五台山玩，本来想写一篇游记，结果一直没有时间。晃啊晃啊的到五一了，大家出去玩我宅在家里，正好写一下当时去五台山玩的事情。这两天看报道五台山五一期间巨堵，幸亏是清明去的。</p>
-        
-          <a class="article-more-a" href="/2021/05/06/%E6%B8%B8%E4%BA%94%E5%8F%B0%E5%B1%B1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/%E6%B8%B8%E4%BA%94%E5%8F%B0%E5%B1%B1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-9-建造者模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/02/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-9-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(9)-建造者模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/02/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-9-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-05-02T04:59:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇文章来讲解比较常用的创建型设计模式-建造者模式。<strong>建造者模式主要用来建造复杂的对象。</strong></p>
-        
-          <a class="article-more-a" href="/2021/05/02/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-9-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/02/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-9-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-毛泽东选集" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/02/%E6%AF%9B%E6%B3%BD%E4%B8%9C%E9%80%89%E9%9B%86/">毛泽东选集</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/02/%E6%AF%9B%E6%B3%BD%E4%B8%9C%E9%80%89%E9%9B%86/" class="archive-article-date">
-  	<time datetime="2021-05-02T04:57:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天要给大家推荐的书是《毛泽东选集》第二版，这本书共四册，作者是毛泽东同志。本书共1500多页，按照中国共产党成立后所经历的各个历史时期并且按照著作年月次序编辑，选集中的各篇著作，都经著者校阅过。这本书记录了毛主席在各个历史时期对革命各个方面的思考和总结，是毛泽东思想的重要载体，也是对20世纪的中国影响最大的书籍之一。</p>
-        
-          <a class="article-more-a" href="/2021/05/02/%E6%AF%9B%E6%B3%BD%E4%B8%9C%E9%80%89%E9%9B%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/02/%E6%AF%9B%E6%B3%BD%E4%B8%9C%E9%80%89%E9%9B%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-8-抽象工厂" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/">Go设计模式(8)-抽象工厂</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/" class="archive-article-date">
-  	<time datetime="2021-04-27T14:43:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一篇文章讲解了简单工厂和工厂方法，文章链接为<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8-_OoSJ9sZu_zmQhp6t2fQ">Go设计模式(7)-工厂模式</a>，这篇文章讲一下抽象工厂。抽象工厂不是很常用，主要是因为抽象工厂解决的场景比较特殊，实际开发中很难遇到，但<strong>抽象工厂提供了减少类个数、增加系统可维护性的思路</strong>，还是很值得借鉴的。</p>
-        
-          <a class="article-more-a" href="/2021/04/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-7-工厂模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Go设计模式(7)-工厂模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-04-26T05:09:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>工厂模式简单来说就是用来创建对象。</strong>工厂模式分为三种更加细分的类型：<strong>简单工厂、工厂方法和抽象工厂</strong>，一般认为简单工厂是工厂方法的特例，我会通过这篇文章对简单工厂和工厂方法进行讲述。</p>
-        
-          <a class="article-more-a" href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/26/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-GoLand实用技巧" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">GoLand实用技巧</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" class="archive-article-date">
-  	<time datetime="2021-04-23T02:05:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工欲善其事必先利其器，把GoLand调教的符合自己的习惯，也是能够节省大量时间的。本篇文章主要记录自己常用的一些配置内容。</p>
-        
-          <a class="article-more-a" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/23/GoLand%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/14/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/16/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -874,8 +446,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
