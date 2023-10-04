@@ -196,6 +196,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="pages-Go设计模式-26-命令模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">Go设计模式(26)-命令模式</a>
+    </h1>
+  
+
+        
+        <a href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-08-27T13:42:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>命令模式很多同学可能不会用到，但这个模式还是蛮有意思的。命令模式能够将操作和数据打包成对象，便于系统对命令进行管理、维护。</p>
+<p>UML类图位置：<a target="_blank" rel="noopener" href="https://www.processon.com/view/link/60d29bf3e401fd49502afd25">https://www.processon.com/view/link/60d29bf3e401fd49502afd25</a></p>
+<p>本文代码链接为：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/blob/master/controller/design/26command.go">https://github.com/shidawuhen/asap/blob/master/controller/design/26command.go</a></p>
+        
+          <a class="article-more-a" href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/08/27/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="pages-Innodb为啥要刷脏页？" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -763,71 +830,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/08/05/%E6%95%B4%E6%95%B0%E5%8C%BA%E9%97%B4%E8%AE%A1%E7%AE%97%EF%BC%8C%E6%88%91%E8%BF%99%E4%B9%88%E8%AE%BE%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Go设计模式-22-状态模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">Go设计模式(22)-状态模式</a>
-    </h1>
-  
-
-        
-        <a href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-08-03T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>状态模式使用的相对较少，主要是因为会引入大量的状态类，导致代码比较难维护。但是合适的场景使用状态模式，可以把复杂的判断逻辑简化。</p>
-        
-          <a class="article-more-a" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/08/03/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-22-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
         </p>
       
 
