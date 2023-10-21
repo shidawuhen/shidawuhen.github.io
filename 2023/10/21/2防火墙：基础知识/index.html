@@ -6,15 +6,32 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason Pang</title>
+  <title>2防火墙：基础知识 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/page/11/index.html">
+  <meta name="description" content="看了一下相关视频，感觉要会防火墙，还是得补一下网络基础。看一下谢希仁的《计算机网络》，应该主要看网络层就可以。网络以前学的还可以，但现在也就能记得不到50%，正好重新学习一下，或许会有新的感受。 看完之后，感觉比较重要就几点：  机器怎么知道同网络机器的MAC地址 路由器怎么知道把分组转发到哪里 使用无分类编址CIDR，确定掩码，啥都确定了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2防火墙：基础知识">
+<meta property="og:url" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="看了一下相关视频，感觉要会防火墙，还是得补一下网络基础。看一下谢希仁的《计算机网络》，应该主要看网络层就可以。网络以前学的还可以，但现在也就能记得不到50%，正好重新学习一下，或许会有新的感受。 看完之后，感觉比较重要就几点：  机器怎么知道同网络机器的MAC地址 路由器怎么知道把分组转发到哪里 使用无分类编址CIDR，确定掩码，啥都确定了">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231009133602129.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231008132811339.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231008133927776.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231009233924863.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231010134140853.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231015151019821.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231015151256100.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231015152031222.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231015152809053.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231015161211636.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231015162109934.png">
+<meta property="og:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231015163018858.png">
+<meta property="article:published_time" content="2023-10-21T05:13:15.000Z">
+<meta property="article:modified_time" content="2023-10-21T05:26:44.703Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20231009133602129.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -194,32 +211,154 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-常见HTTP错误码模拟" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-2防火墙：基础知识" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/">常见HTTP错误码模拟</a>
+    <h1 class="article-title" itemprop="name">
+      2防火墙：基础知识
     </h1>
   
 
         
-        <a href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/" class="archive-article-date">
-  	<time datetime="2021-11-28T15:48:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
+        <a href="/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="archive-article-date">
+  	<time datetime="2023-10-21T05:13:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-10-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近发现部分同学虽然知道HTTP错误码，但对产生的具体原因并不清楚，所以我打算对比较常见的错误码进行模拟，帮助大家理解。</p>
-        
-          <a class="article-more-a" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/#more">more >></a>
-        
+        <p>看了一下相关视频，感觉要会防火墙，还是得补一下网络基础。看一下谢希仁的《计算机网络》，应该主要看网络层就可以。网络以前学的还可以，但现在也就能记得不到50%，正好重新学习一下，或许会有新的感受。</p>
+<p>看完之后，感觉比较重要就几点：</p>
+<ol>
+<li>机器怎么知道同网络机器的MAC地址</li>
+<li>路由器怎么知道把分组转发到哪里</li>
+<li>使用无分类编址CIDR，确定掩码，啥都确定了<span id="more"></span> 
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2></li>
+</ol>
+<p>IP协议配套使用四个其它协议ARP、RARP、ICMP、IGMP</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IP协议</td>
+<td>用来使互连起来的许多计算机网络能够进行通信</td>
+</tr>
+<tr>
+<td>地址解析协议ARP</td>
+<td>Address Resolution Protocol</td>
+</tr>
+<tr>
+<td>逆地址解析协议RARP</td>
+<td>Reverse Address Resolution Protocol</td>
+</tr>
+<tr>
+<td>网际控制报文协议ICMP</td>
+<td>Internet Control Message Protocol</td>
+</tr>
+<tr>
+<td>网际组管理协议IGMP</td>
+<td>Internet Group Message Protocol</td>
+</tr>
+<tr>
+<td>无分类域间路由选择CIDR</td>
+<td>Classless Inter-Domain Routing</td>
+</tr>
+</tbody></table>
+<h2 id="网际协议IP"><a href="#网际协议IP" class="headerlink" title="网际协议IP"></a>网际协议IP</h2><h3 id="分类的IP地址"><a href="#分类的IP地址" class="headerlink" title="分类的IP地址"></a>分类的IP地址</h3><p>1.IP地址就是给因特网上的每一个主机（或路由器）的每一个接口分配一个在全世界范围是唯一的32位的标识符。</p>
+<p>2.IP地址::={&lt;网络号&gt;，&lt;主机号&gt;}</p>
+<ul>
+<li>一个网络是指具有相同网络号的主机的集合</li>
+<li>具有不同网络号的局域网必须使用路由器进行互连</li>
+</ul>
+<p>3.<img src="./image-20231009133602129.png" alt="image-20231009133602129"></p>
+<h3 id="IP地址与硬件地址"><a href="#IP地址与硬件地址" class="headerlink" title="IP地址与硬件地址"></a>IP地址与硬件地址</h3><ol>
+<li>硬件地址又称为MAC地址、物理地址，因为硬件地址已固化在网卡上的ROM中。</li>
+<li>硬件地址是数据链路层和物理层使用的地址，IP地址是网络层和以上各层使用的地址，是一种逻辑地址（因为IP地址是用软件实现的）</li>
+<li>IP数据报经过路由器转发的时候，首部的原地址和目的地址始终不变。IP数据报被封装在MAC帧中，MAC帧在不同网络上传送时，其MAC帧首部中的原地址和目的地址要发生变化。</li>
+</ol>
+<h3 id="ARP和RARP"><a href="#ARP和RARP" class="headerlink" title="ARP和RARP"></a>ARP和RARP</h3><ol>
+<li>ARP：根据IP地址找出其硬件地址</li>
+</ol>
+<ul>
+<li>主机ARP高速缓存中存放一个从IP地址到硬件地址的映射表，并且这个映射表还经常动态更新</li>
+<li>ARP进程在本局域网广播发送ARP请求分组（我IP是**，MAC地址是**，我想知道**IP的MAC地址），对应的机器收到请求后，进行响应</li>
+</ul>
+<ol start="2">
+<li>RARP：知道自己硬件地址的主机能够通过RARP协议找出其IP地址</li>
+</ol>
+<h3 id="IP层转发分组的流程"><a href="#IP层转发分组的流程" class="headerlink" title="IP层转发分组的流程"></a>IP层转发分组的流程</h3><p>1.路由表中，每一条路由最重要的是以下两个信息(目的网络地址，下一跳地址)</p>
+<p>2.如果和路由器直连，则下一跳是接口，如果不直连，则下一跳是相邻路由器的IP地址</p>
+<p>   <img src="./image-20231008132811339.png" alt="image-20231008132811339"></p>
+<p>3.0.0.0.0表示路由表中的直接或者默认的概念<br>4.分组转发算法</p>
+<p><img src="./image-20231008133927776.png" alt="image-20231008133927776"></p>
+<h2 id="划分子网和构造超网"><a href="#划分子网和构造超网" class="headerlink" title="划分子网和构造超网"></a>划分子网和构造超网</h2><h3 id="划分子网"><a href="#划分子网" class="headerlink" title="划分子网"></a>划分子网</h3><ol>
+<li>从两级IP地址到三级IP地址：IP地址::={&lt;网络号&gt;,&lt;子网号&gt;,&lt;主机号&gt;}</li>
+</ol>
+<ul>
+<li>子网号相同表示同一个空间</li>
+<li>IP与子网掩码做与操作，就能计算出子网号</li>
+<li>子网号位数多，主机号就少；子网号位数少，主机号就多；具体怎么配置，看需求</li>
+<li>子网数=2^(子网位数)-2</li>
+</ul>
+<h3 id="使用子网时分组的转发"><a href="#使用子网时分组的转发" class="headerlink" title="使用子网时分组的转发"></a>使用子网时分组的转发</h3><p>1.使用子网划分后，路由表必须包含以下三项内容：目的网络地址、子网掩码和下一跳地址</p>
+<p>2.路由器转发算法</p>
+<p><img src="./image-20231009233924863.png" alt="image-20231009233924863"></p>
+<h3 id="无分类编址CIDR（构造超网）"><a href="#无分类编址CIDR（构造超网）" class="headerlink" title="无分类编址CIDR（构造超网）"></a>无分类编址CIDR（构造超网）</h3><p>1.<strong>算是最终版</strong>，IP地址 ::={&lt;网络前缀&gt;,&lt;主机号&gt;}，如128.14.35.7/20<br>2.计算范围也很简单，如192.199.170.82/27，范围是192.199.170.64~192.199.170.95</p>
+<ul>
+<li>找出掩码中1和0交界处是哪个字节，目前是第四个字节</li>
+<li>把字节用二进制表示，82的二进制是01010010</li>
+<li>取为1的掩码的位数（27-3*8=3），将对应位数的二进制进行保留（010），剩下的分别变成0（01000000）和1（01011111），即64和95</li>
+</ul>
+<p>3.路由：网络前缀+下一跳地址</p>
+<ul>
+<li>CIDR极大压缩了路由表中的项目数</li>
+</ul>
+<h2 id="网际控制报文协议ICMP"><a href="#网际控制报文协议ICMP" class="headerlink" title="网际控制报文协议ICMP"></a>网际控制报文协议ICMP</h2><p>ICMP允许主机或者路由器报告差错情况和提供有关异常情况的报告。</p>
+<p><img src="./image-20231010134140853.png" alt="image-20231010134140853"></p>
+<p>ping、traceroute用的就是ICMP的能力。</p>
+<h2 id="因特网的路由选择协议"><a href="#因特网的路由选择协议" class="headerlink" title="因特网的路由选择协议"></a>因特网的路由选择协议</h2><ol>
+<li>从自适应调整划分：静态路由选择策略和动态路由选择策略</li>
+<li>路由选择协议的目的：不同的自治系统（autonomous system）能够方便、统一的联系</li>
+<li>分类：</li>
+</ol>
+<ul>
+<li>内部网关协议IGP（Interior Gateway Protocal）：即在一个自治系统内部使用的路由选择协议，如RIP和OSPF协议</li>
+<li>外部网关协议EGP（External Gateway Protocol）：若源主机和目的主机在不同的自治系统重，需要使用该协议，如EGP</li>
+</ul>
+<h3 id="内部网关协议RIP（Routing-Information-Protocol）"><a href="#内部网关协议RIP（Routing-Information-Protocol）" class="headerlink" title="内部网关协议RIP（Routing Information Protocol）"></a>内部网关协议RIP（Routing Information Protocol）</h3><p>1.RIP协议要求网络中的每一个路由器都要维护从它自己到其它每一个目的网路的距离记录<br>2.RIP协议的特点</p>
+<p><img src="./image-20231015151019821.png" alt="image-20231015151019821"></p>
+<p>3.使用距离向量算法更新路由器信息</p>
+<p><img src="./image-20231015151256100.png" alt="image-20231015151256100"></p>
+<h3 id="内部网关协议OSPF（Open-Shortest-Path-First）"><a href="#内部网关协议OSPF（Open-Shortest-Path-First）" class="headerlink" title="内部网关协议OSPF（Open Shortest Path First）"></a>内部网关协议OSPF（Open Shortest Path First）</h3><ol>
+<li>最短路径优先算法，Dijkstra，熟不熟！！！</li>
+<li>算法特点：</li>
+</ol>
+<p><img src="./image-20231015152031222.png" alt="image-20231015152031222"></p>
+<h3 id="外部网关协议BGP"><a href="#外部网关协议BGP" class="headerlink" title="外部网关协议BGP"></a>外部网关协议BGP</h3><p>1.BGP是不同AS的路由器之间交换路由信息的协议</p>
+<p>2.在配置BGP时，每一个AS的管理员要选择至少一个路由器作为该AS的“BGP发言人”，用于和其他发言人交换路由信息</p>
+<p>   <img src="./image-20231015152809053.png" alt="image-20231015152809053"></p>
+<h3 id="路由器的构成"><a href="#路由器的构成" class="headerlink" title="路由器的构成"></a>路由器的构成</h3><p><img src="./image-20231015161211636.png" alt="image-20231015161211636"></p>
+<h2 id="虚拟专用网VPN和网络地址转换NAT"><a href="#虚拟专用网VPN和网络地址转换NAT" class="headerlink" title="虚拟专用网VPN和网络地址转换NAT"></a>虚拟专用网VPN和网络地址转换NAT</h2><h3 id="虚拟专用网VPN"><a href="#虚拟专用网VPN" class="headerlink" title="虚拟专用网VPN"></a>虚拟专用网VPN</h3><p>1.专用地址：在因特网中的所有路由器，对目的地址是专用地址的数据报一律不进行转发</p>
+<p><img src="./image-20231015162109934.png" alt="image-20231015162109934"></p>
+<p>2.VPN有很多类型</p>
+<ul>
+<li>内联网VPN</li>
+<li>外联网VPN</li>
+<li>远程接入VPN</li>
+</ul>
+<h3 id="网络地址转换NAT"><a href="#网络地址转换NAT" class="headerlink" title="网络地址转换NAT"></a>网络地址转换NAT</h3><ol>
+<li>需要在专用网连接到因特网的路由器上安装NAT软件。装有NAT软件的路由器叫做NAT路由器，它至少有一个有效的外部全球IP地址。</li>
+</ol>
+<p><img src="./image-20231015163018858.png" alt="image-20231015163018858"></p>
+
       
 
       
@@ -230,16 +369,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/28/%E5%B8%B8%E8%A7%81HTTP%E9%94%99%E8%AF%AF%E7%A0%81%E6%A8%A1%E6%8B%9F/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2023/10/21/2%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2023/10/04/1%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E9%98%B2%E7%81%AB%E5%A2%99/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">1认识一下防火墙</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -259,598 +457,14 @@
 
 
 
-
-  
-    <article id="pages-初探技术管理-2-管理规划" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/">初探技术管理(2)-管理规划</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/" class="archive-article-date">
-  	<time datetime="2021-11-28T04:05:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>成为管理者后，第一步要做管理规划，管理规划中最重要的是确认团队职能。</p>
-        
-          <a class="article-more-a" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/28/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-2-%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%92/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-初探技术管理-1" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/">初探技术管理(1)</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/" class="archive-article-date">
-  	<time datetime="2021-11-24T13:48:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作为一个程序员，想继续成长，管理是绕不过去的槛。</p>
-<p>即使想纯做技术，向架构师方向前进，仍需做好管理，因为架构师也有大小，架构的盘子越大，自身能力也会越强，但大盘子单靠个人是无法达成的。</p>
-        
-          <a class="article-more-a" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/24/%E5%88%9D%E6%8E%A2%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-搞明白Go的值和指针，别写bug了" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/">搞明白Go的值和指针，别写bug了</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/" class="archive-article-date">
-  	<time datetime="2021-11-21T10:02:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近多次出现同事误用指针导致系统bug，所以这次聊一下Go的值与指针，大家尽量避免写出错误代码。</p>
-        
-          <a class="article-more-a" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/21/%E6%90%9E%E6%98%8E%E7%99%BDGo%E7%9A%84%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88%EF%BC%8C%E5%88%AB%E5%86%99bug%E4%BA%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-MySQL总结" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/">MySQL总结</a>
-    </h1>
-  
-
-        
-        <a href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2021-11-15T12:51:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>半个月没写文章了，这是从去年到现在断更最长的一次，原因有如下几个：</p>
-        
-          <a class="article-more-a" href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/11/15/MySQL%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-Redis的事务，Go-lua用起来真香" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/">Redis的事务，Go+lua用起来真香</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/" class="archive-article-date">
-  	<time datetime="2021-10-29T02:30:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Redis是应对高并发的常用工具，在<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/xElsNUjxiT0MYZuVJct6Gw">常用缓存技巧</a>中讲过相关技巧。但有些业务场景，使用Redis会遇到问题，如电商里的秒杀、扣减库存等。</p>
-        
-          <a class="article-more-a" href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/29/Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%EF%BC%8CGo-lua%E7%94%A8%E8%B5%B7%E6%9D%A5%E7%9C%9F%E9%A6%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-用Go实现一个状态机" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/">用Go实现一个状态机</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/" class="archive-article-date">
-  	<time datetime="2021-10-24T04:33:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作中，很多同学会用到状态机，例如对一个工单进行创建、编辑、审核，在执行新动作前，要检查能否从当前状态流转到下一个状态。对这种需求，我们怎么实现呢？</p>
-        
-          <a class="article-more-a" href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/24/%E7%94%A8Go%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%8A%B6%E6%80%81%E6%9C%BA/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-规范上说避免使用JOIN" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/">规范上说避免使用JOIN</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/" class="archive-article-date">
-  	<time datetime="2021-10-21T07:15:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前写过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/D06Bi0nZQtVmc72Hv06zjw">MySQL开发规范</a>，SQL设计中有一条建议：避免使用JOIN和子查询，禁止使用3表以上的JOIN，必要时推荐用JOIN代替子查询。</p>
-        
-          <a class="article-more-a" href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/21/%E8%A7%84%E8%8C%83%E4%B8%8A%E8%AF%B4%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JOIN/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-我要实现一个推单功能了" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/">我要实现一个推单功能了</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/" class="archive-article-date">
-  	<time datetime="2021-10-16T08:04:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前都是作为消息接收方，接收消息。记得当时做支付的时候，接收第三方支付公司的各种消息，如支付成功、支付失败、退款成功、退款失败。</p>
-        
-          <a class="article-more-a" href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/16/%E6%88%91%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A8%E5%8D%95%E5%8A%9F%E8%83%BD%E4%BA%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-MySQL高可用，就这么完美？？？" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/">MySQL高可用，就这么完美？？？</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2021-10-11T08:53:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>MySQL以其容易学习和高可用，被开发人员青睐。它的几乎所有的高可用架构，都直接依赖于 binlog。MySQL 能够成为现下最流行的开源数据库，binlog 功不可没。MySQL是怎样实现高可用的？这种高可用足够完美吗？</p>
-        
-          <a class="article-more-a" href="/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/11/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%8C%E5%B0%B1%E8%BF%99%E4%B9%88%E5%AE%8C%E7%BE%8E%EF%BC%9F%EF%BC%9F%EF%BC%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/10/">« Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/12/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -873,8 +487,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
