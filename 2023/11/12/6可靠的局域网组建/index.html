@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>6可靠的局域网组建 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/21/index.html">
+  <meta name="description" content="前面聊的拓扑结构都比较简单，所以能用，但是未必可靠。为了可靠，我们需要做冗余，同时需要做一些其他的配置。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6可靠的局域网组建">
+<meta property="og:url" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="前面聊的拓扑结构都比较简单，所以能用，但是未必可靠。为了可靠，我们需要做冗余，同时需要做一些其他的配置。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/image-20231109002047767.png">
+<meta property="og:image" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/image-20231109002507815.png">
+<meta property="og:image" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/image-20231109002849673.png">
+<meta property="og:image" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/image-20231109003849058.png">
+<meta property="og:image" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/hcl_7148db071733.png">
+<meta property="og:image" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/hcl_7148db071733.png">
+<meta property="article:published_time" content="2023-11-12T13:38:42.000Z">
+<meta property="article:modified_time" content="2023-11-12T13:44:21.434Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/image-20231109002047767.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -212,295 +223,205 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-6可靠的局域网组建" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      6可靠的局域网组建
+    </h1>
+  
+
+        
+        <a href="/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/" class="archive-article-date">
+  	<time datetime="2023-11-12T13:38:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-11-12</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前面聊的拓扑结构都比较简单，所以能用，但是未必可靠。为了可靠，我们需要做冗余，同时需要做一些其他的配置。</p>
+<span id="more"></span> 
+<h2 id="生成树协议STP"><a href="#生成树协议STP" class="headerlink" title="生成树协议STP"></a>生成树协议STP</h2><p><img src="./image-20231109002047767.png" alt="image-20231109002047767"></p>
+<p>假设交换机按照上面的方案连，虽然可以提高网络可靠性，但是因为形成了环路，所以有可能形成广播风暴（成因大家自己思考）。</p>
+<p>为了消除局域网中的环路，Radia Perlman研发出了生成树算法。简单理解就该改算法能够将环形网络进行修剪，成为逻辑上没有环路的树形结构。</p>
+<p><img src="./image-20231109002507815.png" alt="image-20231109002507815"></p>
+<p>STP的工作流程主要有四步，我们又不考试，大家大体了解一下就可以了。我们只需要知道，STP工作完，局域网中就没有环路了。</p>
+<p><img src="./image-20231109002849673.png" alt="image-20231109002849673"></p>
+<h2 id="链路聚合"><a href="#链路聚合" class="headerlink" title="链路聚合"></a>链路聚合</h2><p>为啥要搞链路聚合呢？交换机SWA和SWB之间如果只有一条链路，链路速率是100Mbps。但是因为机器特别多，100Mbps不够了，又没钱，不想升级。那就可以用链路聚合。</p>
+<p><img src="./image-20231109003849058.png" alt="image-20231109003849058"></p>
+<p><strong>概念：</strong></p>
+<p>链路聚合是以太网交换中非常重要的提高可靠性、增加带宽的技术。通过链路聚合可以将物理上的多个以太网链路聚合成一个逻辑上的链路组，对于上层实体聚合组内的链路相当于一条链路。</p>
+<p><strong>链路聚合的特点：</strong></p>
+<p>1、 增加网络带宽：可以把数据流分散到聚合组中各个成员端口实现负载分担，增加交换机间的链路带宽。</p>
+<p>2、 提供了链路可靠性：链路聚合组中可以实时监控组内各个端口的状态，如果某个端口故障，聚合组会及时把数据流从其他端口传输。</p>
+<p>我个人觉得链路聚合和STP不冲突，即使开了STP，聚合的链路还是当做一条链路使用的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">链路聚合（Link Aggregation）和生成树协议（STP, Spanning Tree Protocol）在交换机中可以同时配置，通常并不会冲突。</span><br><span class="line"></span><br><span class="line">当配置了链路聚合后，整个以太通道会在逻辑上被看成是一条线路，虽然在物理上产生了环路，但生成树协议STP不会把它看成是环路，因此在正常情况下，两者是没有冲突的。</span><br><span class="line"></span><br><span class="line">但是，在某些特殊场景下可能会出现问题，例如：环网中根桥设备掉电，导致STP生成树重新计算根桥，可能会导致和链路聚合存在冲突，这时需要进行适当的故障处理。</span><br><span class="line"></span><br><span class="line">在配置和使用过程中，还需要注意生成树协议（STP）和链路聚合协议（LACP）的优先级和选举规则，以避免不必要的网络问题。为了确保网络的稳定性和可用性，配置时务必认真对待，不然小心出现环路或者链路不通等问题。通过合理的网络设计和配置，可以让链路聚合和生成树协议相互配合，实现更加强大的网络功能。</span><br></pre></td></tr></table></figure>
+
+<h3 id="方式"><a href="#方式" class="headerlink" title="方式"></a>方式</h3><p>做链路聚合有两种方式：</p>
+<ol>
+<li>静态聚合：需要手动配置聚合组，双方系统间不使用聚合协议来协商链路信息。当双方设备有一端不支持动态聚合，或者双方支持的聚合协议不兼容，那么就必须采用静态链路聚合。</li>
+<li>动态聚合：双方系统间使用聚合协议来协商链路信息。LACP 是一种基于IEEE802.3ad 标准的、能够实现链路动态聚合的协议。动态聚合链路连接的双方通过交互 LACP （链路聚合控制协议）协议报文，来协商聚合对接</li>
+</ol>
+<p>后面演示使用静态聚合方式做聚合。</p>
+<h3 id="限制条件"><a href="#限制条件" class="headerlink" title="限制条件"></a>限制条件</h3><p>不管采用那种聚合方式链路两端的物理参数必须保持一致，包括</p>
+<ul>
+<li><p>进行聚合的链路的数目</p>
+</li>
+<li><p>进行聚合的链路的速率</p>
+</li>
+<li><p>进行聚合的链路的工作模式</p>
+</li>
+</ul>
+<p>链路的速率一般有：10Mbit/s、100Mbit/s、1000Mbit/s</p>
+<p>链路的工作模式有：</p>
+<ul>
+<li><p>Half：表示端口工作在半双工模式</p>
+</li>
+<li><p>Full：表示端口工作在全双工模式</p>
+</li>
+<li><p>Auto：表示端口工作在自协商模式</p>
+</li>
+</ul>
+<p>可通过下面的命令进行配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">端口速率配置：接口视图下使用 speed 命令加上端口速率，如果输入 auto</span><br><span class="line">表示自适应接口</span><br><span class="line">[SW1-Ethernet0&#x2F;4&#x2F;1]speed &#123;10|100|1000|auto&#125;</span><br><span class="line">端口的双工模式：接口视图下使用 duplex 命令加上链路工作模式，输入 auto</span><br><span class="line">表示自适应模式</span><br><span class="line">[SW1-Ethernet0&#x2F;4&#x2F;1]duplex &#123; auto｜full｜half &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="STP"><a href="#STP" class="headerlink" title="STP"></a>STP</h3><p>STP默认是关闭的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[SW1]stp global enable  &#x2F;&#x2F;整体开启</span><br><span class="line">[SW1]undo stp global enable  &#x2F;&#x2F;整体关闭</span><br><span class="line">[SW1]%Nov 12 17:23:26:127 2023 SW1 STP&#x2F;6&#x2F;STP_DISABLE: STP is now disabled on the device.</span><br><span class="line"></span><br><span class="line">#接口维度开启和关闭</span><br><span class="line">[SW1]interface GigabitEthernet1&#x2F;0&#x2F;1</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;1]stp enable</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;1]undo stp enable</span><br><span class="line"></span><br><span class="line">#查看交换机本身信息</span><br><span class="line">&lt;SW1&gt;display device manuinfo</span><br><span class="line"> Slot 1 CPU 0:</span><br><span class="line">DEVICE_ID:Slot ID:1</span><br><span class="line">DEVICE_NAME:Simware</span><br><span class="line"></span><br><span class="line">#查看stp根</span><br><span class="line">[SW1]display stp root</span><br><span class="line"> MST ID   Root Bridge ID        ExtPathCost IntPathCost Root Port</span><br><span class="line"> 0        32768.96d3-5262-0100  0           0</span><br><span class="line"></span><br><span class="line">#查看stp摘要信息</span><br><span class="line">[SW1]display stp brief</span><br><span class="line"> MST ID   Port                                Role  STP State   Protection</span><br><span class="line"> 0        GigabitEthernet1&#x2F;0&#x2F;3                DESI  FORWARDING  NONE</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="./hcl_7148db071733.png" alt="hcl_7148db071733"></p>
+<p>对两个交换机开启STP后，可以看到根是S6850_5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[SW1]display stp root</span><br><span class="line"> MST ID   Root Bridge ID        ExtPathCost IntPathCost Root Port</span><br><span class="line"> 0        32768.20d4-a4a4-0500  20          0           GE1&#x2F;0&#x2F;10</span><br></pre></td></tr></table></figure>
+
+<p>大家可以在交换机上，配置优先级，控制谁成为根</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[SW1]STP priority  数值</span><br></pre></td></tr></table></figure>
+
+<h3 id="链路聚合-1"><a href="#链路聚合-1" class="headerlink" title="链路聚合"></a>链路聚合</h3><p><img src="./hcl_7148db071733.png" alt="hcl_7148db071733"></p>
+<p>我们使用静态配置方法把SW1和SW2的10和11进行聚合</p>
+<p>先把另个交换机的端口物理参数配置一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[SW1]interface GigabitEthernet1&#x2F;0&#x2F;10</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;10]speed 100</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;10]duplex full</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;10]exit</span><br><span class="line">[SW1]inter</span><br><span class="line">[SW1]interface Gi</span><br><span class="line">[SW1]interface GigabitEthernet 1&#x2F;0&#x2F;11</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;11]speed 100</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;11]duplex full</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;11]exit</span><br><span class="line"></span><br><span class="line">[SW2]interface GigabitEthernet 1&#x2F;0&#x2F;10</span><br><span class="line">[SW2-GigabitEthernet1&#x2F;0&#x2F;10]speed 100</span><br><span class="line">[SW2-GigabitEthernet1&#x2F;0&#x2F;10]duplex full</span><br><span class="line">[SW2-GigabitEthernet1&#x2F;0&#x2F;10]exit</span><br><span class="line">[SW2]interface GigabitEthernet 1&#x2F;0&#x2F;11</span><br><span class="line">[SW2-GigabitEthernet1&#x2F;0&#x2F;11]speed 100</span><br><span class="line">[SW2-GigabitEthernet1&#x2F;0&#x2F;11]duplex full</span><br><span class="line">[SW2-GigabitEthernet1&#x2F;0&#x2F;11]exit</span><br></pre></td></tr></table></figure>
+
+<p>创建聚合组，并将端口加入聚合组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[SW1]interface Bridge-Aggregation 1</span><br><span class="line">[SW1-Bridge-Aggregation1]quit</span><br><span class="line">[SW1]interface GigabitEthernet 1&#x2F;0&#x2F;10</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;10]port link-aggregation group 1</span><br><span class="line"></span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;10]quit</span><br><span class="line">[SW1]interface GigabitEthernet 1&#x2F;0&#x2F;11</span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;11]port link-aggregation group 1</span><br><span class="line"></span><br><span class="line">#查看配置</span><br><span class="line"></span><br><span class="line">[SW1-GigabitEthernet1&#x2F;0&#x2F;11]quit</span><br><span class="line">[SW1]display link-aggregation verbose</span><br><span class="line">  Port             Status  Priority Oper-Key</span><br><span class="line">  GE1&#x2F;0&#x2F;10(R)      S       32768    1</span><br><span class="line">  GE1&#x2F;0&#x2F;11         S       32768    1</span><br></pre></td></tr></table></figure>
+
+<p>SW2做相同配置后，尝试ping一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;H3C&gt;ping 112.112.112.4</span><br><span class="line">Ping 112.112.112.4 (112.112.112.4): 56 data bytes, press CTRL_C to break</span><br><span class="line">56 bytes from 112.112.112.4: icmp_seq&#x3D;0 ttl&#x3D;255 time&#x3D;14.755 ms</span><br></pre></td></tr></table></figure>
+
+<p>尝试关闭一个端口，还是可以ping通</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[SW2]interface GigabitEthernet 1&#x2F;0&#x2F;10</span><br><span class="line">[SW2-GigabitEthernet1&#x2F;0&#x2F;10]shutdown</span><br></pre></td></tr></table></figure>
+
+<p>但是把SW2的11端口也关闭，就无法ping通了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一章其实不了解也无所谓，但是如果想让系统更加稳定，还是需要了解一下的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%AD%99%E5%AD%90%E5%85%B5%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:52:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%AD%99%E5%AD%90%E5%85%B5%E6%B3%95/">孙子兵法</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2023/11/12/6%E5%8F%AF%E9%9D%A0%E7%9A%84%E5%B1%80%E5%9F%9F%E7%BD%91%E7%BB%84%E5%BB%BA/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E7%94%A8%E9%97%B4%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:43:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2023/11/06/5%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91%E6%9E%84%E5%BB%BA/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">5虚拟局域网构建</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E7%94%A8%E9%97%B4%E7%AF%87/">用间篇</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E7%81%AB%E6%94%BB%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:43:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E7%81%AB%E6%94%BB%E7%AF%87/">火攻篇</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E4%B9%9D%E5%9C%B0%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E4%B9%9D%E5%9C%B0%E7%AF%87/">九地篇</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%9C%B0%E5%BD%A2%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:42:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%9C%B0%E5%BD%A2%E7%AF%87/">地形篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E8%A1%8C%E5%86%9B%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:41:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E8%A1%8C%E5%86%9B%E7%AF%87/">行军篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:40:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E4%B9%9D%E5%8F%98%E7%AF%87/">九变篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:40:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%86%9B%E4%BA%89%E7%AF%87/">军争篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:39:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E8%99%9A%E5%AE%9E%E7%AF%87/">虚实篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/01/%E5%8A%BF%E7%AF%87/" class="archive-article-date">
-  	<time datetime="2020-11-01T06:39:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/01/%E5%8A%BF%E7%AF%87/">势篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/20/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/19/">19</a><a class="page-number" href="/archives/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/archives/page/22/">22</a><a class="page-number" href="/archives/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/27/">27</a><a class="extend next" rel="next" href="/archives/page/22/">Next »</a>
-    </nav>
   
 
 
@@ -524,8 +445,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
