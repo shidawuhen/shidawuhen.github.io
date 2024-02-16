@@ -16,7 +16,7 @@
 <meta property="og:description" content="InnoDB锁与事务简析 事务原子性、一致性、持久性的实现原理 Redis实现分布式锁 MySQL开发规范 一文搞懂MySQL数据库分库分表 InnoDB-redo、undo、binlog，是如何合作的 Innodb事务隔离性实现原理，你知道吗？ Innodb为啥要刷脏页？ Innodb-count的内部流程，你知道吗？ MySQL-Explain详解 MySQL-Innodb锁算法，可算搞明白">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-28T15:16:07.000Z">
-<meta property="article:modified_time" content="2023-10-03T05:31:15.194Z">
+<meta property="article:modified_time" content="2024-02-16T09:07:43.225Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
   
@@ -72,6 +72,8 @@
 				<li><a href="/%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a></li>
 	        
 				<li><a href="/%E7%BB%84%E7%BD%91">组网</a></li>
+	        
+				<li><a href="/AI">AI</a></li>
 	        
 				<li><a href="/%E7%AE%97%E6%B3%95">算法系列</a></li>
 	        
@@ -157,6 +159,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -175,33 +179,35 @@
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 7.142857142857143%"><a href="/">主页</a></li>
+					<li style="width: 6.666666666666667%"><a href="/">主页</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E6%9E%B6%E6%9E%84">架构</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E6%9E%B6%E6%9E%84">架构</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80">编程语言</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80">编程语言</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8">数据存储</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8">数据存储</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E7%BD%91%E7%BB%9C">网络</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E7%BD%91%E7%BB%9C">网络</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/VMware-vSphere">VMware</a></li>
+					<li style="width: 6.666666666666667%"><a href="/VMware-vSphere">VMware</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E7%BB%84%E7%BD%91">组网</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E7%BB%84%E7%BD%91">组网</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E7%AE%97%E6%B3%95">算法系列</a></li>
+					<li style="width: 6.666666666666667%"><a href="/AI">AI</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E7%AE%97%E6%B3%95">算法系列</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0">读书笔记</a></li>
+					<li style="width: 6.666666666666667%"><a href="/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E6%80%9D%E8%80%83">思考</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0">读书笔记</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E5%B7%A5%E5%85%B7">工具</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E6%80%9D%E8%80%83">思考</a></li>
 		        
-					<li style="width: 7.142857142857143%"><a href="/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0">其它技术</a></li>
+					<li style="width: 6.666666666666667%"><a href="/%E5%B7%A5%E5%85%B7">工具</a></li>
+		        
+					<li style="width: 6.666666666666667%"><a href="/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0">其它技术</a></li>
 		        
 				</ul>
 			</nav>
@@ -255,6 +261,7 @@
 <li><a href="../2022/01/02/%E5%81%9A%E9%81%93%E9%A2%98%E5%B0%B1%E7%9F%A5%E9%81%93%EF%BC%8C%E6%87%82%E4%B8%8D%E6%87%82%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E4%BA%86">做道题就知道，懂不懂事务隔离性了</a></li>
 <li><a href="../2022/09/22/MySQL%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%EF%BC%9F">MySQL如何导入大量数据？</a></li>
 <li><a href="../2023/10/03/%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%94%A8%E7%9A%84update%E8%AF%AD%E5%8F%A5">一个好用的update语句</a></li>
+<li><a href="../2024/02/16/%E4%B8%BB%E4%BB%8E%E5%BB%B6%E8%BF%9F%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3">主从延迟如何解决</a></li>
 </ol>
 
       
