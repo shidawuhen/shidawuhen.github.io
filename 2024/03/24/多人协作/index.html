@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>多人协作 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/7/index.html">
+  <meta name="description" content="有时候可能会有多人协作的需求，多人协作有很多实现方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多人协作">
+<meta property="og:url" content="http://yoursite.com/2024/03/24/%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="有时候可能会有多人协作的需求，多人协作有很多实现方式">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-03-24T11:06:37.000Z">
+<meta property="article:modified_time" content="2024-03-24T11:08:18.645Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
   
@@ -218,295 +222,165 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-多人协作" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      多人协作
+    </h1>
+  
+
+        
+        <a href="/2024/03/24/%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C/" class="archive-article-date">
+  	<time datetime="2024-03-24T11:06:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-24</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候可能会有多人协作的需求，多人协作有很多实现方式</p>
+<span id="more"></span> 
+<ol>
+<li>可以多人改，但是同时只有一人能改。这种不算纯粹的多人协作，偏权限控制。</li>
+<li>飞书文档类的多人协作，大家都在同一个数据载体上修改。</li>
+<li>git式的多人协作，没人都有一个分支，在自己的分支上修改，需要rebase和commit。</li>
+</ol>
+<p>选择哪种要看业务的发展阶段和具体场景。</p>
+<p>如果多人协作需求没有那么强烈，只是偶尔需要别人来修改一下，可以使用方案一。如果是文档类的多人协作，则可以使用方案二。方案三则是最纯粹的多人协作方案，系统底层复杂度、场景复杂度都会提升很多。</p>
+<p>对于方案三，需要考虑以下几点问题</p>
+<p>在架构上：</p>
+<ol>
+<li>是否会频繁的增加字段：如果频繁增加字段，需要修改表的数量至少扩展一倍</li>
+<li>是否有全局字段：全局字段是一改全改，没有个人分支的概念</li>
+<li>数据统计影响：是否会影响到现有的数据统计，毕竟增加了一个维度</li>
+<li>事务处理：所有操作几乎都需要考虑到个人分支和主分支，需要事务操作</li>
+<li>替换处理：每一个操作要区分是个人分支还是主分支</li>
+</ol>
+<p>在场景上：</p>
+<ol>
+<li>对于未开启多人协作的，无需感知到多人协作的功能，即无需感知到rebase、commit等</li>
+<li>在排序上，显示的是个人版本还是master版本</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/06/%E6%88%91%E7%94%A8python%E5%88%86%E6%9E%90%E4%B9%B0%E6%88%BF%E6%95%B0%E6%8D%AE/" class="archive-article-date">
-  	<time datetime="2022-11-06T05:26:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/06/%E6%88%91%E7%94%A8python%E5%88%86%E6%9E%90%E4%B9%B0%E6%88%BF%E6%95%B0%E6%8D%AE/">我用python分析买房数据</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2024/03/24/%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/06/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E5%9B%9B%E7%AF%87-%E9%87%8C%E4%BB%81/" class="archive-article-date">
-  	<time datetime="2022-11-06T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2024/03/24/http-SSE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          http SSE
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/03/03/%E4%B8%BA%E5%95%A5%E6%B2%A1%E8%B5%B0%E6%88%91%E6%83%B3%E8%A6%81%E7%9A%84%E7%B4%A2%E5%BC%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为啥没走我想要的索引</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/06/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E5%9B%9B%E7%AF%87-%E9%87%8C%E4%BB%81/">论语第四篇-里仁</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/24/%E6%9F%A5%E8%A1%A8%E6%B3%95%E4%B8%8Eswitch%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2022-10-24T05:25:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/24/%E6%9F%A5%E8%A1%A8%E6%B3%95%E4%B8%8Eswitch%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/">查表法与switch有什么区别？</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/17/%E3%80%8A%E5%A5%87%E7%89%B9%E7%9A%84%E4%B8%80%E7%94%9F%E3%80%8B/" class="archive-article-date">
-  	<time datetime="2022-10-17T12:46:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/17/%E3%80%8A%E5%A5%87%E7%89%B9%E7%9A%84%E4%B8%80%E7%94%9F%E3%80%8B/">《奇特的一生》</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
-  	<time datetime="2022-10-11T03:17:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/">如何搭建溯源系统</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/03/%E3%80%8A%E6%AF%9B%E9%80%89%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" class="archive-article-date">
-  	<time datetime="2022-10-03T14:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/03/%E3%80%8A%E6%AF%9B%E9%80%89%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/">《毛选》读后感</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/22/MySQL%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2022-09-22T05:04:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/22/MySQL%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%EF%BC%9F/">MySQL如何导入大量数据？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/13/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%89%E7%AF%87-%E5%85%AB%E4%BE%91/" class="archive-article-date">
-  	<time datetime="2022-09-13T12:26:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/13/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%89%E7%AF%87-%E5%85%AB%E4%BE%91/">论语第三篇-八侑</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/04/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%BA%8C%E7%AF%87-%E4%B8%BA%E6%94%BF/" class="archive-article-date">
-  	<time datetime="2022-09-04T06:49:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/04/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%BA%8C%E7%AF%87-%E4%B8%BA%E6%94%BF/">论语第二篇-为政</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/" class="archive-article-date">
-  	<time datetime="2022-09-03T06:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/">HTTP长连接</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/29/">29</a><a class="extend next" rel="next" href="/archives/page/8/">Next »</a>
-    </nav>
   
 
 
@@ -530,8 +404,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

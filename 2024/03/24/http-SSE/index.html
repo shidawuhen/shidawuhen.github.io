@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason Pang</title>
+  <title>http SSE | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://yoursite.com/archives/page/7/index.html">
+  <meta name="description" content="以前聊过Golang长连接-基于WebSocket，这次我们聊SSE（Server-Sent Events）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http SSE">
+<meta property="og:url" content="http://yoursite.com/2024/03/24/http-SSE/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="以前聊过Golang长连接-基于WebSocket，这次我们聊SSE（Server-Sent Events）。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2024/03/24/http-SSE/image-20240324162736247.png">
+<meta property="og:image" content="http://yoursite.com/2024/03/24/http-SSE/image-20240324162748234.png">
+<meta property="article:published_time" content="2024-03-24T11:06:49.000Z">
+<meta property="article:modified_time" content="2024-03-24T11:08:42.944Z">
 <meta property="article:author" content="Jason Pang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2024/03/24/http-SSE/image-20240324162736247.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,295 +225,172 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-http-SSE" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      http SSE
+    </h1>
+  
+
+        
+        <a href="/2024/03/24/http-SSE/" class="archive-article-date">
+  	<time datetime="2024-03-24T11:06:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-03-24</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以前聊过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483732&idx=1&sn=7407f56ef78df4884c8d5baca50b4299&chksm=faec6461cd9bed7787e6895e61ed13033da424cab5c56ca58029d2569b4a3aceb3638715049b&token=31357300&lang=zh_CN#rd">Golang长连接-基于WebSocket</a>，这次我们聊SSE（Server-Sent Events）。</p>
+<span id="more"></span>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>SSE（Server-Sent Events）和WebSocket都是实现实时通信的技术。以下是它们的区别和相同点：</p>
+<p>相同点：</p>
+<ol>
+<li>都是基于HTTP协议实现的实时通信技术。</li>
+<li>都可以实现服务器向客户端发送实时更新的数据。</li>
+</ol>
+<p>区别：</p>
+<ol>
+<li>SSE是单向通信，只能服务器向客户端发送数据；而WebSocket是双向通信，服务器和客户端都可以发送数据。</li>
+<li>SSE使用HTTP协议，而WebSocket使用ws协议（或wss协议，当使用SSL加密时）。</li>
+<li>SSE在某些场景下更适用于低延迟的数据传输，如股票行情等；而WebSocket更适用于需要双向实时交互的应用，如在线聊天、游戏等。</li>
+<li>SSE支持自动重连，如果连接中断，浏览器会自动尝试重新连接；而WebSocket需要手动实现重连逻辑。</li>
+<li>SSE的浏览器兼容性较差，不支持IE和较低版本的浏览器；而WebSocket的浏览器兼容性较好。</li>
+<li>SSE使用文本格式传输数据，而WebSocket支持文本和二进制数据传输。</li>
+</ol>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h3><p>请求体里需要设置为text/event-stream，可以使用封装好的EventSource</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stream = <span class="keyword">new</span> EventSource(<span class="string">&quot;/sse/subscribe?user=%s&amp;topics=%s&quot;</span>);</span><br><span class="line">stream.addEventListener(<span class="string">&quot;message&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">		$(<span class="string">&#x27;.event-data&#x27;</span>).append(e.data + <span class="string">&quot;&lt;/br&gt;&quot;</span>)</span><br><span class="line">&#125;);</span><br><span class="line">     stream.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">	stream.close();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>可以监听事件、和错误信息，并做出响应的处理</p>
+<h3 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h3><p>服务端对建立的链接定时发送消息即可，如果想关闭，返回false。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">c.Stream(<span class="function"><span class="keyword">func</span><span class="params">(w io.Writer)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">			timer := time.NewTicker(time.Second)</span><br><span class="line">			<span class="keyword">for</span> <span class="keyword">range</span> timer.C &#123;</span><br><span class="line">				c.SSEvent(<span class="string">&quot;message&quot;</span>, <span class="string">&quot;hello &quot;</span>+time.Now().String())</span><br><span class="line">				count++</span><br><span class="line">				<span class="keyword">if</span> count &gt; <span class="number">10</span> &#123;</span><br><span class="line">					<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>最终效果如下图所示，home接口显示html，并发起subscribe请求。subscribe设置定时器，1s返回一条数据，到达最终值后返回false。为了防止重连，在html里判断onerror，直接关闭stream链接。</p>
+<p><img src="./image-20240324162736247.png" alt="image-20240324162736247"></p>
+<p><img src="./image-20240324162748234.png" alt="image-20240324162748234"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面的代码位于：<a target="_blank" rel="noopener" href="https://github.com/shidawuhen/asap/tree/master/controller/sse">https://github.com/shidawuhen/asap/tree/master/controller/sse</a></p>
+<p>SSE的实现比Websocket要方便的多，大家可以基于自己的需要去选择。</p>
+<ul>
+<li>实现一个完整的服务仅需要少量的代码；</li>
+<li>可以在现有的服务中使用，不需要启动一个新的服务；</li>
+<li>可以用任何一种服务端语言中使用；</li>
+<li>基于 HTTP ／ HTTPS 协议，可以直接运行于现有的代理服务器和认证技术。</li>
+</ul>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/642094586">https://zhuanlan.zhihu.com/p/642094586</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_61887118/article/details/132271600">SSE（Server-Sent Events）技术及其简单演示</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/06/%E6%88%91%E7%94%A8python%E5%88%86%E6%9E%90%E4%B9%B0%E6%88%BF%E6%95%B0%E6%8D%AE/" class="archive-article-date">
-  	<time datetime="2022-11-06T05:26:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/06/%E6%88%91%E7%94%A8python%E5%88%86%E6%9E%90%E4%B9%B0%E6%88%BF%E6%95%B0%E6%8D%AE/">我用python分析买房数据</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2024/03/24/http-SSE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/11/06/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E5%9B%9B%E7%AF%87-%E9%87%8C%E4%BB%81/" class="archive-article-date">
-  	<time datetime="2022-11-06T05:25:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2024/03/24/%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">多人协作</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/11/06/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E5%9B%9B%E7%AF%87-%E9%87%8C%E4%BB%81/">论语第四篇-里仁</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/24/%E6%9F%A5%E8%A1%A8%E6%B3%95%E4%B8%8Eswitch%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2022-10-24T05:25:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/24/%E6%9F%A5%E8%A1%A8%E6%B3%95%E4%B8%8Eswitch%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/">查表法与switch有什么区别？</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/17/%E3%80%8A%E5%A5%87%E7%89%B9%E7%9A%84%E4%B8%80%E7%94%9F%E3%80%8B/" class="archive-article-date">
-  	<time datetime="2022-10-17T12:46:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/17/%E3%80%8A%E5%A5%87%E7%89%B9%E7%9A%84%E4%B8%80%E7%94%9F%E3%80%8B/">《奇特的一生》</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
-  	<time datetime="2022-10-11T03:17:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/11/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%BA%AF%E6%BA%90%E7%B3%BB%E7%BB%9F/">如何搭建溯源系统</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/10/03/%E3%80%8A%E6%AF%9B%E9%80%89%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" class="archive-article-date">
-  	<time datetime="2022-10-03T14:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/10/03/%E3%80%8A%E6%AF%9B%E9%80%89%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/">《毛选》读后感</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/22/MySQL%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2022-09-22T05:04:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/22/MySQL%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%EF%BC%9F/">MySQL如何导入大量数据？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/13/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%89%E7%AF%87-%E5%85%AB%E4%BE%91/" class="archive-article-date">
-  	<time datetime="2022-09-13T12:26:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/13/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%89%E7%AF%87-%E5%85%AB%E4%BE%91/">论语第三篇-八侑</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/04/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%BA%8C%E7%AF%87-%E4%B8%BA%E6%94%BF/" class="archive-article-date">
-  	<time datetime="2022-09-04T06:49:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/04/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%BA%8C%E7%AF%87-%E4%B8%BA%E6%94%BF/">论语第二篇-为政</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/" class="archive-article-date">
-  	<time datetime="2022-09-03T06:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/09/03/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5/">HTTP长连接</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/">« Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/29/">29</a><a class="extend next" rel="next" href="/archives/page/8/">Next »</a>
-    </nav>
   
 
 
@@ -530,8 +414,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
