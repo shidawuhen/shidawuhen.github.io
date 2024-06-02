@@ -220,6 +220,72 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="pages-Go锁实现原理" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go锁实现原理</a>
+    </h1>
+  
+
+        
+        <a href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2021-07-26T07:13:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>自从前两天写了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FBe8AChy_v0vPGO3trdyWg">Go互斥锁实现原理</a>后，我感觉我错了，我不应该看源码，看了也没啥用，会了也不敢用。按照源码中的写法，没人想做代码review，也不好做单元测试。</p>
+<p>我就是想知道锁是怎么实现的，结果整一堆优化逻辑，感觉懂了又感觉啥都不懂。所以我痛定思痛，我看早期版本行吧。来让我们看2014年的版本</p>
+        
+          <a class="article-more-a" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/07/26/Go%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="pages-对新人培养的一些想法" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -782,71 +848,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/06/20/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-16-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-对过去的一点回顾" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/20/%E5%AF%B9%E8%BF%87%E5%8E%BB%E7%9A%84%E4%B8%80%E7%82%B9%E5%9B%9E%E9%A1%BE/">对过去的一点回顾</a>
-    </h1>
-  
-
-        
-        <a href="/2021/06/20/%E5%AF%B9%E8%BF%87%E5%8E%BB%E7%9A%84%E4%B8%80%E7%82%B9%E5%9B%9E%E9%A1%BE/" class="archive-article-date">
-  	<time datetime="2021-06-20T05:11:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>5.26是个好日子，今天媳妇的私募基金备案成功，又成为了基金经理，我也成为了这只基金的投资人。趁着这个时机，想对以前的经历做个总结。今后每年都制定一个年规划，半年复盘一下，确保技能树没有点错。</p>
-        
-          <a class="article-more-a" href="/2021/06/20/%E5%AF%B9%E8%BF%87%E5%8E%BB%E7%9A%84%E4%B8%80%E7%82%B9%E5%9B%9E%E9%A1%BE/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/20/%E5%AF%B9%E8%BF%87%E5%8E%BB%E7%9A%84%E4%B8%80%E7%82%B9%E5%9B%9E%E9%A1%BE/">展开全文 >></a>
         </p>
       
 
