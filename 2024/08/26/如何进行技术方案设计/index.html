@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Jason Pang</title>
+  <title>如何进行技术方案设计 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/archives/page/16/index.html">
+  <meta name="description" content="最近在看极客时间上的《从0开始学架构》，刚看完基础架构这一章。突然想到自己以前好像也写过类似的，找了一下终于找到了对如何分析项目的思考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何进行技术方案设计">
+<meta property="og:url" content="http://example.com/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="最近在看极客时间上的《从0开始学架构》，刚看完基础架构这一章。突然想到自己以前好像也写过类似的，找了一下终于找到了对如何分析项目的思考。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/%E8%AE%A1/image-20240823151418934.png">
+<meta property="article:published_time" content="2024-08-26T12:35:10.000Z">
+<meta property="article:modified_time" content="2024-08-26T12:36:44.303Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/%E8%AE%A1/image-20240823151418934.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,295 +224,179 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-如何进行技术方案设计" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何进行技术方案设计
+    </h1>
+  
+
+        
+        <a href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
+  	<time datetime="2024-08-26T12:35:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-26</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在看极客时间上的《从0开始学架构》，刚看完基础架构这一章。突然想到自己以前好像也写过类似的，找了一下终于找到了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484656&idx=1&sn=b5a6074086e482c29f983d90908e584c&chksm=faec61c5cd9be8d3742128922f4480f7cab62ad733c72111c419b7578a983bf8219982ac7a58&token=1652499919&lang=zh_CN#rd">对如何分析项目的思考</a>。</p>
+<span id="more"></span>
+<p>自己写的这一篇文章，更偏向于分析需求，对于技术方案的思考比较少，只提供了技术方案的模板。正好趁着刚看完基础架构的热度，写一下对技术方案设计的一些思考。应该最终会和技术方案模版契合。</p>
+<p>说来也挺有意思的，我应该做了很多项目，但从来没有系统的思考这个问题。结合书里的一些原则，我整理一下写技术方案顺序和一些实例吧。</p>
+<h2 id="架构是判断和取舍"><a href="#架构是判断和取舍" class="headerlink" title="架构是判断和取舍"></a>架构是判断和取舍</h2><p><strong>架构设计的关键思维是判断和取舍，程序设计的关键思维是逻辑和实现</strong>。</p>
+<p>所以技术方案设计分两个维度，一个是架构层面，一个是代码执行层面。在模板上对应架构模块和API模块。</p>
+<p><strong>架构设计的主要目的是为了解决软件系统复杂度带来的问题</strong>。</p>
+<ul>
+<li>首先，遵循这条准则能够让“新手”架构师<strong>心中有数，而不是一头雾水</strong>。</li>
+<li>其次，遵循这条准则能够让“老鸟”架构师<strong>有的放矢，而不是贪大求全</strong>。</li>
+</ul>
+<p>所以重要的是确认系统的复杂度在哪里。一般而言，复杂度来源于高性能(能支持多少qps)、高可用（无中断）、可扩展性（有新需求时系统不需要或者仅需要少量修改就可以支持）、低成本（尤其是机器成本）、安全（各种攻击）、规模（系统的功能和数据量）。</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483691&idx=1&sn=4c4f894bb828ba7f873ecc1e81063efb&chksm=faec641ecd9bed084adbd2d496f18319efbed58184a6587a54998b678bb344dbb0c80390ce62&token=1652499919&lang=zh_CN#rd">如何高效对接第三方支付</a>:这个项目的主要复杂度来源于安全、高性能、可扩展性。安全性需要极高，既要防止黑客攻击也要防止内部逻辑问题（如并发、事务处理）；因为有抢购业务，活动期间支付的QPS很高；需要有很好的扩展性，因为需要不断的对接新的支付公司，对接完后不能影响老的逻辑，最好能方便测试回归。</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484040&idx=1&sn=f9eec28e705f7fa6ba6b63311ecda1ea&chksm=faec67bdcd9beeabfb75889e46a996880d02d351574cd8dcb2f59b668cc4b5430df77c9cf7a7&token=1652499919&lang=zh_CN#rd">秒杀系统</a>:主要复杂度来自于超高性能、安全、高可用。超高性能是因为1块钱买个手机谁都想要，流量在那一刻超级大，而且有很多人用hack手段刷，流量加了好几倍；安全上要尽量去掉hack的流量、不能卖超或者少卖、确保配置准确（不发生本来活动秒杀5个手机结果配置了50个），要不然往上全是骂；高可用是尽量别被流量打挂了，要不然也是被骂。</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247486015&idx=1&sn=fc8fe2f8bb22a4fcb9e6ec3a872c266b&chksm=faec6f0acd9be61c3474697d03b33655f6826e524017422dc0ded32311e7fa1cd82b7ea749d4&token=1652499919&lang=zh_CN#rd">如何搭建溯源系统</a>:主要是安全性、规模。溯源分配出来的码段，无论是用于打印还是分配给服务商，都要准确，不能码重合；而且溯源码的数量会快速增加，一次可能需要出500w溯源码用于打印，随着单量的增加，溯源码也会不断增加。</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247486188&idx=1&sn=279b442c0690a7a6b90af58de14f1442&chksm=faec6fd9cd9be6cfe22c95aa6d740c2885e6cc8667adf7e5a8ca5243cdf7913451efc6e9fa69&token=1652499919&lang=zh_CN#rd">跨境进口税费计算</a>:主要是安全性。关于钱的计算一定要准确，一个单子三个相同的商品，要分1块钱，可能得分成0.3、0.3、0.4，这个钱不但和用户相关也和海关相关，如果出问题就是大问题。</li>
+</ol>
+<p>识别出复杂度之后，在架构设计上才有偏向性。项目里其实考虑的高可用和低成本比较少，主要是因为基建比较好，很多业务还没有到考虑成本的时候。</p>
+<h2 id="设计备选方案"><a href="#设计备选方案" class="headerlink" title="设计备选方案"></a>设计备选方案</h2><p>然后我们开始设计备选方案。不是所有的项目都必须做多个方案，相对简单的其实只有一个方案就好。但是能多想一些肯定是好的，因为这是一个深度思考的过程，不吃亏。</p>
+<p>备选方案分两个级别。一个是架构级别的，一个是架构确定后详细技术方案里可能存在的多个选择。前者是重量级的，后者是轻量级的。无论哪一种，都有一些常见错误</p>
+<p>1.第一种常见的错误：设计最优秀的方案。其实挑选合适自己业务、团队、技术能力的方案才是好方案<br>2.第二种常见的错误：只做一个方案。这个可能因为思考的不全面</p>
+<ul>
+<li><strong>备选方案的数量以 3 ~ 5 个为最佳</strong>。</li>
+<li><strong>备选方案的差异要比较明显</strong>。</li>
+<li><strong>备选方案的技术不要只局限于已经熟悉的技术</strong>。</li>
+</ul>
+<p>3.第三种常见的错误：备选方案过于详细。</p>
+<ul>
+<li>这会耗费了大量的时间和精力。正确的做法是备选阶段关注的是技术选型，而不是技术细节，技术选型的差异要比较明显。</li>
+</ul>
+<p>4.第四种常见的错误：备选方案需要每个方案都是可行的，如果方案不可行就根本不应该作为备选方案。</p>
+<h2 id="评估和选择备选方案"><a href="#评估和选择备选方案" class="headerlink" title="评估和选择备选方案"></a><strong>评估和选择备选方案</strong></h2><p>在设计方案和评估方案的时候，可以根据下面三个原则：</p>
+<ol>
+<li><strong>合适原则</strong>：<strong>“合适优于业界领先”。</strong>真正优秀的架构都是在企业当前人力、条件、业务等各种约束下设计出来的，能够合理地将资源整合在一起并发挥出最大功效，并且能够快速落地。</li>
+<li><strong>简单原则</strong>：<strong>“简单优于复杂”。</strong>尽量让结构的复杂性、逻辑的复杂性小。</li>
+<li><strong>演化原则</strong>：<strong>“演化优于一步到位”。</strong>时刻提醒自己不要贪大求全，或者盲目照搬大公司的做法。应该认真分析当前业务的特点，明确业务面临的主要问题，设计合理的架构，快速落地以满足业务需要，然后在运行过程中不断完善架构，不断随着业务演化架构。</li>
+</ol>
+<p>可以列出我们需要关注的质量属性点，然后分别从这些质量属性的维度去评估每个方案，再综合挑选适合当时情况的最优方案。常见的方案质量属性点有：性能、可用性、硬件成本、项目投入、复杂度、安全性、可扩展性等。</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/%E8%AE%A1/image-20240823151418934.png" alt="image-20240823151418934"></p>
+<p>然后根据这些属性点和三原则选择出合适的方案。</p>
+<h2 id="详细方案设计"><a href="#详细方案设计" class="headerlink" title="详细方案设计"></a><strong>详细方案设计</strong></h2><p>详细方案设计是将架构中的内容进行细化，相对来说比较容易。</p>
+<p><strong>详细设计方案阶段可能遇到的一种极端情况就是在详细设计阶段发现备选方案不可行，一般情况下主要的原因是备选方案设计时遗漏了某个关键技术点或者关键的质量属性。</strong></p>
+<p>为了防止这种事情发生</p>
+<p>1.<strong>架构师不但要进行备选方案设计和选型，还需要对备选方案的关键细节有较深入的理解。</strong></p>
+<p>2.<strong>通过分步骤、分阶段、分系统等方式，尽量降低方案复杂度</strong>，方案本身的复杂度越高，某个细节推翻整个方案的可能性就越高，适当降低复杂性，可以减少这种风险。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-29-%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:01:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-29-%E6%80%BB%E7%BB%93/">Go设计模式(29)-总结</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:01:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2024/08/18/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用hexo搭建个人博客</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-28-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">Go设计模式(28)-中介者模式</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E7%88%B6%E6%AF%8D%E4%B9%8B%E5%91%BD%E5%AA%92%E5%A6%81%E4%B9%8B%E8%A8%80/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:01:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E7%88%B6%E6%AF%8D%E4%B9%8B%E5%91%BD%E5%AA%92%E5%A6%81%E4%B9%8B%E8%A8%80/">父母之命媒妁之言</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:01:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-27-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/">Go设计模式(27)-解释器模式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Innodb-count%E7%9A%84%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:01:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Innodb-count%E7%9A%84%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B%EF%BC%8C%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/">Innodb count的内部流程，你知道吗？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:00:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-26-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">Go设计模式(26)-命令模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:00:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Innodb%E4%B8%BA%E5%95%A5%E8%A6%81%E5%88%B7%E8%84%8F%E9%A1%B5%EF%BC%9F/">Innodb为啥要刷脏页？</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:00:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%89%8D%E8%BE%88%E4%BB%AC%E5%AF%B9%E5%86%99%E4%BD%9C%E7%9A%84%E7%9C%8B%E6%B3%95/">前辈们对写作的看法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:00:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%AF%B9%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%9D%E8%80%83/">对如何分析项目的思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:00:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-25-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/">Go设计模式(25)-备忘录模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/15/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/14/">14</a><a class="page-number" href="/archives/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/archives/page/17/">17</a><a class="page-number" href="/archives/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/30/">30</a><a class="extend next" rel="next" href="/archives/page/17/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -530,8 +420,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
