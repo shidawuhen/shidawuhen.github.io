@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Jason Pang</title>
+  <title>常用高性能架构模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="《从0开始学架构》里讲述了常用的高性能架构模式，这里面很多大家可能也都用过了，我应该也写过相关的技术文章。正好按照书里的思路重新梳理一次。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用高性能架构模式">
+<meta property="og:url" content="http://example.com/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="《从0开始学架构》里讲述了常用的高性能架构模式，这里面很多大家可能也都用过了，我应该也写过相关的技术文章。正好按照书里的思路重新梳理一次。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20240826211138958.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20240827165241751.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20240827172514478.png">
+<meta property="article:published_time" content="2024-09-01T08:12:16.000Z">
+<meta property="article:modified_time" content="2024-09-01T08:15:33.665Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20240826211138958.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,295 +226,291 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="pages-常用高性能架构模式" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      常用高性能架构模式
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+
+        
+        <a href="/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
   	<time datetime="2024-09-01T08:12:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">常用高性能架构模式</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>《从0开始学架构》里讲述了常用的高性能架构模式，这里面很多大家可能也都用过了，我应该也写过相关的技术文章。正好按照书里的思路重新梳理一次。</p>
+<span id="more"></span>
+<h2 id="一、读写分离"><a href="#一、读写分离" class="headerlink" title="一、读写分离"></a>一、读写分离</h2><p><strong>读写分离的基本原理是将数据库读写操作分散到不同的节点上</strong></p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20240826211138958.png" alt="image-20240826211138958"></p>
+<p>感想：</p>
+<p>读写分离应该是IT公司基建的一部分，绝大部分时候，研发人员没有感知。字节在读写分离上用的事dbatman，使用的事数据库中间件方式。</p>
+<p>读写分离主要问题是<strong>主从复制延迟</strong>和<strong>分配机制</strong>。分配机制一般也由基建团队搞定了。比较麻烦的是主从复制延迟，因为无论如何延迟都是存在的，只是延迟多久的问题。以前遇到主从问题找DBA，给的回复是保证1s，1s内的都算正常。一般的主从问题可以通过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247486758&idx=1&sn=1264676b9a939417a122b000dd8c2abc&chksm=faec6813cd9be10559666a995a7a5bf0b19e70795f2c8c05fc8adf5d9195299de57f5895cd3b&token=1004115471&lang=zh_CN#rd">主从延迟如何解决</a>，但是还有一种复杂的边界场景，如sg和va机房都部署了服务，而且分别部署了各自的数据库，数据库之间有同步，这种类似的延迟问题就比较难解决。好在流量一般都会固定的打到某个机房。</p>
+<h2 id="二、分库分表"><a href="#二、分库分表" class="headerlink" title="二、分库分表"></a>二、分库分表</h2><p>1.<strong>业务分库指的是按照业务模块将数据分散到不同的数据库服务器。</strong></p>
+<ul>
+<li>join 操作问题</li>
+<li>事务问题</li>
+<li>成本问题</li>
+</ul>
+<p>2.单表数据拆分有两种方式：<strong>垂直分表</strong>和<strong>水平分表</strong>。</p>
+<ul>
+<li><p>垂直分表引入的复杂性主要体现在表操作的数量要增加</p>
+</li>
+<li><p>水平分表有路由、join 操作、count() 操作等问题</p>
+</li>
+</ul>
+<p>感想：</p>
+<p>以前写过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484469&idx=1&sn=618f627de345b1a8f9cb8db20b5f5fdd&chksm=faec6100cd9be81682800cbc7bbc4cf65bb1984757d75c85926203dd87713b7e6f14d24f2a31&token=1004115471&lang=zh_CN#rd">一文搞懂MySQL数据库分库分表</a>.分库分表我设计中用的比较少，但是团队的项目中还是有一些的。以前做海外电商的时候，订单就是做的水平分表；做跨境电商的时候，根据店铺做的水平分表，但为了做查询，异构了ES。做溯源系统的时候，预计溯源码的数量可能好多亿，需要几T数据，最初也打算按照1个亿分张表，结果公司底层存储升级了，单表能存3个多T的数据，我要解决的场景性能上问题也不大，就没分表。</p>
+<h2 id="三、高性能NoSQL"><a href="#三、高性能NoSQL" class="headerlink" title="三、高性能NoSQL"></a>三、高性能NoSQL</h2><p>关系数据库的问题</p>
+<p>1.关系数据库存储的是行记录，无法存储数据结构<br>2.关系数据库的 schema 扩展很不方便，如DDL操作</p>
+<p>3.关系数据库在大数据场景下 I&#x2F;O 较高<br>4.关系数据库的全文搜索功能比较弱</p>
+<p>常见的 NoSQL 方案分为 4 类。</p>
+<p>1.K-V 存储：解决关系数据库无法存储数据结构的问题，以 Redis 为代表。</p>
+<p>2.文档数据库：解决关系数据库强 schema 约束的问题，以 MongoDB 为代表。</p>
+<ul>
+<li>资料：<ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2414862">https://cloud.tencent.com/developer/article/2414862</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bonelee/p/6282072.html">https://www.cnblogs.com/bonelee/p/6282072.html</a></li>
+</ul>
+</li>
+<li>优点：新增字段简单、历史数据不会出错、可以很容易存储复杂数据</li>
+<li>缺点：最主要的代价就是不支持事务、无法实现关系数据库的 join 操作</li>
+</ul>
+<p>3.列式数据库：解决关系数据库大数据场景下的 I&#x2F;O 问题，以 HBase 为代表。</p>
+<ul>
+<li>说明：列式数据库就是按照列来存储数据的数据库，与之对应的传统关系数据库被称为“行式数据库”</li>
+<li>场景：典型的场景就是海量数据进行统计。例如，计算某个城市体重超重的人员数据，实际上只需要读取每个人的体重这一列并进行统计即可，而行式存储即使最终只使用一列，也会将所有行数据都读取出来。一般将列式存储应用在离线的大数据分析和统计场景中，因为这种场景主要是针对部分列单列进行操作，且数据写入后就无须再更新删除。</li>
+<li>优点：业务同时读取多个列时效率高，因为这些列都是按行存储在一起的；能够一次性完成对一行中的多个列的写操作；列式存储还具备更高的存储压缩比</li>
+<li>缺点：典型的场景是需要频繁地更新多个列，因为列式存储将不同列存储在磁盘上不连续的空间；列式存储的随机写效率要远远低于行式存储的写效率；列式存储高压缩率在更新场景下也会成为劣势，因为更新时需要将存储数据解压后更新，然后再压缩，最后写入磁盘</li>
+<li>资料：<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/BigData_Hobert/article/details/108362813">https://blog.csdn.net/BigData_Hobert/article/details/108362813</a></li>
+</ul>
+</li>
+</ul>
+<p>4.全文搜索引擎：解决关系数据库的全文搜索性能问题，以 Elasticsearch 为代表。</p>
+<ul>
+<li><p>说明：全文搜索引擎的技术原理被称为“倒排索引”（Inverted index），也常被称为反向索引、置入档案或反向档案，是一种索引方法，其基本原理是建立单词到文档的索引。Elastcisearch 是分布式的文档存储方式。它能存储和检索复杂的数据结构——序列化成为 JSON 文档——以实时的方式。</p>
+</li>
+<li><p>使用：目前常用的转换方式是将关系型数据按照对象的形式转换为 JSON 文档，然后将 JSON 文档输入全文搜索引擎进行索引。在 Elasticsearch 中，每个字段的所有数据都是默认被索引的。即每个字段都有为了快速检索设置的专用倒排索引。而且，不像其他多数的数据库，它能在相同的查询中使用所有倒排索引，并以惊人的速度返回结果</p>
+</li>
+</ul>
+<p>感想：</p>
+<ol>
+<li>KV存储用的还是相当多的，但得用好，Redis相关的文章有<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483715&idx=1&sn=d6a3223289443c0dd1cfd8ecafe2cbd9&chksm=faec6476cd9bed60f6ef49f1c2ecacdb29b7ca64016fdc7ef87fa83bc7cd3bc324fee390587c&token=1004115471&lang=zh_CN#rd">常用缓存技巧</a>、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484860&idx=1&sn=00cd8a877e91c47a7bca5f2c1cdea900&chksm=faec6089cd9be99f28862b7abff8e93d0be2c3538667411b8ed6396443cd216651f2cb54a253&token=1004115471&lang=zh_CN#rd">Redis的事务，Go+lua用起来真香</a>、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483786&idx=1&sn=ab48b93fb4bfa71dd62742fd35a54e04&chksm=faec64bfcd9beda9294d0d7377f3a6f03228909301baf64740c112423a9f338c727641311d87&token=1004115471&lang=zh_CN#rd">Redis实现分布式锁</a>、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484040&idx=1&sn=f9eec28e705f7fa6ba6b63311ecda1ea&chksm=faec67bdcd9beeabfb75889e46a996880d02d351574cd8dcb2f59b668cc4b5430df77c9cf7a7&token=1004115471&lang=zh_CN#rd">秒杀系统</a>。</li>
+<li>MongoDB其实用的比较少，只用过两次吧，最近的一次是给用户提供数据库功能，而且允许用户随便修改字段。另一个原因是因为面向用户的，所以表会特别多，mysql团队不支持这么多的表，但mongodb支持，虽然一个库支持1W，但可以多开库啊。</li>
+<li>列示数据库就完全没有接触过了</li>
+<li>全文搜索引擎还是比较需要的，mysql分表后很多时候得依仗ES做搜索，另外数据量较多，有count、like这种需求的话，得靠ES了。不过用ES的时候有几个问题需要解决，一个是如何保证同步数据的稳定，这个还好搞，一般有基建，二是从Mysql异构到ES需要时间，一般*s以内，得看在这个前提下能否满足业务需求</li>
+</ol>
+<h2 id="四、高性能缓存架构"><a href="#四、高性能缓存架构" class="headerlink" title="四、高性能缓存架构"></a>四、高性能缓存架构</h2><p>基本原理是将可能重复使用的数据放到内存中，一次生成、多次使用，避免每次使用都去访问存储系统。</p>
+<p>1.<strong>缓存穿透</strong>是指缓存没有发挥作用，业务系统虽然去缓存查询数据，但缓存中没有数据，业务系统需要再次去存储系统查询数据。原因</p>
+<ul>
+<li>存储数据不存在：可以赋个默认值</li>
+<li>缓存数据生成耗费大量时间或者资源</li>
+</ul>
+<p>2.<strong>缓存雪崩</strong>是指当缓存失效（过期）后引起系统性能急剧下降的情况。当缓存过期被清除后，业务系统需要重新生成缓存，因此需要再次访问存储系统，再次进行运算，这个处理步骤耗时几十毫秒甚至上百毫秒。解决方案</p>
+<ul>
+<li>更新锁：对缓存更新操作进行加锁保护，保证只有一个线程能够进行缓存更新，未能获取更新锁的线程要么等待锁释放后重新读取缓存，要么就返回空值或者默认值。</li>
+<li>后台更新：由后台线程来更新缓存，而不是由业务线程来更新缓存，缓存本身的有效期设置为永久，后台线程定时更新缓存</li>
+</ul>
+<p>3.<strong>缓存热点</strong>虽然缓存系统本身的性能比较高，但对于一些特别热点的数据，如果大部分甚至所有的业务请求都命中同一份缓存数据，则这份数据所在的缓存服务器的压力也很大。解决方案</p>
+<ul>
+<li><strong>缓存热点的解决方案就是复制多份缓存副本，将请求分散到多个缓存服务器上，减轻缓存热点导致的单台缓存服务器压力</strong>。以微博为例，对于粉丝数超过 100 万的明星，每条微博都可以生成 100 份缓存，缓存的数据是一样的，通过在缓存的 key 里面加上编号进行区分，每次读缓存时都随机读取其中某份缓存。</li>
+</ul>
+<p>感想：</p>
+<p>这个主要是<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483715&idx=1&sn=d6a3223289443c0dd1cfd8ecafe2cbd9&chksm=faec6476cd9bed60f6ef49f1c2ecacdb29b7ca64016fdc7ef87fa83bc7cd3bc324fee390587c&token=1004115471&lang=zh_CN#rd">常用缓存技巧</a>，大部分的业务达不到Redis的极限的，一般得国民级应用。有时候得用<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484860&idx=1&sn=00cd8a877e91c47a7bca5f2c1cdea900&chksm=faec6089cd9be99f28862b7abff8e93d0be2c3538667411b8ed6396443cd216651f2cb54a253&token=1004115471&lang=zh_CN#rd">Redis的事务，Go+lua用起来真香</a>自己创建些命令出来。</p>
+<h2 id="五、单服务器高性能模式：PPC与TPC"><a href="#五、单服务器高性能模式：PPC与TPC" class="headerlink" title="五、单服务器高性能模式：PPC与TPC"></a>五、单服务器高性能模式：PPC与TPC</h2><p>单服务器高性能的关键之一就是<strong>服务器采取的并发模型</strong>，并发模型有如下两个关键设计点：</p>
+<ul>
+<li><p>服务器如何管理连接。</p>
+</li>
+<li><p>服务器如何处理请求。</p>
+</li>
+</ul>
+<p>以上两个设计点最终都和操作系统的 I&#x2F;O 模型及进程模型相关。</p>
+<ul>
+<li><p>I&#x2F;O 模型：阻塞、非阻塞、同步、异步。</p>
+</li>
+<li><p>进程模型：单进程、多进程、多线程</p>
+</li>
+</ul>
+<p>1.PPC 是 Process Per Connection 的缩写，其含义是指每次有新的连接就新建一个进程去专门处理这个连接的请求，这是传统的 UNIX 网络服务器所采用的模型。</p>
+<ul>
+<li>优点：实现简单</li>
+<li>缺点：fork 代价高；父子进程通信复杂；支持的并发连接数量有限，最多就几百个</li>
+</ul>
+<p>2.TPC 是 Thread Per Connection 的缩写，其含义是指每次有新的连接就新建一个线程去专门处理这个连接的请求。与进程相比，线程更轻量级，创建线程的消耗比进程要少得多；同时多线程是共享进程内存空间的，线程通信相比进程通信更简单。因此，TPC 实际上是解决或者弱化了 PPC fork 代价高的问题和父子进程通信复杂的问题。</p>
+<ul>
+<li>缺点：创建线程虽然比创建进程代价低，但高并发时（例如每秒上万连接）还是有性能问题；无须进程间通信，但是线程间的互斥和共享又引入了复杂度，可能一不小心就导致了死锁问题；多线程会出现互相影响的情况，某个线程出现异常时，可能导致整个进程退出</li>
+</ul>
+<p>感想：</p>
+<p>这个就没用过，太偏底层了。不过还是要有了解的，因为有些时候面临技术选型，能清晰的知道原理是比较重要的。</p>
+<h2 id="六、单服务器高性能模式：Reactor与Proactor"><a href="#六、单服务器高性能模式：Reactor与Proactor" class="headerlink" title="六、单服务器高性能模式：Reactor与Proactor"></a>六、单服务器高性能模式：Reactor与Proactor</h2><p>PCC和TPC都无法支撑高并发的场景</p>
+<p>1.Reactor：Reactor 模式的核心组成部分包括 Reactor 和处理资源池（进程池或线程池），其中Reactor 负责监听和分配事件，处理资源池负责处理事件。最终 Reactor 模式有这三种典型的实现方案：</p>
+<ul>
+<li><p>单 Reactor 单进程 &#x2F; 线程。</p>
+</li>
+<li><p>单 Reactor 多线程。</p>
+</li>
+<li><p>多 Reactor 多进程 &#x2F; 线程。</p>
+</li>
+</ul>
+<p>2.Proactor：Reactor 是非阻塞同步网络模型，因为真正的 read 和 send 操作都需要用户进程同步操作，这里的“同步”指用户进程在执行 read 和 send 这类 I&#x2F;O 操作的时候是同步的。Reactor 可以理解为“来了事件我通知你，你来处理”，而 Proactor 可以理解为“<strong>来了事件我来处理，处理完了我通知你</strong>”，这里的“我”就是操作系统内核。</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20240827165241751.png" alt="image-20240827165241751"></p>
+<p>感想：</p>
+<p>这个就没用过，太偏底层了。不过还是要有了解的，因为有些时候面临技术选型，能清晰的知道原理是比较重要的。而且很多时候面试题里会问到。</p>
+<h2 id="七、高性能负载均衡：分类及架构"><a href="#七、高性能负载均衡：分类及架构" class="headerlink" title="七、高性能负载均衡：分类及架构"></a>七、高性能负载均衡：分类及架构</h2><p>常见的负载均衡系统包括 3 种：DNS 负载均衡、硬件负载均衡和软件负载均衡。</p>
+<p>1.DNS 是最简单也是最常见的负载均衡方式，一般用来实现地理级别的均衡。例如，北方的用户访问北京的机房，南方的用户访问深圳的机房。</p>
+<ul>
+<li>优点：简单、成本低；就近访问，提升访问速度</li>
+<li>缺点：更新不及时；扩展性差；分配策略比较简单</li>
+</ul>
+<p>2.硬件负载均衡是通过单独的硬件设备来实现负载均衡功能，这类设备和路由器、交换机类似，可以理解为一个用于负载均衡的基础网络设备。目前业界典型的硬件负载均衡设备有两款：F5 和 A10。</p>
+<ul>
+<li>优点：功能强大；性能强大；稳定性高；支持安全防护</li>
+<li>缺点：价格昂贵；扩展能力差</li>
+</ul>
+<p>3.软件负载均衡通过负载均衡软件来实现负载均衡功能，常见的有 Nginx 和 LVS，其中Nginx 是软件的 7 层负载均衡，LVS 是 Linux 内核的 4 层负载均衡。</p>
+<ul>
+<li>优点：简单；灵活；方便扩展</li>
+<li>缺点：性能一般，一个 Nginx 大约能支撑 5 万并发；功能没有硬件负载均衡那么强大；一般不具备防火墙和防 DDoS 攻击等安全功能</li>
+</ul>
+<p>组合的<strong>基本原则</strong>为：DNS 负载均衡用于实现地理级别的负载均衡；硬件负载均衡用于实现集群级别的负载均衡；软件负载均衡用于实现机器级别的负载均衡。</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20240827172514478.png" alt="image-20240827172514478"></p>
+<p>感想：</p>
+<p>这个也一般用不到，偏基建的一部分。相关的一些操作可以看<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483747&idx=1&sn=a703be1da060c6e9d75d00021ed4b23a&chksm=faec6456cd9bed40db936498560101979096c97ebec38b7d00e7b70a701ad8c2f54ff3443bd7&token=1004115471&lang=zh_CN#rd">CDN请求过程详解</a>、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483715&idx=1&sn=d6a3223289443c0dd1cfd8ecafe2cbd9&chksm=faec6476cd9bed60f6ef49f1c2ecacdb29b7ca64016fdc7ef87fa83bc7cd3bc324fee390587c&token=1004115471&lang=zh_CN#rd">常用缓存技巧</a>。</p>
+<h2 id="八、高性能负载均衡：算法"><a href="#八、高性能负载均衡：算法" class="headerlink" title="八、高性能负载均衡：算法"></a>八、高性能负载均衡：算法</h2><p><strong>任务平分类</strong>：负载均衡系统将收到的任务平均分配给服务器进行处理，这里的“平均”可以是绝对数量的平均，也可以是比例或者权重上的平均。</p>
+<ul>
+<li>轮询</li>
+<li>加权轮询</li>
+</ul>
+<p><strong>负载均衡类</strong>：负载均衡系统根据服务器的负载来进行分配，这里的负载并不一定是通常意义上我们说的“CPU 负载”，而是系统当前的压力，可以用 CPU 负载来衡量，也可以用连接数、I&#x2F;O 使用率、网卡吞吐量等来衡量系统的压力。</p>
+<ul>
+<li>通过连接数、Http请求数等判断</li>
+</ul>
+<p><strong>性能最优类</strong>：负载均衡系统根据服务器的响应时间来进行任务分配，优先将新任务分配给响应最快的服务器。</p>
+<ul>
+<li>通过响应时间</li>
+</ul>
+<p><strong>Hash 类</strong>：负载均衡系统根据任务中的某些关键信息进行 Hash 运算，将相同 Hash 值的请求分配到同一台服务器上。常见的有源地址 Hash、目标地址 Hash、session idhash、用户 ID Hash 等。</p>
+<ul>
+<li>源地址hash</li>
+<li>ID hash</li>
+</ul>
+<p>感想：</p>
+<p>这个也很少用，偏运维侧。刚开始工作的时候，那时候大家主要还是用物理机，不同机器性能不一样，偶尔有机器负载过高，需要和运维一起查看，主要看一下加权轮询的值配置的是否合理。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2024-08-26T12:35:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-26</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何进行技术方案设计</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/">如何进行技术方案设计</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="archive-article-date">
-  	<time datetime="2024-08-18T15:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">使用hexo搭建个人博客</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/SLA%E6%9C%8D%E5%8A%A1%E5%8F%AF%E7%94%A8%E6%80%A7%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89/" class="archive-article-date">
-  	<time datetime="2024-08-18T15:34:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/SLA%E6%9C%8D%E5%8A%A1%E5%8F%AF%E7%94%A8%E6%80%A7%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89/">SLA服务可用性如何定义</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E4%BB%BB%E5%8A%A1/" class="archive-article-date">
-  	<time datetime="2024-08-18T15:34:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E4%BB%BB%E5%8A%A1/">如何推进任务</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/8-DELL-R730%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9RAID5%E8%BF%9B%E8%A1%8C%E6%89%A9%E5%AE%B9/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:24:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/8-DELL-R730%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9RAID5%E8%BF%9B%E8%A1%8C%E6%89%A9%E5%AE%B9/">8 DELL R730服务器对RAID5进行扩容</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%A6%82%E4%BD%95%E4%B8%8EPM%E6%8E%A2%E8%AE%A8%E9%A1%B9%E7%9B%AE/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:24:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%A6%82%E4%BD%95%E4%B8%8EPM%E6%8E%A2%E8%AE%A8%E9%A1%B9%E7%9B%AE/">如何与PM探讨项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:24:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/">稳定性实战指南</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:24:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%EF%BC%88%E4%BA%8C%EF%BC%89/">资治通鉴（二）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%8F%91%E7%8E%B0%E7%9C%9F%E6%AD%A3%E7%9A%84%E8%AF%89%E6%B1%82/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:24:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%8F%91%E7%8E%B0%E7%9C%9F%E6%AD%A3%E7%9A%84%E8%AF%89%E6%B1%82/">发现真正的诉求</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/30/">30</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -530,8 +534,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
