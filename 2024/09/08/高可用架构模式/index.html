@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Jason Pang</title>
+  <title>高可用架构模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/page/23/index.html">
+  <meta name="description" content="架构里比较重要的是高性能、高可用、高扩展性。上次是高性能，这次是高可用。 对一般的项目而言，高可用主要用公司提供的基建，如多机房部署、主从等。但有些项目确实需要思考更多高可用的事项，如资源不足的情况下要做好限流或者降配（以前做抢购和秒杀梳理出了所有限流和降配方案，分了一二级处理），有的是同时支持普通版和付费版，需要不同的集群部署，提供不同的资源容量。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高可用架构模式">
+<meta property="og:url" content="http://example.com/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="架构里比较重要的是高性能、高可用、高扩展性。上次是高性能，这次是高可用。 对一般的项目而言，高可用主要用公司提供的基建，如多机房部署、主从等。但有些项目确实需要思考更多高可用的事项，如资源不足的情况下要做好限流或者降配（以前做抢购和秒杀梳理出了所有限流和降配方案，分了一二级处理），有的是同时支持普通版和付费版，需要不同的集群部署，提供不同的资源容量。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174601159.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174649103.png">
+<meta property="article:published_time" content="2024-09-08T14:02:35.000Z">
+<meta property="article:modified_time" content="2024-09-08T14:06:42.811Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174601159.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,29 +225,143 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-HTTPS配置实战" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-高可用架构模式" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/">HTTPS配置实战</a>
+    <h1 class="article-title" itemprop="name">
+      高可用架构模式
     </h1>
   
 
         
-        <a href="/2024/08/18/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:51:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
+        <a href="/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2024-09-08T14:02:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>架构里比较重要的是高性能、高可用、高扩展性。上次是高性能，这次是高可用。</p>
+<p>对一般的项目而言，高可用主要用公司提供的基建，如多机房部署、主从等。但有些项目确实需要思考更多高可用的事项，如资源不足的情况下要做好限流或者降配（以前做抢购和秒杀梳理出了所有限流和降配方案，分了一二级处理），有的是同时支持普通版和付费版，需要不同的集群部署，提供不同的资源容量。</p>
+<span id="more"></span>
+<h2 id="一、想成为架构师，你必须知道CAP理论"><a href="#一、想成为架构师，你必须知道CAP理论" class="headerlink" title="一、想成为架构师，你必须知道CAP理论"></a>一、想成为架构师，你必须知道CAP理论</h2><p>CAP定义：在一个分布式系统（指互相连接并共享数据的节点的集合）中，当涉及读写操作时，只能保证一致性（Consistence）、可用性（Availability）、分区容错性（Partition Tolerance）三者中的两个，另外一个必须被牺牲。</p>
+<p>感想：CAP大家使用的比较少或者经常在无意中已经用到了，只不过很多时候大家会根据具体的业务情况做出合适的设计，如达到最终一致性。几年前公司使用etcd做服务发现，<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484028&idx=1&sn=4e99d96e54e325fbdb5b6e36fea2577b&chksm=faec6749cd9bee5f6fe0e7214fbf8fdaf8b298554f6b50eaeb990ac7e9f4a77419aba8d3bf71&token=1728996551&lang=zh_CN#rd">分布式系统与一致性协议</a>，这种系统级的能力确实得好好了解CAP理论。</p>
+<h2 id="二、想成为架构师，你必须掌握的CAP细节"><a href="#二、想成为架构师，你必须掌握的CAP细节" class="headerlink" title="二、想成为架构师，你必须掌握的CAP细节"></a>二、想成为架构师，你必须掌握的CAP细节</h2><p>CAP关键点</p>
+<ol>
+<li>CAP 关注的粒度是<strong>数据</strong>，而不是整个系统。</li>
+<li>CAP 是忽略网络延迟的。</li>
+<li>正常运行情况下，不存在 CP 和 AP 的选择，可以同时满足 CA。</li>
+<li>放弃并不等于什么都不做，需要为分区恢复后做准备。</li>
+</ol>
+<p>Base定义：BASE 是指基本可用（Basically Available）、软状态（ Soft State）、最终一致性（Eventual Consistency），核心思想是即使无法做到强一致性（CAP 的一致性就是强一致性），但应用可以采用适合的方式达到最终一致性。</p>
+<p>感想：同上</p>
+<h2 id="三、FMEA方法，排除架构可用性隐患的利器"><a href="#三、FMEA方法，排除架构可用性隐患的利器" class="headerlink" title="三、FMEA方法，排除架构可用性隐患的利器"></a>三、FMEA方法，排除架构可用性隐患的利器</h2><p>定义：FMEA（Failure mode and effects analysis，故障模式与影响分析）又称为失效模式与后果分析、失效模式与效应分析、故障模式与后果分析等。FMEA 是一种在各行各业都有广泛应用的可用性分析方法，通过对系统范围内潜在的故障模式加以分析，并按照严重程度进行分类，以确定失效对于系统的最终影响。</p>
+<p>在架构设计领域，FMEA 的具体分析方法是：</p>
+<ul>
+<li><p>给出初始的架构设计图。</p>
+</li>
+<li><p>假设架构中某个部件发生故障。</p>
+</li>
+<li><p>分析此故障对系统功能造成的影响。</p>
+</li>
+<li><p>根据分析结果，判断架构是否需要进行优化。</p>
+</li>
+</ul>
+<p>可以使用下面的表格分析：</p>
+<table>
+<thead>
+<tr>
+<th>功能点</th>
+<th>故障模式</th>
+<th>故障影响</th>
+<th>严重程度</th>
+<th>故障原因</th>
+<th>故障概率</th>
+<th>风险程度</th>
+<th>已有措施</th>
+<th>规避措施</th>
+<th>解决措施</th>
+<th>后续规划</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>指的是用户角度</td>
+<td>是系统会出现什么样的故障，包括故障点和故障形式。如MySQL相应时间达3S</td>
+<td>功能点具体会受到什么影响。如20%用户无法登录</td>
+<td>- 致命 &#x2F; 高 &#x2F; 中 &#x2F; 低 &#x2F; 无 <br> - 严重程度 &#x3D; 功能点重要程度 × 故障影响范围 × 功能</td>
+<td>涉及概率、检测手段、处理措施</td>
+<td>高、中、低</td>
+<td>风险程度（高中低） &#x3D; 严重程度 × 故障概率</td>
+<td>检测告警、容错、自恢复</td>
+<td>技术手段、管理手段</td>
+<td>一般都是技术手段</td>
+<td>既可以是技术手段，也可以是管理手段；可以是规避措施，也可以是解决措施</td>
+</tr>
+</tbody></table>
+<p>感想：这是第一次知道这个理论，确实很好，能够比较全面的分析出系统的问题。</p>
+<h2 id="四、高可用存储架构：双机架构"><a href="#四、高可用存储架构：双机架构" class="headerlink" title="四、高可用存储架构：双机架构"></a>四、高可用存储架构：双机架构</h2><p>存储高可用方案的本质都是通过将数据复制到多个存储设备，通过数据冗余的方式来实现高可用，其复杂性主要体现在如何应对复制延迟和中断导致的数据不一致问题。</p>
+<p>常见的双机高可用架构：主备、主从、主备 &#x2F; 主从切换和主主。</p>
+<p>感想：可以参考一下《MySQL45讲》里的内容。</p>
+<h2 id="五、高可用存储架构：集群和分区"><a href="#五、高可用存储架构：集群和分区" class="headerlink" title="五、高可用存储架构：集群和分区"></a>五、高可用存储架构：集群和分区</h2><p>集群：</p>
+<ol>
+<li>数据集中集群与主备、主从这类架构相似，我们也可以称数据集中集群为 1 主多备或者 1主多从。</li>
+<li>数据分散集群指多个服务器组成一个集群，每台服务器都会负责存储一部分数据；同时，为了提升硬件利用率，每台服务器又会备份一部分数据。</li>
+</ol>
+<p>数据分散集群和数据集中集群的不同点在于，数据分散集群中的每台服务器都可以处理读写请求，因此不存在数据集中集群中负责写的主机那样的角色。但在数据分散集群中，必须有一个角色来负责执行数据分配算法，这个角色可以是独立的一台服务器，也可以是集群自己选举出的一台服务器。</p>
+<p>分区：</p>
+<p>数据分区指将数据按照一定的规则进行分区，不同分区分布在不同的地理位置上，每个分区存储一部分数据，通过这种方式来规避地理级别的故障所造成的巨大影响。采用了数据分区的架构后，即使某个地区发生严重的自然灾害或者事故，受影响的也只是一部分数据，而不是全部数据都不可用；当故障恢复后，其他地区备份的数据也可以帮助故障地区快速恢复业务。</p>
+<p>即使是分区架构，同样需要考虑复制方案。</p>
+<ul>
+<li>集中式备份指存在一个总的备份中心，所有的分区都将数据备份到备份中心</li>
+<li>互备式备份指每个分区备份另外一个分区的数据</li>
+<li>独立式备份指每个分区自己有独立的备份中心</li>
+</ul>
+<p>感想：很多时候服务可能多机房部署，但是底层存储一般使用一主多从的结构，一旦主库出现问题，则将从库变主库。无论主库还是从库，都存储全部数据，可用性和易用性会更高一些。</p>
+<h2 id="六、如何设计计算高可用架构？"><a href="#六、如何设计计算高可用架构？" class="headerlink" title="六、如何设计计算高可用架构？"></a>六、如何设计计算高可用架构？</h2><p>计算高可用的主要设计目标是当出现<strong>部分硬件</strong>损坏时，计算任务能够继续正常运行。</p>
+<p>计算高可用架构的设计复杂度主要体现在<strong>任务管理</strong>方面，即当任务在某台服务器上执行失败后，如何将任务重新分配到新的服务器进行执行。关键点有下面两点</p>
+<ul>
+<li>哪些服务器可以执行任务</li>
+<li>任务如何重新执行</li>
+</ul>
+<p>常见的计算高可用架构：主备、主从和集群。</p>
+<p>1.主备架构是计算高可用最简单的架构，和存储高可用的主备复制架构类似，但是要更简单一些，因为计算高可用的主备架构无须数据复制</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174601159.png" alt="image-20240902174601159"></p>
+<p>2.主从：和存储高可用中的主从复制架构类似，计算高可用的主从架构中的从机也是要执行任务的。任务分配器需要将任务进行分类，确定哪些任务可以发送给主机执行，哪些任务可以发送给备机执行。</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174649103.png" alt="image-20240902174649103"></p>
+<p>3.集群：高可用计算的集群方案根据集群中服务器节点角色的不同，可以分为两类：一类是对称集群，即集群中每个服务器的角色都是一样的，都可以执行所有任务；另一类是非对称集群，集群中的服务器分为多个不同的角色，不同的角色执行不同的任务，例如最常见的Master-Slave 角色。</p>
+<p>感想：一般看到的都是对称集群</p>
+<h2 id="七、业务高可用的保障：异地多活架构"><a href="#七、业务高可用的保障：异地多活架构" class="headerlink" title="七、业务高可用的保障：异地多活架构"></a>七、业务高可用的保障：异地多活架构</h2><p>异地就是指地理位置上不同的地方，类似于“不要把鸡蛋都放在同一篮子里”；多活就是指不同地理位置上的系统都能够提供业务服务。</p>
+<p>根据地理位置上的距离来划分，异地多活架构可以分为同城异区、跨城异地、跨国异地。</p>
+<p>1.同城异区指的是将业务部署在同一个城市不同区的多个机房。例如，在北京部署两个机房，一个机房在海淀区，一个在通州区，然后将两个机房用专用的高速网络连接在一起。</p>
+<p>2.跨城异地指的是业务部署在不同城市的多个机房，而且距离最好要远一些。例如，将业务部署在北京和广州两个机房，而不是将业务部署在广州和深圳的两个机房。</p>
+<p>3.跨国异地指的是业务部署在不同国家的多个机房。相比跨城异地，跨国异地的距离就更远了，因此数据同步的延时会更长，正常情况下可能就有几秒钟了。这种程度的延迟已经无法满足异地多活标准的第一条：“正常情况下，用户无论访问哪一个地点的业务系统，都能够得到正确的业务服务”</p>
+<ul>
+<li>为不同地区用户提供服务</li>
+<li>只读类业务做多活</li>
+</ul>
+<p>感想：公司现在是跨城异地，对称集群，不知道上游是否会根据用户IP打到最近机房。也做过跨国异地，做了IP就近访问，主要目的是为了相近的用户能快速访问，同时还能做一下容灾处理。</p>
+<h2 id="八、异地多活设计4大技巧"><a href="#八、异地多活设计4大技巧" class="headerlink" title="八、异地多活设计4大技巧"></a>八、异地多活设计4大技巧</h2><p>跨城异地多活架构设计的一些技巧和步骤</p>
+<p>技巧 1：保证核心业务的异地多活</p>
+<p>技巧 2：保证核心数据最终一致性</p>
+<p>技巧 3：采用多种手段同步数据</p>
+<p>技巧 4：只保证绝大部分用户的异地多活</p>
+<p>异地多活设计的理念可以总结为一句话：<strong>采用多种手段，保证绝大部分用户的核心业务异地多活！</strong></p>
+<h2 id="九、异地多活设计4步走"><a href="#九、异地多活设计4步走" class="headerlink" title="九、异地多活设计4步走"></a>九、异地多活设计4步走</h2><p>1.业务分级：访问量大的业务、核心业务、产生大量收入的业务</p>
+<p>2.数据分类：数据量、唯一性、实时性、可丢失性、可恢复性<br>3.数据同步：存储系统同步、消息队列同步、重复生成<br>4.异常处理：多通道同步、同步和访问结合、日志记录、用户补偿</p>
+<h2 id="十、如何应对接口级的故障？"><a href="#十、如何应对接口级的故障？" class="headerlink" title="十、如何应对接口级的故障？"></a>十、如何应对接口级的故障？</h2><p>接口级故障的典型表现就是系统并没有宕机，网络也没有中断，但业务却出现问题了。例如，业务响应缓慢、大量访问超时、大量访问出现异常（给用户弹出提示“无法连接数据库”），这类问题的主要原因在于系统压力太大、负载太高，导致无法快速处理业务请求，由此引发更多的后续问题。</p>
+<p><strong>优先保证核心业务</strong>和<strong>优先保证绝大部分用户</strong>。</p>
+<ol>
+<li>降级：系统后门降级、独立降级系统</li>
+<li>熔断：实现的关键是需要有一个统一的 API 调用层，由 API 调用层来进行采样或者统计，如果接口调用散落在代码各处就没法进行统一处理了。一旦达到阈值，A服务请求B服务的时候立即返回错误，不再真正请求，防止被拖死。</li>
+<li>限流：基于请求限流（限制总量、限制时间量）、基于资源限流</li>
+<li>排队：是限流的一个变种，限流是直接拒绝用户，排队是让用户等待一段时间</li>
+</ol>
+<p>感想：这类其实是业务开发人员接触最多的，有很多限流方案<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483797&idx=1&sn=849732a639435fae4e673d1be237b08a&chksm=faec64a0cd9bedb6d5361410e45666046b286a70e157cc5983ac29fa97218410adb0c18de725&token=1728996551&lang=zh_CN#rd">限流实现(1)</a>、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484064&idx=1&sn=6a311a27e41e9d6efd658e708a06dc0f&chksm=faec6795cd9bee83aedc4b9516d779fdc8372f681542b81f75c8d6edb9ecb2859d84eb88ab35&token=1728996551&lang=zh_CN#rd">限流实现2</a>。</p>
+
       
 
       
@@ -251,16 +372,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/HTTPS%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%88%98/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2024/09/08/%E6%88%91%E6%90%9E%E4%BA%86%E4%B8%80%E5%8F%B0switch/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">我搞了一台switch</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -280,582 +460,14 @@
 
 
 
-
-  
-    <article id="post-2020博客总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">2020博客总结</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:51:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/2020%E5%8D%9A%E5%AE%A2%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-资治通鉴读后感" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%E8%AF%BB%E5%90%8E%E6%84%9F/">资治通鉴读后感</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%E8%AF%BB%E5%90%8E%E6%84%9F/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:51:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E8%B5%84%E6%B2%BB%E9%80%9A%E9%89%B4%E8%AF%BB%E5%90%8E%E6%84%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go通道实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go通道实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:51:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/Go%E9%80%9A%E9%81%93%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Go语言标准库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/">Go语言标准库</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:51:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/Go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GoLang定时器实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">GoLang定时器实现原理</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:51:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/GoLang%E5%AE%9A%E6%97%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTPS连接过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/">HTTPS连接过程</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:19:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>HTTP协议通信过程中使用未经加密的明文，安全性无法得到保证。比如在Web页面中输入信用卡号，如果这条通信线路遭到窃听，那么信用卡号就暴露了。</p>
-        
-          <a class="article-more-a" href="/2024/08/18/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/HTTPS%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-限流实现2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/">限流实现2</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:18:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>上一篇文章 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hG6QrPPTHjqEaUVQhjDdBg">限流实现1</a> 已经介绍三种限流方案</p>
-        
-          <a class="article-more-a" href="/2024/08/18/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-一个与运算引发的事故" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/">一个与运算引发的事故</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:18:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天发生了一起事故，追查下去，找到了一段陈年老代码。</p>
-        
-          <a class="article-more-a" href="/2024/08/18/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E4%B8%80%E4%B8%AA%E4%B8%8E%E8%BF%90%E7%AE%97%E5%BC%95%E5%8F%91%E7%9A%84%E4%BA%8B%E6%95%85/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-项目流程管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/">项目流程管理</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/" class="archive-article-date">
-  	<time datetime="2024-08-18T09:18:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作这几年，项目做了没有一百也有八十了。在做项目的过程中，需要生成一些方法论，这是对自己经验的总结，也是将流程固化的一个过程。当然这些方法论未必是完全正确的，但是不重要，重要的是有这个想法，然后不断的去完善方法论。</p>
-        
-          <a class="article-more-a" href="/2024/08/18/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/22/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/24/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -878,8 +490,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
