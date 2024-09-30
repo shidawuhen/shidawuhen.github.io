@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Jason Pang</title>
+  <title>可扩展架构模式 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="高性能、高可用之后是可扩展。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="可扩展架构模式">
+<meta property="og:url" content="http://example.com/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="高性能、高可用之后是可扩展。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240917154819079.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240919133203796.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/eihe.png">
+<meta property="article:published_time" content="2024-09-30T09:18:55.000Z">
+<meta property="article:modified_time" content="2024-09-30T09:28:56.819Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240917154819079.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,16 +226,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="pages-可扩展架构模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
+            <article id="pages-可扩展架构模式" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">可扩展架构模式</a>
+    <h1 class="article-title" itemprop="name">
+      可扩展架构模式
     </h1>
   
 
@@ -241,9 +247,90 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>高性能、高可用之后是可扩展。</p>
-        
-          <a class="article-more-a" href="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
+<span id="more"></span>
+<h2 id="可扩展架构的基本思想和模式"><a href="#可扩展架构的基本思想和模式" class="headerlink" title="可扩展架构的基本思想和模式"></a>可扩展架构的基本思想和模式</h2><p>所有的可扩展性架构设计，背后的基本思想都可以总结为一个字：<strong>拆</strong>！</p>
+<p>常见的拆分思路有如下三种。</p>
+<p>面向流程拆分：将整个业务流程拆分为几个阶段，每个阶段作为一部分。学生信息管理系统的展示层 → 业务层 → 数据层 → 存储层</p>
+<ul>
+<li>优点：扩展时大部分情况只需要修改某一层，少部分情况可能修改关联的两层，不会出现所有层都同时要修改。</li>
+<li>分层架构</li>
+</ul>
+<p>面向服务拆分：将系统提供的服务拆分，每个服务作为一部分。学生信息管理系统的注册、登录、信息管理、安全设置等服务</p>
+<ul>
+<li>优点：对某个服务扩展，或者要增加新的服务时，只需要扩展相关服务即可，无须修改所有的服务。</li>
+<li>SOA、微服务</li>
+</ul>
+<p>面向功能拆分：将系统提供的功能拆分，每个功能作为一部分。学生信息管理系统中注册服务的手机号注册、身份证注册、学生邮箱注册三个功能</p>
+<ul>
+<li>优点：对某个功能扩展，或者要增加新的功能时，只需要扩展相关功能即可，无须修改所有的服务。</li>
+<li>微内核架构</li>
+</ul>
+<p><strong>不同的拆分方式，本质上决定了系统的扩展方式</strong>。</p>
+<p>感想：设计的所有系统必然会按照流程拆分，这是个必选项。在面向服务拆分和面向功能拆分上，全都是面向服务拆分。现在大部分都是用微服务的方式进行开发了。</p>
+<h2 id="传统的可扩展架构模式：分层架构和SOA"><a href="#传统的可扩展架构模式：分层架构和SOA" class="headerlink" title="传统的可扩展架构模式：分层架构和SOA"></a>传统的可扩展架构模式：分层架构和SOA</h2><p>分层架构是很常见的架构模式，它也叫 N 层架构，通常情况下，N 至少是 2 层。例如，C&#x2F;S 架构、B&#x2F;S 架构。常见的是 3 层架构（例如，MVC、MVP 架构）、4 层架构，5 层架构的比较少见，一般是比较复杂的系统才会达到或者超过 5 层，比如操作系统内核架构。</p>
+<p>分层架构设计最核心的一点就是<strong>需要保证各层之间的差异足够清晰，边界足够明显，让人看到架构图后就能看懂整个架构</strong>。</p>
+<p>分层结构的代价就是冗余，也就是说，不管这个业务有多么简单，每层都必须要参与处理，甚至可能每层都写了一个简单的包装函数。分层架构的优势就体现在通过分层强制约束两两依赖，一旦自由选择绕过分层，时间一长，架构就会变得混乱。</p>
+<p>SOA 的全称是 Service Oriented Architecture，中文翻译为“面向服务的架构”。</p>
+<ol>
+<li>所有业务功能都是一项服务，服务可大可小，可简单也可复杂。</li>
+<li>ESB 的全称是 Enterprise Service Bus，中文翻译为“企业服务总线”。SOA 使用 ESB 来屏蔽异构系统对外提供各种不同的接口方式，以此来达到服务间高效的互联互通</li>
+<li>松耦合的目的是减少各个服务间的依赖和互相影响。因为采用 SOA 架构后，各个服务是相互独立运行的，甚至都不清楚某个服务到底有多少对其他服务的依赖。</li>
+</ol>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240917154819079.png" alt="image-20240917154819079"></p>
+<p>感想：刚开始工作的时候，使用PHP的Yaf框架进行开发，使用标准的MVC模式，前后端都在同一套代码上开发。后来慢慢都切到Go，走微服务了，前后端也完全进行了拆解。</p>
+<h2 id="深入理解微服务架构：银弹-or-焦油坑？"><a href="#深入理解微服务架构：银弹-or-焦油坑？" class="headerlink" title="深入理解微服务架构：银弹 or 焦油坑？"></a><strong>深入理解微服务架构：银弹</strong> <strong>or</strong> 焦油坑？</h2><p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240919133203796.png" alt="image-20240919133203796"></p>
+<p><strong>SOA 和微服务本质上是两种不同的架构设计理念，只是在“服务”这个点上有交集而已</strong></p>
+<p>微服务具体有哪些坑：</p>
+<ol>
+<li>服务划分过细，服务间关系复杂</li>
+<li>服务数量太多，团队效率急剧下降</li>
+<li>调用链太长，性能下降</li>
+<li>调用链太长，问题定位困难</li>
+<li>没有自动化支撑，无法快速交付</li>
+<li>没有服务治理，微服务数量多了后管理混乱</li>
+</ol>
+<p>微服务拆分过细，过分强调“small”。</p>
+<p>微服务基础设施不健全，忽略了“automated”。</p>
+<p>微服务并不轻量级，规模大了后，“lightweight”不再适应。</p>
+<p>感想：SOA没用过，工作的公司大多偏互联网，所以没有适合SOA的场景。微服务相对了解的多一些，以前写过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483936&idx=1&sn=a7ffda1d87a8870f75402612382f5991&chksm=faec6715cd9bee034d0fb23fad88b739e835cc7a5db142f9e3abd67ea88318eb36e5cf31f769&token=591582397&lang=zh_CN#rd">微服务之服务框架和注册中心</a>，微服务不单单指一个Server，其实是一套完整的体系。当初服务发现这套东西是运维同事推的，我们是公司第一家用的，用了没多久推这块功能的人换了工作，中间还出过一些事故，如发现不到服务了、服务发现不稳定，后续慢慢就稳定下来了。微服务还是蛮值得推进的。如果团队职能很大，比较重要的是控制好微服务的数量，以前合作过一个团队，创建新的微服务需要+2评审，也是因为吃过亏了。</p>
+<h2 id="微服务架构最佳实践-方法篇"><a href="#微服务架构最佳实践-方法篇" class="headerlink" title="微服务架构最佳实践 - 方法篇"></a>微服务架构最佳实践 - 方法篇</h2><p>服务粒度：于微服务设计和开发阶段，即一个微服务三个人负责开发。</p>
+<ul>
+<li>首先，从系统规模来讲，3 个人负责开发一个系统，系统的复杂度刚好达到每个人都能全面理解整个系统，又能够进行分工的粒度；</li>
+<li>其次，从团队管理来说，3 个人可以形成一个稳定的备份，即使 1 个人休假或者调配到其他系统，剩余 2 个人还可以支撑；</li>
+<li>最后，从技术提升的角度来讲，3 个人的技术小组既能够形成有效的讨论，又能够快速达成一致意见；</li>
+</ul>
+<p>拆分方法：</p>
+<ul>
+<li>基于业务逻辑拆分：将系统中的业务模块按照职责范围识别出来，每个单独的业务模块拆分为一个独立的服务。</li>
+<li>基于可扩展拆分：将系统中的业务模块按照稳定性排序，将已经成熟和改动不大的服务拆分为<strong>稳定服务</strong>，将经常变化和迭代的服务拆分为<strong>变动服务</strong>。稳定的服务粒度可以粗一些。</li>
+<li>基于可靠性拆分：将系统中的业务模块按照优先级排序，将可靠性要求高的核心服务和可靠性要求低的非核心服务拆分开来，然后重点保证核心服务的高可用。<ul>
+<li>避免非核心服务故障影响核心服务</li>
+<li>核心服务高可用方案可以更简单</li>
+<li>能够降低高可用成本</li>
+</ul>
+</li>
+<li>基于性能拆分：将性能要求高或者性能压力大的模块拆分出来，避免性能压力大的服务影响其他服务。</li>
+</ul>
+<p>感想：一般按照业务逻辑拆分好一点，因为很多时候团队和业务是对应的。至于要不要再按照扩展性、可靠性、性能区分，看自己的需求。</p>
+<h2 id="微服务架构最佳实践-基础设施篇"><a href="#微服务架构最佳实践-基础设施篇" class="headerlink" title="微服务架构最佳实践 - 基础设施篇"></a>微服务架构最佳实践 - 基础设施篇</h2><p>1.自动化测试涵盖的范围包括代码级的单元测试、单个系统级的集成测试、系统间的接口测试，理想情况是每类测试都自动化。<br>2.自动化部署系统包括版本管理、资源管理（例如，机器管理、虚拟机管理）、部署操作、回退操作等功能。<br>3.配置中心包括配置版本管理（例如，同样的微服务，有 10 个节点是给移动用户服务的，有20 个节点给联通用户服务的，配置项都一样，配置值不一样）、增删改查配置、节点管理、配置同步、配置推送等功能。<br>4.接口框架不是一个可运行的系统，一般以库或者包的形式提供给所有微服务调用。例如，针对上面的 JSON 样例，可以由某个基础技术团队提供多种不同语言的解析包（Java 包、Python 包、C 库等）。<br>5.API 网关是外部系统访问的接口，所有的外部系统接⼊系统都需要通过 API 网关，主要包括接入鉴权（是否允许接入）、权限控制（可以访问哪些功能）、传输加密、请求路由、流量控制等功能。<br>6.服务发现</p>
+<ul>
+<li>自理式结构就是指每个微服务自己完成服务发现。</li>
+<li>代理式结构就是指微服务之间有一个负载均衡系统（图中的 LOAD BALANCER 节点），由负载均衡系统来完成微服务之间的服务发现。</li>
+</ul>
+<p>7.服务路由：从所有符合条件的可用微服务节点中挑选出一个具体的节点发起请求。常见的路由算法有：随机路由、轮询路由、最小压力路由、最小连接数路由等。</p>
+<p>8.服务容错包括请求重试、流控和服务隔离。通常情况下，服务容错会集成在服务发现和服务路由系统中。</p>
+<p>9.服务监控需要搜集并分析大量的数据，因此建议做成独立的系统，而不要集成到服务发现、API 网关等系统中。</p>
+<p>10.服务跟踪会记录其中某次请求的发起时间、响应时间、响应错误码、请求参数、返回的 JSON 对象等信息</p>
+<p>11.服务安全主要分为三部分：接入安全、数据安全、传输安全。通常情况下，服务安全可以集成到配置中心系统中进行实现，即配置中心配置微服务的接入安全策略和数据安全策略，微服务节点从配置中心获取这些配置信息，然后在处理具体的微服务调用请求时根据安全策略进行处理。</p>
+<p>感想：同上</p>
+<h2 id="微内核架构详解"><a href="#微内核架构详解" class="headerlink" title="微内核架构详解"></a>微内核架构详解</h2><p>微内核架构（Microkernel Architecture），也被称为插件化架构（Plug-in Architecture），是一种面向功能进行拆分的可扩展性架构，通常用于实现基于产品（原文为 product-based，指存在多个版本、需要下载安装才能使用，与 web-based 相对应）的应用。例如 Eclipse 这类 IDE 软件、UNIX 这类操作系统、淘宝 App 这类客户端软件等。</p>
+<p>微内核架构包含两类组件：核心系统（core system）和插件模块（plug-in modules）。核心系统负责和具体业务功能无关的通用功能，例如模块加载、模块间通信等；插件模块负责实现具体的业务逻辑，例如专栏前面经常提到的“学生信息管理”系统中的“手机号注册”功能。</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/eihe.png" alt="neihe"></p>
+<p>微内核的架构本质就是将变化部分封装在插件里面，从而达到快速灵活扩展的目的，而又不影响整体系统的稳定。</p>
+<p>微内核的核心系统设计的关键技术有：插件管理、插件连接和插件通信。</p>
+<p>规则引擎从结构上来看也属于微内核架构的一种具体实现，其中执行引擎可以看作是微内核，执行引擎解析配置好的业务流，执行其中的条件和规则，通过这种方式来支持业务的灵活多变。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41364834/article/details/139740933">规则引擎：一个简单的easyRule的demo</a></p>
+<p>感想：微内核框架完全没有用过，但看了一下例子，感觉还是很有用处的，很多业务需求里会有类似于多个规则判断处理的问题，正好可以用这个方案解决。</p>
+
       
 
       
@@ -254,16 +341,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">像AI一样思考</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -283,595 +429,14 @@
 
 
 
-
-  
-    <article id="pages-像AI一样思考" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/">像AI一样思考</a>
-    </h1>
-  
-
-        
-        <a href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2024-09-30T09:18:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我感觉每个人都应该通过Coze平台 <a target="_blank" rel="noopener" href="https://www.coze.cn/">https://www.coze.cn/</a> 创建一个属于自己的Bot。</p>
-        
-          <a class="article-more-a" href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-高可用架构模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">高可用架构模式</a>
-    </h1>
-  
-
-        
-        <a href="/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-09-08T14:02:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>架构里比较重要的是高性能、高可用、高扩展性。上次是高性能，这次是高可用。</p>
-<p>对一般的项目而言，高可用主要用公司提供的基建，如多机房部署、主从等。但有些项目确实需要思考更多高可用的事项，如资源不足的情况下要做好限流或者降配（以前做抢购和秒杀梳理出了所有限流和降配方案，分了一二级处理），有的是同时支持普通版和付费版，需要不同的集群部署，提供不同的资源容量。</p>
-        
-          <a class="article-more-a" href="/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-我搞了一台switch" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/09/08/%E6%88%91%E6%90%9E%E4%BA%86%E4%B8%80%E5%8F%B0switch/">我搞了一台switch</a>
-    </h1>
-  
-
-        
-        <a href="/2024/09/08/%E6%88%91%E6%90%9E%E4%BA%86%E4%B8%80%E5%8F%B0switch/" class="archive-article-date">
-  	<time datetime="2024-09-08T14:02:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>准确的说我搞了一台switch oled。为啥要买个游戏机呢？前些日子去轰趴馆团建，玩了一会switch，当时玩的游戏是《刺客信条3重制版》，感觉挺好玩的。我其实是手残党，很多网络游戏玩的都不是很好，而且大学的时候做过一些小游戏，对游戏没有太大兴趣。另一个原因是有天在家无聊，想和媳妇玩红桃三，结果发现54张牌两个人全用的话，完全知道对方是啥牌😭。</p>
-        
-          <a class="article-more-a" href="/2024/09/08/%E6%88%91%E6%90%9E%E4%BA%86%E4%B8%80%E5%8F%B0switch/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/09/08/%E6%88%91%E6%90%9E%E4%BA%86%E4%B8%80%E5%8F%B0switch/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="pages-常用高性能架构模式" class="article article-type-pages  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">常用高性能架构模式</a>
-    </h1>
-  
-
-        
-        <a href="/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-09-01T08:12:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>《从0开始学架构》里讲述了常用的高性能架构模式，这里面很多大家可能也都用过了，我应该也写过相关的技术文章。正好按照书里的思路重新梳理一次。</p>
-        
-          <a class="article-more-a" href="/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/09/01/%E5%B8%B8%E7%94%A8%E9%AB%98%E6%80%A7%E8%83%BD%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-如何进行技术方案设计" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/">如何进行技术方案设计</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2024-08-26T12:35:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在看极客时间上的《从0开始学架构》，刚看完基础架构这一章。突然想到自己以前好像也写过类似的，找了一下终于找到了<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484656&idx=1&sn=b5a6074086e482c29f983d90908e584c&chksm=faec61c5cd9be8d3742128922f4480f7cab62ad733c72111c419b7578a983bf8219982ac7a58&token=1652499919&lang=zh_CN#rd">对如何分析项目的思考</a>。</p>
-        
-          <a class="article-more-a" href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/26/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用hexo搭建个人博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">使用hexo搭建个人博客</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="archive-article-date">
-  	<time datetime="2024-08-18T15:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很早之前使用hexo和github建了个人博客。搭建的流程一直没有梳理，中间换过几次机器，每次都得重新配置一遍，需要重新学些。最近电脑坏了，原始的数据没有导出来，先把以前文章写个文件占个位置，后面慢慢补吧，如果大家要看内容的话可以去<a target="_blank" rel="noopener" href="https://juejin.cn/user/870468942580749%E3%80%82">https://juejin.cn/user/870468942580749。</a></p>
-        
-          <a class="article-more-a" href="/2024/08/18/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SLA服务可用性如何定义" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/SLA%E6%9C%8D%E5%8A%A1%E5%8F%AF%E7%94%A8%E6%80%A7%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89/">SLA服务可用性如何定义</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/SLA%E6%9C%8D%E5%8A%A1%E5%8F%AF%E7%94%A8%E6%80%A7%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89/" class="archive-article-date">
-  	<time datetime="2024-08-18T15:34:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>SLA（Service Level Agreement，服务级别协议）是服务提供商与客户之间达成的一种协议，用于定义服务的级别、性能、可用性等方面的具体要求。</p>
-        
-          <a class="article-more-a" href="/2024/08/18/SLA%E6%9C%8D%E5%8A%A1%E5%8F%AF%E7%94%A8%E6%80%A7%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/SLA%E6%9C%8D%E5%8A%A1%E5%8F%AF%E7%94%A8%E6%80%A7%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-如何推进任务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E4%BB%BB%E5%8A%A1/">如何推进任务</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E4%BB%BB%E5%8A%A1/" class="archive-article-date">
-  	<time datetime="2024-08-18T15:34:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>人生总有很多任务需要推进，有的很简单，有的很复杂，涉及的面也比较广，怎么才能更有效的推动呢？</p>
-        
-          <a class="article-more-a" href="/2024/08/18/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E4%BB%BB%E5%8A%A1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E4%BB%BB%E5%8A%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-8-DELL-R730服务器对RAID5进行扩容" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/8-DELL-R730%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9RAID5%E8%BF%9B%E8%A1%8C%E6%89%A9%E5%AE%B9/">8 DELL R730服务器对RAID5进行扩容</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/8-DELL-R730%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9RAID5%E8%BF%9B%E8%A1%8C%E6%89%A9%E5%AE%B9/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:24:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/8-DELL-R730%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9RAID5%E8%BF%9B%E8%A1%8C%E6%89%A9%E5%AE%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -894,8 +459,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
