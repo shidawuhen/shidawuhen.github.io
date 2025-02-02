@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Jason Pang</title>
+  <title>4 Elasticsearch常用指令 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/archives/page/12/index.html">
+  <meta name="description" content="一、索引ES中索引类似于MySQL的表，在MySQL中，我们使用Create创建表，在ES中我们使用什么方式？在2 Elasticsearch基本概念中说过mapping类比于MySQL对应的表结构-Schema。所以索引的创建使用的是Mapping。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4 Elasticsearch常用指令">
+<meta property="og:url" content="http://example.com/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="一、索引ES中索引类似于MySQL的表，在MySQL中，我们使用Create创建表，在ES中我们使用什么方式？在2 Elasticsearch基本概念中说过mapping类比于MySQL对应的表结构-Schema。所以索引的创建使用的是Mapping。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202164612752.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202180551380.png">
+<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202205125351.png">
+<meta property="article:published_time" content="2025-02-02T16:09:46.000Z">
+<meta property="article:modified_time" content="2025-02-02T16:11:21.467Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,295 +227,352 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-4-Elasticsearch常用指令" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      4 Elasticsearch常用指令
+    </h1>
+  
+
+        
+        <a href="/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" class="archive-article-date">
+  	<time datetime="2025-02-02T16:09:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-02-03</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、索引"><a href="#一、索引" class="headerlink" title="一、索引"></a>一、索引</h2><p>ES中索引类似于MySQL的表，在MySQL中，我们使用Create创建表，在ES中我们使用什么方式？在<a target="_blank" rel="noopener" href="https://juejin.cn/post/7464981203238862886">2 Elasticsearch基本概念</a>中说过mapping类比于MySQL对应的表结构-Schema。所以索引的创建使用的是Mapping。</p>
+<span id="more"></span>
+<h3 id="1-1mapping介绍"><a href="#1-1mapping介绍" class="headerlink" title="1.1mapping介绍"></a>1.1mapping介绍</h3><p>Mapping类似数据库中的schema的定义，会把Json文档映射成Lucene所需要的扁平格式，作用如下</p>
+<ol>
+<li>定义索引中的字段的名称</li>
+<li>定义字段的数据类型，如字符串，数字，布尔等</li>
+<li>字段倒排索引的相关配置，如Analyzed or Not Analyzed</li>
+</ol>
+<h3 id="1-2动态mapping"><a href="#1-2动态mapping" class="headerlink" title="1.2动态mapping"></a>1.2动态mapping</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><ol>
+<li>在写入文档时，如果索引不存在，会自动创建索引</li>
+<li>Dynamic Mapping机制，使得我们无需手动定义Mappings。Elasticsearch会自动根据文档信息，推算出字段的类型</li>
+<li>但有时推算的不对，例如地理位置信息推算成text格式。</li>
+<li>如果类型设置的不对，会导致一些功能无法正常运行，如Range查询</li>
+</ol>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png" alt="image-20250202163154493"></p>
+<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><h5 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT mapping_test/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;firstName&quot;:&quot;Chan&quot;,</span><br><span class="line">  &quot;lastName&quot;: &quot;Jackie&quot;,</span><br><span class="line">  &quot;loginDate&quot;:&quot;2018-07-24T10:29:48.103Z&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET mapping_test/_mapping</span><br></pre></td></tr></table></figure>
+
+<h5 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE mapping_test</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改索引"><a href="#修改索引" class="headerlink" title="修改索引"></a>修改索引</h5><p>mapping中有个dynamic字段，有三个值，true（默认）、false、strict</p>
+<ol>
+<li>为true时：一旦有新增字段的文档写入，mapping也同时被更新</li>
+<li>为false时：mapping不会被更新，新增字段的数据无法被索引，但是信息会出现在_source中</li>
+<li>为strict时：文档写入失败</li>
+</ol>
+<p>对已有字段，一旦已经有数据写入，就不再支持修改字段定义，因为Lucene实现的倒排索引，一旦生成后，就不允许修改。如果希望修改字段类型，必须reindex api，重建索引</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202164612752.png" alt="image-20250202164612752"></p>
+<p><strong>创建索引</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT dynamic_mapping_test/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;newField&quot;:&quot;someValue&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>索引dynamic设置为false</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT dynamic_mapping_test/_mapping</span><br><span class="line">&#123;</span><br><span class="line">  &quot;dynamic&quot;: false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//查看索引</span><br><span class="line">GET dynamic_mapping_test/_mapping</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dynamic_mapping_test&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;dynamic&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;false&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;properties&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;newField&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> <span class="punctuation">:</span> <span class="number">256</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>增加新字段</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT dynamic_mapping_test/_doc/10</span><br><span class="line">&#123;</span><br><span class="line">  &quot;anotherField&quot;:&quot;someValue&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3显式mapping"><a href="#1-3显式mapping" class="headerlink" title="1.3显式mapping"></a>1.3显式mapping</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>动态索引有时候不太准确，我们可以显示的进行配置。纯手写可能出现错误，所以我们可以准备一些样本数据，使用动态方案创建临时index，获取临时index，进行修改后创建真正的索引，最后把临时索引删除。</p>
+<h4 id="实战-1"><a href="#实战-1" class="headerlink" title="实战"></a>实战</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">PUT users</span><br><span class="line">&#123;</span><br><span class="line">    &quot;settings&quot; : &#123;</span><br><span class="line">        &quot;index&quot; : &#123;</span><br><span class="line">            &quot;number_of_shards&quot; : 1, </span><br><span class="line">            &quot;number_of_replicas&quot; : 1 </span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;analysis&quot;: &#123;</span><br><span class="line">          &quot;analyzer&quot;: &#123;</span><br><span class="line">            &quot;custom_analyzer&quot;:&#123;</span><br><span class="line">              &quot;type&quot;:&quot;custom&quot;,</span><br><span class="line">              &quot;char_filter&quot;:[&quot;html_strip&quot;],</span><br><span class="line">              &quot;tokenizer&quot;: &quot;whitespace&quot;,</span><br><span class="line">              &quot;filter&quot;: [&quot;stop&quot;,&quot;snowball&quot;]</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;mappings&quot; : &#123;</span><br><span class="line">      &quot;properties&quot; : &#123;</span><br><span class="line">        &quot;firstName&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;copy_to&quot;: &quot;fullName&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;lastName&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;copy_to&quot;: &quot;fullName&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;mobile&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;index&quot;: false</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;bio&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;index_options&quot;:&quot;offsets&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;interests&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;company&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;fields&quot; : &#123;</span><br><span class="line">            &quot;keyword&quot; : &#123;</span><br><span class="line">              &quot;type&quot; : &quot;keyword&quot;,</span><br><span class="line">              &quot;ignore_above&quot; : 256</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;comment&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;fields&quot; : &#123;</span><br><span class="line">            &quot;english_comment&quot; : &#123;</span><br><span class="line">              &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">              &quot;analyzer&quot; : &quot;english&quot;,</span><br><span class="line">              &quot;search_analyzer&quot;:&quot;english&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.index字段控制是否被索引，默认为true，如果设置为false，该字段不可被搜索<br>2.Index_options：有四种不同级别的配置，控制倒排索引记录的内容。text类型默认postions，其它默认docs。记录内容越多，占用存储空间越大</p>
+<ul>
+<li>docs，记录doc id</li>
+<li>freqs，记录doc id和term frequencies</li>
+<li>positions，记录doc id、term frequencies、term position</li>
+<li>offsets，记录doc id、term frequencies、term position、character offects</li>
+</ul>
+<p>3.copy_to：满足一些特定搜索需求，会将字段的数值拷贝到目标字段，用于搜索，但目标字段不出现在_source中<br>4.数组类型：ES不提供专门的数组类型，但是任何字段，都可以包含多个相同类型的数值<br>5.多字段类型：给同一个字段增加了多种搜索方式</p>
+<ul>
+<li>如增加keyword字段，实现精确匹配</li>
+<li>如使用不同的analyzer，更好的实现基于业务场景的搜索<ul>
+<li>char_filter：在tokenizer之前对文本进行处理，例如增加删除及替换字符，可配置多个char_filter</li>
+<li>tokenizer：将原始的文本按照一定的规则，切分为词（term或token），有一些内置的tokenizers，如whitespace&#x2F;standard&#x2F;pattern等</li>
+<li>filter：将tokenizer输入的单词（term），进行增加、修改、删除，自带的如Lowercase&#x2F;stop&#x2F;synonym等</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;char_filter&quot;:[&quot;html_strip&quot;],</span><br><span class="line">  &quot;tokenizer&quot;: &quot;whitespace&quot;,</span><br><span class="line">  &quot;filter&quot;: [&quot;stop&quot;,&quot;snowball&quot;],</span><br><span class="line">  &quot;text&quot;: &quot;&lt;b&gt;hello world， Jason&lt;/b&gt;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果索引中配置了某种analyzer，可以如此使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST users/_analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;analyzer&quot;:&quot;custom_analyzer&quot;,</span><br><span class="line">  &quot;text&quot;: &quot;&lt;b&gt;hello world， Jason&lt;/b&gt;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6.keyword和text的区别：keyword不需要分词，一般包括数字、日期或者具体的字符串</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202180551380.png" alt="image-20250202180551380"></p>
+<p>7.为了方便创建索引，我们还可以使用template</p>
+<h2 id="二、文档"><a href="#二、文档" class="headerlink" title="二、文档"></a>二、文档</h2><p>在执行操作的时候，有一些常见错误码</p>
+<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202205125351.png" alt="image-20250202205125351"></p>
+<h3 id="2-1创建文档"><a href="#2-1创建文档" class="headerlink" title="2.1创建文档"></a>2.1创建文档</h3><h4 id="Index方式"><a href="#Index方式" class="headerlink" title="Index方式"></a>Index方式</h4><ol>
+<li>如果Index不存在，会创建Index</li>
+<li>如果ID不存在，创建新的文档，如果ID已存在，先删除现有文档，再创建新文档，版本增加</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST users/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">	  &quot;user&quot; : &quot;Mike&quot;,</span><br><span class="line">    &quot;post_date&quot; : &quot;2019-04-15T14:12:12&quot;,</span><br><span class="line">    &quot;message&quot; : &quot;trying out Kibana&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Create方式"><a href="#Create方式" class="headerlink" title="Create方式"></a>Create方式</h4><ol>
+<li>支持指定文档id和自动生成文档id两种方式</li>
+<li>如果ID已存在，则创建失败</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PUT users/_create/3</span><br><span class="line">&#123;</span><br><span class="line">     &quot;user&quot; : &quot;Jack&quot;,</span><br><span class="line">    &quot;post_date&quot; : &quot;2019-05-15T14:12:12&quot;,</span><br><span class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST users/_doc</span><br><span class="line">&#123;</span><br><span class="line">	  &quot;user&quot; : &quot;Mike&quot;,</span><br><span class="line">    &quot;post_date&quot; : &quot;2019-04-15T14:12:12&quot;,</span><br><span class="line">    &quot;message&quot; : &quot;trying out Kibana&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2查询文档"><a href="#2-2查询文档" class="headerlink" title="2.2查询文档"></a>2.2查询文档</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET users/_doc/3</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3更新文档"><a href="#2-3更新文档" class="headerlink" title="2.3更新文档"></a>2.3更新文档</h3><ol>
+<li>update不会删除原来的文档，只会对相应字段做增量修改，版本增加</li>
+<li>文档必须已经存在</li>
+<li>可以增加新的字段</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST users/_update/3/</span><br><span class="line">&#123;</span><br><span class="line">    &quot;doc&quot;:&#123;</span><br><span class="line">        &quot;post_date&quot; : &quot;2019-05-15T14:12:12&quot;,</span><br><span class="line">        &quot;message&quot; : &quot;trying out Elasticsearch&quot;,</span><br><span class="line">        &quot;now&quot;:&quot;hello&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4删除文档"><a href="#2-4删除文档" class="headerlink" title="2.4删除文档"></a>2.4删除文档</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE users/_doc/3/</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5Bulk-API"><a href="#2-5Bulk-API" class="headerlink" title="2.5Bulk API"></a>2.5Bulk API</h3><ol>
+<li>支持在一次API调用中，对不同的索引进行操作</li>
+<li>支持四种类型Index、Create、Update、Delete，index、create、update后续要配置操作的数据</li>
+<li>操作中单条操作失败，并不会影响其它操作</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST _bulk</span><br><span class="line">&#123; &quot;index&quot; : &#123; &quot;_index&quot; : &quot;test&quot;, &quot;_id&quot; : &quot;1&quot; &#125; &#125;</span><br><span class="line">&#123; &quot;field1&quot; : &quot;value1&quot; &#125;</span><br><span class="line">&#123; &quot;delete&quot; : &#123; &quot;_index&quot; : &quot;test&quot;, &quot;_id&quot; : &quot;2&quot; &#125; &#125;</span><br><span class="line">&#123; &quot;create&quot; : &#123; &quot;_index&quot; : &quot;test2&quot;, &quot;_id&quot; : &quot;3&quot; &#125; &#125;</span><br><span class="line">&#123; &quot;field1&quot; : &quot;value3&quot; &#125;</span><br><span class="line">&#123; &quot;update&quot; : &#123;&quot;_id&quot; : &quot;1&quot;, &quot;_index&quot; : &quot;test&quot;&#125; &#125;</span><br><span class="line">&#123; &quot;doc&quot; : &#123;&quot;field2&quot; : &quot;value2&quot;&#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6批量读取mget"><a href="#2-6批量读取mget" class="headerlink" title="2.6批量读取mget"></a>2.6批量读取mget</h3><ol>
+<li>能够减少网络连接所产生的开销，提高性能</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">GET /_mget</span><br><span class="line">&#123;</span><br><span class="line">    &quot;docs&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_index&quot; : &quot;test&quot;,</span><br><span class="line">            &quot;_id&quot; : &quot;1&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_index&quot; : &quot;test&quot;,</span><br><span class="line">            &quot;_id&quot; : &quot;2&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">GET /test/_mget</span><br><span class="line">&#123;</span><br><span class="line">    &quot;docs&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_id&quot; : &quot;1&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_id&quot; : &quot;2&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">GET /_mget</span><br><span class="line">&#123;</span><br><span class="line">    &quot;docs&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_index&quot; : &quot;test&quot;,</span><br><span class="line">            &quot;_id&quot; : &quot;1&quot;,</span><br><span class="line">            &quot;_source&quot; : false</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_index&quot; : &quot;test&quot;,</span><br><span class="line">            &quot;_id&quot; : &quot;2&quot;,</span><br><span class="line">            &quot;_source&quot; : [&quot;field3&quot;, &quot;field4&quot;]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_index&quot; : &quot;test&quot;,</span><br><span class="line">            &quot;_id&quot; : &quot;3&quot;,</span><br><span class="line">            &quot;_source&quot; : &#123;</span><br><span class="line">                &quot;include&quot;: [&quot;user&quot;],</span><br><span class="line">                &quot;exclude&quot;: [&quot;user.location&quot;]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7批量查询msearch"><a href="#2-7批量查询msearch" class="headerlink" title="2.7批量查询msearch"></a>2.7批量查询msearch</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST test2/_msearch</span><br><span class="line">&#123;&#125;</span><br><span class="line">&#123;&quot;query&quot; : &#123;&quot;match_all&quot; : &#123;&#125;&#125;,&quot;size&quot;:1&#125;</span><br><span class="line">&#123;&quot;index&quot; : &quot;test&quot;&#125;</span><br><span class="line">&#123;&quot;query&quot; : &#123;&quot;match_all&quot; : &#123;&#125;&#125;,&quot;size&quot;:2&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、搜索"><a href="#三、搜索" class="headerlink" title="三、搜索"></a>三、搜索</h2><h3 id="3-1介绍"><a href="#3-1介绍" class="headerlink" title="3.1介绍"></a>3.1介绍</h3><p>ES有两种搜索方式</p>
+<ol>
+<li>URI Search：在URL中使用查询参数</li>
+<li>Request Body Search：使用ES提供的，基于JSON格式的更加完备的Query Domain Specific Language（DSL）。这种方式更加高级，一般建议使用这种方式。</li>
+</ol>
+<h3 id="3-2-Query-String-Syntax（查询语法）"><a href="#3-2-Query-String-Syntax（查询语法）" class="headerlink" title="3.2 Query String Syntax（查询语法）"></a>3.2 Query String Syntax（查询语法）</h3><h4 id="指定字段-vs-泛查询"><a href="#指定字段-vs-泛查询" class="headerlink" title="指定字段 vs 泛查询"></a>指定字段 vs 泛查询</h4><ol>
+<li><p>q&#x3D;title:2012     -&gt; 查询title字段包含2012的</p>
+</li>
+<li><p>q&#x3D;2012             -&gt; 查询所有字段中包含2012的</p>
+</li>
+</ol>
+<h4 id="Term-Query-vs-Phrase-Query"><a href="#Term-Query-vs-Phrase-Query" class="headerlink" title="Term Query vs Phrase Query"></a>Term Query vs Phrase Query</h4><ol>
+<li>Beautiful Mind：等效于Beautiful OR Mind，查询字段中包含Beautiful或者Mind的</li>
+<li>”Beautiful Mind“：等效于Beautiful AND Mind，查询字段中同时包含Beautiful和Mind，要求前后顺序保持一致</li>
+</ol>
+<h4 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h4><ol>
+<li>title:(Beautiful Mind)   -&gt; 表明Beautiful和Mind是一块的，有点类似于数学表达式中的括号，用于明确操作的优先级。</li>
+<li>title:(+Beautiful -Mind)     -&gt;   +标识must，-标识must_not</li>
+</ol>
+<h4 id="布尔操作"><a href="#布尔操作" class="headerlink" title="布尔操作"></a>布尔操作</h4><ol>
+<li>AND&#x2F;OR&#x2F;NOT 或者 &amp;&amp;&#x2F; || &#x2F;!，必须大写</li>
+<li>title:(Beautiful NOT Mind)   -&gt; 查询包含Beautiful不包含Mind的</li>
+</ol>
+<h4 id="范围查询"><a href="#范围查询" class="headerlink" title="范围查询"></a>范围查询</h4><p>区间查询：[]闭区间，{}开区间</p>
+<ol>
+<li><p>year:{2018 TO 2019]</p>
+</li>
+<li><p>year:[* TO 2018]</p>
+</li>
+</ol>
+<h4 id="算数符号"><a href="#算数符号" class="headerlink" title="算数符号"></a>算数符号</h4><ol>
+<li>year:&gt;2010</li>
+<li>year:(&gt;2010 AND &lt;&#x3D;2018)  查询大于2010年，小于等于2018年的电影</li>
+</ol>
+<h4 id="通配符查询"><a href="#通配符查询" class="headerlink" title="通配符查询"></a>通配符查询</h4><p>通配符查询效率低，占用内存大，不建议使用。？代表一个字符，*代表0或者多个字符</p>
+<ol>
+<li>title:mi?d</li>
+<li>title:be*</li>
+</ol>
+<h4 id="模糊匹配与近似查询"><a href="#模糊匹配与近似查询" class="headerlink" title="模糊匹配与近似查询"></a>模糊匹配与近似查询</h4><p>在使用<code>term</code>查询或者<code>match</code>查询时，如果在查询的字符串后面加上<code>~</code>，可以实现近似匹配。这种模糊查询在处理拼写错误、用户输入可能存在小偏差等场景下非常有用，它可以扩大搜索结果的范围，提高搜索的召回率，使得即使输入的查询词不完全准确，也能找到相关的文档。</p>
+<ol>
+<li>title:beautifl~1</li>
+<li>title:”lord rings”~2</li>
+</ol>
+<h3 id="3-3实战"><a href="#3-3实战" class="headerlink" title="3.3实战"></a>3.3实战</h3><h4 id="3-3-1查询指定的索引"><a href="#3-3-1查询指定的索引" class="headerlink" title="3.3.1查询指定的索引"></a>3.3.1查询指定的索引</h4><p>集群上所有的索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET _search</span><br></pre></td></tr></table></figure>
+
+<p>指定索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET movies/_search</span><br></pre></td></tr></table></figure>
+
+<p>指定多个索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET test,test2/_search</span><br></pre></td></tr></table></figure>
+
+<p>指定开头的索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET test*/_search</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-2URI搜索"><a href="#3-3-2URI搜索" class="headerlink" title="3.3.2URI搜索"></a>3.3.2URI搜索</h4><p>URI的样式如下，大家可以按照查询语法中的方式随意进行更改</p>
+<ol>
+<li>使用q指定查询字符串，使用query string syntax</li>
+<li>df默认字段，不指定时，会对所有字段进行查询</li>
+</ol>
+<ul>
+<li>df和q是配合使用的，如果有df，则意味df的字段值为q</li>
+<li>可以不使用df，q中直接写明字段和要查询的值</li>
+</ul>
+<ol start="4">
+<li>sort排序方式</li>
+<li>from，size用于分页</li>
+<li>profile查看查询是如何被执行的</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /movies/_search?q=2012&amp;df=title&amp;sort=year:desc&amp;from=0&amp;size=10&amp;timeout=1s</span><br><span class="line">&#123;</span><br><span class="line">  &quot;profile&quot;:&quot;true&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-3Request-Body搜索"><a href="#3-3-3Request-Body搜索" class="headerlink" title="3.3.3Request Body搜索"></a>3.3.3Request Body搜索</h4><h5 id="特殊配置"><a href="#特殊配置" class="headerlink" title="特殊配置"></a>特殊配置</h5><ol>
+<li>分页：从0开始，默认返回10个结果。获取靠后的翻页成本较高，因为在 Elasticsearch 中，当进行分页查询时，例如查询第<code>n</code>页（<code>n</code>较大，即靠后的页面），默认情况下，Elasticsearch 需要从所有匹配的文档中获取到前面<code>n - 1</code>页的文档后，才能得到第<code>n</code>页的文档。</li>
+<li>排序：最好在数字型或者日期型字段上排序。因为对于多值类型或分析过的字段排序，系统会选一个值，无法得知该值</li>
+<li>sorce filtering：返回指定的字段，支持通配符</li>
+<li>使用脚本对字段进行处理：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">POST /movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;profile&quot;: true,</span><br><span class="line">  &quot;from&quot;:10,</span><br><span class="line">  &quot;size&quot;:20,</span><br><span class="line">  &quot;sort&quot;:[&#123;&quot;year&quot;:&quot;desc&quot;&#125;],</span><br><span class="line">  &quot;_source&quot;:[&quot;title&quot;,&quot;year&quot;],</span><br><span class="line">  &quot;script_fields&quot;: &#123;</span><br><span class="line">    &quot;new_field&quot;: &#123;</span><br><span class="line">      &quot;script&quot;: &#123;</span><br><span class="line">        &quot;lang&quot;: &quot;painless&quot;,</span><br><span class="line">        &quot;source&quot;: &quot;doc[&#x27;year&#x27;].value+&#x27;hello&#x27;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">	&quot;query&quot;: &#123;</span><br><span class="line">		&quot;match_all&quot;: &#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="查询表达式Match"><a href="#查询表达式Match" class="headerlink" title="查询表达式Match"></a>查询表达式Match</h5><p>搜索title包含last或者christmas</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST movies/_search</span><br><span class="line">&#123;</span><br><span class="line">	&quot;profile&quot;: true,</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;title&quot;: &quot;last christmas&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>搜索title同时包含last和christmas</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POST movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;profile&quot;: true,</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;title&quot;: &#123;</span><br><span class="line">        &quot;query&quot;: &quot;last christmas&quot;,</span><br><span class="line">        &quot;operator&quot;: &quot;and&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="短语搜索Match-Phrase"><a href="#短语搜索Match-Phrase" class="headerlink" title="短语搜索Match Phrase"></a>短语搜索Match Phrase</h5><p>在 ES 查询中，<code>match</code>和<code>match_phrase</code>的区别在于：</p>
+<ul>
+<li><code>match</code>：会将查询字符串进行分词，然后在索引中查找与分词后的词项匹配的文档。它会根据查询字段的类型自动调整查询方式，例如对于日期或数值类型的字段，会将查询字符串转换为相应的日期或数值进行比较。<code>match</code>查询在处理可分词的文本字段时非常有用，可以根据用户输入的关键词进行模糊匹配，找到包含相关词项的文档。</li>
+<li><code>match_phrase</code>：要求查询字符串中的短语按照顺序完整匹配字段内容。它不会对查询字符串进行分词，而是将整个查询字符串作为一个短语进行匹配。<code>match_phrase</code>查询在需要精确匹配短语或按照特定顺序匹配关键词时非常有用。</li>
+</ul>
+<p>查询title包含one love，中间可以有一个词的间隔</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POST movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;profile&quot;: true,</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_phrase&quot;: &#123;</span><br><span class="line">      &quot;title&quot;:&#123;</span><br><span class="line">        &quot;query&quot;: &quot;one love&quot;,</span><br><span class="line">        &quot;slop&quot;: 1</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Query-String"><a href="#Query-String" class="headerlink" title="Query String"></a>Query String</h5><p>类似于URI搜索</p>
+<ol>
+<li>default_field是df，指定要搜索的字段</li>
+<li>fields指查询的多个字段</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">POST movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;profile&quot;: true,</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;query_string&quot;: &#123;</span><br><span class="line">      &quot;default_field&quot;: &quot;title&quot;,</span><br><span class="line">      &quot;query&quot;: &quot;Beautiful AND Mind&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;query_string&quot;: &#123;</span><br><span class="line">      &quot;fields&quot;:[&quot;title&quot;,&quot;genre&quot;],</span><br><span class="line">      &quot;query&quot;: &quot;(Beautiful OR Mind) OR (Drama AND Comedy)&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Simple-Query-String-Query"><a href="#Simple-Query-String-Query" class="headerlink" title="Simple Query String Query"></a>Simple Query String Query</h5><ol>
+<li>类似Query String，但会忽略错误的语法，同时只支持部分查询语法</li>
+<li>不支持AND OR NOT，会当做字符串处理</li>
+<li>Term之间默认的关系是OR，可以指定Operator</li>
+<li>支持部分逻辑，+替代AND，|替代OR，-替代NOT</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;profile&quot;: true,</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;simple_query_string&quot;: &#123;</span><br><span class="line">      &quot;fields&quot;: [&quot;title&quot;],</span><br><span class="line">      &quot;query&quot;: &quot;Beautiful Mind&quot;,</span><br><span class="line">      &quot;default_operator&quot;:&quot;AND&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET /movies/_search</span><br><span class="line">&#123;</span><br><span class="line">	&quot;profile&quot;:true,</span><br><span class="line">	&quot;query&quot;:&#123;</span><br><span class="line">		&quot;simple_query_string&quot;:&#123;</span><br><span class="line">		  &quot;fields&quot;:[&quot;title&quot;],</span><br><span class="line">			&quot;query&quot;:&quot;Beautiful -mind&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.1/mapping-params.html">官网</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/7%E5%90%AF%E7%94%A8DRS-HA-FT/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:12:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/7%E5%90%AF%E7%94%A8DRS-HA-FT/">7启用DRS&amp;HA&amp;FT</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/6%E9%83%A8%E7%BD%B2AD%E5%9F%9F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2025/01/29/3-Elasticsearch%E7%B4%A2%E5%BC%95%E7%AE%80%E4%BB%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">3 Elasticsearch索引简介</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/6%E9%83%A8%E7%BD%B2AD%E5%9F%9F/">6部署AD域</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/4%E5%88%9B%E5%BB%BAiSCSI%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/4%E5%88%9B%E5%BB%BAiSCSI%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8/">4创建iSCSI共享存储</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/3ESXi%E5%AE%89%E8%A3%85/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/3ESXi%E5%AE%89%E8%A3%85/">3ESXi安装</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/2%E5%88%9B%E5%BB%BADNS%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/2%E5%88%9B%E5%BB%BADNS%E6%9C%8D%E5%8A%A1%E5%99%A8/">2创建DNS服务器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/">1创建三层交换机</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-0搭建vmware">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/vSphere%E4%BC%81%E4%B8%9A%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/vSphere%E4%BC%81%E4%B8%9A%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83/">vSphere企业虚拟化环境</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%80%E7%AF%87-%E5%AD%A6%E8%80%8C/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%80%E7%AF%87-%E5%AD%A6%E8%80%8C/">论语第一篇-学而</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E9%98%B2%E6%AD%A2%E6%95%B0%E6%8D%AE%E5%86%92%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:11:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E9%98%B2%E6%AD%A2%E6%95%B0%E6%8D%AE%E5%86%92%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95/">防止数据冒用的方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-%E9%93%BE%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:10:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97-%E9%93%BE%E8%A1%A8/">算法系列-链表</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/11/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/10/">10</a><a class="page-number" href="/archives/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/archives/page/13/">13</a><a class="page-number" href="/archives/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/33/">33</a><a class="extend next" rel="next" href="/archives/page/13/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -530,8 +596,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
