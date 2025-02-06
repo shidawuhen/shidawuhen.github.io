@@ -15,15 +15,15 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="一、索引ES中索引类似于MySQL的表，在MySQL中，我们使用Create创建表，在ES中我们使用什么方式？在2 Elasticsearch基本概念中说过mapping类比于MySQL对应的表结构-Schema。所以索引的创建使用的是Mapping。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202164612752.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202180551380.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202205125351.png">
+<meta property="og:image" content="http://example.com/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png">
+<meta property="og:image" content="http://example.com/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202164612752.png">
+<meta property="og:image" content="http://example.com/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202180551380.png">
+<meta property="og:image" content="http://example.com/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202205125351.png">
 <meta property="article:published_time" content="2025-02-02T16:09:46.000Z">
 <meta property="article:modified_time" content="2025-02-02T16:11:21.467Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png">
+<meta name="twitter:image" content="http://example.com/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -261,7 +261,7 @@
 <li>但有时推算的不对，例如地理位置信息推算成text格式。</li>
 <li>如果类型设置的不对，会导致一些功能无法正常运行，如Range查询</li>
 </ol>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png" alt="image-20250202163154493"></p>
+<p><img src="/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202163154493.png" alt="image-20250202163154493"></p>
 <h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><h5 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT mapping_test/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;firstName&quot;:&quot;Chan&quot;,</span><br><span class="line">  &quot;lastName&quot;: &quot;Jackie&quot;,</span><br><span class="line">  &quot;loginDate&quot;:&quot;2018-07-24T10:29:48.103Z&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET mapping_test/_mapping</span><br></pre></td></tr></table></figure>
@@ -275,7 +275,7 @@
 <li>为strict时：文档写入失败</li>
 </ol>
 <p>对已有字段，一旦已经有数据写入，就不再支持修改字段定义，因为Lucene实现的倒排索引，一旦生成后，就不允许修改。如果希望修改字段类型，必须reindex api，重建索引</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202164612752.png" alt="image-20250202164612752"></p>
+<p><img src="/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202164612752.png" alt="image-20250202164612752"></p>
 <p><strong>创建索引</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT dynamic_mapping_test/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;newField&quot;:&quot;someValue&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -313,10 +313,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST users/_analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;analyzer&quot;:&quot;custom_analyzer&quot;,</span><br><span class="line">  &quot;text&quot;: &quot;&lt;b&gt;hello world， Jason&lt;/b&gt;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>6.keyword和text的区别：keyword不需要分词，一般包括数字、日期或者具体的字符串</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202180551380.png" alt="image-20250202180551380"></p>
+<p><img src="/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202180551380.png" alt="image-20250202180551380"></p>
 <p>7.为了方便创建索引，我们还可以使用template</p>
 <h2 id="二、文档"><a href="#二、文档" class="headerlink" title="二、文档"></a>二、文档</h2><p>在执行操作的时候，有一些常见错误码</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/search%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202205125351.png" alt="image-20250202205125351"></p>
+<p><img src="/2025/02/03/4-Elasticsearch%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/image-20250202205125351.png" alt="image-20250202205125351"></p>
 <h3 id="2-1创建文档"><a href="#2-1创建文档" class="headerlink" title="2.1创建文档"></a>2.1创建文档</h3><h4 id="Index方式"><a href="#Index方式" class="headerlink" title="Index方式"></a>Index方式</h4><ol>
 <li>如果Index不存在，会创建Index</li>
 <li>如果ID不存在，创建新的文档，如果ID已存在，先删除现有文档，再创建新文档，版本增加</li>
@@ -537,6 +537,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2025/02/06/5-Elasticsearch%E6%B7%B1%E5%85%A5%E6%90%9C%E7%B4%A2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          5 Elasticsearch深入搜索
+        
+      </div>
+    </a>
   
   
     <a href="/2025/01/29/3-Elasticsearch%E7%B4%A2%E5%BC%95%E7%AE%80%E4%BB%8B/" id="article-nav-older" class="article-nav-link-wrap">

@@ -15,13 +15,13 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="架构里比较重要的是高性能、高可用、高扩展性。上次是高性能，这次是高可用。 对一般的项目而言，高可用主要用公司提供的基建，如多机房部署、主从等。但有些项目确实需要思考更多高可用的事项，如资源不足的情况下要做好限流或者降配（以前做抢购和秒杀梳理出了所有限流和降配方案，分了一二级处理），有的是同时支持普通版和付费版，需要不同的集群部署，提供不同的资源容量。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174601159.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174649103.png">
+<meta property="og:image" content="http://example.com/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240902174601159.png">
+<meta property="og:image" content="http://example.com/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240902174649103.png">
 <meta property="article:published_time" content="2024-09-08T14:02:35.000Z">
 <meta property="article:modified_time" content="2024-09-08T14:06:42.811Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174601159.png">
+<meta name="twitter:image" content="http://example.com/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240902174601159.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -329,9 +329,9 @@
 </ul>
 <p>常见的计算高可用架构：主备、主从和集群。</p>
 <p>1.主备架构是计算高可用最简单的架构，和存储高可用的主备复制架构类似，但是要更简单一些，因为计算高可用的主备架构无须数据复制</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174601159.png" alt="image-20240902174601159"></p>
+<p><img src="/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240902174601159.png" alt="image-20240902174601159"></p>
 <p>2.主从：和存储高可用中的主从复制架构类似，计算高可用的主从架构中的从机也是要执行任务的。任务分配器需要将任务进行分类，确定哪些任务可以发送给主机执行，哪些任务可以发送给备机执行。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240902174649103.png" alt="image-20240902174649103"></p>
+<p><img src="/2024/09/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240902174649103.png" alt="image-20240902174649103"></p>
 <p>3.集群：高可用计算的集群方案根据集群中服务器节点角色的不同，可以分为两类：一类是对称集群，即集群中每个服务器的角色都是一样的，都可以执行所有任务；另一类是非对称集群，集群中的服务器分为多个不同的角色，不同的角色执行不同的任务，例如最常见的Master-Slave 角色。</p>
 <p>感想：一般看到的都是对称集群</p>
 <h2 id="七、业务高可用的保障：异地多活架构"><a href="#七、业务高可用的保障：异地多活架构" class="headerlink" title="七、业务高可用的保障：异地多活架构"></a>七、业务高可用的保障：异地多活架构</h2><p>异地就是指地理位置上不同的地方，类似于“不要把鸡蛋都放在同一篮子里”；多活就是指不同地理位置上的系统都能够提供业务服务。</p>

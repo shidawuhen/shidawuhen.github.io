@@ -15,14 +15,14 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="高性能、高可用之后是可扩展。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240917154819079.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240919133203796.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/eihe.png">
+<meta property="og:image" content="http://example.com/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240917154819079.png">
+<meta property="og:image" content="http://example.com/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240919133203796.png">
+<meta property="og:image" content="http://example.com/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/neihe.png">
 <meta property="article:published_time" content="2024-09-30T09:18:55.000Z">
 <meta property="article:modified_time" content="2024-09-30T09:28:56.819Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240917154819079.png">
+<meta name="twitter:image" content="http://example.com/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240917154819079.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -276,9 +276,9 @@
 <li>ESB 的全称是 Enterprise Service Bus，中文翻译为“企业服务总线”。SOA 使用 ESB 来屏蔽异构系统对外提供各种不同的接口方式，以此来达到服务间高效的互联互通</li>
 <li>松耦合的目的是减少各个服务间的依赖和互相影响。因为采用 SOA 架构后，各个服务是相互独立运行的，甚至都不清楚某个服务到底有多少对其他服务的依赖。</li>
 </ol>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240917154819079.png" alt="image-20240917154819079"></p>
+<p><img src="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240917154819079.png" alt="image-20240917154819079"></p>
 <p>感想：刚开始工作的时候，使用PHP的Yaf框架进行开发，使用标准的MVC模式，前后端都在同一套代码上开发。后来慢慢都切到Go，走微服务了，前后端也完全进行了拆解。</p>
-<h2 id="深入理解微服务架构：银弹-or-焦油坑？"><a href="#深入理解微服务架构：银弹-or-焦油坑？" class="headerlink" title="深入理解微服务架构：银弹 or 焦油坑？"></a><strong>深入理解微服务架构：银弹</strong> <strong>or</strong> 焦油坑？</h2><p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/mage-20240919133203796.png" alt="image-20240919133203796"></p>
+<h2 id="深入理解微服务架构：银弹-or-焦油坑？"><a href="#深入理解微服务架构：银弹-or-焦油坑？" class="headerlink" title="深入理解微服务架构：银弹 or 焦油坑？"></a><strong>深入理解微服务架构：银弹</strong> <strong>or</strong> 焦油坑？</h2><p><img src="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/image-20240919133203796.png" alt="image-20240919133203796"></p>
 <p><strong>SOA 和微服务本质上是两种不同的架构设计理念，只是在“服务”这个点上有交集而已</strong></p>
 <p>微服务具体有哪些坑：</p>
 <ol>
@@ -325,7 +325,7 @@
 <p>感想：同上</p>
 <h2 id="微内核架构详解"><a href="#微内核架构详解" class="headerlink" title="微内核架构详解"></a>微内核架构详解</h2><p>微内核架构（Microkernel Architecture），也被称为插件化架构（Plug-in Architecture），是一种面向功能进行拆分的可扩展性架构，通常用于实现基于产品（原文为 product-based，指存在多个版本、需要下载安装才能使用，与 web-based 相对应）的应用。例如 Eclipse 这类 IDE 软件、UNIX 这类操作系统、淘宝 App 这类客户端软件等。</p>
 <p>微内核架构包含两类组件：核心系统（core system）和插件模块（plug-in modules）。核心系统负责和具体业务功能无关的通用功能，例如模块加载、模块间通信等；插件模块负责实现具体的业务逻辑，例如专栏前面经常提到的“学生信息管理”系统中的“手机号注册”功能。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/eihe.png" alt="neihe"></p>
+<p><img src="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/neihe.png" alt="neihe"></p>
 <p>微内核的架构本质就是将变化部分封装在插件里面，从而达到快速灵活扩展的目的，而又不影响整体系统的稳定。</p>
 <p>微内核的核心系统设计的关键技术有：插件管理、插件连接和插件通信。</p>
 <p>规则引擎从结构上来看也属于微内核架构的一种具体实现，其中执行引擎可以看作是微内核，执行引擎解析配置好的业务流，执行其中的条件和规则，通过这种方式来支持业务的灵活多变。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41364834/article/details/139740933">规则引擎：一个简单的easyRule的demo</a></p>

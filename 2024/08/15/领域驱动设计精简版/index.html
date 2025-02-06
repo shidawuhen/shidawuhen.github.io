@@ -15,18 +15,18 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="​	这是InfoQ推出的领域驱动设计精简版。篇幅不长，半天时间能够阅读完。如果大家想了解一下领域驱动的话，可以把这本书当做入门书。书中将领域驱动的核心思想和一些理念进行了介绍。但是本书只是讲述了领域驱动的骨架，缺乏很多血肉，另外里面也没有具体讲述如何在项目中使用领域驱动。如果大家想深入理解的话，建议阅读以下Eric Evans的《领域驱动设计——软件核心复杂性应对之道》，然后再找一个实例做练习。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200412204956509.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200414230040234.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200414230703518.png">
+<meta property="og:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200412204956509.png">
+<meta property="og:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200414230040234.png">
+<meta property="og:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200414230703518.png">
 <meta property="og:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200414230920476.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200418184724168.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200418214526472.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200418220158414.png">
+<meta property="og:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200418184724168.png">
+<meta property="og:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200418214526472.png">
+<meta property="og:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200418220158414.png">
 <meta property="article:published_time" content="2024-08-15T14:00:07.000Z">
 <meta property="article:modified_time" content="2024-08-15T14:16:20.042Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200412204956509.png">
+<meta name="twitter:image" content="http://example.com/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200412204956509.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -263,12 +263,12 @@
 <li>领域驱动设计的一个核心的原则是使用一种基于模型的语言。因为模型是软件满足领域的共同点，它很适合作为这种通用语言的构造基础。</li>
 </ol>
 <h3 id="创建通用语言"><a href="#创建通用语言" class="headerlink" title="创建通用语言"></a>创建通用语言</h3><p>聊天-画图</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200412204956509.png" alt="image-20200412204956509"></p>
+<p><img src="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200412204956509.png" alt="image-20200412204956509"></p>
 <h2 id="模型驱动设计"><a href="#模型驱动设计" class="headerlink" title="模型驱动设计"></a>模型驱动设计</h2><ol>
 <li>“我们应该如何完成从模型到代码的转换？”-“一种更好的方法是将领域建模和设计紧密关联起来。模型在构建时就考虑到软件实现和设计。”</li>
 </ol>
-<h3 id="模型驱动设计的基本构成要素"><a href="#模型驱动设计的基本构成要素" class="headerlink" title="模型驱动设计的基本构成要素"></a>模型驱动设计的基本构成要素</h3><p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200414230040234.png" alt="image-20200414230040234"></p>
-<h3 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h3><p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200414230703518.png" alt="image-20200414230703518"></p>
+<h3 id="模型驱动设计的基本构成要素"><a href="#模型驱动设计的基本构成要素" class="headerlink" title="模型驱动设计的基本构成要素"></a>模型驱动设计的基本构成要素</h3><p><img src="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200414230040234.png" alt="image-20200414230040234"></p>
+<h3 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h3><p><img src="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200414230703518.png" alt="image-20200414230703518"></p>
 <ol>
 <li>最好能让应用中的领域部分与其余部分相比保持尽可能小（而不是和其余部分掺杂在一起），因为一个典型的应用包含了大量访问数据库、访问文件或网络、用户界面等相关的代码</li>
 <li>领域驱动设计的一个通用的架构解决方案包含了4个概念层：</li>
@@ -332,7 +332,7 @@
 </ol>
 <h2 id="保持模型的一致性"><a href="#保持模型的一致性" class="headerlink" title="保持模型的一致性"></a>保持模型的一致性</h2><p>“模型的首要需求是：模型必须是一致的，保持不变的术语，并且没有矛盾。模型内部的一致性被称为“统一”（unification）。”</p>
 <p>“当模型的设计在局部独立进化时，我们就面临着失去模型完整性的可能。努力为整个企业项目维护一个大的统一模型，以获得模型完整性，这个办法也不会有什么作用。”“我们应该做的是有意识地将大模型分解成多个较小的模型。只要遵守它们所绑定的契约，良好整合的小模型能够独立进化。每个模型都应该有一个清晰的边界，模型之间的关系也应该被精确地定义。”</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200418184724168.png" alt="image-20200418184724168"></p>
+<p><img src="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200418184724168.png" alt="image-20200418184724168"></p>
 <h3 id="界定的上下文"><a href="#界定的上下文" class="headerlink" title="界定的上下文"></a>界定的上下文</h3><ol>
 <li>“模型的上下文是一些条件的集合，这些条件可以确保应用在模型里的术语都有一个明确的含义。”</li>
 </ol>
@@ -346,7 +346,7 @@
 <h3 id="共享内核"><a href="#共享内核" class="headerlink" title="共享内核"></a>共享内核</h3><ol>
 <li><p>“共享内核的目的是减少重复，但是仍保持两个独立的上下文。对于共享内核的开发需要多加小心。”</p>
 </li>
-<li><p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200418214526472.png" alt="image-20200418214526472"></p>
+<li><p><img src="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200418214526472.png" alt="image-20200418214526472"></p>
 </li>
 </ol>
 <p>###客户-供应商</p>
@@ -358,7 +358,7 @@
 </ol>
 <h3 id="防崩溃层"><a href="#防崩溃层" class="headerlink" title="防崩溃层"></a>防崩溃层</h3><ol>
 <li>“防崩溃层使用外部语言与外部模型交流，而不是客户端语言。这个层在两个领域和语言之间扮演双向转换器，它最大的好处在于可以使客户端模型保持纯洁和一致，不会受到外部模型的污染。”</li>
-<li><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/image-20200418220158414.png" alt="image-20200418220158414"></li>
+<li><img src="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/image-20200418220158414.png" alt="image-20200418220158414"></li>
 </ol>
 <h3 id="隔离通道"><a href="#隔离通道" class="headerlink" title="隔离通道"></a>隔离通道</h3><ol>
 <li>“隔离通道模式适合于以下情况：一个企业应用可由几个较小的应用组成，而且从建模的角度来看彼此之间有很少或者没有公共之处。它有一组自己的需求，从用户角度看这是一个应用，但是从建模和设计的观点来看，它可以由具有不同实现的独立模型来完成。我们应该查看一下需求，思考一下它们是否可以被划分成两个或者多个几乎没有相通之处的部分。如果可以这样做，那么我们就创建独立的界定上下文（Bounded Context），并独立建模。这样做的好处是可以自由地选择用来实现模型的技术。我们正创建的应用可能会共享一个公共的瘦GUI，作为带有链接或按钮的一个门户来访问每一个应用。相对于集成后端的模型，将应用组织在一起是一个较小的集成。”</li>
