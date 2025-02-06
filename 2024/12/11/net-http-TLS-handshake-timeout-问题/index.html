@@ -15,14 +15,14 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="最近系统偶现”net&#x2F;http: TLS handshake timeout“，而且都集中在同一个机房，这个报错还是第一次见，产生的原因和解决的方案都比较有意思。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/TLS-handshake-timeout-%E9%97%AE%E9%A2%98/640.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206174720918.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206175958438.png">
+<meta property="og:image" content="http://example.com/2024/12/11/net-http-TLS-handshake-timeout-%E9%97%AE%E9%A2%98/640.png">
+<meta property="og:image" content="http://example.com/2024/12/11/net-http-TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206174720918.png">
+<meta property="og:image" content="http://example.com/2024/12/11/net-http-TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206175958438.png">
 <meta property="article:published_time" content="2024-12-11T10:07:04.000Z">
 <meta property="article:modified_time" content="2024-12-11T10:10:19.527Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/TLS-handshake-timeout-%E9%97%AE%E9%A2%98/640.png">
+<meta name="twitter:image" content="http://example.com/2024/12/11/net-http-TLS-handshake-timeout-%E9%97%AE%E9%A2%98/640.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -261,7 +261,7 @@
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">c := &amp;http.Client&#123;  </span><br><span class="line">    Transport: &amp;Transport&#123;</span><br><span class="line">        Dial: (&amp;net.Dialer&#123;</span><br><span class="line">                Timeout:   <span class="number">30</span> * time.Second,</span><br><span class="line">                KeepAlive: <span class="number">30</span> * time.Second,</span><br><span class="line">        &#125;).Dial,</span><br><span class="line">        TLSHandshakeTimeout:   <span class="number">10</span> * time.Second,</span><br><span class="line">        ResponseHeaderTimeout: <span class="number">10</span> * time.Second,</span><br><span class="line">        ExpectContinueTimeout: <span class="number">1</span> * time.Second,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="TLS-handshake过程"><a href="#TLS-handshake过程" class="headerlink" title="TLS handshake过程"></a>TLS handshake过程</h2><p>以前写过<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484079&idx=1&sn=a693dca81f6c733683a22411ed0fa04e&chksm=faec679acd9bee8c9b288819dbb455558039af6c9d6b6f806cc5d89e8c36fa055cecb062cb2b&token=15795049&lang=zh_CN#rd">HTTPS连接过程</a>，这里面详细描述了TLS的执行过程。TLS过程中，发送端和接收端都需要给双方提供一些信息，当然也需要用到证书。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/TLS-handshake-timeout-%E9%97%AE%E9%A2%98/640.png" alt="图片"></p>
+<p><img src="/2024/12/11/net-http-TLS-handshake-timeout-%E9%97%AE%E9%A2%98/640.png" alt="图片"></p>
 <p>所以产生的原因可能有三处，一个是运行我程序的容器有问题（可能性比较小），一个是网络（内部网络或外部网络）上有问题（可能性比较大）。</p>
 <p>先去找了容器的同学，他们反馈最近没有更新，而且感觉真的是容器的问题，大概率是百分百出问题。</p>
 <p>然后去找CDN的同学，初步判断是外部网络的问题。</p>
@@ -270,7 +270,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v https://****</span><br></pre></td></tr></table></figure>
 
 <p>使用 <code>curl --verbose或curl -v</code> 命令可以详细显示 HTTP 请求和响应的过程</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206174720918.png" alt="image-20241206174720918"></p>
+<p><img src="/2024/12/11/net-http-TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206174720918.png" alt="image-20241206174720918"></p>
 <p>我们的域名对应多个IP地址，多次执行curl，发现部分IP地址确实会慢。</p>
 <h3 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h3><p>开两个窗口，一个窗口执行如下命令，使用tcpdump抓包，其中的ip是上面查到的有问题的ip，将抓包结果写入指定文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i any host  ip1  or   host ip2  or  ip3   -w /home/if9.pcap</span><br></pre></td></tr></table></figure>
@@ -279,7 +279,7 @@
 <h3 id="导出数据"><a href="#导出数据" class="headerlink" title="导出数据"></a>导出数据</h3><p>把容器里的文件下载到本地，超复杂，但公司的同学真的是什么都经历过了，愣是走出了一条路。</p>
 <p>需要使用item2，配置sz指令，可以参考 <a target="_blank" rel="noopener" href="https://github.com/aikuyun/iterm2-zmodem%E3%80%82">https://github.com/aikuyun/iterm2-zmodem。</a></p>
 <h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>下载好抓到的包，可以使用WireShark进行分析，你看，10s的位置就找到了。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206175958438.png" alt="image-20241206175958438"></p>
+<p><img src="/2024/12/11/net-http-TLS-handshake-timeout-%E9%97%AE%E9%A2%98/image-20241206175958438.png" alt="image-20241206175958438"></p>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>后续CDN的同学找了厂商，根据厂商反馈是厂商节点问题，对应的节点性能有点减弱，从服务链路进行剔除。针对全网是否还有类似的节点，厂商继续全网检查看看，有类似的及时处理掉。</p>
 <h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/whatday/article/details/113430089">golang net&#x2F;http 超时机制完全手册</a></li>

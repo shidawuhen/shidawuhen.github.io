@@ -15,18 +15,18 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="对网关了解比较少，极客时间上有《微服务架构实战160讲》，正好学习一下。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241020183236844.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241020165814626.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241020184845201.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026174947576.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026175050282.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026175126591.png">
-<meta property="og:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026175350444.png">
+<meta property="og:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241020183236844.png">
+<meta property="og:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241020165814626.png">
+<meta property="og:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241020184845201.png">
+<meta property="og:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026174947576.png">
+<meta property="og:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026175050282.png">
+<meta property="og:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026175126591.png">
+<meta property="og:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026175350444.png">
 <meta property="article:published_time" content="2024-11-24T14:39:19.000Z">
 <meta property="article:modified_time" content="2024-11-24T14:41:40.290Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241020183236844.png">
+<meta name="twitter:image" content="http://example.com/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241020183236844.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -253,20 +253,20 @@
         <p>对网关了解比较少，极客时间上有《微服务架构实战160讲》，正好学习一下。</p>
 <span id="more"></span>
 <h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>网关作为服务入口，一般要实现如下目标：</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241020183236844.png" alt="image-20241020183236844"></p>
+<p><img src="/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241020183236844.png" alt="image-20241020183236844"></p>
 <p>而且网关是微服务系统中的重要组成部分<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483841&idx=1&sn=c3789def2e413963408823bdf05c3dac&chksm=faec64f4cd9bede2691e960c1ef540ebcfd8f9d3c557b1972053964196dd6d72a1decd9df609&token=973703002&lang=zh_CN#rd">浅谈微服务</a>、<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247483936&idx=1&sn=a7ffda1d87a8870f75402612382f5991&chksm=faec6715cd9bee034d0fb23fad88b739e835cc7a5db142f9e3abd67ea88318eb36e5cf31f769&token=973703002&lang=zh_CN#rd">微服务之服务框架和注册中心</a></p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241020165814626.png" alt="image-20241020165814626"></p>
+<p><img src="/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241020165814626.png" alt="image-20241020165814626"></p>
 <p>公司用网关实现了很多功能，如开发者测试分支、压力测试等，其实还可以实现蓝绿部署、埋点测试、金丝雀测试、粘性金丝雀、失败注入测试、降级测试等。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241020184845201.png" alt="image-20241020184845201"></p>
+<p><img src="/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241020184845201.png" alt="image-20241020184845201"></p>
 <h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>Zuul网关的架构是怎样的？</p>
 <p>整体流程上，Filter Loader能够加载过滤器，当请求来的时候，会根据过滤器执行一些操作。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026174947576.png" alt="image-20241026174947576"></p>
+<p><img src="/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026174947576.png" alt="image-20241026174947576"></p>
 <p>过滤器的设计很巧妙，包含如下几个关键概念：</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026175050282.png" alt="image-20241026175050282"></p>
+<p><img src="/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026175050282.png" alt="image-20241026175050282"></p>
 <p>简单来说，就是过滤器在某个阶段被调用，在这个阶段是第几个被执行，执行前要判断是否要被执行，如果执行的话按照制定的动作进行执行。过滤器可拔插。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026175126591.png" alt="image-20241026175126591"></p>
+<p><img src="/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026175126591.png" alt="image-20241026175126591"></p>
 <p>一个简单过滤器的样式，这个过滤器在pre阶段执行，排行第五，如果deviceType的值是BrokenDevice才被执行，执行sleep。</p>
-<p><img src="/2024/08/14/Gin%E6%A1%86%E6%9E%B6%E7%AE%80%E6%B4%81%E7%89%88/age-20241026175350444.png" alt="image-20241026175350444"></p>
+<p><img src="/2024/11/24/zuul%E7%BD%91%E5%85%B3/image-20241026175350444.png" alt="image-20241026175350444"></p>
 <h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><p>怎么进行路由的呢？</p>
 <ul>
 <li><p>在pre层，构建路由表，根据path找对应的服务，构建成对应服务的请求url</p>
