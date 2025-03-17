@@ -15,31 +15,31 @@
 <meta property="og:site_name" content="Jason Pang">
 <meta property="og:description" content="上一次聊了5 Elasticsearch深入搜索，这次来看看聚合。API链接为： https:&#x2F;&#x2F;www.elastic.co&#x2F;guide&#x2F;en&#x2F;elasticsearch&#x2F;reference&#x2F;7.1&#x2F;query-dsl-nested-query.html 。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212210850879.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212210619651.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212211613564.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212211916678.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212212144767.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212212656863.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212212731320.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212213025548.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234035303.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234002406.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234524753.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234728199.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234758637.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212235500140.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000015471.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000111823.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000521668.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000612516.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000709403.png">
-<meta property="og:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000950611.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212210850879.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212210619651.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212211613564.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212211916678.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212212144767.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212212656863.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212212731320.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212213025548.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234035303.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234002406.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234524753.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234728199.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234758637.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212235500140.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000015471.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000111823.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000521668.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000612516.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000709403.png">
+<meta property="og:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000950611.png">
 <meta property="article:published_time" content="2025-02-16T16:18:01.000Z">
 <meta property="article:modified_time" content="2025-02-16T16:18:42.290Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212210850879.png">
+<meta name="twitter:image" content="http://example.com/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212210850879.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -266,9 +266,9 @@
         <p>上一次聊了<a target="_blank" rel="noopener" href="https://juejin.cn/post/7468192981091909658">5 Elasticsearch深入搜索</a>，这次来看看聚合。API链接为： <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.1/query-dsl-nested-query.html">https://www.elastic.co/guide/en/elasticsearch/reference/7.1/query-dsl-nested-query.html</a> 。</p>
 <span id="more"></span>
 <h2 id="聚合说明"><a href="#聚合说明" class="headerlink" title="聚合说明"></a>聚合说明</h2><p>什么是聚合？Kibana上的这些图就是聚合，底层通过ES能够实现。</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212210850879.png" alt="image-20250212210850879"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212210850879.png" alt="image-20250212210850879"></p>
 <p>ES支持哪些聚合？聚合有很多类型，主要看Metrics和Bucket</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212210619651.png" alt="image-20250212210619651"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212210619651.png" alt="image-20250212210619651"></p>
 <ul>
 <li>Bucket Aggregation：一些列满足特定条件的文档的集合</li>
 <li>Metric Aggregation：一些数学运算，可以对文档字段进行统计分析</li>
@@ -276,37 +276,37 @@
 <li>Matrix Aggregation：支持对多个字段的操作并提供一个结果矩阵</li>
 </ul>
 <p>Bucket和Metric如果用MySQL类比</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212211613564.png" alt="image-20250212211613564"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212211613564.png" alt="image-20250212211613564"></p>
 <h2 id="聚合API"><a href="#聚合API" class="headerlink" title="聚合API"></a>聚合API</h2><p>Aggregation属于Search的一部分，语法如下</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212211916678.png" alt="image-20250212211916678"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212211916678.png" alt="image-20250212211916678"></p>
 <h3 id="Metric"><a href="#Metric" class="headerlink" title="Metric"></a>Metric</h3><h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ol>
 <li>Metric会基于数据集计算结果，除了支持在字段上进行计算，同时也支持在脚本(painless script)产生的结果之上进行计算</li>
 <li>大多数Metric是数学计算，仅输出一个值，如min&#x2F;max&#x2F;sum&#x2F;avg&#x2F;cardinality</li>
 <li>部分metric支持输出多个数值，如stats&#x2F;percentiles&#x2F;percentile_ranks</li>
 </ol>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212212144767.png" alt="image-20250212212144767"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212212144767.png" alt="image-20250212212144767"></p>
 <h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><p>查询电影中，最大的一年</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212212656863.png" alt="image-20250212212656863"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212212656863.png" alt="image-20250212212656863"></p>
 <p>如果size大于1，会返回对应的条目信息</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212212731320.png" alt="image-20250212212731320"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212212731320.png" alt="image-20250212212731320"></p>
 <h3 id="Bucket"><a href="#Bucket" class="headerlink" title="Bucket"></a>Bucket</h3><h4 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h4><ol>
 <li>按照⼀定的规则，将⽂档分配到不同的桶中，从⽽达到分类的⽬的。类似于MySQL的group。</li>
 <li>⽀持嵌套：也就在桶⾥再做分桶。⼦聚合分析可以是Bucket和Metric</li>
 <li>Term Aggregations对于text字段，需要打开fielddata才可以使用</li>
 </ol>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212213025548.png" alt="image-20250212213025548"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212213025548.png" alt="image-20250212213025548"></p>
 <h4 id="实战-1"><a href="#实战-1" class="headerlink" title="实战"></a>实战</h4><p>按照年group</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234035303.png" alt="image-20250212234035303"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234035303.png" alt="image-20250212234035303"></p>
 <p>设置返回数量</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234002406.png" alt="image-20250212234002406"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234002406.png" alt="image-20250212234002406"></p>
 <p>先按年group，然后按年内的类型group</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234524753.png" alt="image-20250212234524753"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234524753.png" alt="image-20250212234524753"></p>
 <h2 id="聚合执行过程"><a href="#聚合执行过程" class="headerlink" title="聚合执行过程"></a>聚合执行过程</h2><p>聚合其实是从各个分片获取数据，然后进行组合的过程，Min和Term的聚合过程如下</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234728199.png" alt="image-20250212234728199"></p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212234758637.png" alt="image-20250212234758637"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234728199.png" alt="image-20250212234728199"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212234758637.png" alt="image-20250212234758637"></p>
 <p>通过Terms的样例，能够发现聚合的结果未必是准确的，因为数据是分散的，每个Node的top3未必是全局的top3。ES提供了一些参数可以用来解决或者优化这个问题。</p>
 <h2 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询"></a>关联查询</h2><p>Joining queries为”关联查询” 或 “连接查询”。这种查询方式主要用于在 Elasticsearch 中处理具有层次结构的数据，例如，一个博客文章（父文档）和它的评论（子文档）。通过使用<code>has_child</code>、<code>has_parent</code>、<code>parent_id</code>等查询类型，可以实现对这类数据的有效检索。</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250212235500140.png" alt="image-20250212235500140"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250212235500140.png" alt="image-20250212235500140"></p>
 <h3 id="Nested（嵌套）场景"><a href="#Nested（嵌套）场景" class="headerlink" title="Nested（嵌套）场景"></a>Nested（嵌套）场景</h3><p>“nested”（嵌套）是一种数据类型和查询方式，用于处理复杂的数据结构。具体来说，它允许你在文档中存储数组类型的对象，并且这些对象中的每个元素都可以被单独索引和查询。</p>
 <p>假设写了一个电影的mapping</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">PUT my_movies</span><br><span class="line">&#123;</span><br><span class="line">      &quot;mappings&quot; : &#123;</span><br><span class="line">      &quot;properties&quot; : &#123;</span><br><span class="line">        &quot;actors&quot; : &#123;</span><br><span class="line">          &quot;properties&quot; : &#123;</span><br><span class="line">            &quot;first_name&quot; : &#123;</span><br><span class="line">              &quot;type&quot; : &quot;keyword&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;last_name&quot; : &#123;</span><br><span class="line">              &quot;type&quot; : &quot;keyword&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;title&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;fields&quot; : &#123;</span><br><span class="line">            &quot;keyword&quot; : &#123;</span><br><span class="line">              &quot;type&quot; : &quot;keyword&quot;,</span><br><span class="line">              &quot;ignore_above&quot; : 256</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -318,23 +318,23 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST my_movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;&quot;match&quot;: &#123;&quot;actors.first_name&quot;: &quot;Keanu&quot;&#125;&#125;,</span><br><span class="line">        &#123;&quot;match&quot;: &#123;&quot;actors.last_name&quot;: &quot;Hopper&quot;&#125;&#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>发现竟然能够查到结果：</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000015471.png" alt="image-20250213000015471"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000015471.png" alt="image-20250213000015471"></p>
 <p>这是因为ES存储时，内部对象的边界并没有考虑在内，JSON 格式被处理成扁平式键值对的结构</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000111823.png" alt="image-20250213000111823"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000111823.png" alt="image-20250213000111823"></p>
 <p>为了解决这个问题，我们使用Nested。创建 Nested 对象 Mapping，即增加type为nested</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">PUT my_movies</span><br><span class="line">&#123;</span><br><span class="line">      &quot;mappings&quot; : &#123;</span><br><span class="line">      &quot;properties&quot; : &#123;</span><br><span class="line">        &quot;actors&quot; : &#123;</span><br><span class="line">          &quot;type&quot;: &quot;nested&quot;,</span><br><span class="line">          &quot;properties&quot; : &#123;</span><br><span class="line">            &quot;first_name&quot; : &#123;&quot;type&quot; : &quot;keyword&quot;&#125;,</span><br><span class="line">            &quot;last_name&quot; : &#123;&quot;type&quot; : &quot;keyword&quot;&#125;</span><br><span class="line">          &#125;&#125;,</span><br><span class="line">        &quot;title&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;fields&quot; : &#123;&quot;keyword&quot;:&#123;&quot;type&quot;:&quot;keyword&quot;,&quot;ignore_above&quot;:256&#125;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>重新插入数据，使用nested进行查询发现查不到了，如果使用正确的first_name和last_name可以查到</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">POST my_movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;&quot;match&quot;: &#123;&quot;title&quot;: &quot;Speed&quot;&#125;&#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;nested&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;actors&quot;,</span><br><span class="line">            &quot;query&quot;: &#123;</span><br><span class="line">              &quot;bool&quot;: &#123;</span><br><span class="line">                &quot;must&quot;: [</span><br><span class="line">                  &#123;&quot;match&quot;: &#123;</span><br><span class="line">                    &quot;actors.first_name&quot;: &quot;Keanu&quot;</span><br><span class="line">                  &#125;&#125;,</span><br><span class="line"></span><br><span class="line">                  &#123;&quot;match&quot;: &#123;</span><br><span class="line">                    &quot;actors.last_name&quot;: &quot;Hopper&quot;</span><br><span class="line">                  &#125;&#125;</span><br><span class="line">                ]</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000521668.png" alt="image-20250213000521668"></p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000612516.png" alt="image-20250213000612516"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000521668.png" alt="image-20250213000521668"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000612516.png" alt="image-20250213000612516"></p>
 <p>这是因为在ES内部， Nested ⽂档会被保存在两个 Lucene⽂档中，会在查询时做 Join 处理</p>
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000709403.png" alt="image-20250213000709403"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000709403.png" alt="image-20250213000709403"></p>
 <h3 id="Nested（嵌套）聚合"><a href="#Nested（嵌套）聚合" class="headerlink" title="Nested（嵌套）聚合"></a>Nested（嵌套）聚合</h3><p>我们可以在Nested上做聚合</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">POST my_movies/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;size&quot;: 0,</span><br><span class="line">  &quot;aggs&quot;: &#123;</span><br><span class="line">    &quot;actors&quot;: &#123;</span><br><span class="line">      &quot;nested&quot;: &#123;</span><br><span class="line">        &quot;path&quot;: &quot;actors&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;aggs&quot;: &#123;</span><br><span class="line">        &quot;actor_name&quot;: &#123;</span><br><span class="line">          &quot;terms&quot;: &#123;</span><br><span class="line">            &quot;field&quot;: &quot;actors.first_name&quot;,</span><br><span class="line">            &quot;size&quot;: 10</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2025/01/20/1-Elasticsearch%E5%AE%B6%E6%97%8F%E6%88%90%E5%91%98%E5%8F%8A%E5%AE%89%E8%A3%85/ge-20250213000950611.png" alt="image-20250213000950611"></p>
+<p><img src="/2025/02/17/6-Elasticsearch%E8%81%9A%E5%90%88%E5%88%86%E6%9E%90/image-20250213000950611.png" alt="image-20250213000950611"></p>
 
       
 
