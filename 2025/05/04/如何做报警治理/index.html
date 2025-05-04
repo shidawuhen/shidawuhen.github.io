@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Jason Pang</title>
+  <title>如何做报警治理 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/archives/page/4/index.html">
+  <meta name="description" content="最近到了新部门，发现日报警1.5K，报警量太多了，所以团队内部的很多同学把报警群给屏蔽了。其实这个也容易理解，这个数量下的报警，已经没有任何效果了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何做报警治理">
+<meta property="og:url" content="http://example.com/2025/05/04/%E5%A6%82%E4%BD%95%E5%81%9A%E6%8A%A5%E8%AD%A6%E6%B2%BB%E7%90%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="最近到了新部门，发现日报警1.5K，报警量太多了，所以团队内部的很多同学把报警群给屏蔽了。其实这个也容易理解，这个数量下的报警，已经没有任何效果了。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-05-04T06:03:29.000Z">
+<meta property="article:modified_time" content="2025-05-04T06:05:50.579Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -218,295 +222,184 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-如何做报警治理" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何做报警治理
+    </h1>
+  
+
+        
+        <a href="/2025/05/04/%E5%A6%82%E4%BD%95%E5%81%9A%E6%8A%A5%E8%AD%A6%E6%B2%BB%E7%90%86/" class="archive-article-date">
+  	<time datetime="2025-05-04T06:03:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-05-04</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近到了新部门，发现日报警1.5K，报警量太多了，所以团队内部的很多同学把报警群给屏蔽了。其实这个也容易理解，这个数量下的报警，已经没有任何效果了。</p>
+<span id="more"></span>
+<p>这种情况导致的后果比较严重，一是真的出现问题了没有人跟进，需要等其它团队反馈或者用户反馈，错误持续很长时间，二是比较影响团队口碑和士气。</p>
+<p>正好刚到团队，做一下报警治理。我认为报警治理是稳定性治理的一部分，以前写过<a target="_blank" rel="noopener" href="https://juejin.cn/post/7380771735681073171">稳定性实战指南</a>，里面有部分报警治理的思路，这次正好进行细化处理一下。</p>
+<h2 id="治理目标"><a href="#治理目标" class="headerlink" title="治理目标"></a>治理目标</h2><p>做任何事情都要有一个目标，用于判断事情完成的怎么样。</p>
+<p>我的目标是：报警量少（日均10个以内）、报警及时、真的有问题。</p>
+<p>有同学问要不要区分Warning和Critical，我认为不需要，就是所有的加起来少于10个，因为无论哪个过多都说明是有问题的。如Warning虽然不严重，但频繁报肯定是不对的。</p>
+<h2 id="处理原则"><a href="#处理原则" class="headerlink" title="处理原则"></a>处理原则</h2><ol>
+<li><strong>合理设置阈值</strong>：一直在报警，没人跟进，但无重大系统影响的，重新设置合理的阈值，只有突破阈值再报警</li>
+<li><strong>短期无法处理</strong>：已确认问题，但短时间无法解决，单独拉报警群，相关报警报到新报警群，减少对大家的打扰</li>
+</ol>
+<h2 id="处理思路"><a href="#处理思路" class="headerlink" title="处理思路"></a>处理思路</h2><p>先做报警统计，将最近几天的报警做个排序。</p>
+<p>然后根据不同的报警使用不同方案进行处理。处理的情况分为几类</p>
+<p>1.阈值类</p>
+<ul>
+<li>尽量不要用纯数值，最好使用比例。如以前是通过错误数量来判断，最好改成错误比例</li>
+<li>同一场景下的不同资源，配置不同阈值。如都是模型调用，但是有的模型效果好，有的模型差，就需要区分，不要用同一个阈值</li>
+<li>排除无效的影响因素。如模型监控主要监控官方模型，用户自定义模型没必要关注。或者一些无需监控的路径也给排除掉。</li>
+<li>纯调整阈值。这种是最简单的，主要是配置的不合理，可以看24h或者72h的报警情况，配置的刚刚不报警就好。</li>
+<li>有些报警重复了，直接给暂停掉</li>
+<li><strong>埋点数据有问题，需要进行修复</strong></li>
+</ul>
+<p>2.报警频率</p>
+<ul>
+<li>修改报警的监控时间、检测频率、消抖策略等</li>
+</ul>
+<p>3.拆分报警群</p>
+<ul>
+<li>有时候一些报警属于别的team，最好进行拆分，要不然相互打扰</li>
+</ul>
+<p>一般上面几个操作处理完成后，剩下的都是真的有问题的部分了，需要安排同学跟进，每周对一下进度。这时候一定要强力推进，不推进根本解决不了。当然，这些问题有的也确实不是很好处理，大部分都属于技术债的一部分，但我个人认为对自己的成长还是很有帮助的。</p>
+<p>像我们这次就处理了很多问题，panic、OOM、TLB500&#x2F;502&#x2F;504等问题。</p>
+<p>经过一个月的治理，日报警在二十个左右了，线上真正的问题我们能够及时发现，不再依赖别的团队和用户反馈了。而且可以建立值班制度和应急响应了。</p>
+<p>至于为什么还没到10个，是因为技术债确实有点多，不好处理，再push一下应该能更好一些。</p>
+<h2 id="后续处理"><a href="#后续处理" class="headerlink" title="后续处理"></a>后续处理</h2><p>其实后面还有很多事情要做</p>
+<ol>
+<li>报警仍然需要继续治理。问题再难，也得继续干啊。</li>
+<li>报警规则优化与补全。随着业务的发展，一些报警规则需要变了，一些报警规则需要加了。</li>
+<li>报警看板优化与补全。同报警规则。</li>
+<li>值班制度完善。需要列出关注的核心目标，如接口成功率、error log、慢查询情况，每周周会进行跟进。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我始终觉得稳定性治理是业务功能的重要组成部分，一个不稳定的系统很可能导致整个产品无法提升到更高的水平。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/24/zuul%E7%BD%91%E5%85%B3/" class="archive-article-date">
-  	<time datetime="2024-11-24T14:39:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/24/zuul%E7%BD%91%E5%85%B3/">zuul网关</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/05/04/%E5%A6%82%E4%BD%95%E5%81%9A%E6%8A%A5%E8%AD%A6%E6%B2%BB%E7%90%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/24/%E5%AF%B9Switch%E7%9A%84%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2024-11-24T14:39:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-24</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2025/05/04/golang%E4%B9%8Bctx-cancel/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          golang之ctx cancel
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/03/29/memtest86%E6%A3%80%E6%B5%8B%E5%86%85%E5%AD%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">memtest86检测内存</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/24/%E5%AF%B9Switch%E7%9A%84%E7%9C%8B%E6%B3%95/">对Switch的看法</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/06/%E9%9D%A2%E8%AF%95%E5%AE%9E%E6%88%98/" class="archive-article-date">
-  	<time datetime="2024-11-06T07:28:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/06/%E9%9D%A2%E8%AF%95%E5%AE%9E%E6%88%98/">面试实战</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/06/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/" class="archive-article-date">
-  	<time datetime="2024-11-06T07:28:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/06/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/">产品经理的重要性</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E9%87%8D%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E9%87%8D%E6%9E%84/">如何推进重构</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E4%BD%93%E8%83%BD%E6%94%BB%E7%95%A5/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E4%BD%93%E8%83%BD%E6%94%BB%E7%95%A5/">体能攻略</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E5%85%A5%E9%97%A8/">手机摄影入门</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">生活感悟</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-09-30T09:18:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">可扩展架构模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2024-09-30T09:18:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/">像AI一样思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/34/">34</a><a class="extend next" rel="next" href="/archives/page/5/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -530,8 +423,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
