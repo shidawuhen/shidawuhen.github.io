@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Jason Pang</title>
+  <title>golang之ctx cancel | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/archives/page/4/index.html">
+  <meta name="description" content="在 Go 语言中，context包提供了ctx（上下文）和cancel相关的函数，用于管理多个goroutine的生命周期和传递截止日期、取消信号等信息。以下是一些常用的相关函数：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang之ctx cancel">
+<meta property="og:url" content="http://example.com/2025/05/04/golang%E4%B9%8Bctx-cancel/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="在 Go 语言中，context包提供了ctx（上下文）和cancel相关的函数，用于管理多个goroutine的生命周期和传递截止日期、取消信号等信息。以下是一些常用的相关函数：">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-05-04T06:03:42.000Z">
+<meta property="article:modified_time" content="2025-05-04T06:06:13.118Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -218,295 +222,179 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-golang之ctx-cancel" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      golang之ctx cancel
+    </h1>
+  
+
+        
+        <a href="/2025/05/04/golang%E4%B9%8Bctx-cancel/" class="archive-article-date">
+  	<time datetime="2025-05-04T06:03:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-05-04</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 Go 语言中，<code>context</code>包提供了<code>ctx</code>（上下文）和<code>cancel</code>相关的函数，用于管理多个<code>goroutine</code>的生命周期和传递截止日期、取消信号等信息。以下是一些常用的相关函数：</p>
+<span id="more"></span>
+<p>1.<code>context.WithCancel(parent Context) (ctx Context, cancel CancelFunc)</code></p>
+<ul>
+<li><strong>功能</strong>：创建一个可取消的上下文<code>ctx</code>，以及一个取消函数<code>cancel</code>。当调用<code>cancel</code>函数时，与该<code>ctx</code>关联的所有<code>goroutine</code>都会收到取消信号，从而可以停止执行。</li>
+</ul>
+<p>2.<code>context.WithTimeout(parent Context, timeout time.Duration) (ctx Context, cancel CancelFunc)</code></p>
+<ul>
+<li><strong>功能</strong>：创建一个带有超时时间的上下文<code>ctx</code>和取消函数<code>cancel</code>。<code>timeout</code>参数指定了从创建上下文开始的最长持续时间。当超过这个时间后，上下文会自动取消，与该<code>ctx</code>关联的所有<code>goroutine</code>都会收到取消信号。</li>
+</ul>
+<p>3.<code>context.WithDeadline(parent Context, d time.Time) (ctx Context, cancel CancelFunc)</code></p>
+<ul>
+<li><strong>功能</strong>：创建一个带有绝对截止时间<code>d</code>的上下文<code>ctx</code>和取消函数<code>cancel</code>。当到达指定的截止时间<code>d</code>时，上下文会自动取消，关联的<code>goroutine</code>会收到取消信号。</li>
+</ul>
+<p>这些函数在处理并发编程时非常有用，特别是在需要控制<code>goroutine</code>的生命周期、处理超时和取消操作的场景中。通过使用上下文，你可以确保在程序的不同部分之间有效地传递和管理这些信息。</p>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><p>我们以WithCancel函数为例，看看具体怎么使用的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 模拟一个长时间运行的任务</span></span><br><span class="line">	ctx := context.Background()</span><br><span class="line">	<span class="comment">// 使用 context.WithCancel 创建一个可取消的上下文 ctx 和取消函数 cancel</span></span><br><span class="line">	ctx, cancel := context.WithCancel(ctx)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 模拟一个长时间运行的任务</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">				fmt.Println(<span class="string">&quot;任务被取消&quot;</span>)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				fmt.Println(<span class="string">&quot;任务正在运行...&quot;</span>)</span><br><span class="line">				time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;(ctx)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			fmt.Print(<span class="string">&quot;hello\n&quot;</span>)</span><br><span class="line">			time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;(ctx)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 主线程休眠3秒</span></span><br><span class="line">	time.Sleep(<span class="number">3</span> * time.Second)</span><br><span class="line">	<span class="comment">// 手动调用取消函数</span></span><br><span class="line">	cancel()</span><br><span class="line">	fmt.Println(ctx.Err())</span><br><span class="line">	cancel()</span><br><span class="line">	fmt.Println(ctx.Err())</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 防止主线程提前退出</span></span><br><span class="line">	time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  my go run main.go</span><br><span class="line">任务正在运行...</span><br><span class="line">hello</span><br><span class="line">hello</span><br><span class="line">任务正在运行...</span><br><span class="line">hello</span><br><span class="line">任务正在运行...</span><br><span class="line">context canceled</span><br><span class="line">context canceled</span><br><span class="line">hello</span><br><span class="line">任务被取消</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
+
+<p>解释一下为什么会出现这种情况：</p>
+<p>首先创建了一个可以取消的ctx，起了两个goroutine，然后主线程休眠3秒，所以“任务正在运行”和“hello”输出了三次。</p>
+<p>这时候执行cancel，ctx就有error了，所以会打印出“context canceled”。好处是多次cancel也没啥问题。因为这里cancel了两次，打印了两次错误。</p>
+<p>当执行完cancel后，第一个goroutine监听了ctx.Done，立即退出，所以显示“任务被取消”。但是第二个不感知，所以继续执行。</p>
+<h2 id="上下文结构"><a href="#上下文结构" class="headerlink" title="上下文结构"></a>上下文结构</h2><p>Go 语言的上下文是有层级关系的树状结构。一个父上下文取消时，会级联取消所有子上下文。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ctx, cancel := context.WithTimeout(context.Background(), <span class="number">1</span>*time.Second)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 创建子上下文</span></span><br><span class="line">	childCtx, childCancel := context.WithCancel(ctx)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-childCtx.Done():</span><br><span class="line">				fmt.Println(<span class="string">&quot;子上下文收到取消信号&quot;</span>, time.Now().UnixMicro())</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				fmt.Println(<span class="string">&quot;子上下文没有收到取消信号&quot;</span>)</span><br><span class="line">				time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 假设ctx.Done()已经执行（这里简单模拟通过其他方式触发了ctx取消）</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">			fmt.Println(<span class="string">&quot;父上下文收到取消信号&quot;</span>, time.Now().UnixMicro())</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="comment">// 模拟一些工作</span></span><br><span class="line">	time.Sleep(<span class="number">6</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello1&quot;</span>)</span><br><span class="line">	<span class="comment">// 再次调用cancel</span></span><br><span class="line">	cancel()</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello2&quot;</span>)</span><br><span class="line">	<span class="comment">// 这里虽然ctx.Done()已经执行，但调用cancel仍会影响子上下文</span></span><br><span class="line">	<span class="comment">// 确保子上下文也能正确处理取消</span></span><br><span class="line">	childCancel()</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello3&quot;</span>)</span><br><span class="line">	time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  my go run main.go</span><br><span class="line">子上下文没有收到取消信号</span><br><span class="line">子上下文没有收到取消信号</span><br><span class="line">父上下文收到取消信号 1746288171861277</span><br><span class="line">子上下文收到取消信号 1746288172861440</span><br><span class="line">hello1</span><br><span class="line">hello2</span><br><span class="line">hello3</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，到1s的时候，父子上下文的Done都被唤起了。</p>
+<h2 id="现实使用"><a href="#现实使用" class="headerlink" title="现实使用"></a>现实使用</h2><h3 id="客户端主动取消"><a href="#客户端主动取消" class="headerlink" title="客户端主动取消"></a>客户端主动取消</h3><p>客户端程序</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//ctx, cancel := context.WithCancel(context.Background())</span></span><br><span class="line">	<span class="comment">//defer cancel()</span></span><br><span class="line">	ctx, cancel := context.WithTimeout(context.Background(), <span class="number">10</span>*time.Second)</span><br><span class="line">	<span class="keyword">defer</span> cancel()</span><br><span class="line"></span><br><span class="line">	req, err := http.NewRequestWithContext(ctx, <span class="string">&quot;GET&quot;</span>, <span class="string">&quot;http://127.0.0.1:8088&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;创建请求失败:&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	client := http.Client&#123;&#125;</span><br><span class="line">	<span class="comment">//go func() &#123;</span></span><br><span class="line">	<span class="comment">//	time.Sleep(2 * time.Second) // 模拟一些操作，2秒后取消请求</span></span><br><span class="line">	<span class="comment">//	cancel()</span></span><br><span class="line">	<span class="comment">//&#125;()</span></span><br><span class="line"></span><br><span class="line">	resp, err := client.Do(req)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;请求错误:&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(resp)</span><br><span class="line">	<span class="keyword">defer</span> resp.Body.Close()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 处理响应</span></span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>服务端程序</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	ctx := r.Context()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">				fmt.Println(<span class="string">&quot;客户端取消了请求&quot;</span>)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				fmt.Println(<span class="string">&quot;客户端请求&quot;</span>)</span><br><span class="line">				time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">				<span class="comment">// 处理业务逻辑</span></span><br><span class="line">				<span class="comment">//...</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				fmt.Println(<span class="string">&quot;默默执行&quot;</span>)</span><br><span class="line">				time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">				<span class="comment">// 处理业务逻辑</span></span><br><span class="line">				<span class="comment">//...</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="comment">// 返回响应</span></span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">	time.Sleep(<span class="number">20</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;finish&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/&quot;</span>, handler)</span><br><span class="line">	http.ListenAndServe(<span class="string">&quot;:8088&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>执行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">➜  my go run main.go</span><br><span class="line">默默执行</span><br><span class="line">客户端请求</span><br><span class="line">客户端请求</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">客户端请求</span><br><span class="line">客户端请求</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">客户端请求</span><br><span class="line">客户端请求</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">客户端请求</span><br><span class="line">客户端请求</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">客户端请求</span><br><span class="line">客户端请求</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">客户端取消了请求</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">finish</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br><span class="line">默默执行</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，客户端10s的时候取消了请求，所以“客户端请求”执行了10次，取消之后，打印“客户端取消了请求”后便不再执行。但因为“默默执行”的goroutine没有关注ctx.done，所以即使已经finish了，goroutine仍然会继续执行。</p>
+<h3 id="服务端主动停止所有任务"><a href="#服务端主动停止所有任务" class="headerlink" title="服务端主动停止所有任务"></a>服务端主动停止所有任务</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟一个任务</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">task</span><span class="params">(ctx context.Context, taskID <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">			<span class="comment">// 当接收到取消信号时，打印任务已取消并返回</span></span><br><span class="line">			fmt.Printf(<span class="string">&quot;Task %d 已取消\n&quot;</span>, taskID)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="comment">// 模拟任务执行</span></span><br><span class="line">			fmt.Printf(<span class="string">&quot;Task %d 正在运行\n&quot;</span>, taskID)</span><br><span class="line">			time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 创建一个可取消的上下文</span></span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 启动多个任务</span></span><br><span class="line">	numTasks := <span class="number">3</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= numTasks; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> task(ctx, i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 模拟一些业务逻辑</span></span><br><span class="line">	time.Sleep(<span class="number">3</span> * time.Second)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 调用取消函数</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;调用取消函数&quot;</span>)</span><br><span class="line">	cancel()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 给任务一些时间来处理取消信号</span></span><br><span class="line">	time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;程序结束&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>执行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜  my go run main.go</span><br><span class="line">Task 1 正在运行</span><br><span class="line">Task 3 正在运行</span><br><span class="line">Task 2 正在运行</span><br><span class="line">Task 2 正在运行</span><br><span class="line">Task 3 正在运行</span><br><span class="line">Task 1 正在运行</span><br><span class="line">Task 3 正在运行</span><br><span class="line">Task 2 正在运行</span><br><span class="line">Task 1 正在运行</span><br><span class="line">调用取消函数</span><br><span class="line">Task 3 已取消</span><br><span class="line">Task 2 已取消</span><br><span class="line">Task 1 已取消</span><br><span class="line">程序结束</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/24/zuul%E7%BD%91%E5%85%B3/" class="archive-article-date">
-  	<time datetime="2024-11-24T14:39:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/24/zuul%E7%BD%91%E5%85%B3/">zuul网关</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/05/04/golang%E4%B9%8Bctx-cancel/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/24/%E5%AF%B9Switch%E7%9A%84%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2024-11-24T14:39:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-24</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2025/05/04/%E5%A6%82%E4%BD%95%E5%81%9A%E6%8A%A5%E8%AD%A6%E6%B2%BB%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何做报警治理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/24/%E5%AF%B9Switch%E7%9A%84%E7%9C%8B%E6%B3%95/">对Switch的看法</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/06/%E9%9D%A2%E8%AF%95%E5%AE%9E%E6%88%98/" class="archive-article-date">
-  	<time datetime="2024-11-06T07:28:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/06/%E9%9D%A2%E8%AF%95%E5%AE%9E%E6%88%98/">面试实战</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/11/06/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/" class="archive-article-date">
-  	<time datetime="2024-11-06T07:28:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/11/06/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/">产品经理的重要性</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E9%87%8D%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E5%A6%82%E4%BD%95%E6%8E%A8%E8%BF%9B%E9%87%8D%E6%9E%84/">如何推进重构</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E4%BD%93%E8%83%BD%E6%94%BB%E7%95%A5/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E4%BD%93%E8%83%BD%E6%94%BB%E7%95%A5/">体能攻略</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E5%85%A5%E9%97%A8/">手机摄影入门</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/10/14/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/" class="archive-article-date">
-  	<time datetime="2024-10-14T12:02:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/10/14/%E7%94%9F%E6%B4%BB%E6%84%9F%E6%82%9F/">生活感悟</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2024-09-30T09:18:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/09/30/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">可扩展架构模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-pages">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/" class="archive-article-date">
-  	<time datetime="2024-09-30T09:18:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/09/30/%E5%83%8FAI%E4%B8%80%E6%A0%B7%E6%80%9D%E8%80%83/">像AI一样思考</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/34/">34</a><a class="extend next" rel="next" href="/archives/page/5/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -530,8 +418,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
