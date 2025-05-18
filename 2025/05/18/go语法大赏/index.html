@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Jason Pang</title>
+  <title>go语法大赏 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/archives/page/10/index.html">
+  <meta name="description" content="前些日子单机房稳定性下降，找了好一会才找到真正的原因。这里面涉及到不少go语法细节，正好大家一起看一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go语法大赏">
+<meta property="og:url" content="http://example.com/2025/05/18/go%E8%AF%AD%E6%B3%95%E5%A4%A7%E8%B5%8F/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="前些日子单机房稳定性下降，找了好一会才找到真正的原因。这里面涉及到不少go语法细节，正好大家一起看一下。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/age-20250518214159352.png">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/age-20250518214217905.png">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/age-20250518214245810.png">
+<meta property="article:published_time" content="2025-05-18T15:09:02.000Z">
+<meta property="article:modified_time" content="2025-05-18T15:11:39.196Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/age-20250518214159352.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,295 +226,235 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-go语法大赏" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      go语法大赏
+    </h1>
+  
+
+        
+        <a href="/2025/05/18/go%E8%AF%AD%E6%B3%95%E5%A4%A7%E8%B5%8F/" class="archive-article-date">
+  	<time datetime="2025-05-18T15:09:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-05-18</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前些日子单机房稳定性下降，找了好一会才找到真正的原因。这里面涉及到不少go语法细节，正好大家一起看一下。</p>
+<span id="more"></span>
+<h2 id="一、仿真代码"><a href="#一、仿真代码" class="headerlink" title="一、仿真代码"></a>一、仿真代码</h2><p>这是仿真之后的代码</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;go.uber.org/atomic&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> StopSignal <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RecvChannel is the wrapped channel for recv side.</span></span><br><span class="line"><span class="keyword">type</span> RecvChannel[T any] <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// Data will be passed through the result channel.</span></span><br><span class="line">	DataChannel &lt;-<span class="keyword">chan</span> T</span><br><span class="line">	<span class="comment">// Error will be passed through the error channel.</span></span><br><span class="line">	ErrorChannel &lt;-<span class="keyword">chan</span> <span class="type">error</span></span><br><span class="line">	<span class="comment">// Stop signal will be passed through the stop signal channel,</span></span><br><span class="line">	<span class="comment">// when signal is sent or channel is closed, it means recv side requires send side to stop sending data.</span></span><br><span class="line">	StopChannel <span class="keyword">chan</span>&lt;- StopSignal</span><br><span class="line">	stopped     *atomic.Bool</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Close sends stop signal to the sender side.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *RecvChannel[T])</span></span> Close() &#123;</span><br><span class="line">	<span class="keyword">if</span> !c.stopped.CompareAndSwap(<span class="literal">false</span>, <span class="literal">true</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">close</span>(c.StopChannel)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Stopped returns whether the stop signal has been sent.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *RecvChannel[T])</span></span> Stopped() <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> c.stopped.Load()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// GetError returns the last error, it waits at most 1s if the error channel is not closed.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *RecvChannel[T])</span></span> GetError() <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> err := &lt;-c.ErrorChannel:</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	<span class="keyword">case</span> &lt;-time.After(time.Second):</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// SendChannel is the wrapped channel for sender side.</span></span><br><span class="line"><span class="keyword">type</span> SendChannel[T any] <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// Data will be passed through the result channel.</span></span><br><span class="line">	DataChannel <span class="keyword">chan</span>&lt;- T</span><br><span class="line">	<span class="comment">// Error will be passed through the error channel.</span></span><br><span class="line">	ErrorChannel <span class="keyword">chan</span>&lt;- <span class="type">error</span></span><br><span class="line">	<span class="comment">// Stop signal will be passed through the stop signal channel,</span></span><br><span class="line">	<span class="comment">// when signal is sent or channel is closed, it means recv side requires send side to stop sending data.</span></span><br><span class="line">	StopChannel &lt;-<span class="keyword">chan</span> StopSignal</span><br><span class="line">	stopped     *atomic.Bool</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Close closes the result channel and error channel, so the recv will know the sending has been stopped.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *SendChannel[T])</span></span> Close() &#123;</span><br><span class="line">	<span class="built_in">close</span>(c.DataChannel)</span><br><span class="line">	<span class="built_in">close</span>(c.ErrorChannel)</span><br><span class="line">	c.stopped = atomic.NewBool(<span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Stopped returns whether the stop signal has been sent.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *SendChannel[T])</span></span> Stopped() <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> c.stopped.Load()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Publish sends data to the data channel, does nothing if it is closed.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *SendChannel[T])</span></span> Publish(t T) &#123;</span><br><span class="line">	<span class="keyword">if</span> c.Stopped() &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> &lt;-c.StopChannel:</span><br><span class="line">	<span class="keyword">case</span> c.DataChannel &lt;- t:</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *SendChannel[T])</span></span> PublishError(err <span class="type">error</span>, <span class="built_in">close</span> <span class="type">bool</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> c.Stopped() &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> &lt;-c.StopChannel:</span><br><span class="line">	<span class="keyword">case</span> c.ErrorChannel &lt;- err:</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">close</span> &#123;</span><br><span class="line">		c.Close()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewChannel</span>[<span class="title">T</span> <span class="title">any</span>]<span class="params">(bufSize <span class="type">int</span>)</span></span> (*SendChannel[T], *RecvChannel[T]) &#123;</span><br><span class="line">	resultC := <span class="built_in">make</span>(<span class="keyword">chan</span> T, bufSize)</span><br><span class="line">	errC := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">error</span>, <span class="number">1</span>)</span><br><span class="line">	stopC := <span class="built_in">make</span>(<span class="keyword">chan</span> StopSignal, <span class="number">1</span>)</span><br><span class="line">	stopped := atomic.NewBool(<span class="literal">false</span>)</span><br><span class="line">	sc := &amp;SendChannel[T]&#123;</span><br><span class="line">		DataChannel:  resultC,</span><br><span class="line">		ErrorChannel: errC,</span><br><span class="line">		StopChannel:  stopC,</span><br><span class="line">		stopped:      stopped,</span><br><span class="line">	&#125;</span><br><span class="line">	rc := &amp;RecvChannel[T]&#123;</span><br><span class="line">		DataChannel:  resultC,</span><br><span class="line">		ErrorChannel: errC,</span><br><span class="line">		StopChannel:  stopC,</span><br><span class="line">		stopped:      stopped,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> sc, rc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// SliceToChannel creates a channel and sends the slice&#x27;s items into it.</span></span><br><span class="line"><span class="comment">// It ignores if the item in the slices is not a type T or error.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SliceToChannel</span>[<span class="title">T</span> <span class="title">any</span>]<span class="params">(size <span class="type">int</span>, s []any)</span></span> *RecvChannel[T] &#123;</span><br><span class="line">	sc, rc := NewChannel[T](size)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, item := <span class="keyword">range</span> s &#123;</span><br><span class="line">			<span class="keyword">if</span> sc.Stopped() &#123;</span><br><span class="line">				sc.Close()</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">switch</span> v := item.(<span class="keyword">type</span>) &#123;</span><br><span class="line">			<span class="keyword">case</span> T:</span><br><span class="line">				sc.DataChannel &lt;- v</span><br><span class="line">			<span class="keyword">case</span> <span class="type">error</span>:</span><br><span class="line">				sc.ErrorChannel &lt;- v</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		sc.Close()</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> rc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// /////////////// 真正的处理逻辑</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Process</span><span class="params">(send *SendChannel[<span class="type">int</span>])</span></span> &#123;</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> send != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Println(<span class="string">&quot;3 Process close defer&quot;</span>)</span><br><span class="line">			send.Close()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-send.StopChannel:</span><br><span class="line">				fmt.Println(<span class="string">&quot;2 Process stop channel&quot;</span>)</span><br><span class="line">				send.Close()</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	send.ErrorChannel &lt;- fmt.Errorf(<span class="string">&quot;0 Start error \n&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;0 Start error&quot;</span>)</span><br><span class="line">	time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	send, recv := NewChannel[<span class="type">int</span>](<span class="number">10</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		Process(send)</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;only once&quot;</span>)</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-recv.ErrorChannel:</span><br><span class="line">			fmt.Println(<span class="string">&quot;1 recv errorchannel &quot;</span>)</span><br><span class="line">			recv.Close()</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//panic(1)</span></span><br><span class="line">	time.Sleep(<span class="number">5</span> * time.Second)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">➜  my go run main.go</span><br><span class="line">only once</span><br><span class="line">0 Start error</span><br><span class="line">1 recv errorchannel</span><br><span class="line">2 Process stop channel</span><br><span class="line">3 Process close defer</span><br><span class="line">panic: close of closed channel</span><br><span class="line"></span><br><span class="line">goroutine 21 [running]:</span><br><span class="line">main.(*SendChannel[...]).Close(...)</span><br><span class="line">	/Users/bytedance/My/work/go/my/main.go:60</span><br><span class="line">main.Process.func1()</span><br><span class="line">	/Users/bytedance/My/work/go/my/main.go:147 +0x6c</span><br><span class="line">main.Process(0x14000092020)</span><br><span class="line">	/Users/bytedance/My/work/go/my/main.go:163 +0x118</span><br><span class="line">main.main.func1()</span><br><span class="line">	/Users/bytedance/My/work/go/my/main.go:168 +0x20</span><br><span class="line">created by main.main in goroutine 1</span><br><span class="line">	/Users/bytedance/My/work/go/my/main.go:167 +0x70</span><br><span class="line">exit status 2</span><br></pre></td></tr></table></figure>
+
+<p>不知道大家是否能够比较快的看出来问题。</p>
+<h2 id="二、相关语法"><a href="#二、相关语法" class="headerlink" title="二、相关语法"></a>二、相关语法</h2><h3 id="2-1channel"><a href="#2-1channel" class="headerlink" title="2.1channel"></a>2.1channel</h3><h4 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h4><p>在 Go 语言中，<code>channel</code>是用于在多个<code>goroutine</code>之间进行通信和同步的重要机制，以下是一些关于<code>channel</code>的重要知识点：</p>
+<h5 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h5><ul>
+<li><strong>定义</strong>：<code>channel</code>可以被看作是一个类型安全的管道，用于在<code>goroutine</code>之间传递数据，遵循 CSP（Communicating Sequential Processes）模型，即 “通过通信来共享内存，而不是通过共享内存来通信”，从而避免了传统共享内存并发编程中的数据竞争等问题。</li>
+<li><strong>声明与创建</strong>：使用<code>make</code>函数创建，语法为<code>make(chan 数据类型, 缓冲大小)</code>。缓冲大小是可选参数，省略时创建的是无缓冲<code>channel</code>；指定大于 0 的缓冲大小时创建的是有缓冲<code>channel</code>。例如：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unbufferedChan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)      <span class="comment">// 无缓冲channel</span></span><br><span class="line">bufferedChan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">10</span>)   <span class="comment">// 有缓冲channel，缓冲大小为10</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-操作方式"><a href="#2-操作方式" class="headerlink" title="2. 操作方式"></a>2. 操作方式</h5><ul>
+<li><strong>发送数据</strong>：使用<code>&lt;-</code>操作符将数据发送到<code>channel</code>中，语法为<code>channel &lt;- 数据</code>。例如：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch &lt;- <span class="number">42</span>  <span class="comment">// 发送数据42到ch中</span></span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>接收数据</strong>：同样使用<code>&lt;-</code>操作符从<code>channel</code>中接收数据，有两种形式。一种是将接收到的数据赋值给变量，如<code>数据 := &lt;-channel</code>；另一种是只接收数据不赋值，如<code>&lt;-channel</code>。例如：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch &lt;- <span class="number">42</span></span><br><span class="line">&#125;()</span><br><span class="line">value := &lt;-ch  <span class="comment">// 从ch中接收数据并赋值给value</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>**关闭<code>channel</code>**：使用内置的<code>close</code>函数关闭<code>channel</code>，关闭后不能再向其发送数据，但可以继续接收已发送的数据。接收完所有数据后，再接收将得到该类型的零值。例如：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">        ch &lt;- i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(ch)  <span class="comment">// 关闭channel</span></span><br><span class="line">&#125;()</span><br><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">    value, ok := &lt;-ch</span><br><span class="line">    <span class="keyword">if</span>!ok &#123;</span><br><span class="line">        <span class="keyword">break</span>  <span class="comment">// 当ok为false时，表示channel已关闭</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-缓冲与非缓冲channel"><a href="#3-缓冲与非缓冲channel" class="headerlink" title="3. 缓冲与非缓冲channel"></a>3. 缓冲与非缓冲<code>channel</code></h5><ul>
+<li>**无缓冲<code>channel</code>**：也叫同步<code>channel</code>，数据的发送和接收必须同时准备好，即发送操作和接收操作会互相阻塞，直到对方准备好。只有当有对应的接收者在等待时，发送者才能发送数据；反之，只有当有发送者发送数据时，接收者才能接收数据。这确保了数据的同步传递。</li>
+<li>**有缓冲<code>channel</code>**：内部有一个缓冲区，只要缓冲区未满，发送操作就不会阻塞；只要缓冲区不为空，接收操作就不会阻塞。当缓冲区满时，继续发送会阻塞；当缓冲区为空时，继续接收会阻塞。例如：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bufferedChan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">3</span>)</span><br><span class="line">bufferedChan &lt;- <span class="number">1</span></span><br><span class="line">bufferedChan &lt;- <span class="number">2</span></span><br><span class="line">bufferedChan &lt;- <span class="number">3</span></span><br><span class="line"><span class="comment">// 此时缓冲区已满，再发送会阻塞</span></span><br><span class="line"><span class="comment">// bufferedChan &lt;- 4 </span></span><br></pre></td></tr></table></figure>
+
+<h5 id="4-单向channel"><a href="#4-单向channel" class="headerlink" title="4. 单向channel"></a>4. 单向<code>channel</code></h5><ul>
+<li>单向<code>channel</code>只能用于发送或接收数据，分别为只写<code>channel</code>（<code>chan&lt;- 数据类型</code>）和只读<code>channel</code>（<code>&lt;-chan 数据类型</code>）。单向<code>channel</code>主要用于函数参数传递，限制<code>channel</code>的使用方向，增强代码的可读性和安全性。例如：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只写channel</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sendData</span><span class="params">(ch <span class="keyword">chan</span>&lt;- <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    ch &lt;- <span class="number">42</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只读channel</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">receiveData</span><span class="params">(ch &lt;-<span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    data := &lt;-ch</span><br><span class="line">    fmt.Println(data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-select语句与channel"><a href="#5-select语句与channel" class="headerlink" title="5. select语句与channel"></a>5. <code>select</code>语句与<code>channel</code></h5><ul>
+<li><code>select</code>语句用于监听多个<code>channel</code>的操作，它可以同时等待多个<code>channel</code>的发送或接收操作。当有多个<code>channel</code>准备好时，<code>select</code>会随机选择一个执行。<code>select</code>语句还可以结合<code>default</code>分支实现非阻塞操作。例如：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch1 &lt;- <span class="number">1</span></span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> &#123;</span><br><span class="line"><span class="keyword">case</span> data := &lt;-ch1:</span><br><span class="line">    fmt.Println(<span class="string">&quot;Received from ch1:&quot;</span>, data)</span><br><span class="line"><span class="keyword">case</span> data := &lt;-ch2:</span><br><span class="line">    fmt.Println(<span class="string">&quot;Received from ch2:&quot;</span>, data)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    fmt.Println(<span class="string">&quot;No channel is ready&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="6-channel的阻塞与死锁"><a href="#6-channel的阻塞与死锁" class="headerlink" title="6. channel的阻塞与死锁"></a>6. <code>channel</code>的阻塞与死锁</h5><ul>
+<li><strong>阻塞</strong>：发送和接收操作在<code>channel</code>未准备好时会阻塞当前<code>goroutine</code>。无缓冲<code>channel</code>在没有对应的接收者时发送会阻塞，没有发送者时接收会阻塞；有缓冲<code>channel</code>在缓冲区满时发送会阻塞，缓冲区空时接收会阻塞。</li>
+<li><strong>死锁</strong>：如果在一个<code>goroutine</code>中，<code>channel</code>的发送和接收操作相互等待，且没有其他<code>goroutine</code>来打破这种等待，就会发生死锁。例如，一个<code>goroutine</code>向无缓冲<code>channel</code>发送数据，但没有其他<code>goroutine</code>接收；或者一个<code>goroutine</code>从无缓冲<code>channel</code>接收数据，但没有其他<code>goroutine</code>发送数据。运行时系统会检测到死锁并报错。</li>
+</ul>
+<h5 id="7-channel的底层实现"><a href="#7-channel的底层实现" class="headerlink" title="7. channel的底层实现"></a>7. <code>channel</code>的底层实现</h5><ul>
+<li><code>channel</code>的底层实现基于一个名为<code>hchan</code>的结构体，它包含了当前队列中元素数量、环形队列大小（缓冲容量）、指向环形队列的指针、元素大小、关闭标志、元素类型信息、发送索引、接收索引、等待接收的协程队列、等待发送的协程队列以及一个互斥锁等字段。</li>
+<li>发送操作时，如果接收队列非空，直接将数据拷贝给第一个等待的接收者并唤醒该<code>goroutine</code>；如果缓冲区未满，将数据存入缓冲区；如果缓冲区已满或无缓冲<code>channel</code>，将当前<code>goroutine</code>加入发送队列并挂起。接收操作时，如果发送队列非空，直接从发送者获取数据并唤醒发送者；如果缓冲区不为空，从缓冲区取出数据；如果缓冲区为空且无缓冲<code>channel</code>，将当前<code>goroutine</code>加入接收队列并挂起。</li>
+</ul>
+<h5 id="8-channel误用导致的问题"><a href="#8-channel误用导致的问题" class="headerlink" title="8. channel误用导致的问题"></a>8. <code>channel</code>误用导致的问题</h5><p>在 Go 语言中，操作<code>channel</code>时可能导致<code>panic</code>或者死锁等：</p>
+<p>1.多次关闭同一个<code>channel</code></p>
+<p>使用内置的<code>close</code>函数关闭<code>channel</code>后，如果再次调用<code>close</code>函数尝试关闭同一个<code>channel</code>，就会引发<code>panic</code>。这是因为<code>channel</code>的关闭状态是一种不可逆的操作，重复关闭没有实际意义，并且可能会导致难以调试的问题。例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line"><span class="built_in">close</span>(ch)</span><br><span class="line"><span class="built_in">close</span>(ch) <span class="comment">// 这里会导致panic</span></span><br></pre></td></tr></table></figure>
+
+<p>2.向已关闭的<code>channel</code>发送数据</p>
+<p>当一个<code>channel</code>被关闭后，再向其发送数据会导致<code>panic</code>。因为关闭<code>channel</code>意味着不再有数据会被发送到该<code>channel</code>中，继续发送数据违反了这种约定。示例如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line"><span class="built_in">close</span>(ch)</span><br><span class="line">ch &lt;- <span class="number">1</span> <span class="comment">// 向已关闭的channel发送数据，会导致panic</span></span><br></pre></td></tr></table></figure>
+
+<p>3.关闭未初始化（<code>nil</code>）的<code>channel</code></p>
+<p>如果尝试关闭一个值为<code>nil</code>的<code>channel</code>，会引发<code>panic</code>。<code>nil</code>的<code>channel</code>没有实际的底层数据结构来支持关闭操作。例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ch <span class="keyword">chan</span> <span class="type">int</span></span><br><span class="line"><span class="built_in">close</span>(ch) <span class="comment">// 这里会导致panic，因为ch是nil</span></span><br></pre></td></tr></table></figure>
+
+<p>4.死锁导致的<code>panic</code></p>
+<p>在操作<code>channel</code>时，如果多个<code>goroutine</code>之间的通信和同步设计不当，可能会导致死锁。死锁发生时，所有涉及的<code>goroutine</code>都在互相等待对方，从而导致程序无法继续执行，运行时系统会检测到这种情况。例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    ch &lt;- <span class="number">1</span> <span class="comment">// 没有其他goroutine从ch中接收数据，这里会阻塞，导致死锁</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;This line will never be executed&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  my go run main.go</span><br><span class="line">fatal error: all goroutines are asleep - deadlock!</span><br><span class="line"></span><br><span class="line">goroutine 1 [chan send]:</span><br><span class="line">main.main()</span><br><span class="line">	/Users/bytedance/My/work/go/my/main.go:172 +0x54</span><br><span class="line">exit status 2</span><br></pre></td></tr></table></figure>
+
+<p>5.不恰当的<code>select</code>语句使用</p>
+<p>在<code>select</code>语句中，如果没有<code>default</code>分支，并且所有的<code>case</code>对应的<code>channel</code>操作都无法立即执行（阻塞），那么当前<code>goroutine</code>会被阻塞。如果在主<code>goroutine</code>中发生这种情况且没有其他<code>goroutine</code>可以运行，就会导致死锁。例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">select</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> &lt;-ch1:</span><br><span class="line">        <span class="comment">// 没有数据发送到ch1，这里会阻塞</span></span><br><span class="line">    <span class="keyword">case</span> &lt;-ch2:</span><br><span class="line">        <span class="comment">// 没有数据发送到ch2，这里会阻塞</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要避免这些<code>panic</code>情况，编写代码时需要仔细设计<code>channel</code>的使用逻辑，合理处理<code>channel</code>的关闭、数据的发送和接收，以及确保<code>goroutine</code>之间的同步和通信正确无误。</p>
+<h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><p>在NewChannel函数中，send和recv channel被赋值的是同一个ErrorChannel，而send和recv都是单向channel，一个只写，一个只读。</p>
+<p><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/age-20250518214159352.png" alt="image-20250518214159352"></p>
+<p><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/age-20250518214217905.png" alt="image-20250518214217905"></p>
+<p><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/age-20250518214245810.png" alt="image-20250518214245810"></p>
+<p>所以当Process里send.ErrorChannel &lt;- fmt.Errorf(“0 Start error \n”)执行的时候，main中的case &lt;-recv.ErrorChannel被立即触发，然后执行recv.Close()函数，该函数执行了close(c.StopChannel)，又触发了Process中的case &lt;-send.StopChannel，执行了send.Close()。对于Process退出的时候，有defer，再次执行send.Close()，导致channel被多次关闭。</p>
+<h3 id="2-2defer"><a href="#2-2defer" class="headerlink" title="2.2defer"></a>2.2defer</h3><h4 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h4><p>以前写过<a target="_blank" rel="noopener" href="https://juejin.cn/post/7068854815589138439">Go defer的一些神奇规则，你了解吗？</a>，这次主要关注</p>
+<ol>
+<li>defer（延迟函数）执行按后进先出顺序执行，即先出现的 defer最后执行。</li>
+<li>Process中的defer的执行顺序与Process中的goroutine里的defer（如果有的话）执行顺序无关。</li>
+</ol>
+<h4 id="解析-1"><a href="#解析-1" class="headerlink" title="解析"></a>解析</h4><p>其实这两个Close位置都有可能panic，主要看谁被先执行到。我是为了演示让Process sleep了1s。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> send != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Println(<span class="string">&quot;3 Process close defer&quot;</span>)</span><br><span class="line">			send.Close()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-send.StopChannel:</span><br><span class="line">				fmt.Println(<span class="string">&quot;2 Process stop channel&quot;</span>)</span><br><span class="line">				send.Close()</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3recover"><a href="#2-3recover" class="headerlink" title="2.3recover"></a>2.3recover</h3><h4 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h4><p>在 Go 语言中，<code>recover</code>只能用于捕获当前<code>goroutine</code>内的<code>panic</code>，它的作用范围仅限于当前<code>goroutine</code>。具体说明如下：</p>
+<p>**只能捕获当前<code>goroutine</code>的<code>panic</code>**：当一个<code>goroutine</code>发生<code>panic</code>时，该<code>goroutine</code>会沿着调用栈向上展开，执行所有已注册的<code>defer</code>函数。如果在这些<code>defer</code>函数中调用<code>recover</code>，则可以捕获到该<code>goroutine</code>内的<code>panic</code>，并恢复正常执行流程。而对于其他<code>goroutine</code>中发生的<code>panic</code>，当前<code>goroutine</code>无法通过<code>recover</code>捕获。例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> r := <span class="built_in">recover</span>(); r != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(<span class="string">&quot;Recovered in worker:&quot;</span>, r)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;Worker panicked&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">go</span> worker()</span><br><span class="line">    time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">    fmt.Println(<span class="string">&quot;Main goroutine continues&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上述代码中，<code>worker</code>函数中的<code>defer</code>语句里使用<code>recover</code>捕获了该<code>goroutine</code>内的<code>panic</code>。<code>main</code>函数中的<code>goroutine</code>并不会受到影响，继续执行并打印出 “Main goroutine continues”。</p>
+<h4 id="解析-2"><a href="#解析-2" class="headerlink" title="解析"></a>解析</h4><p>当时之所以查的比较困难，主要是发现Process中go func里配置了recover，报了很多错，但感觉没有大问题。加上代码不熟悉，没有发现有概率触发Process的defer中的panic。而且公司的监控没有监控到自建goroutine的panic情况。</p>
+<h2 id="三、解决方案"><a href="#三、解决方案" class="headerlink" title="三、解决方案"></a>三、解决方案</h2><p>在Process中添加recover</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> r := <span class="built_in">recover</span>(); r != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(<span class="string">&quot;Recovered in worker:&quot;</span>, r)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br></pre></td></tr></table></figure>
+
+<p>其实比较建议在涉及channel相关的地方，都加个recover，尤其是不太熟悉的时候。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/R730%E8%B0%83%E6%95%B4%E9%A3%8E%E6%89%87%E8%BD%AC%E9%80%9F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/R730%E8%B0%83%E6%95%B4%E9%A3%8E%E6%89%87%E8%BD%AC%E9%80%9F/">R730调整风扇转速</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/05/18/go%E8%AF%AD%E6%B3%95%E5%A4%A7%E8%B5%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E4%BF%AE%E7%94%B5%E8%84%91%E5%B1%8F%E5%B9%95%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2025/05/18/MySQL%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL事务的一些奇奇怪怪知识</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E4%BF%AE%E7%94%B5%E8%84%91%E5%B1%8F%E5%B9%95%E8%AE%B0/">修电脑屏幕记</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/R730%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/R730%E7%BB%93%E6%9E%84/">R730结构</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E7%9F%9B%E7%9B%BE%E8%AE%BA/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E7%9F%9B%E7%9B%BE%E8%AE%BA/">矛盾论</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/OpenAI-API%E8%B0%83%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/OpenAI-API%E8%B0%83%E7%94%A8/">OpenAI API调用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%B9%B8%E7%A6%8F%E7%9A%84%E5%A9%9A%E5%A7%BB/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%B9%B8%E7%A6%8F%E7%9A%84%E5%A9%9A%E5%A7%BB/">幸福的婚姻</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E6%88%91%E4%B9%B0%E4%BA%86%E5%8F%B0DELL-R730/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:17:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E6%88%91%E4%B9%B0%E4%BA%86%E5%8F%B0DELL-R730/">我买了台DELL R730</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%AF%B9ChatGPT%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:17:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%AF%B9ChatGPT%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/">对ChatGPT的一些看法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E6%B5%81%E9%87%8F%E5%9C%B0%E7%90%832%E5%BD%B1%E8%AF%84/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:17:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E6%B5%81%E9%87%8F%E5%9C%B0%E7%90%832%E5%BD%B1%E8%AF%84/">流量地球2影评</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Linux%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:16:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Linux%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">Linux启动过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/9/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/archives/page/11/">11</a><a class="page-number" href="/archives/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/34/">34</a><a class="extend next" rel="next" href="/archives/page/11/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -530,8 +478,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
