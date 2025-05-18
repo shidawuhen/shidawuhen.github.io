@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Jason Pang</title>
+  <title>MySQL事务的一些奇奇怪怪知识 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/archives/page/10/index.html">
+  <meta name="description" content="Gorm事务有error却不返回会发生什么Gorm包是大家比较高频使用。正常的用法是，如果有失败返回error，整体rollback，如果不返回error则commit。下面是Transaction的源码：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL事务的一些奇奇怪怪知识">
+<meta property="og:url" content="http://example.com/2025/05/18/MySQL%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="Gorm事务有error却不返回会发生什么Gorm包是大家比较高频使用。正常的用法是，如果有失败返回error，整体rollback，如果不返回error则commit。下面是Transaction的源码：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/image-20250518224254182.png">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/image-20250518224325433.png">
+<meta property="article:published_time" content="2025-05-18T15:08:51.000Z">
+<meta property="article:modified_time" content="2025-05-18T15:10:35.881Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/image-20250518224254182.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,295 +225,161 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="pages-MySQL事务的一些奇奇怪怪知识" class="article article-type-pages " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL事务的一些奇奇怪怪知识
+    </h1>
+  
+
+        
+        <a href="/2025/05/18/MySQL%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/" class="archive-article-date">
+  	<time datetime="2025-05-18T15:08:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-05-18</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Gorm事务有error却不返回会发生什么"><a href="#Gorm事务有error却不返回会发生什么" class="headerlink" title="Gorm事务有error却不返回会发生什么"></a>Gorm事务有error却不返回会发生什么</h2><p>Gorm包是大家比较高频使用。正常的用法是，如果有失败返回error，整体rollback，如果不返回error则commit。下面是Transaction的源码：</p>
+<span id="more"></span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Transaction start a transaction as a block, return error will rollback, otherwise to commit. Transaction executes an</span></span><br><span class="line"><span class="comment">// arbitrary number of commands in fc within a transaction. On success the changes are committed; if an error occurs</span></span><br><span class="line"><span class="comment">// they are rolled back.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db *DB)</span></span> Transaction(fc <span class="function"><span class="keyword">func</span><span class="params">(tx *DB)</span></span> <span class="type">error</span>, opts ...*sql.TxOptions) (err <span class="type">error</span>) &#123;</span><br><span class="line">	panicked := <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> committer, ok := db.Statement.ConnPool.(TxCommitter); ok &amp;&amp; committer != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// nested transaction</span></span><br><span class="line">		<span class="keyword">if</span> !db.DisableNestedTransaction &#123;</span><br><span class="line">			err = db.SavePoint(fmt.Sprintf(<span class="string">&quot;sp%p&quot;</span>, fc)).Error</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">				<span class="comment">// Make sure to rollback when panic, Block error or Commit error</span></span><br><span class="line">				<span class="keyword">if</span> panicked || err != <span class="literal">nil</span> &#123;</span><br><span class="line">					db.RollbackTo(fmt.Sprintf(<span class="string">&quot;sp%p&quot;</span>, fc))</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;()</span><br><span class="line">		&#125;</span><br><span class="line">		err = fc(db.Session(&amp;Session&#123;NewDB: db.clone == <span class="number">1</span>&#125;))</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		tx := db.Begin(opts...)</span><br><span class="line">		<span class="keyword">if</span> tx.Error != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> tx.Error</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="comment">// Make sure to rollback when panic, Block error or Commit error</span></span><br><span class="line">			<span class="keyword">if</span> panicked || err != <span class="literal">nil</span> &#123;</span><br><span class="line">				tx.Rollback()</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> err = fc(tx); err == <span class="literal">nil</span> &#123;</span><br><span class="line">			panicked = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> tx.Commit().Error</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	panicked = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="神奇用法"><a href="#神奇用法" class="headerlink" title="神奇用法"></a>神奇用法</h3><p>但如果我瞎搞呢？如果有error我仍然返回nil，会发生什么？</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">err := db.Transaction(<span class="function"><span class="keyword">func</span><span class="params">(tx *gorm.DB)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> err <span class="type">error</span></span><br><span class="line">		isInserted, err = d.TxCreate(tx, record)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		err = d.TxUpdate(tx, opt)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> errors.Wrap(err, <span class="string">&quot;failed to update&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>这种情况下，本质看MySQL自身的设计。事务具有原子性，理论上应该要么全部成功，要么全部失败。但如果在一条语句失败后执行<code>COMMIT</code>，MySQL 会尽力提交已成功执行的语句。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test (id, <span class="keyword">value</span>) <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">&#x27;data3&#x27;</span>); </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test (id, <span class="keyword">value</span>) <span class="keyword">VALUES</span> (<span class="number">3</span>, <span class="string">&#x27;data4&#x27;</span>); </span><br><span class="line"><span class="comment">-- 故意让这条语句失败（假设id冲突）</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test (id, <span class="keyword">value</span>) <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">&#x27;data5&#x27;</span>); </span><br><span class="line"><span class="keyword">COMMIT</span>; </span><br></pre></td></tr></table></figure>
+
+<p>在上述例子中，前两条<code>INSERT</code>语句可能已经成功执行并修改了数据库，而第三条失败。执行<code>COMMIT</code>后，前两条语句的修改会被永久保存到数据库中，而失败的语句不会回滚整个事务。</p>
+<p>其实十分不建议这么用。数据库状态可能会出现部分操作生效，部分未生效的情况，<strong>破坏了事务的原子性</strong>。这可能导致数据不一致问题，例如业务逻辑上要求某些数据必须同时存在或不存在，但由于这种部分提交的情况，无法保证这种一致性。</p>
+<h2 id="MySQL表数据时间的记录时刻"><a href="#MySQL表数据时间的记录时刻" class="headerlink" title="MySQL表数据时间的记录时刻"></a>MySQL表数据时间的记录时刻</h2><p>假设数据库是这样的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `conversation_new_message` (</span><br><span class="line">  `id` <span class="type">bigint</span> unsigned <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">  `conversation_new_id` <span class="type">bigint</span> unsigned <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;自增id&#x27;</span>,</span><br><span class="line">  `message` json <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;conversation history, a json map&#x27;</span>,</span><br><span class="line">  `turn` <span class="type">bigint</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;轮数&#x27;</span>,</span><br><span class="line">  `created_at` <span class="type">timestamp</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> COMMENT <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">  `updated_at` <span class="type">timestamp</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="built_in">CURRENT_TIMESTAMP</span> COMMENT <span class="string">&#x27;上一次更新时间&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`),</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB</span><br></pre></td></tr></table></figure>
+
+<p>起一个事务，按照下面的时间点执行，最终的创建时间是多少？是按照insert时刻的时间来的（不同记录不一样），还是按照真正落库的时间来的（不同记录一样）？</p>
+<p><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/image-20250518224254182.png" alt="image-20250518224254182"></p>
+<p>发现是按照真正写入的时间来的。其实也比较好理解，虽然我们没有直接赋值，但CURRENT_TIMESTAMP本身在记录创建的时候就已经设置好值了。</p>
+<p><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/image-20250518224325433.png" alt="image-20250518224325433"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/R730%E8%B0%83%E6%95%B4%E9%A3%8E%E6%89%87%E8%BD%AC%E9%80%9F/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/R730%E8%B0%83%E6%95%B4%E9%A3%8E%E6%89%87%E8%BD%AC%E9%80%9F/">R730调整风扇转速</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/05/18/MySQL%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9F%A5%E8%AF%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E4%BF%AE%E7%94%B5%E8%84%91%E5%B1%8F%E5%B9%95%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2025/05/18/go%E8%AF%AD%E6%B3%95%E5%A4%A7%E8%B5%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          go语法大赏
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/05/04/golang%E4%B9%8Bctx-cancel/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">golang之ctx cancel</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E4%BF%AE%E7%94%B5%E8%84%91%E5%B1%8F%E5%B9%95%E8%AE%B0/">修电脑屏幕记</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/R730%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/R730%E7%BB%93%E6%9E%84/">R730结构</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E7%9F%9B%E7%9B%BE%E8%AE%BA/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E7%9F%9B%E7%9B%BE%E8%AE%BA/">矛盾论</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/OpenAI-API%E8%B0%83%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/OpenAI-API%E8%B0%83%E7%94%A8/">OpenAI API调用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%B9%B8%E7%A6%8F%E7%9A%84%E5%A9%9A%E5%A7%BB/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:18:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%B9%B8%E7%A6%8F%E7%9A%84%E5%A9%9A%E5%A7%BB/">幸福的婚姻</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E6%88%91%E4%B9%B0%E4%BA%86%E5%8F%B0DELL-R730/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:17:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E6%88%91%E4%B9%B0%E4%BA%86%E5%8F%B0DELL-R730/">我买了台DELL R730</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E5%AF%B9ChatGPT%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:17:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E5%AF%B9ChatGPT%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/">对ChatGPT的一些看法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/%E6%B5%81%E9%87%8F%E5%9C%B0%E7%90%832%E5%BD%B1%E8%AF%84/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:17:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/%E6%B5%81%E9%87%8F%E5%9C%B0%E7%90%832%E5%BD%B1%E8%AF%84/">流量地球2影评</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2024/08/18/Linux%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2024-08-18T10:16:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/08/18/Linux%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">Linux启动过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/9/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/archives/page/11/">11</a><a class="page-number" href="/archives/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/34/">34</a><a class="extend next" rel="next" href="/archives/page/11/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -530,8 +403,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
