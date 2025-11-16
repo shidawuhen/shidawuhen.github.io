@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Jason Pang</title>
+  <title>如何更换MySQL表的自增主键 | Jason Pang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Jason Pang">
-<meta property="og:url" content="http://example.com/page/34/index.html">
+  <meta name="description" content="一、问题怎么将MySQL表的自增主键更改为分布式ID？解决这个问题的核心在于上线时间段，会有两种id的生成方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何更换MySQL表的自增主键">
+<meta property="og:url" content="http://example.com/2025/11/16/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%8D%A2MySQL%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/index.html">
 <meta property="og:site_name" content="Jason Pang">
+<meta property="og:description" content="一、问题怎么将MySQL表的自增主键更改为分布式ID？解决这个问题的核心在于上线时间段，会有两种id的生成方式。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/image-20251116195647917.png">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/image-20251116224916055.png">
+<meta property="og:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/image-20251116232100497.png">
+<meta property="article:published_time" content="2025-11-16T15:39:48.000Z">
+<meta property="article:modified_time" content="2025-11-16T15:41:27.471Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/image-20251116195647917.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason Pang" type="application/atom+xml">
   
@@ -218,32 +226,170 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-记博客服务被压垮的历程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="pages-如何更换MySQL表的自增主键" class="article article-type-pages " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">记博客服务被压垮的历程</a>
+    <h1 class="article-title" itemprop="name">
+      如何更换MySQL表的自增主键
     </h1>
   
 
         
-        <a href="/2024/08/18/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2024-08-18T08:23:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
+        <a href="/2025/11/16/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%8D%A2MySQL%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/" class="archive-article-date">
+  	<time datetime="2025-11-16T15:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-11-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我们有个博客服务，用WordPress做的，最初的目的就是给内部使用，所以当时设计的时候支持的qps很低，而且线上只用了一台机器部署。</p>
-        
-          <a class="article-more-a" href="/2024/08/18/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/#more">more >></a>
-        
+        <h2 id="一、问题"><a href="#一、问题" class="headerlink" title="一、问题"></a>一、问题</h2><p>怎么将MySQL表的自增主键更改为分布式ID？解决这个问题的核心在于上线时间段，会有两种id的生成方式。</p>
+<span id="more"></span>
+<p>为什么需要替换？数据同步的时候。假设A机房要迁移到B机房，两个机房都有流量。这里我们只讨论B机房是新机房，存量数据不会有冲突，只有增量数据才有冲突的情况。</p>
+<p><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/image-20251116195647917.png" alt="image-20251116195647917"></p>
+<h2 id="二、技术点"><a href="#二、技术点" class="headerlink" title="二、技术点"></a>二、技术点</h2><p>MySQL主键值的设置有不同的方案。</p>
+<h3 id="2-1MySQL自增主键"><a href="#2-1MySQL自增主键" class="headerlink" title="2.1MySQL自增主键"></a>2.1MySQL自增主键</h3><p>MySQL自增主键的核心逻辑是<strong>通过内存计数器分配唯一递增ID</strong>，但不同版本在<strong>计数器持久化</strong>和<strong>锁策略</strong>上存在关键差异，直接影响ID连续性和并发性能。</p>
+<h4 id="基础生成逻辑（各版本通用）"><a href="#基础生成逻辑（各版本通用）" class="headerlink" title="基础生成逻辑（各版本通用）"></a>基础生成逻辑（各版本通用）</h4><p>自增主键依赖表级内存计数器，分配规则如下：</p>
+<ol>
+<li><strong>自动分配</strong>：插入时未指定ID&#x2F;指定为<code>0</code>&#x2F;<code>null</code>，则用当前计数器值，分配后计数器+1（步长默认1，可通过<code>auto_increment_increment</code>调整）。</li>
+<li><strong>手动指定</strong>：若指定ID＞当前计数器，计数器更新为<code>ID+1</code>；若ID≤计数器且未冲突，计数器不变。</li>
+<li><strong>不连续场景</strong>：事务回滚、唯一键冲突、批量插入失败会导致ID“浪费”（分配后未使用，不会回滚）。</li>
+</ol>
+<h4 id="版本差异核心对比"><a href="#版本差异核心对比" class="headerlink" title="版本差异核心对比"></a>版本差异核心对比</h4><p>不同版本的关键区别集中在<strong>计数器持久化</strong>和<strong>锁模式</strong>，直接影响重启后ID连续性和并发插入性能：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>MySQL 5.7及更早</th>
+<th>MySQL 8.0及以后</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>计数器存储</strong></td>
+<td>仅内存，重启后重置为<code>max(id)+1</code></td>
+<td>持久化到redo log，重启后恢复原值</td>
+</tr>
+<tr>
+<td><strong>默认锁模式</strong></td>
+<td><code>innodb_autoinc_lock_mode=1</code>（连续模式）</td>
+<td><code>innodb_autoinc_lock_mode=2</code>（交错模式）</td>
+</tr>
+<tr>
+<td><strong>批量插入锁策略</strong></td>
+<td>表级锁（语句结束释放）</td>
+<td>轻量互斥锁（分配ID后立即释放）</td>
+</tr>
+<tr>
+<td><strong>ID连续性</strong></td>
+<td>批量插入保证连续，简单插入可能不连续</td>
+<td>所有插入可能不连续，但并发性能最优</td>
+</tr>
+</tbody></table>
+<h4 id="关键机制：锁模式"><a href="#关键机制：锁模式" class="headerlink" title="关键机制：锁模式"></a>关键机制：锁模式</h4><p>锁模式决定并发插入时ID的分配效率和连续性，各模式适用于不同场景：</p>
+<table>
+<thead>
+<tr>
+<th>锁模式值</th>
+<th>名称</th>
+<th>适用场景</th>
+<th>并发性能</th>
+<th>ID连续性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>传统模式</td>
+<td>基于语句的复制（SBR）</td>
+<td>差</td>
+<td>严格连续</td>
+</tr>
+<tr>
+<td>1</td>
+<td>连续模式</td>
+<td>混合复制（默认，平衡性能）</td>
+<td>中</td>
+<td>批量连续</td>
+</tr>
+<tr>
+<td>2</td>
+<td>交错模式</td>
+<td>基于行的复制（RBR&#x2F;GTID）</td>
+<td>优</td>
+<td>不保证</td>
+</tr>
+</tbody></table>
+<h3 id="2-2分布式ID生成方案"><a href="#2-2分布式ID生成方案" class="headerlink" title="2.2分布式ID生成方案"></a>2.2分布式ID生成方案</h3><h4 id="雪花算法"><a href="#雪花算法" class="headerlink" title="雪花算法"></a>雪花算法</h4><p>在分布式系统中，生成全局唯一且有序的ID是关键挑战。雪花算法（Snowflake）作为Twitter开源的经典方案，通过巧妙的位结构设计，平衡了唯一性、有序性和性能需求，成为分布式ID生成的事实标准。</p>
+<h5 id="核心原理：64位ID的精妙结构"><a href="#核心原理：64位ID的精妙结构" class="headerlink" title="核心原理：64位ID的精妙结构"></a><strong>核心原理：64位ID的精妙结构</strong></h5><p>雪花算法将64位长整型ID划分为4个部分，每部分承担特定职责：</p>
+<table>
+<thead>
+<tr>
+<th><strong>位数</strong></th>
+<th><strong>名称</strong></th>
+<th><strong>作用</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1位</td>
+<td>符号位</td>
+<td>固定为0（确保ID为正数）</td>
+</tr>
+<tr>
+<td>41位</td>
+<td>时间戳</td>
+<td>记录<strong>当前时间-起始时间</strong>的毫秒差，支持约69年（2^41&#x2F;1000&#x2F;365&#x2F;24&#x2F;60&#x2F;60）</td>
+</tr>
+<tr>
+<td>10位</td>
+<td>机器ID</td>
+<td>含5位数据中心ID+5位节点ID，支持最多1024台机器（2^10）</td>
+</tr>
+<tr>
+<td>12位</td>
+<td>序列号</td>
+<td>同一毫秒内自增，支持每节点每毫秒生成4096个ID（2^12）</td>
+</tr>
+</tbody></table>
+<p><strong>生成流程</strong>：</p>
+<ol>
+<li><strong>时间戳</strong>：以自定义起始时间（如2020-01-01）为基准，计算当前时间偏移量；</li>
+<li><strong>时钟回拨处理</strong>：若当前时间 &lt; 上次生成时间，抛出异常或等待时钟同步；</li>
+<li><strong>序列号生成</strong>：同一毫秒内序列号自增，溢出则等待下一毫秒；</li>
+<li><strong>组合ID</strong>：通过位运算拼接时间戳、机器ID和序列号，生成64位整数。</li>
+</ol>
+<h5 id="核心优势：为何成为分布式首选？"><a href="#核心优势：为何成为分布式首选？" class="headerlink" title="核心优势：为何成为分布式首选？"></a>核心优势：为何成为分布式首选？</h5><p>1.<strong>全局唯一性</strong>：时间戳+机器ID+序列号的三重组合，确保分布式环境下ID无重复，即使多节点并发也不会冲突。</p>
+<p>2.<strong>高性能与低延迟</strong>：纯内存计算，无需数据库或中心节点，单机每秒可生成 <strong>400万+ ID</strong>（1000ms × 4096序列号），适合高并发场景（如秒杀、订单系统）。</p>
+<p>3.<strong>趋势有序性</strong>：时间戳位于高位，ID天然按生成时间递增，适合作为数据库主键（减少索引碎片）或排序字段。</p>
+<p>4.<strong>无中心依赖</strong>：去中心化设计，避免单点故障风险，支持集群横向扩展。</p>
+<h4 id="NT-ID"><a href="#NT-ID" class="headerlink" title="NT ID"></a>NT ID</h4><p>公司自研的Non-Timestamp ID，非基于时间戳生成的全球唯一 ID。算是号段模式的一种，从数据库批量预分配ID段（如 <code>[1001, 2000]</code>），缓存在内存中逐个分配，用完后再申请新号段<code>[4001,5000]</code>。</p>
+<h2 id="三、方案"><a href="#三、方案" class="headerlink" title="三、方案"></a>三、方案</h2><p>对于上面的具体场景，有两种方案可以选择：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">方案1：仍然使用自增主键，不同机房使用不同的数据范围</th>
+<th align="left">方案2：使用NT ID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">图示</td>
+<td align="left"><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/image-20251116224916055.png" alt="image-20251116224916055"></td>
+<td align="left"><img src="/2024/08/18/1%E5%88%9B%E5%BB%BA%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA/%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/image-20251116232100497.png" alt="image-20251116232100497">Q：为什么需要这么多操作？<br>A：代码发布过程中，如果NTID生成的值有落库，自增主键会在此数值之上增加，可能和NTID生成的只有冲突</td>
+</tr>
+<tr>
+<td align="left">优点</td>
+<td align="left">1. 开发量：无需任何改造解决主键冲突问题，可在创建表或者通过ALTER TABLE 表名 AUTO_INCREMENT &#x3D; 1000;修改自增主键值</td>
+<td align="left">1. 完美的支持双向同步</td>
+</tr>
+<tr>
+<td align="left">缺点</td>
+<td align="left">1. 同步方式：该方案只支持单向同步<br>2. 风险：需要确保A中的表自增主键不会迅速增长到B的值、确保A表中不会设置较大主键<br>3.全面性：除非A机房后续废弃不用，否则增量同步的数据终会出问题</td>
+<td align="left">1. 开发量：需要对表的创建操作设置主键值<br>2. 主键类型是不是bigint，防止越界<br>3. 通过接口提供的主键值，过长是否会有问题。如js对int64会丢失精度</td>
+</tr>
+</tbody></table>
+
       
 
       
@@ -254,16 +400,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%9C%8D%E5%8A%A1%E8%A2%AB%E5%8E%8B%E5%9E%AE%E7%9A%84%E5%8E%86%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/11/16/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%8D%A2MySQL%E8%A1%A8%E7%9A%84%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2025/10/05/Redis%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E4%B8%8E%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redis过期策略与内存淘汰策略</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -283,599 +488,14 @@
 
 
 
-
-  
-    <article id="post-Go1-12使用gomod总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/Go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">Go1.12使用gomod总结</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/Go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2024-08-18T08:23:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="如果您使用的-Go-版本是-1-13-及以上-（推荐）"><a href="#如果您使用的-Go-版本是-1-13-及以上-（推荐）" class="headerlink" title="如果您使用的 Go 版本是 1.13 及以上 （推荐）"></a>如果您使用的 Go 版本是 1.13 及以上 （推荐）</h3>
-        
-          <a class="article-more-a" href="/2024/08/18/Go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/Go1-12%E4%BD%BF%E7%94%A8gomod%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-记追查go1-13无法获取到cookie的过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/18/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">记追查go1.13无法获取到cookie的过程</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/18/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2024-08-18T08:21:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近的项目从golang0.9升级到golang1.13后，项目中出现了很特殊的现象，在APP里，用户登录后访问页面正常，用户不登录，报错。</p>
-        
-          <a class="article-more-a" href="/2024/08/18/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/18/%E8%AE%B0%E8%BF%BD%E6%9F%A5go1-13%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0cookie%E7%9A%84%E8%BF%87%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-发票项目总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/15/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">发票项目总结</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/15/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2024-08-15T14:00:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​	前段时间参与了一个发票中台的项目，这个项目我觉得做得不是很理想，如果满分100分的话，这个项目我打60分。项目完成后，我在想如果让我来做这个项目，我会怎么做，让这个项目进展更加理想、开发同学不要加班熬夜、业务方能开开心心的接收这个项目。所以我打算写一个总结，帮助我在今后的项目中做的更好。</p>
-        
-          <a class="article-more-a" href="/2024/08/15/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/15/%E5%8F%91%E7%A5%A8%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GoLang长连接-基于WebSocket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/15/GoLang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">GoLang长连接-基于WebSocket</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/15/GoLang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/" class="archive-article-date">
-  	<time datetime="2024-08-15T14:00:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Websocket简介"><a href="#Websocket简介" class="headerlink" title="Websocket简介"></a>Websocket简介</h2><p>WebSocket可以实现客户端与服务器间双向、基于消息的文本或二进制数据传输。它是浏览器中最靠近套接字的API。但WebSocket连接远远不是一个网络套接字，因为浏览器在这个简单的API之后隐藏了所有的复杂性，而且还提供了更多服务：</p>
-        
-          <a class="article-more-a" href="/2024/08/15/GoLang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/15/GoLang%E9%95%BF%E8%BF%9E%E6%8E%A5-%E5%9F%BA%E4%BA%8EWebSocket/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-飞书使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/15/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">飞书使用</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/15/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2024-08-15T14:00:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="即时通信"><a href="#即时通信" class="headerlink" title="即时通信"></a>即时通信</h2><h3 id="信息极致降噪"><a href="#信息极致降噪" class="headerlink" title="信息极致降噪"></a>信息极致降噪</h3>
-        
-          <a class="article-more-a" href="/2024/08/15/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/15/%E9%A3%9E%E4%B9%A6%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-领域驱动设计精简版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">领域驱动设计精简版</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/" class="archive-article-date">
-  	<time datetime="2024-08-15T14:00:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​	这是InfoQ推出的领域驱动设计精简版。篇幅不长，半天时间能够阅读完。如果大家想了解一下领域驱动的话，可以把这本书当做入门书。书中将领域驱动的核心思想和一些理念进行了介绍。但是本书只是讲述了领域驱动的骨架，缺乏很多血肉，另外里面也没有具体讲述如何在项目中使用领域驱动。如果大家想深入理解的话，建议阅读以下Eric Evans的《领域驱动设计——软件核心复杂性应对之道》，然后再找一个实例做练习。</p>
-        
-          <a class="article-more-a" href="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/15/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E7%B2%BE%E7%AE%80%E7%89%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Web性能权威指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/15/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">Web性能权威指南</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/15/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/" class="archive-article-date">
-  	<time datetime="2024-08-15T14:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者【加】Ilya Grigorik</p>
-<p>​	如果想做Web性能优化，这本书绝对值得一读。里面讲述了TCP UDP TLS HTTP1 HTTP2怎么优化，有需求的话绝对不要错过。不过这些内容，大部分太过底层，优化和验证相对麻烦一些。后面会针对里面阐述的优化做一些测试，看看效果。</p>
-        
-          <a class="article-more-a" href="/2024/08/15/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/15/Web%E6%80%A7%E8%83%BD%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-52周记忆魔法实战手册" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/15/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">52周记忆魔法实战手册</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/15/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/" class="archive-article-date">
-  	<time datetime="2024-08-15T13:59:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作者：【英】多米尼克•奥布莱恩</p>
-<h2 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h2><p>​	我已经忘记看这本书的原因了。可能当时想测一下自己的记忆力吧。读研的时候，有个师弟是世界记忆大师，蛮酷蛮神奇的。记忆力这个事情，我从小到大没有单独锻炼过，不过我的记忆力应该还可以，唐诗、宋词、古文等都能背下来，毕业这么多年后，很多内容还能回忆起来。</p>
-        
-          <a class="article-more-a" href="/2024/08/15/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/15/52%E5%91%A8%E8%AE%B0%E5%BF%86%E9%AD%94%E6%B3%95%E5%AE%9E%E6%88%98%E6%89%8B%E5%86%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GoLand破解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2024/08/15/GoLand%E7%A0%B4%E8%A7%A3/">GoLand破解</a>
-    </h1>
-  
-
-        
-        <a href="/2024/08/15/GoLand%E7%A0%B4%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2024-08-15T13:59:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>引用<a target="_blank" rel="noopener" href="https://studygolang.com/articles/25444?fr=sidebar">https://studygolang.com/articles/25444?fr=sidebar</a> 永久破解 - 这个最好</p>
-        
-          <a class="article-more-a" href="/2024/08/15/GoLand%E7%A0%B4%E8%A7%A3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2024/08/15/GoLand%E7%A0%B4%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/33/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/35/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -898,8 +518,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
